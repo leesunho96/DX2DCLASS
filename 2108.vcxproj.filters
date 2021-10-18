@@ -2,12 +2,25 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Device.cpp" />
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Device.h" />
+    <ClInclude Include="Keyboard.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Effect.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{6d2ea4b7-2307-400b-84f9-22731c29969d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
