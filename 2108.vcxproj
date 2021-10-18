@@ -92,7 +92,8 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>./</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -148,16 +149,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Systems\Keyboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Device.h" />
-    <ClInclude Include="Keyboard.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Systems\Keyboard.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Effect.hlsl">

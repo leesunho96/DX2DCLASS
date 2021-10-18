@@ -21,9 +21,10 @@ struct Vertex
 	D3DXVECTOR3 Color;
 };
 
+Vertex vertices[6];
+
 void InitScene()
 {
-	Vertex vertices[6];
 
 	// 첫번쨰 삼각형, 정점 인덱스 순서도 중요하다.
 	vertices[0].Position = D3DXVECTOR3(-0.5f, -0.5f, 0.0f);
@@ -80,10 +81,25 @@ void DestroyScene()
 
 void Update()
 {
+	if (Key->Press('A') == true)
+		vertices[0].Position.x -= 0.001f;
+	else if (Key->Press('D') == true)
+		vertices[0].Position.x += 0.001f;
+
+	if (Key->Press('W') == true)
+		vertices[0].Position.y += 0.001f;
+	else if (Key->Press('S') == true)
+		vertices[0].Position.y -= 0.001f;
+
+	// updateSubresource : cpu에 락을 걸기 때문에 정지. => 지양해야함.
+	DeviceContext->UpdateSubresource
+	(
+		vertexBuffer, 0, NULL, vertices, sizeof(Vertex) * 6, 0
+	);
+
+
 
 }
-
-
 /*
 	그라데이션은 선형보간이루어짐
 */

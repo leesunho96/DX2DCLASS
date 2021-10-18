@@ -27,6 +27,9 @@ ID3D11PixelShader* PixelShader;
 ID3D10Blob* VsBlob;
 ID3D10Blob* PsBlob;
 
+Keyboard* Key;
+
+
 void InitWindow(HINSTANCE hInstance, int ShowWnd)
 {
 	//Register Class
@@ -175,6 +178,7 @@ WPARAM Running()
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
 
+	Key = new Keyboard;
 	InitScene();
 	while (true)
 	{
@@ -194,6 +198,7 @@ WPARAM Running()
 	}
 	DestroyScene();
 
+	delete(Key);
 	return msg.wParam;
 }
 
