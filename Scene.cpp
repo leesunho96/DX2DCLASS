@@ -7,13 +7,13 @@
 		DX : 왼손잡이 좌표계 : 왼손 방향으로 그려야만 정상적으로 그려짐, 그렇지 않은 경우 정상적으로 그려지지 않음.
 		정점 인덱싱이 중요하다.
 */
+
+/*
+		Effect.fx : layout 사용하지 않음
+*/
 ID3D11Buffer* vertexBuffer;
-ID3D11InputLayout* inputLayout;
-D3D11_INPUT_ELEMENT_DESC layoutDesc[] =
-{
-	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
-	,{"COLOR",0, DXGI_FORMAT_R32G32B32_FLOAT,0,12, D3D11_INPUT_PER_VERTEX_DATA, 0}
-};
+
+
 
 struct Vertex
 {
@@ -21,10 +21,13 @@ struct Vertex
 	D3DXVECTOR3 Color;
 };
 
+Shader* shader;
+
 Vertex vertices[6];
 
 void InitScene()
 {
+	shader = new Shader(L"../_Shaders/004_Effect.fx");
 
 	// 첫번쨰 삼각형, 정점 인덱스 순서도 중요하다.
 	vertices[0].Position = D3DXVECTOR3(-0.5f, -0.5f, 0.0f);
@@ -62,20 +65,13 @@ void InitScene()
 		assert(SUCCEEDED(hr));
 	}
 
-	//Create InputLayout
-	{
-		HRESULT hr = Device->CreateInputLayout
-		(
-			layoutDesc, ARRAYSIZE(layoutDesc), VsBlob->GetBufferPointer(), VsBlob->GetBufferSize(), &inputLayout
-		);
-		assert(SUCCEEDED(hr));
-	}
+
 
 }
 
 void DestroyScene()
 {
-	inputLayout->Release();
+	delete shader;
 	vertexBuffer->Release();
 }
 
@@ -115,12 +111,10 @@ void Render()
 		DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 		//DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		DeviceContext->IASetInputLayout(inputLayout);
-		
 
 
-
-		DeviceContext->Draw(vertexSize, 0);
+		shader->Draw(0, 0, 6);
+		//DeviceContext->Draw(vertexSize, 0);
 	}
 	SwapChain->Present(0, 0);
 }

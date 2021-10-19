@@ -22,10 +22,10 @@ ID3D11Device* Device;
 ID3D11DeviceContext* DeviceContext;
 ID3D11RenderTargetView* RTV;
 
-ID3D11VertexShader* VertexShader;
-ID3D11PixelShader* PixelShader;
-ID3D10Blob* VsBlob;
-ID3D10Blob* PsBlob;
+
+/*
+		
+*/
 
 Keyboard* Key;
 
@@ -125,27 +125,7 @@ void InitDirect3D(HINSTANCE hInstance)
 		DeviceContext->OMSetRenderTargets(1, &RTV, NULL);
 	}
 
-	//Create Shader
-	{
-		HRESULT hr;
 
-		hr = D3DX11CompileFromFile(L"Effect.hlsl", 0, 0, "VS", "vs_5_0", 0, 0, 0, &VsBlob, 0, 0);
-		assert(SUCCEEDED(hr));
-
-		hr = D3DX11CompileFromFile(L"Effect.hlsl", 0, 0, "PS", "ps_5_0", 0, 0, 0, &PsBlob, 0, 0);
-		assert(SUCCEEDED(hr));
-
-
-		hr = Device->CreateVertexShader(VsBlob->GetBufferPointer(), VsBlob->GetBufferSize(), NULL, &VertexShader);
-		assert(SUCCEEDED(hr));
-
-		hr = Device->CreatePixelShader(PsBlob->GetBufferPointer(), PsBlob->GetBufferSize(), NULL, &PixelShader);
-		assert(SUCCEEDED(hr));
-
-
-		DeviceContext->VSSetShader(VertexShader, 0, 0);
-		DeviceContext->PSSetShader(PixelShader, 0, 0);
-	}
 
 	//Create Viewport
 	{
@@ -162,10 +142,7 @@ void InitDirect3D(HINSTANCE hInstance)
 
 void Destroy()
 {
-	VertexShader->Release();
-	PixelShader->Release();
-	VsBlob->Release();
-	PsBlob->Release();
+
 
 	SwapChain->Release();
 	Device->Release();
