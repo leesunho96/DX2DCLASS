@@ -7,12 +7,18 @@
     <ClCompile Include="Systems\Keyboard.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Renders\Shader.cpp">
+      <Filter>Renders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Device.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Systems\Keyboard.h">
       <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\Shader.h">
+      <Filter>Renders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
