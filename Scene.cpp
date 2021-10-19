@@ -111,6 +111,7 @@ void Render()
 		UINT stride = sizeof(Vertex);
 		UINT offset = 0;
 
+		// IA SET,  ContextDevice setting ´Ü°è
 		DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 		//DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
