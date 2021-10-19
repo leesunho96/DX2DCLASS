@@ -9,9 +9,11 @@ void Destroy();
 WPARAM Running();
 LRESULT CALLBACK WndProc(HWND hWnd,	UINT msg, WPARAM wParam, LPARAM lParam);
 
+
 ///////////////////////////////////////////////////////////////////////////////
 
 void InitScene();
+void initPlayer();
 void DestroyScene();
 void Update();
 void Render();

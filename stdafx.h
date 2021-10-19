@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <assert.h>
 #include <string>
+#include <time.h>
 using namespace std;
 
 #include <d3d11.h>
