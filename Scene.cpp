@@ -87,6 +87,14 @@ void Update()
 	else if (Key->Press('S') == true)
 		vertices[0].Position.y -= 0.001f;
 
+
+	if (Key->Press(VK_SPACE) == true)
+	{
+		for (size_t i = 0; i < 6; i++)
+		{
+			vertices[i].Position.x += 0.0005f;
+		}
+	}
 	// updateSubresource : cpu에 락을 걸기 때문에 정지. => 지양해야함.
 	DeviceContext->UpdateSubresource
 	(
