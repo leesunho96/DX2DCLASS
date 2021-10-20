@@ -22,11 +22,15 @@ struct Vertex
 };
 
 Shader* shader;
-
+D3DXCOLOR color = D3DXCOLOR(1, 1, 0, 1);
 Vertex vertices[6];
+
 
 void InitScene()
 {
+	//int a = 10;
+	//assert(a > 10);
+
 	shader = new Shader(L"../_Shaders/004_Effect.fx");
 
 	// 첫번쨰 삼각형, 정점 인덱스 순서도 중요하다.
@@ -39,6 +43,10 @@ void InitScene()
 	vertices[4].Position = D3DXVECTOR3(-0.5f, +0.5f, 0.0f);
 	vertices[5].Position = D3DXVECTOR3(+0.5f, +0.5f, 0.0f);
 
+
+	/*
+		변수로 색상 이전,  GUI로도 가능
+	*/
 	vertices[0].Color = D3DXVECTOR3(1, 1, 1);
 	vertices[1].Color = D3DXVECTOR3(1, 1, 1);
 
@@ -87,14 +95,10 @@ void Update()
 	else if (Key->Press('S') == true)
 		vertices[0].Position.y -= 0.001f;
 
+	// shader에 값 넘기는 함수
+	//("shader에 넘길 변수명(shader에 저장된 이름)")->SetFloatVector(scene에서 정의한 벡터 color)
+	shader->AsVector("Color")->SetFloatVector(color);
 
-	if (Key->Press(VK_SPACE) == true)
-	{
-		for (size_t i = 0; i < 6; i++)
-		{
-			vertices[i].Position.x += 0.0005f;
-		}
-	}
 	// updateSubresource : cpu에 락을 걸기 때문에 정지. => 지양해야함.
 	DeviceContext->UpdateSubresource
 	(
@@ -112,6 +116,9 @@ void Render()
 	D3DXCOLOR bgColor = D3DXCOLOR(0, 0, 0, 1);
 	DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	{
+		ImGui::ColorEdit4("Color", (float*)&color, 0);
+
+
 		UINT stride = sizeof(Vertex);
 		UINT offset = 0;
 
@@ -124,5 +131,7 @@ void Render()
 		shader->Draw(0, 0, 6);
 		//DeviceContext->Draw(vertexSize, 0);
 	}
+	// UI는 기존 화면 렌더링 완료 후 그 위에 렌더링.
+	ImGui::Render();
 	SwapChain->Present(0, 0);
 }

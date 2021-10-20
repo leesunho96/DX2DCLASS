@@ -25,6 +25,8 @@ using namespace std;
 #include <imgui.h>
 #include <imguiDx11.h>
 
+
+// imgui : Image G
 #pragma comment(lib, "imgui.lib")
 
 
