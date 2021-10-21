@@ -16,9 +16,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Effect.hlsl" />
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="Systems">
       <UniqueIdentifier>{6d2ea4b7-2307-400b-84f9-22731c29969d}</UniqueIdentifier>
     </Filter>

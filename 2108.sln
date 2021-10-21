@@ -5,6 +5,12 @@ VisualStudioVersion = 15.0.28307.1585
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2108", "2108.vcxproj", "{9016038E-932E-4B61-AB6C-0E795B980B4C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{1176E8A8-DCB3-4BBC-B34D-C767E72EB988}"
+	ProjectSection(SolutionItems) = preProject
+		..\_Shaders\004_Effect.fx = ..\_Shaders\004_Effect.fx
+		..\_Shaders\005_WVP.fx = ..\_Shaders\005_WVP.fx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
