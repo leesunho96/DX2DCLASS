@@ -1,5 +1,5 @@
 #include "stdafx.h"
-static int vertexSize = 0;
+
 
 
 void InitWindow(HINSTANCE hInstance, int ShowWnd);
