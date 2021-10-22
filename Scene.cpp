@@ -3,8 +3,6 @@
 /*
 		DX : 왼손잡이 좌표계 : 왼손 방향으로 그려야만 정상적으로 그려짐, 그렇지 않은 경우 정상적으로 그려지지 않음.
 		정점 인덱싱이 중요하다.
-*/
-/*
 		Effect.fx : layout 사용하지 않음
 */
 
@@ -52,16 +50,6 @@ void InitScene()
 	vertices2[3].Position = D3DXVECTOR3(+0.5f, -0.5f, 0.0f);// 두번쨰 삼각형
 	vertices2[4].Position = D3DXVECTOR3(-0.5f, +0.5f, 0.0f);
 	vertices2[5].Position = D3DXVECTOR3(+0.5f, +0.5f, 0.0f);
-
-	//vertices[0].Position = D3DXVECTOR3(50.0f, -50.0f, 0.0f);
-	//vertices[1].Position = D3DXVECTOR3(-50.0f, +50.0f, 0.0f);
-	//vertices[2].Position = D3DXVECTOR3(+50.0f, -50.0f, 0.0f);
-
-	//// 두번쨰 삼각형
-	//vertices[3].Position = D3DXVECTOR3(+50.0f, -50.0f, 0.0f);
-	//vertices[4].Position = D3DXVECTOR3(-50.0f, +50.0f, 0.0f);
-	//vertices[5].Position = D3DXVECTOR3(+50.0f, +50.0f, 0.0f);
-
 	/*
 		변수로 색상 이전,  GUI로도 가능
 	*/
@@ -111,9 +99,6 @@ void InitScene()
 		HRESULT hr = Device->CreateBuffer(&desc, &data, &vertexBuffer2);
 		assert(SUCCEEDED(hr));
 	}
-
-
-
 }
 
 void DestroyScene()
@@ -132,17 +117,17 @@ void Update()
 	//D3DXMatrixIdentity(&V);
 	//D3DXMatrixIdentity(&P);
 
-	// World S * R * T
+	// World = S * R * T
 	D3DXMATRIX S, T;
 
 
 	D3DXMatrixScaling(&S, 100, 100, 1); // 스케일 변경, 항상 초기값은 1. 0=> 렌더링 안됨.
-	D3DXMatrixTranslation(&T, position.x, position.y, 0); // X를  5만큼 이동
+	D3DXMatrixTranslation(&T, position.x, position.y, 0); //변환행렬 생성, 
 
 	W = S * T;
 
 	D3DXMatrixScaling(&S, 50, 50, 1); // 스케일 변경, 항상 초기값은 1. 0=> 렌더링 안됨.
-	D3DXMatrixTranslation(&T, position2.x, position2.y, 0); // X를  5만큼 이동
+	D3DXMatrixTranslation(&T, position2.x, position2.y, 0); //
 
 	W2 = S * T;
 
@@ -212,10 +197,10 @@ void Render()
 		//ImGui::ColorEdit4("Color", (float*)&color, 0);
 
 		ImGui::SliderFloat("X", &position.x, 100, Width - 100);
-		ImGui::SliderFloat("Y", &position.y, 100, Width - 100);
+		ImGui::SliderFloat("Y", &position.y, 100, Height - 100);
 
 		ImGui::SliderFloat("X2", &position2.x, 100, Width - 100);
-		ImGui::SliderFloat("Y2", &position2.y, 100, Width - 100);
+		ImGui::SliderFloat("Y2", &position2.y, 100, Height - 100);
 
 
 		UINT stride = sizeof(Vertex);
@@ -224,14 +209,11 @@ void Render()
 
 		// IA SET,  ContextDevice setting 단계
 		shader->AsMatrix("World")->SetMatrix(W);
-		//DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 		DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 		shader->Draw(0, 0, 6);
 
 		shader->AsMatrix("World")->SetMatrix(W2);
 		DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer2, &stride, &offset);
-		//DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-
 		shader->Draw(0, 0, 6);
 		//DeviceContext->Draw(vertexSize, 0);
 	}
