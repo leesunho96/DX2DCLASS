@@ -52,3 +52,9 @@ extern ID3D11DeviceContext* DeviceContext;
 extern ID3D11RenderTargetView* RTV;
 
 extern Keyboard* Key;
+
+struct Vertex
+{
+	D3DXVECTOR3 Position;
+	D3DXVECTOR3 Color;
+};

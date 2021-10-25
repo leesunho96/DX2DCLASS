@@ -25,6 +25,7 @@
     <ClCompile Include="Utilities\Xml.cpp">
       <Filter>Utilites</Filter>
     </ClCompile>
+    <ClCompile Include="myRectDraw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Device.h" />
@@ -50,6 +51,7 @@
     <ClInclude Include="Utilities\Xml.h">
       <Filter>Utilites</Filter>
     </ClInclude>
+    <ClInclude Include="myRectDraw.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">
