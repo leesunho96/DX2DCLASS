@@ -25,10 +25,17 @@ public:
 	void Color(D3DXCOLOR& vec);
 	D3DXCOLOR Color() { return color; }
 
+	RECT GetWorldLocation();
+
 private:
 	void CreateBuffer(wstring shaderFile);
 	void UpdateWorld();
 
+private:
+	struct Vertex
+	{
+		D3DXVECTOR3 Position;
+	};
 private:
 	Shader* shader;
 	ID3D11Buffer* vertexBuffer;
@@ -37,9 +44,7 @@ private:
 	D3DXVECTOR2 scale;
 	D3DXCOLOR color;
 
-private:
-	struct Vertex
-	{
-		D3DXVECTOR3 Position;
-	};
+	D3DXMATRIX W, S, T;
+	Vertex vertices[6];
+
 };

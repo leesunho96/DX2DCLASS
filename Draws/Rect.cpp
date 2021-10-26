@@ -79,15 +79,29 @@ void Rect::Color(float r, float g, float b)
 void Rect::Color(D3DXCOLOR & vec)
 {
 	color = vec;
-
+	UpdateWorld();
 	shader->AsVector("Color")->SetFloatVector(color);
+}
+
+RECT Rect::GetWorldLocation()
+{
+	D3DXVECTOR4 WorldPosition[2];
+	D3DXVec3Transform(&WorldPosition[0], &vertices[0].Position, &W);
+	D3DXVec3Transform(&WorldPosition[1], &vertices[5].Position, &W);
+
+	RECT result;
+	result.left = WorldPosition[0].x;
+	result.top = WorldPosition[0].y;
+	result.right = WorldPosition[1].x;
+	result.bottom = WorldPosition[1].y;
+
+	return result;
 }
 
 void Rect::CreateBuffer(wstring shaderFile)
 {
 	shader = new Shader(shaderFile);
 
-	Vertex vertices[6];
 	vertices[0].Position = D3DXVECTOR3(-0.5f, -0.5f, 0.0f);
 	vertices[1].Position = D3DXVECTOR3(-0.5f, +0.5f, 0.0f);
 	vertices[2].Position = D3DXVECTOR3(+0.5f, -0.5f, 0.0f);
@@ -114,7 +128,7 @@ void Rect::CreateBuffer(wstring shaderFile)
 void Rect::UpdateWorld()
 {
 
-	D3DXMATRIX W, S, T;
+
 
 	D3DXMatrixScaling(&S, scale.x, scale.y, 1);
 	D3DXMatrixTranslation(&T, position.x, position.y, 0);
@@ -122,5 +136,6 @@ void Rect::UpdateWorld()
 	W = S * T;
 
 	shader->AsMatrix("World")->SetMatrix(W);
+	//shader->AsMatrix("Color")->SetMatrix(color);
 
 }
