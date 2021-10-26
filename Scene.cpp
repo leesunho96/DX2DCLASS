@@ -1,31 +1,23 @@
 #include "stdafx.h"
 #include "Device.h"
-#include "Draws/Rect.h"
+#include "Player.h"
 
-Rect* rect;
-Rect* rect2;
-
+Player* player;
+float speed = 50.0f;
 void InitScene()
 {
-	rect = new Rect(L"../_Shaders/006_Rect.fx");
-	rect->Position(200, 200);
-	rect->Scale(100, 100);
-	rect->Color(0, 1, 0);
+	player = new Player(L"../_Shaders/006_Rect.fx");
+	player->Scale(100, 100);
 
-	rect2 = new Rect
-	(
-		L"../_Shaders/006_Rect.fx",
-		D3DXVECTOR2(500, 500),
-		D3DXVECTOR2(100, 100),
-		D3DXCOLOR(0, 0, 1, 1)
-	);
+	float x = (float)Width * 0.5f - player->Scale().x * 0.5f;
+	float y = player->Scale().y * 0.5f; // 중심 기준 바닥까지 거리가 scale의 절반.
 
+	player->Position(x, y);
 }
 
 void DestroyScene()
 {
-	SAFE_DELETE(rect);
-	SAFE_DELETE(rect2);
+	SAFE_DELETE(player);
 
 }
 
@@ -33,6 +25,18 @@ void DestroyScene()
 D3DXMATRIX V, P;
 void Update()
 {
+	if (Key->Press(VK_LEFT))
+		player->MoveLeft();
+	else if (Key->Press(VK_RIGHT))
+		player->MoveRight();
+
+	if (Key->Down(VK_SPACE))
+		player->StartJump();
+	else if (Key->Up(VK_SPACE))
+		player->EndJump();
+
+
+
 	//View
 	D3DXVECTOR3 eye(0, 0, -1);
 	D3DXVECTOR3 at(0, 0, 0);
@@ -42,12 +46,10 @@ void Update()
 	//Projection
 	D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width, 0, (float)Height, -1, 1);
 
-	rect->ViewProjection(V, P);
-	rect2->ViewProjection(V, P);
 
-	rect->Update();
-	rect2->Update();
-
+	player->Speed(speed);
+	player->ViewProjection(V, P);
+	player->Update();
 }
 
 void Render()
@@ -55,8 +57,8 @@ void Render()
 	D3DXCOLOR bgColor = D3DXCOLOR(0, 0, 0, 1);
 	DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	{
-		rect->Render();
-		rect2->Render();
+		player->Render();
+		ImGui::SliderFloat("500.0f", &speed, 0.0f, 500.0f, "Speed");
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);

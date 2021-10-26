@@ -28,6 +28,10 @@
     <ClCompile Include="Draws\Rect.cpp">
       <Filter>Draws</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Systems\Time.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Device.h" />
@@ -55,6 +59,10 @@
     </ClInclude>
     <ClInclude Include="Draws\Rect.h">
       <Filter>Draws</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Systems\Time.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

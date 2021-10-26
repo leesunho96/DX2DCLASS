@@ -175,7 +175,8 @@ WPARAM Running()
 	ImGui::Create(Hwnd, Device, DeviceContext);
 	ImGui::StyleColorsDark();
 
-
+	Time::Create();
+	Time::Get()->Start();
 	Key = new Keyboard;
 	InitScene();
 	while (true)
@@ -196,7 +197,7 @@ WPARAM Running()
 		else 
 		{
 			Update();
-
+			Time::Get()->Update();
 			ImGui::Update();
 
 			Render();
@@ -204,6 +205,7 @@ WPARAM Running()
 	}
 	DestroyScene();
 	
+	Time::Delete();
 	delete(Key);
 	ImGui::Delete();
 	return msg.wParam;
