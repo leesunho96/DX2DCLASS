@@ -25,6 +25,9 @@
     <ClCompile Include="Utilities\Xml.cpp">
       <Filter>Utilites</Filter>
     </ClCompile>
+    <ClCompile Include="Draws\Rect.cpp">
+      <Filter>Draws</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Device.h" />
@@ -50,6 +53,9 @@
     <ClInclude Include="Utilities\Xml.h">
       <Filter>Utilites</Filter>
     </ClInclude>
+    <ClInclude Include="Draws\Rect.h">
+      <Filter>Draws</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">
@@ -60,6 +66,9 @@
     </Filter>
     <Filter Include="Utilites">
       <UniqueIdentifier>{1c4c5cc0-10b5-4ca5-aaf0-473f8a1ed0cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Draws">
+      <UniqueIdentifier>{739e5832-5091-48db-904d-74102572a068}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

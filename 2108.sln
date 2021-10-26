@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{23
 	ProjectSection(SolutionItems) = preProject
 		..\_Shaders\004_Effect.fx = ..\_Shaders\004_Effect.fx
 		..\_Shaders\005_WVP.fx = ..\_Shaders\005_WVP.fx
+		..\_Shaders\006_Rect.fx = ..\_Shaders\006_Rect.fx
 	EndProjectSection
 EndProject
 Global
