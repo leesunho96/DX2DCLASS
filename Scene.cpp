@@ -4,6 +4,9 @@
 
 Player* player;
 float speed = 50.0f;
+string start = "Start";
+string stop = "Stop";
+string temp = start;
 void InitScene()
 {
 	player = new Player(L"../_Shaders/006_Rect.fx");
@@ -13,6 +16,7 @@ void InitScene()
 	float y = player->Scale().y * 0.5f; // 중심 기준 바닥까지 거리가 scale의 절반.
 
 	player->Position(x, y);
+
 }
 
 void DestroyScene()
@@ -20,6 +24,8 @@ void DestroyScene()
 	SAFE_DELETE(player);
 
 }
+
+
 
 
 D3DXMATRIX V, P;
@@ -59,6 +65,12 @@ void Render()
 	{
 		player->Render();
 		ImGui::SliderFloat("500.0f", &speed, 0.0f, 500.0f, "Speed");
+
+		if (ImGui::Button(temp.c_str()))
+		{
+			player->AutoMoveStart();
+			temp = temp == start ? stop : start;
+		}
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);

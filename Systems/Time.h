@@ -3,7 +3,8 @@
 class Time
 {
 public:
-	static Time* Get();
+	static Time* Get(); // 객체를 요청하는 메소드
+						// 싱글톤 패턴이기 때문에 static 요청
 
 	static void Create();
 	static void Delete();
