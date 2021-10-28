@@ -15,6 +15,7 @@ vector<Cloud*> cloudVector;
 
 bool bIsGameOn = true;
 int score = 0;
+int maxScore = 0;
 /*
 	플레이어를 초기화하는 메소드.
 	게임 시작, 게임 재시작 할 떄 호출될 것.
@@ -96,16 +97,8 @@ void KeyInput()
 {
 	if (Key->Down(VK_SPACE))
 	{
-		if (bIsGameOn == false)
-		{
-			createEnemys();
-			resetScore();
+		player->StartJump();
 
-		}
-		else
-		{
-			player->StartJump();
-		}
 	}
 	else if (Key->Up(VK_SPACE))
 	{
@@ -168,7 +161,10 @@ void RenderObjects()
 }
 
 
-
+void checkRanking()
+{
+	maxScore = maxScore < score ? score : maxScore;
+}
 
 ////////////////////////////////////////////////////////////////////////////
 //// MAIN////////////////////////////////////////////////////
@@ -186,6 +182,7 @@ void Update()
 	if (player->CollisionTest(enemyVector))
 	{
 		DeleteEnemys();
+		checkRanking();
 	}
 	SetViewProjection();
 	if (bIsGameOn)
@@ -201,8 +198,17 @@ void Render()
 		RenderObjects();
 		ImGui::Text("Death Count : %d", player->deathCount);
 		ImGui::Text("Score : %d", score);
+		ImGui::Text("MaxScore : %d", maxScore);
 		if (!bIsGameOn)
+		{
 			ImGui::Text("Game Over");
+			if (ImGui::Button("RESTART"))
+			{
+				createEnemys();
+				resetScore();
+			}
+		}
+
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);
