@@ -1,29 +1,30 @@
 #pragma once
 #include "Draws/Rect.h"
 
+class Enemy;
 
 class Player :
 	public Rect
 {
 public:
-	Player(wstring shaderFile);
-	Player(wstring shaderFile, D3DXVECTOR2 position,
-		D3DXVECTOR2 scale, D3DXCOLOR color = D3DXCOLOR(1, 1, 1, 1));
+	int deathCount = 0;
+	const int maxJump = 2;
+	int presentJump = 0;
+public:
+	Player(wstring shaderFile, wstring imgFile);
+	Player(wstring shaderFile, wstring imgFile, D3DXVECTOR2 position,
+		D3DXVECTOR2 scale);
 	virtual ~Player();
 
-	
+
 	void Update() override;
-	void MoveLeft();
-	void MoveRight();
-
-	void Speed(float val) { speed = val; };
-	float Speed() { return speed; };
-
 	void StartJump();
 	void EndJump();
+
+	void CollisionTest(vector<Enemy*>& input);
 private:
 	float speed;
-
+	
 	float velocity;
 	float gravity;
 	bool bOnGround;// 땅에 있는지 확인하기 위함.

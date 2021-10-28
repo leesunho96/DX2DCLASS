@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Device.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Systems\Keyboard.cpp">
@@ -28,13 +27,18 @@
     <ClCompile Include="Draws\Rect.cpp">
       <Filter>Draws</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Systems\Time.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\Device.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="Cloud.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Device.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Systems\Keyboard.h">
       <Filter>Systems</Filter>
@@ -60,10 +64,16 @@
     <ClInclude Include="Draws\Rect.h">
       <Filter>Draws</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h" />
     <ClInclude Include="Systems\Time.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Systems\Device.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Ground.h" />
+    <ClInclude Include="Cloud.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">

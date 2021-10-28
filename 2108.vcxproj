@@ -148,14 +148,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Device.cpp" />
+    <ClCompile Include="Cloud.cpp" />
     <ClCompile Include="Draws\Rect.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Systems\Device.cpp" />
     <ClCompile Include="Systems\Keyboard.cpp" />
     <ClCompile Include="Systems\Time.cpp" />
     <ClCompile Include="Utilities\BinaryFile.cpp" />
@@ -165,11 +168,14 @@
     <ClCompile Include="Utilities\Xml.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Device.h" />
+    <ClInclude Include="Cloud.h" />
     <ClInclude Include="Draws\Rect.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renders\Shader.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Systems\Device.h" />
     <ClInclude Include="Systems\Keyboard.h" />
     <ClInclude Include="Systems\Time.h" />
     <ClInclude Include="Utilities\BinaryFile.h" />

@@ -3,14 +3,14 @@
 class Rect
 {
 public:
-	Rect(wstring shaderFile);
-	Rect(wstring shaderFile, D3DXVECTOR2 position, D3DXVECTOR2 scale, D3DXCOLOR color = D3DXCOLOR(1, 1, 1, 1));
-	virtual ~Rect();
+	Rect(wstring shaderFile, wstring imgFile);
+	Rect(wstring shaderFile, wstring imgFile, D3DXVECTOR2 position, D3DXVECTOR2 scale);
+	~Rect();
 
 	void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
 
 	virtual void Update();
-	virtual void Render();
+	void Render();
 
 public:
 	void Position(float x, float y);
@@ -20,26 +20,28 @@ public:
 	void Scale(float x, float y);
 	void Scale(D3DXVECTOR2& vec);
 	D3DXVECTOR2 Scale() { return scale; }
-
-	void Color(float r, float g, float b);
-	void Color(D3DXCOLOR& vec);
-	D3DXCOLOR Color() { return color; }
+	RECT GetWorldLocation();
 
 private:
-	void CreateBuffer(wstring shaderFile);
+	void CreateBuffer(wstring shaderFile, wstring imgFile);
 	void UpdateWorld();
-
-private:
-	Shader* shader;
-	ID3D11Buffer* vertexBuffer;
-
-	D3DXVECTOR2 position;
-	D3DXVECTOR2 scale;
-	D3DXCOLOR color;
 
 private:
 	struct Vertex
 	{
 		D3DXVECTOR3 Position;
+		D3DXVECTOR2 Uv;
 	};
+private:
+	Shader* shader;
+	ID3D11Buffer* vertexBuffer;
+	ID3D11ShaderResourceView* srv;
+
+
+	D3DXVECTOR2 position;
+	D3DXVECTOR2 scale;
+
+	D3DXMATRIX W, S, T;
+	Vertex vertices[6];
+
 };
