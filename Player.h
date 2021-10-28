@@ -8,7 +8,7 @@ class Player :
 {
 public:
 	int deathCount = 0;
-	const int maxJump = 2;
+	const int maxJump = 3;
 	int presentJump = 0;
 public:
 	Player(wstring shaderFile, wstring imgFile);
@@ -21,7 +21,7 @@ public:
 	void StartJump();
 	void EndJump();
 
-	void CollisionTest(vector<Enemy*>& input);
+	bool CollisionTest(vector<Enemy*>& input);
 private:
 	float speed;
 	

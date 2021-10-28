@@ -3,13 +3,13 @@
 #include "Enemy.h"
 
 Player::Player(wstring shaderFile, wstring imgFile) : Rect(shaderFile, imgFile),
-speed(50.0f), velocity(0.0f), gravity(-0.7f), bOnGround(true)
+speed(50.0f), velocity(0.0f), gravity(-0.5f), bOnGround(true)
 {
 }
 
 Player::Player(wstring shaderFile, wstring imgFile, D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	: Rect(shaderFile,imgFile, position, scale),
-	speed(50.0f), velocity(0.0f), gravity(-0.7f), bOnGround(true)
+	speed(50.0f), velocity(0.0f), gravity(-0.5f), bOnGround(true)
 {
 }
 
@@ -70,28 +70,18 @@ void Player::EndJump()
 
 }
 
-void Player::CollisionTest(vector<Enemy*>& input)
+bool Player::CollisionTest(vector<Enemy*>& input)
 {
-	//for (int i = 0; i < input.size(), i++;)
-	//{
-	//	RECT temp;
-	//	if (IntersectRect(&temp,
-	//		&(input[i]->GetWorldLocation()),
-	//		&(this->GetWorldLocation()
-	//			)))
-	//	{
-	//		deathCount++;
-	//	}
-	//}
 	for (auto a : input)
 	{
 		RECT temp;
 		if (IntersectRect(&temp, &(this->GetWorldLocation()), &(a->GetWorldLocation())))
 		{
 			deathCount++;
-			a->Overlap();
+			return true;
 		}
 	}
+	return false;
 }
 
 
