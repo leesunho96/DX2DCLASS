@@ -97,7 +97,6 @@ int pass = 0;
 void Render()
 {
 	D3DXCOLOR bgColor = D3DXCOLOR(0, 0, 0, 1);
-	DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	{
 		UINT stride = sizeof(Vertex);
 		UINT offset = 0;
@@ -109,6 +108,7 @@ void Render()
 		shader->Draw(0, pass, 6);
 
 	}
+	//DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	ImGui::Render();
 	SwapChain->Present(0, 0);
 }

@@ -159,8 +159,6 @@ void InitDirect3D(HINSTANCE hInstance)
 
 void Destroy()
 {
-
-
 	SwapChain->Release();
 	Device->Release();
 	DeviceContext->Release();
