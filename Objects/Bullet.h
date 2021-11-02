@@ -15,4 +15,20 @@ private:
 
 	D3DXVECTOR2 position;
 
+	void CollisionTest();
+	void testMethod();
+	int CheckOverlapWall();
+
+	bool IsOnTop();
+	bool IsOnBottom();
+	bool IsOnLeft();
+	bool IsOnRight();
+
+	void OverlapTop();
+	void OverlapBottom();
+	void OverlapLeft();
+	void OverlapRight();
+
+	void setStop();
+	D3DXVECTOR2 GetReflectionVector(D3DXVECTOR2 v2n);
 };
