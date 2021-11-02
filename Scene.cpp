@@ -76,6 +76,7 @@ void Update()
 		bullets.push_back(bullet);
 	}
 
+
 	for (Bullet* bullet : bullets)
 		bullet->Update(V, P);
 }
