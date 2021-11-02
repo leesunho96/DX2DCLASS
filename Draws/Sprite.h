@@ -22,10 +22,10 @@ public:
 	// 해당 객체 소멸자.
 	virtual ~Sprite();
 	//해당 객체의 WVP값  적용을 위한 메소드
-	void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
+
 
 	// Update 메소드
-	virtual void Update();
+	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	// Render 메소드
 	void Render();
 

@@ -25,14 +25,12 @@ Rect::~Rect()
 	SAFE_RELEASE(vertexBuffer);
 }
 
-void Rect::ViewProjection(D3DXMATRIX & V, D3DXMATRIX & P)
+
+
+void Rect::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	shader->AsMatrix("View")->SetMatrix(V);
 	shader->AsMatrix("Projection")->SetMatrix(P);
-}
-
-void Rect::Update()
-{
 }
 
 void Rect::Render()

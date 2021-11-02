@@ -10,7 +10,7 @@ Sprite::Sprite(wstring textureFile, wstring shaderFile)
 	Initialize(textureFile, shaderFile, 0, 0, 0, 0);
 }
 
-Sprite::Sprite(wstring texturefile, wstring shaderFile, float endX, float endY)
+Sprite::Sprite(wstring textureFile, wstring shaderFile, float endX, float endY)
 {
 	Initialize(textureFile, shaderFile, 0, 0, endX, endY);
 }
@@ -119,16 +119,13 @@ Sprite::~Sprite()
 	Sprites::Remove(textureFile);
 }
 
-void Sprite::ViewProjection(D3DXMATRIX & V, D3DXMATRIX & P)
+
+
+void Sprite::Update(D3DXMATRIX& V, D3DXMATRIX& P)
 {
 	// 해당 V, P shader에 넘겨줌.
 	shader->AsMatrix("View")->SetMatrix(V);
 	shader->AsMatrix("Projection")->SetMatrix(P);
-}
-
-void Sprite::Update()
-{
-
 }
 
 void Sprite::Render()
@@ -218,7 +215,8 @@ ID3D11ShaderResourceView * Sprites::Load(wstring file)
 	ID3D11ShaderResourceView* srv;
 
 	/*hr = */
-		D3DX11CreateShaderResourceViewFromFile(
+	D3DX11CreateShaderResourceViewFromFile
+	(
 		Device,			// *pDevice 해당 리소스를 사용하는 장치에 대한 포인터
 		file.c_str(),	//pSrcFile, LPCTSTR타입이라 c_str()로 반환. 셰이더 리소스 뷰를 포함하는 파일 이름.
 		NULL,			// *PLoadInfo 셰이더의 texture 특성 식별, 해당 로드시 질감 특성 읽으려면 NULL

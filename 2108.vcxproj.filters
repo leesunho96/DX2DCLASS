@@ -36,6 +36,12 @@
     <ClCompile Include="Draws\Sprite.cpp">
       <Filter>Draws</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Background.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Bullet.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -72,6 +78,12 @@
     <ClInclude Include="Draws\Sprite.h">
       <Filter>Draws</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\Background.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Bullet.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">
@@ -85,6 +97,9 @@
     </Filter>
     <Filter Include="Draws">
       <UniqueIdentifier>{739e5832-5091-48db-904d-74102572a068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{52ad0b39-6828-4e4d-97de-bad8c3602b73}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

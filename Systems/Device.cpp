@@ -28,7 +28,7 @@ ID3D11RenderTargetView* RTV;
 */
 
 Keyboard* Key;
-
+Time* Timer;
 
 void InitWindow(HINSTANCE hInstance, int ShowWnd)
 {
@@ -173,9 +173,8 @@ WPARAM Running()
 	ImGui::Create(Hwnd, Device, DeviceContext);
 	ImGui::StyleColorsDark();
 
-	Time::Create();
-	Time::Get()->Start();
 	Key = new Keyboard;
+	Timer = new Time();
 	InitScene();
 	while (true)
 	{
@@ -194,17 +193,18 @@ WPARAM Running()
 		}
 		else 
 		{
+			Timer->Update();
 			Update();
-			Time::Get()->Update();
+
 			ImGui::Update();
 
 			Render();
 		}
 	}
 	DestroyScene();
-	
-	Time::Delete();
+
 	delete(Key);
+	delete(Timer);
 	ImGui::Delete();
 	return msg.wParam;
 }

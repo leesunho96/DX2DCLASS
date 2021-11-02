@@ -7,9 +7,9 @@ public:
 	Rect(wstring shaderFile, D3DXVECTOR2 position, D3DXVECTOR2 scale, D3DXCOLOR color = D3DXCOLOR(1, 1, 1, 1));
 	virtual ~Rect();
 
-	void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
 
-	virtual void Update();
+
+	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	virtual void Render();
 
 public:
