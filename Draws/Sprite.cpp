@@ -126,6 +126,13 @@ void Sprite::Update(D3DXMATRIX& V, D3DXMATRIX& P)
 	// 해당 V, P shader에 넘겨줌.
 	shader->AsMatrix("View")->SetMatrix(V);
 	shader->AsMatrix("Projection")->SetMatrix(P);
+
+	WorldPosition.left = (float)((position.x) - (scale.x / 2));
+	WorldPosition.top = (float)((position.y) - (scale.y / 2));
+	WorldPosition.right = (float)((position.x) + (scale.x / 2));
+	WorldPosition.bottom = (float)((position.y) + (scale.y / 2));
+
+
 }
 
 void Sprite::Render()
@@ -156,7 +163,7 @@ void Sprite::Position(D3DXVECTOR2 & vec)
 
 D3DXVECTOR2 Sprite::Position()
 {
-	return D3DXVECTOR2();
+	return position;
 }
 
 void Sprite::Scale(float x, float y)
@@ -167,7 +174,8 @@ void Sprite::Scale(float x, float y)
 
 void Sprite::Scale(D3DXVECTOR2 & vec)
 {
-	scale = vec;
+	scale.x *= vec.x;
+	scale.y *= vec.y;
 
 	UpdateWorld();
 }
@@ -177,14 +185,30 @@ D3DXVECTOR2 Sprite::Scale()
 	return scale;
 }
 
+RECT Sprite::GetRect()
+{
+	return WorldPosition;
+}
+
+void Sprite::Rotation(float radius)
+{
+	this->radius = Math::ToRadian(radius);
+}
+
+float Sprite::Rotation()
+{
+	return radius;
+}
+
+
 void Sprite::UpdateWorld()
 {
-	D3DXMATRIX W, S, T;
+	D3DXMATRIX W, S, R, T;
 
 	D3DXMatrixScaling(&S, scale.x, scale.y, 1);
 	D3DXMatrixTranslation(&T, position.x, position.y, 0);
-
-	W = S * T;
+	D3DXMatrixRotationAxis(&R, &D3DXVECTOR3(0, 0, 1), radius);
+	W = S * R * T;
 	// W = SRT // Scale(크기) Rotation(회전) Translation(평행이동)
 	shader->AsMatrix("World")->SetMatrix(W);
 }

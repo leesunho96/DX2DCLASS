@@ -48,7 +48,8 @@ using namespace std;
 
 const UINT Width = 800;
 const UINT Height = 600;
-
+const UINT BaseX = 145;
+const UINT BaseY = 585;
 
 const wstring Textures = L"../_Textures/";
 const wstring Shaders = L"../_Shaders/";
@@ -65,3 +66,4 @@ extern ID3D11RenderTargetView* RTV;
 
 extern Keyboard* Key;
 extern Time* Timer;
+extern int world[10][15];

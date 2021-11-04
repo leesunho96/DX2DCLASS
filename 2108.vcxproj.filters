@@ -42,6 +42,9 @@
     <ClCompile Include="Objects\Bullet.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Arrow.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -82,6 +85,9 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Bullet.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Arrow.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>

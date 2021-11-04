@@ -2,38 +2,34 @@
 #include "Systems/Device.h"
 #include "Objects/Background.h"
 #include "Objects/Bullet.h"
+#include "Objects/Arrow.h"
 
-vector<Sprite*> sprites;
-vector<Bullet*> bullets;
-
-Background* bg;
-
-D3DXVECTOR2 position;
+Arrow* arrow;
+Sprite* base;
 
 void InitScene()
 {
-
-	bg = new Background(L"../_Shaders/008_Sprite.fx");
-
 	wstring shaderFile = L"../_Shaders/008_Sprite.fx";
 
-	Sprite* mario = new Sprite(L"../_Textures/Mario/All.png", shaderFile, 9, 87, 50, 161);
-	mario->Position(300, 145);
-	sprites.push_back(mario);
-
-	position = D3DXVECTOR2(400, 300);
+	arrow = new Arrow(
+		shaderFile,
+		D3DXVECTOR2(Width / 2, 0)
+	);
+	base = new Sprite
+	(
+		Textures + L"PuzzleBobble/puzzlebobble.png",
+		Shaders + L"008_Sprite.fx",
+		25, 1995,
+		25 + 65, 2035
+	);
+	base->Position(Width / 2, 100);
+	//base->Rotation(0.0f);
 
 }
 
 void DestroyScene()
 {
-	for (Bullet* bullet : bullets)
-		SAFE_DELETE(bullet);
-
-	for (Sprite* sprite : sprites)
-		SAFE_DELETE(sprite);
-
-	SAFE_DELETE(bg);
+	SAFE_DELETE(arrow);
 }
 
 D3DXMATRIX V, P;
@@ -48,37 +44,24 @@ void Update()
 	//Projection
 	D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width, 0, (float)Height, -1, 1);
 
-	bg->Update(V, P);
+	base->Update(V, P);
+	arrow->Update(V, P);
 
-	for (Sprite* sprite : sprites)
+	for (auto a : Bullet::bulletvector)
 	{
-		sprite->Update(V, P);
+		if (!(a->getIsmoving()) && !(a->isGetRivision))
+		{
+			a->Position
+			(
+				D3DXVECTOR2(
+				(float)(BaseX + 30 * (a->getArrayList().first)),
+				(float)(BaseY - 30 * (a->getArrayList().second))
+				)
+			);
+			a->isGetRivision = true;
+		}
+		a->Update(V, P);
 	}
-
-	if (Key->Press(VK_LEFT))
-		position.x -= 200.0f * Timer->Elapsed();
-	else if (Key->Press(VK_RIGHT))
-		position.x += 200.0f * Timer->Elapsed();
-
-	if (Key->Press(VK_UP))
-		position.y += 200.0f * Timer->Elapsed();
-	else if (Key->Press(VK_DOWN))
-		position.y -= 200.0f * Timer->Elapsed();
-
-	if (Key->Down(VK_SPACE))
-	{
-		wstring file = Shaders + L"008_Sprite.fx";
-
-		float angle = Math::Random(-179.9f, 179.9f);
-		float speed = Math::Random(0.05f, 1.0f);
-
-		Bullet* bullet = new Bullet(file, position, angle, speed);
-		bullets.push_back(bullet);
-	}
-
-
-	for (Bullet* bullet : bullets)
-		bullet->Update(V, P);
 }
 
 void Render()
@@ -86,14 +69,12 @@ void Render()
 	D3DXCOLOR bgColor = D3DXCOLOR(1, 1, 1, 1);
 	DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	{
-		bg->Render();
-
-		for (Sprite* sprite : sprites)
-			sprite->Render();
-
-		for (Bullet* bullet : bullets)
-			bullet->Render();
-
+		base->Render();
+		arrow->Render();
+		for (auto a : Bullet::bulletvector)
+		{
+			a->Render();
+		}
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);

@@ -41,7 +41,11 @@ public:
 	void Scale(D3DXVECTOR2& scale);
 	// 객체의 크기 반환 메소드
 	D3DXVECTOR2 Scale();
+	RECT GetRect();
 
+
+	void Rotation(float radius);
+	float Rotation();
 	// 객체의 텍스쳐 크기 반환 메소드.
 	D3DXVECTOR2 TextureSize() { return textureSize; };
 private:
@@ -65,8 +69,11 @@ private:
 	Shader* shader;
 	ID3D11Buffer* vertexBuffer;
 
+	RECT WorldPosition;
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;
+	D3DXMATRIX rotation;
+	float radius;
 	D3DXVECTOR2 textureSize;
 
 	ID3D11ShaderResourceView* srv;
