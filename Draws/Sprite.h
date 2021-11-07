@@ -73,7 +73,7 @@ private:
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;
 	D3DXMATRIX rotation;
-	float radius;
+	float radius = 0.0f;
 	D3DXVECTOR2 textureSize;
 
 	ID3D11ShaderResourceView* srv;

@@ -39,10 +39,10 @@ Keyboard::~Keyboard()
 bool Keyboard::Down(int key)
 {
 	// 만약 key가 처음으로 입력 된 경우 true 그 이외에는 false. & : 비트 연산, 각 비트에 대한 and 연산을 수행. 
-	if (GetAsyncKeyState(key) & 0x8000)
+	if ((GetAsyncKeyState(key) & 0x8000))
 	{
 		// 키가 처음으로 입력되어있으며, 비트셋 down의 key번째 비트가 false인 경우 해당 비트를 true로 설정한다.(현재 해당 비트가 눌려 있음을 의미)
-		if (down[key] == false)
+		if (down[key] == false )
 		{
 			// down의 key번쨰 비트를 true 세팅
 			down.set(key, true);
@@ -87,7 +87,7 @@ bool Keyboard::Up(int key)
 // 해당 메소드는 현재 매개변수로 주어지는 Key가 눌린 상태이면 true 아니면 false 반환. 
 bool Keyboard::Press(int key)
 {
-	if (GetAsyncKeyState(key) & 0x8000)
+	if ((GetAsyncKeyState(key) & 0x8000))
 		return true;
 
 	return false;
@@ -101,4 +101,14 @@ bool Keyboard::Toggle(int key)
 		return true;
 
 	return false;
+}
+
+void Keyboard::setIgnore()
+{
+	isPossible = false;
+}
+
+void Keyboard::setAccept()
+{
+	isPossible = true;
 }

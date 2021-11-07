@@ -21,7 +21,7 @@ IDXGISwapChain* SwapChain;
 ID3D11Device* Device;
 ID3D11DeviceContext* DeviceContext;
 ID3D11RenderTargetView* RTV;
-int world[10][15];
+
 
 /*
 		

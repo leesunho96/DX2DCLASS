@@ -14,13 +14,11 @@ public:
 	Arrow(wstring shaderFile, D3DXVECTOR2 start);
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
-
 	~Arrow();
+
 
 private:
 	Sprite* Arrows;
-	vector<Sprite*> bullets;
-	Bullet* tempBullet;
 
 	D3DXVECTOR2 vPosition; // 화살 객체 생성 위치
 	D3DXVECTOR2 vRadius; // 화살이 가리킬 벡터 방향 => bullet이 나갈 방향

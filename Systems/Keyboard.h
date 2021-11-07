@@ -15,8 +15,11 @@ public:
 
 	bool Toggle(int key);
 
+	void setIgnore();
+	void setAccept();
 
 private:
+	bool isPossible;
 	bitset<KEYMAX> up;
 	bitset<KEYMAX> down;
 };

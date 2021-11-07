@@ -1,20 +1,46 @@
 #include "stdafx.h"
 #include "Bullet.h"
+#include "Objects/Arrow.h"
 
+extern Bullet* MAP[10][10];
+extern Bullet* tempBullet;
 
-
-vector<Bullet*> Bullet::bulletvector;
-Bullet::Bullet(wstring shaderFile, D3DXVECTOR2 start, float angle, float speed)
+void Bullet::Initialize(std::wstring &shaderFile, const D3DXVECTOR2 &start)
 {
+	int rand = Math::Random(1, 3);
+	pair<float, float> startXY;
+	switch (rand)
+	{
+		case 1:
+			startXY.first = 27;
+			startXY.second = 814;
+			type = 1;
+			break;
+		case 2:
+			startXY.first = 28;
+			startXY.second = 911;
+			type = 2;
+			break;
+		case 3:
+			startXY.first = 27;
+			startXY.second = 1009;
+			type = 0;
+			break;
+	}
 	sprite = new Sprite(
 		Textures + L"PuzzleBobble/puzzlebobble.png",
-		shaderFile, 
-		27, 814, 
-		27 + 30, 814 + 30);
+		shaderFile,
+		startXY.first, startXY.second,
+		startXY.first + 30, startXY.second + 30);
 
 	position = start;
 	sprite->Position(position);
 	velocity = D3DXVECTOR2(0.0f, 0.0f);
+}
+
+Bullet::Bullet(wstring shaderFile, D3DXVECTOR2 start, float angle, float speed)
+{
+	Initialize(shaderFile, start);
 }
 
 Bullet::~Bullet()
@@ -29,11 +55,14 @@ void Bullet::Position(D3DXVECTOR2 & pos)
 
 void Bullet::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-	position += velocity;
-
+	if (isMoving)
+	{
+		position += velocity;
+		CollisionTest();
+	}
 	sprite->Position(position);
 	sprite->Update(V, P);
-	CollisionTest();
+
 }
 
 void Bullet::Render()
@@ -48,7 +77,7 @@ void Bullet::setVelocity(float degree)
 	velocity.x = cosf(radian);
 	velocity.y = sinf(radian);
 
-	velocity *= 5.0f;
+	velocity *= 0.5f;
 }
 
 RECT Bullet::GetWorldPosition()
@@ -78,52 +107,74 @@ void Bullet::isOverlap(Bullet * past, Bullet * target)
 {
 }
 
+void Bullet::AllocateBullet()
+{
+	setStop();
+	isMoving = false;
+	if (MAP[getArrayList().first][getArrayList().second] == nullptr)
+	{
+		MAP[getArrayList().first][getArrayList().second] = this;
+	}
+	else
+	{
+		MAP[getArrayList().first][getArrayList().second + 1] = this;
+	}
+	tempBullet = nullptr;
+}
+
 void Bullet::CollisionTest()
 {
 	int temp = CheckOverlapWall();
 
 	switch (temp)
 	{
-	case 1:
-	{
-		OverlapTop();
-		break;
+		case 1:
+		{
+			OverlapTop();
+			AllocateBullet();
+			break;
+		}
+		case 2:
+		{
+			OverlapBottom();
+			break;
+		}
+		case 3:
+		{
+			OverlapLeft();
+			break;
+		}
+		case 4:
+		{
+			OverlapRight();
+			break;
+		}
+		default:
+			break;
 	}
-	case 2:
-	{
-		OverlapBottom();
-		break;
-	}
-	case 3:
-	{
-		OverlapLeft();
-		break;
-	}
-	case 4:
-	{
-		OverlapRight();
-		break;
-	}
-	default:
-		break;
-	}
-	if (isMoving)
+	if (!isGetRivision && !isMoving)
 	{
 		RECT temp;
 
-		for (size_t i = 0; i < bulletvector.size() - 1; i++)
+		for (size_t i = 0; i < 10; i++)
 		{
-			if (IntersectRect(
-				&temp,
-				&(bulletvector[i]->GetWorldPosition()),
-				&(bulletvector[bulletvector.size() - 1]->GetWorldPosition())
-			))
+			for (size_t j = 0; j < 10; j++)
 			{
-				setStop();
-				isMoving = false;
+				if (MAP[i][j] != nullptr)
+				{
+					if (
+						IntersectRect(
+						&temp,
+						&MAP[i][j]->GetWorldPosition(),
+						&this->GetWorldPosition())
+						)
+					{
+						AllocateBullet();
+					}
+				}
 			}
-
 		}
+
 	}
 }
 
@@ -144,7 +195,7 @@ int Bullet::CheckOverlapWall()
 
 bool Bullet::IsOnTop()
 {
-	return position.y >= (float)Height ?
+	return position.y >= (float)Height - 85.0f ?
 		true : false;
 }
 
@@ -169,6 +220,7 @@ bool Bullet::IsOnRight()
 void Bullet::OverlapTop()
 {
 	velocity = D3DXVECTOR2(0, 0);
+
 }
 
 void Bullet::OverlapBottom()
@@ -193,6 +245,7 @@ void Bullet::setStop()
 {
 	velocity.x = 0.0f;
 	velocity.y = 0.0f;
+	Key->setAccept();
 }
 
 D3DXVECTOR2 Bullet::GetReflectionVector(D3DXVECTOR2 v2n)

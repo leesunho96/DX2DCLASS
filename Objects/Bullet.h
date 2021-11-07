@@ -1,10 +1,12 @@
 #pragma once
+class Arrow;
 
 class Bullet
 {
 public:
-	static vector<Bullet*> bulletvector;
+
 public:
+	void Initialize(std::wstring &shaderFile, const D3DXVECTOR2 &start);
 	Bullet(wstring shaderFile, D3DXVECTOR2 start, float angle, float speed);
 	~Bullet();
 
@@ -17,14 +19,16 @@ public:
 	pair<int, int> getArrayList();
 	D3DXVECTOR2 getVelocity();
 	bool isGetRivision = false;
+	int getType() { return type; };
 private:
 	D3DXVECTOR2 velocity;
 	Sprite* sprite;
 
 	D3DXVECTOR2 position;
 	bool isMoving = false;
-	int type = 1;
+	int type;
 	void isOverlap(Bullet* past, Bullet* target);
+	void AllocateBullet();
 	void CollisionTest();
 	void testMethod();
 	int CheckOverlapWall();

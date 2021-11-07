@@ -3,6 +3,8 @@
 #include "Draws/Sprite.h"
 #include "Objects/Bullet.h"
 
+Bullet* tempBullet = nullptr;
+
 void Arrow::Initialize(wstring shaderFile, D3DXVECTOR2 start)
 {
 
@@ -16,8 +18,9 @@ void Arrow::Initialize(wstring shaderFile, D3DXVECTOR2 start)
 		startX, startY,
 		startX + width, startY + width
 	);
+
 	vPosition = start;
-	Arrows->Scale(1, 1);
+	Arrows->Scale(1.5, 1.5);
 	fangle = 90.0f;
 	Arrows->Position(vPosition);
 	Arrows->Rotation(fangle - 90);
@@ -36,7 +39,16 @@ Arrow::Arrow(wstring shaderFile, D3DXVECTOR2 start)
 
 void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-	int size = 1.0f;
+	if (tempBullet == nullptr)
+	{
+		tempBullet = new Bullet(
+			Shaders + L"008_Sprite.fx",
+			baseBulletPosition,
+			fangle,
+			1.0f);
+	}
+
+	float size = 0.01f;
 	if (Key->Press(VK_RIGHT))
 	{
 		if(fangle - size > 30.0f)
@@ -49,38 +61,28 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	}
 	if (Key->Down(VK_SPACE))
 	{
-		tempBullet->setVelocity(fangle);
-		Bullet::bulletvector.push_back(tempBullet);
+		if (!tempBullet->getIsmoving())
+		{
+			tempBullet->setVelocity(fangle);
+		}
 
-
-
-		tempBullet = new Bullet(
-			Shaders + L"008_Sprite.fx",
-			baseBulletPosition,
-			fangle,
-			1.0f);
 	}
-
-	Arrows->Rotation(fangle - 90);
+	Arrows->Rotation(fangle - 90.0f);
 	Arrows->Position(vPosition);
 	Arrows->Update(V, P);
-	for (auto a : bullets)
+	if (tempBullet != nullptr)
 	{
-		a->Update(V, P);
+		if (!tempBullet->getIsmoving())
+			tempBullet->Position(GetBaseBulletLocation());
+		tempBullet->Update(V, P);
 	}
-	if(!tempBullet->getIsmoving())
-		tempBullet->Position(GetBaseBulletLocation());
-	tempBullet->Update(V, P);
 }
 
 void Arrow::Render()
 {
-	for (auto a : bullets)
-	{
-		a->Render();
-	}
 	Arrows->Render();
-	tempBullet->Render();
+	if(tempBullet!=nullptr)
+		tempBullet->Render();
 }
 
 Arrow::~Arrow()
@@ -95,8 +97,8 @@ D3DXVECTOR2 Arrow::GetRadius(float angle)
 D3DXVECTOR2 Arrow::GetBaseBulletLocation()
 {
 	D3DXVECTOR2 temp(
-		baseBulletPosition.x - 30 * sinf(Math::ToDegree(fangle - 90)),
-		baseBulletPosition.y - 30 * cosf(Math::ToDegree(fangle - 90))
+		baseBulletPosition.x,
+		baseBulletPosition.y
 	);
 
 	return temp;

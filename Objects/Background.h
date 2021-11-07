@@ -10,8 +10,6 @@ public:
 	void Render();
 
 private:
-	Sprite* cloud[2];
-	Sprite* bush[2];
-	Sprite* tile[2];
+	Sprite* background;
 
 };

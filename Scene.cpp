@@ -4,13 +4,19 @@
 #include "Objects/Bullet.h"
 #include "Objects/Arrow.h"
 
+
 Arrow* arrow;
 Sprite* base;
+Background* bg;
+Bullet* MAP[10][10];
+
+
 
 void InitScene()
 {
 	wstring shaderFile = L"../_Shaders/008_Sprite.fx";
 
+	bg = new Background(shaderFile);
 	arrow = new Arrow(
 		shaderFile,
 		D3DXVECTOR2(Width / 2, 0)
@@ -19,17 +25,28 @@ void InitScene()
 	(
 		Textures + L"PuzzleBobble/puzzlebobble.png",
 		Shaders + L"008_Sprite.fx",
-		25, 1995,
+		25, 1996,
 		25 + 65, 2035
 	);
-	base->Position(Width / 2, 100);
-	//base->Rotation(0.0f);
+	base->Position(Width / 2, 25);
+
+	base->Scale(1.5, 1.5);
+
+	for (size_t i = 0; i < 10; i++)
+	{
+		for (size_t j = 0; j < 10; j++)
+		{
+			MAP[i][j] = nullptr;
+		}
+	}
 
 }
 
 void DestroyScene()
 {
 	SAFE_DELETE(arrow);
+	SAFE_DELETE(bg);
+	SAFE_DELETE(base);
 }
 
 D3DXMATRIX V, P;
@@ -44,24 +61,21 @@ void Update()
 	//Projection
 	D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width, 0, (float)Height, -1, 1);
 
+	bg->Update(V, P);
 	base->Update(V, P);
 	arrow->Update(V, P);
 
-	for (auto a : Bullet::bulletvector)
+	for (size_t i = 0; i < 10; i++)
 	{
-		if (!(a->getIsmoving()) && !(a->isGetRivision))
+		for (size_t j = 0; j < 10; j++)
 		{
-			a->Position
-			(
-				D3DXVECTOR2(
-				(float)(BaseX + 30 * (a->getArrayList().first)),
-				(float)(BaseY - 30 * (a->getArrayList().second))
-				)
-			);
-			a->isGetRivision = true;
+			if (MAP[i][j] != nullptr)
+			{
+				MAP[i][j]->Update(V, P);
+			}
 		}
-		a->Update(V, P);
 	}
+
 }
 
 void Render()
@@ -69,11 +83,18 @@ void Render()
 	D3DXCOLOR bgColor = D3DXCOLOR(1, 1, 1, 1);
 	DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	{
+		bg->Render();
 		base->Render();
 		arrow->Render();
-		for (auto a : Bullet::bulletvector)
+		for (size_t i = 0; i < 10; i++)
 		{
-			a->Render();
+			for (size_t j = 0; j < 10; j++)
+			{
+				if (MAP[i][j] != nullptr)
+				{
+					MAP[i][j]->Render();
+				}
+			}
 		}
 	}
 	ImGui::Render();
