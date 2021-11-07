@@ -14,6 +14,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{23
 		..\_Shaders\008_Sprite.fx = ..\_Shaders\008_Sprite.fx
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Textures", "_Textures", "{064B64D2-884A-4156-BEAC-461614929B27}"
+	ProjectSection(SolutionItems) = preProject
+		..\_Textures\All.png = ..\_Textures\All.png
+		..\_Textures\Single.png = ..\_Textures\Single.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PuzzleBobble", "PuzzleBobble", "{F3263898-CDA0-4ACE-A24E-4C7D66A09450}"
+	ProjectSection(SolutionItems) = preProject
+		..\_Textures\PuzzleBobble\puzzlebobble.png = ..\_Textures\PuzzleBobble\puzzlebobble.png
+		..\_Textures\PuzzleBobble\puzzlebobblebackground.png = ..\_Textures\PuzzleBobble\puzzlebobblebackground.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -27,6 +39,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F3263898-CDA0-4ACE-A24E-4C7D66A09450} = {064B64D2-884A-4156-BEAC-461614929B27}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A9084A5F-3915-43BD-9774-DB68C0633E68}
