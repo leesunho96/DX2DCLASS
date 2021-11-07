@@ -4,7 +4,7 @@ class Arrow;
 class Bullet
 {
 public:
-	static vector<Bullet*> bulletVector;
+	//static vector<Bullet*> bulletVector;
 public:
 	void Initialize(std::wstring &shaderFile, const D3DXVECTOR2 &start);
 	Bullet(wstring shaderFile, D3DXVECTOR2 start, float angle, float speed);
@@ -28,7 +28,9 @@ private:
 	bool isMoving = false;
 	int type;
 	void isOverlap(Bullet* past, Bullet* target);
+	void SetAdjustedBulletPosition(std::pair<int, int> &temp, D3DXVECTOR2 &tempPosition);
 	void AllocateBullet();
+	void GetAdjustBulletPair(std::pair<int, int> &temp, std::pair<int, int> &temp2);
 	void CollisionTest();
 	void testMethod();
 	int CheckOverlapWall();

@@ -8,7 +8,7 @@
 Arrow* arrow;
 Sprite* base;
 Background* bg;
-Bullet* MAP[10][20];
+Bullet* MAP[10][MAXARRHEIGHT];
 
 
 
@@ -67,7 +67,7 @@ void Update()
 
 	for (size_t i = 0; i < 10; i++)
 	{
-		for (size_t j = 0; j < 10; j++)
+		for (size_t j = 0; j < MAXARRHEIGHT; j++)
 		{
 			if (MAP[i][j] != nullptr)
 			{
@@ -88,7 +88,7 @@ void Render()
 		arrow->Render();
 		for (size_t i = 0; i < 10; i++)
 		{
-			for (size_t j = 0; j < 10; j++)
+			for (size_t j = 0; j < MAXARRHEIGHT; j++)
 			{
 				if (MAP[i][j] != nullptr)
 				{

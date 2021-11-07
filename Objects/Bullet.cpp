@@ -2,10 +2,10 @@
 #include "Bullet.h"
 #include "Objects/Arrow.h"
 
-extern Bullet* MAP[10][20];
+extern Bullet* MAP[10][MAXARRHEIGHT];
 extern Bullet* tempBullet;
 
-vector<Bullet*> Bullet::bulletVector;
+//vector<Bullet*> Bullet::bulletVector;
 
 void Bullet::Initialize(std::wstring &shaderFile, const D3DXVECTOR2 &start)
 {
@@ -13,21 +13,21 @@ void Bullet::Initialize(std::wstring &shaderFile, const D3DXVECTOR2 &start)
 	pair<float, float> startXY;
 	switch (rand)
 	{
-		case 1:
-			startXY.first = 27;
-			startXY.second = 814;
-			type = 1;
-			break;
-		case 2:
-			startXY.first = 28;
-			startXY.second = 911;
-			type = 2;
-			break;
-		case 3:
-			startXY.first = 27;
-			startXY.second = 1009;
-			type = 0;
-			break;
+	case 1:
+		startXY.first = 27;
+		startXY.second = 814;
+		type = 1;
+		break;
+	case 2:
+		startXY.first = 28;
+		startXY.second = 911;
+		type = 2;
+		break;
+	case 3:
+		startXY.first = 27;
+		startXY.second = 1009;
+		type = 0;
+		break;
 	}
 	sprite = new Sprite(
 		Textures + L"PuzzleBobble/puzzlebobble.png",
@@ -110,31 +110,55 @@ void Bullet::isOverlap(Bullet * past, Bullet * target)
 {
 }
 
-void Bullet::AllocateBullet()
+
+void Bullet::GetAdjustBulletPair(std::pair<int, int> &temp, std::pair<int, int> &temp2)
 {
-	setStop();
-	isMoving = false;
-	pair<int, int> temp = getArrayList();
-	D3DXVECTOR2 tempPosition;
 	while (MAP[temp.first][temp.second] != nullptr)
 	{
+		if (MAP[temp.first][temp.second]->position.x + 14.0f < this->position.x)
+		{
+			temp2.first + 1 < 10 ? temp2.first++ : temp2.first;
 
-		temp.second++;
+		}
+		else if (MAP[temp.first][temp.second]->position.x - 14.0f > this->position.x)
+		{
+			temp2.first - 1 >= 10 ? temp2.first-- : temp2.first;
+		}
+		if (MAP[temp.first][temp.second]->position.y - 14.0f > this->position.y)
+		{
+			temp2.second++;
+		}
+		temp = temp2;
 	}
-	
-	if (temp.second >= 10)
-	{
+}
 
-	}
+void Bullet::SetAdjustedBulletPosition(std::pair<int, int> &temp, D3DXVECTOR2 &tempPosition)
+{
 	MAP[temp.first][temp.second] = tempBullet;
 	tempPosition = D3DXVECTOR2(250.0f + 30.0f * temp.first,
 		515 - 30.0f * temp.second);
 	MAP[temp.first][temp.second]->Position(tempPosition);
 	tempBullet->setStop();
 	tempBullet->isGetRivision = true;
-	bulletVector.push_back(tempBullet);
+}
+
+void Bullet::AllocateBullet()
+{
+	pair<int, int> temp = getArrayList();
+	pair<int, int> temp2 = temp;
+	D3DXVECTOR2 tempPosition;
+	GetAdjustBulletPair(temp, temp2);
+	SetAdjustedBulletPosition(temp, tempPosition);
+
+	int bulletNum = 1;
+	
+	
+	
+	
+	
 	tempBullet = nullptr;
 }
+
 
 void Bullet::CollisionTest()
 {
@@ -142,29 +166,29 @@ void Bullet::CollisionTest()
 
 	switch (temp)
 	{
-		case 1:
-		{
-			OverlapTop();
-			AllocateBullet();
-			break;
-		}
-		case 2:
-		{
-			OverlapBottom();
-			break;
-		}
-		case 3:
-		{
-			OverlapLeft();
-			break;
-		}
-		case 4:
-		{
-			OverlapRight();
-			break;
-		}
-		default:
-			break;
+	case 1:
+	{
+		OverlapTop();
+		AllocateBullet();
+		break;
+	}
+	case 2:
+	{
+		OverlapBottom();
+		break;
+	}
+	case 3:
+	{
+		OverlapLeft();
+		break;
+	}
+	case 4:
+	{
+		OverlapRight();
+		break;
+	}
+	default:
+		break;
 	}
 
 	bool isbreak = false;
@@ -174,17 +198,15 @@ void Bullet::CollisionTest()
 
 		for (size_t i = 0; i < 10; i++)
 		{
-			for (size_t j = 0; j < 10; j++)
+			for (size_t j = 0; j < MAXARRHEIGHT; j++)
 			{
 				if (MAP[i][j] != nullptr)
 				{
-					RECT r1 = MAP[i][j]->GetWorldPosition();
-					RECT r2 = this->GetWorldPosition();
 					if (
 						IntersectRect(
-						&temp,
-						&r1,
-						&r2)
+							&temp,
+							&MAP[i][j]->GetWorldPosition(),
+							&this->GetWorldPosition())
 						)
 					{
 						AllocateBullet();
@@ -270,6 +292,7 @@ void Bullet::setStop()
 	velocity.x = 0.0f;
 	velocity.y = 0.0f;
 	Key->setAccept();
+	isMoving = false;
 }
 
 D3DXVECTOR2 Bullet::GetReflectionVector(D3DXVECTOR2 v2n)

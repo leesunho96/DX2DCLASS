@@ -50,6 +50,7 @@ const UINT Width = 800;
 const UINT Height = 600;
 const UINT BaseX = 160;
 const UINT BaseY = 575;
+#define MAXARRHEIGHT  15
 
 const wstring Textures = L"../_Textures/";
 const wstring Shaders = L"../_Shaders/";
