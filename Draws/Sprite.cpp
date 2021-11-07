@@ -124,7 +124,7 @@ Sprite::~Sprite()
 void Sprite::Update(D3DXMATRIX& V, D3DXMATRIX& P)
 {
 	// 해당 V, P shader에 넘겨줌.
-	shader->AsMatrix("View")->SetMatrix(V);
+ 	shader->AsMatrix("View")->SetMatrix(V);
 	shader->AsMatrix("Projection")->SetMatrix(P);
 
 	WorldPosition.left = (float)((position.x) - (scale.x / 2));
@@ -154,7 +154,7 @@ void Sprite::Position(float x, float y)
 	Position(D3DXVECTOR2(x, y));
 }
 
-void Sprite::Position(D3DXVECTOR2 & vec)
+void Sprite::Position(D3DXVECTOR2 &vec)
 {
 	position = vec;
 

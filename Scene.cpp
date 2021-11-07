@@ -8,7 +8,7 @@
 Arrow* arrow;
 Sprite* base;
 Background* bg;
-Bullet* MAP[10][10];
+Bullet* MAP[10][20];
 
 
 

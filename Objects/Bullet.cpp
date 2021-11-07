@@ -2,8 +2,10 @@
 #include "Bullet.h"
 #include "Objects/Arrow.h"
 
-extern Bullet* MAP[10][10];
+extern Bullet* MAP[10][20];
 extern Bullet* tempBullet;
+
+vector<Bullet*> Bullet::bulletVector;
 
 void Bullet::Initialize(std::wstring &shaderFile, const D3DXVECTOR2 &start)
 {
@@ -50,7 +52,8 @@ Bullet::~Bullet()
 
 void Bullet::Position(D3DXVECTOR2 & pos)
 {
-	this->position = pos;
+	position = pos;
+	sprite->Position(position);
 }
 
 void Bullet::Update(D3DXMATRIX & V, D3DXMATRIX & P)
@@ -93,8 +96,8 @@ bool Bullet::getIsmoving()
 pair<int, int> Bullet::getArrayList()
 {
 	pair<int, int> temp;
-	temp.first = (int)((position.x - 150) / 30);
-	temp.second = (int)((600 - position.y) / 30);
+	temp.first = (int)((position.x - 250) / 30);
+	temp.second = (int)((515 - position.y) / 30);
 	return temp;
 }
 
@@ -111,14 +114,25 @@ void Bullet::AllocateBullet()
 {
 	setStop();
 	isMoving = false;
-	if (MAP[getArrayList().first][getArrayList().second] == nullptr)
+	pair<int, int> temp = getArrayList();
+	D3DXVECTOR2 tempPosition;
+	while (MAP[temp.first][temp.second] != nullptr)
 	{
-		MAP[getArrayList().first][getArrayList().second] = this;
+
+		temp.second++;
 	}
-	else
+	
+	if (temp.second >= 10)
 	{
-		MAP[getArrayList().first][getArrayList().second + 1] = this;
+
 	}
+	MAP[temp.first][temp.second] = tempBullet;
+	tempPosition = D3DXVECTOR2(250.0f + 30.0f * temp.first,
+		515 - 30.0f * temp.second);
+	MAP[temp.first][temp.second]->Position(tempPosition);
+	tempBullet->setStop();
+	tempBullet->isGetRivision = true;
+	bulletVector.push_back(tempBullet);
 	tempBullet = nullptr;
 }
 
@@ -152,7 +166,9 @@ void Bullet::CollisionTest()
 		default:
 			break;
 	}
-	if (!isGetRivision && !isMoving)
+
+	bool isbreak = false;
+	if (!isGetRivision && isMoving)
 	{
 		RECT temp;
 
@@ -162,18 +178,26 @@ void Bullet::CollisionTest()
 			{
 				if (MAP[i][j] != nullptr)
 				{
+					RECT r1 = MAP[i][j]->GetWorldPosition();
+					RECT r2 = this->GetWorldPosition();
 					if (
 						IntersectRect(
 						&temp,
-						&MAP[i][j]->GetWorldPosition(),
-						&this->GetWorldPosition())
+						&r1,
+						&r2)
 						)
 					{
 						AllocateBullet();
+						isbreak = true;
+						break;
 					}
 				}
 			}
+			if (isbreak)
+				break;
 		}
+
+
 
 	}
 }

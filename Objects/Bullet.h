@@ -4,7 +4,7 @@ class Arrow;
 class Bullet
 {
 public:
-
+	static vector<Bullet*> bulletVector;
 public:
 	void Initialize(std::wstring &shaderFile, const D3DXVECTOR2 &start);
 	Bullet(wstring shaderFile, D3DXVECTOR2 start, float angle, float speed);

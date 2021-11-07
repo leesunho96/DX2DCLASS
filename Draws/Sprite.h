@@ -32,7 +32,7 @@ public:
 public:
 	// 객체의 월드 좌표계 결정 메소드
 	void Position(float x, float y);
-	void Position(D3DXVECTOR2& position);
+	void Position(D3DXVECTOR2& vec);
 	// 객체의 월드 좌표계 반환 메소드
 	D3DXVECTOR2 Position();
 
