@@ -7,6 +7,146 @@ extern Bullet* tempBullet;
 
 //vector<Bullet*> Bullet::bulletVector;
 
+void Bullet::SetAdjustedBulletPosition(std::pair<int, int> &temp, D3DXVECTOR2 &tempPosition)
+{
+	MAP[temp.first][temp.second] = tempBullet;
+	tempPosition = D3DXVECTOR2(250.0f + 30.0f * temp.first,
+		515 - 30.0f * temp.second);
+	MAP[temp.first][temp.second]->Position(tempPosition);
+	tempBullet->setStop();
+	tempBullet->isGetRivision = true;
+}
+
+bool isAccessable(int iXidx, int iYidx)
+{
+	return MAP[iXidx][iYidx] == nullptr ? false : true;
+}
+
+
+void checkIsbulletSame(pair<int, int> pXYidx, vector<pair<int, int>>& sameBulletVector,
+	int& bulletNum)
+{
+	for (auto a : sameBulletVector)
+	{
+		if (a == pXYidx)
+		{
+			return;
+		}
+	}
+
+	sameBulletVector.push_back(pXYidx);
+	bulletNum++;
+	/////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////
+	if (pXYidx.first - 1 >= 0) // (x - 1, y - 1) (x - 1, y) (x - 1, y + 1) check
+	{
+		if (pXYidx.second - 1 >= 0)
+		{
+			if (isAccessable(pXYidx.first - 1, pXYidx.second - 1))// x - 1, y - 1 확인
+			{
+				if (MAP[pXYidx.first][pXYidx.second]->getType()
+					== MAP[pXYidx.first - 1][pXYidx.second - 1]->getType())
+				{
+					checkIsbulletSame(make_pair(pXYidx.first - 1, pXYidx.second - 1),
+						sameBulletVector, bulletNum);
+				}
+			}
+		}
+		if (isAccessable(pXYidx.first - 1, pXYidx.second))// x - 1, y 확인
+		{
+			if (MAP[pXYidx.first][pXYidx.second]->getType()
+				== MAP[pXYidx.first - 1][pXYidx.second]->getType())
+			{
+				checkIsbulletSame(make_pair(pXYidx.first - 1, pXYidx.second),
+					sameBulletVector, bulletNum);
+			}
+		}
+		if (pXYidx.second + 1 < MAXARRHEIGHT)
+		{
+			if (isAccessable(pXYidx.first - 1, pXYidx.second + 1))// x - 1, y - 1 확인
+			{
+				if (MAP[pXYidx.first][pXYidx.second]->getType()
+					== MAP[pXYidx.first - 1][pXYidx.second + 1]->getType())
+				{
+					checkIsbulletSame(make_pair(pXYidx.first - 1, pXYidx.second + 1),
+						sameBulletVector, bulletNum);
+				}
+			}
+		}
+	}
+
+	/////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////
+	// (x, y -1), (x, y + 1) check
+	if (pXYidx.second - 1 >= 0) // x, y -1
+	{
+		if (isAccessable(pXYidx.first, pXYidx.second - 1))// x - 1, y - 1 확인
+		{
+			if (MAP[pXYidx.first][pXYidx.second]->getType()
+				== MAP[pXYidx.first][pXYidx.second - 1]->getType())
+			{
+				checkIsbulletSame(make_pair(pXYidx.first, pXYidx.second - 1),
+					sameBulletVector, bulletNum);
+			}
+		}
+	}
+	if (pXYidx.second + 1 < MAXARRHEIGHT)// x, y + 1
+	{
+		if (isAccessable(pXYidx.first, pXYidx.second + 1))// x - 1, y - 1 확인
+		{
+			if (MAP[pXYidx.first][pXYidx.second]->getType()
+				== MAP[pXYidx.first][pXYidx.second + 1]->getType())
+			{
+				checkIsbulletSame(make_pair(pXYidx.first, pXYidx.second + 1),
+					sameBulletVector, bulletNum);
+			}
+		}
+	}
+
+	/////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////
+	if (pXYidx.first + 1 < 10) // (x + 1, y - 1) (x + 1, y) (x + 1, y + 1) check
+	{
+		if (pXYidx.second - 1 >= 0)
+		{
+			if (isAccessable(pXYidx.first + 1, pXYidx.second - 1))// x - 1, y - 1 확인
+			{
+				if (MAP[pXYidx.first][pXYidx.second]->getType()
+					== MAP[pXYidx.first + 1][pXYidx.second - 1]->getType())
+				{
+					checkIsbulletSame(make_pair(pXYidx.first + 1, pXYidx.second - 1),
+						sameBulletVector, bulletNum);
+				}
+			}
+		}
+		if (isAccessable(pXYidx.first + 1, pXYidx.second))// x - 1, y 확인
+		{
+			if (MAP[pXYidx.first][pXYidx.second]->getType()
+				== MAP[pXYidx.first + 1][pXYidx.second]->getType())
+			{
+				checkIsbulletSame(make_pair(pXYidx.first + 1, pXYidx.second),
+					sameBulletVector, bulletNum);
+			}
+		}
+		if (pXYidx.second + 1 < MAXARRHEIGHT)
+		{
+			if (isAccessable(pXYidx.first+1, pXYidx.second + 1))// x - 1, y - 1 확인
+			{
+				if (MAP[pXYidx.first][pXYidx.second]->getType()
+					== MAP[pXYidx.first + 1][pXYidx.second + 1]->getType())
+				{
+					checkIsbulletSame(make_pair(pXYidx.first + 1, pXYidx.second + 1),
+						sameBulletVector, bulletNum);
+				}
+			}
+		}
+	}
+
+
+}
 void Bullet::Initialize(std::wstring &shaderFile, const D3DXVECTOR2 &start)
 {
 	int rand = Math::Random(1, 3);
@@ -58,13 +198,13 @@ void Bullet::Position(D3DXVECTOR2 & pos)
 
 void Bullet::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
+	sprite->Position(position);
+	sprite->Update(V, P);
 	if (isMoving)
 	{
 		position += velocity;
 		CollisionTest();
 	}
-	sprite->Position(position);
-	sprite->Update(V, P);
 
 }
 
@@ -132,16 +272,15 @@ void Bullet::GetAdjustBulletPair(std::pair<int, int> &temp, std::pair<int, int> 
 	}
 }
 
-void Bullet::SetAdjustedBulletPosition(std::pair<int, int> &temp, D3DXVECTOR2 &tempPosition)
-{
-	MAP[temp.first][temp.second] = tempBullet;
-	tempPosition = D3DXVECTOR2(250.0f + 30.0f * temp.first,
-		515 - 30.0f * temp.second);
-	MAP[temp.first][temp.second]->Position(tempPosition);
-	tempBullet->setStop();
-	tempBullet->isGetRivision = true;
-}
 
+void DeleteMapComponent(vector<pair<int, int>>& eraseVector)
+{
+	for (auto a : eraseVector)
+	{
+		SAFE_DELETE(MAP[a.first][a.second]);
+		MAP[a.first][a.second] = nullptr;
+	}
+}
 void Bullet::AllocateBullet()
 {
 	pair<int, int> temp = getArrayList();
@@ -150,13 +289,21 @@ void Bullet::AllocateBullet()
 	GetAdjustBulletPair(temp, temp2);
 	SetAdjustedBulletPosition(temp, tempPosition);
 
-	int bulletNum = 1;
+	int bulletNum = 0;
+
+	vector<pair<int, int>> sameBulletVector;
 	
+	checkIsbulletSame(temp, sameBulletVector, bulletNum);
+	sort(sameBulletVector.begin(), sameBulletVector.end());
+	sameBulletVector.erase(unique(sameBulletVector.begin(), sameBulletVector.end()),
+		sameBulletVector.end());
 	
-	
-	
-	
-	tempBullet = nullptr;
+	if (sameBulletVector.size() >= 3)
+	{
+		DeleteMapComponent(sameBulletVector);
+	}
+
+   	tempBullet = nullptr;
 }
 
 

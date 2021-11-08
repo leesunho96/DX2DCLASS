@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <functional>
+#include <algorithm>
 using namespace std;
 
 #include <d3d11.h>
