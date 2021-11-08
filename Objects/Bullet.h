@@ -49,3 +49,5 @@ private:
 	D3DXVECTOR2 GetReflectionVector(D3DXVECTOR2 v2n);
 
 };
+
+void InitializeTempVector(std::vector<std::pair<int, int>> &temp);

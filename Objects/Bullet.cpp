@@ -22,6 +22,83 @@ bool isAccessable(int iXidx, int iYidx)
 	return MAP[iXidx][iYidx] == nullptr ? false : true;
 }
 
+void checkIsOnAir(pair<int, int>pXYidx,
+	vector<pair<int, int>>& onBoardVector)
+{
+	for (auto a : onBoardVector)
+	{
+		if (a == pXYidx)
+			return;
+	}
+	if (MAP[pXYidx.first][pXYidx.second] != nullptr)
+	{
+		onBoardVector.push_back(pXYidx);
+	}
+	else
+	{
+		return;
+	}
+
+	// x - 1, y - 1 | x - 1, y | x - 1 , y + 1 
+	//°Ë»ç
+	if (pXYidx.first - 1 >= 0)
+	{
+		// x - 1, y - 1
+		if (pXYidx.second - 1 >= 0)
+		{
+			checkIsOnAir(make_pair(pXYidx.first - 1,
+				pXYidx.second - 1), onBoardVector);
+		}
+		// x - 1, y 
+		checkIsOnAir(make_pair(pXYidx.first - 1,
+			pXYidx.second), onBoardVector);
+
+		// x - 1, y + 1
+		if (pXYidx.second + 1 < MAXARRHEIGHT)
+		{
+			checkIsOnAir(make_pair(pXYidx.first - 1,
+				pXYidx.second + 1), onBoardVector);
+		}
+	}
+
+	//// x, y - 1 | x, y + 1
+
+	if (pXYidx.second - 1 >= 0) // x, y - 1
+	{
+		checkIsOnAir(make_pair(pXYidx.first,
+			pXYidx.second - 1), onBoardVector);
+	}
+	if (pXYidx.second + 1 < MAXARRHEIGHT) // x, y + 1
+	{
+		checkIsOnAir(make_pair(pXYidx.first,
+			pXYidx.second + 1), onBoardVector);
+	}
+
+	//// x + 1 , y - 1 | x + 1, y | x + 1, y + 1
+	if (pXYidx.first + 1 < 10)
+	{
+		// x + 1, y - 1
+		if (pXYidx.second - 1 >= 0)
+		{
+			checkIsOnAir(make_pair(pXYidx.first + 1,
+				pXYidx.second - 1), onBoardVector);
+		}
+		// x + 1, y 
+		checkIsOnAir(make_pair(pXYidx.first + 1,
+			pXYidx.second), onBoardVector);
+
+		// x + 1, y + 1
+		if (pXYidx.second + 1 < MAXARRHEIGHT)
+		{
+			checkIsOnAir(make_pair(pXYidx.first + 1,
+				pXYidx.second + 1), onBoardVector);
+		}
+	}
+
+
+}
+
+
 
 void checkIsbulletSame(pair<int, int> pXYidx, vector<pair<int, int>>& sameBulletVector,
 	int& bulletNum)
@@ -281,6 +358,16 @@ void DeleteMapComponent(vector<pair<int, int>>& eraseVector)
 		MAP[a.first][a.second] = nullptr;
 	}
 }
+void InitializeTempVector(std::vector<std::pair<int, int>> &temp)
+{
+	for (size_t i = 0; i < 10; i++)
+	{
+		for (size_t j = 0; j < MAXARRHEIGHT; j++)
+		{
+			temp.push_back(make_pair(i, j));
+		}
+	}
+}
 void Bullet::AllocateBullet()
 {
 	pair<int, int> temp = getArrayList();
@@ -301,9 +388,33 @@ void Bullet::AllocateBullet()
 	if (sameBulletVector.size() >= 3)
 	{
 		DeleteMapComponent(sameBulletVector);
-	}
+		sameBulletVector.clear();
 
-   	tempBullet = nullptr;
+		for (int i = 0; i < 10; i++)
+		{
+			checkIsOnAir(make_pair(i, 0),
+				sameBulletVector);
+
+		}
+
+		for (int i = 0; i < 10; i++)
+		{
+			for (int j = 0; j < MAXARRHEIGHT; j++)
+			{
+				bool isremove = true;
+				for (auto a : sameBulletVector)
+				{
+					if (a == make_pair(i, j))
+						isremove = false;
+				}
+				if (isremove)
+				{
+					SAFE_DELETE(MAP[i][j]);
+				}
+			}
+		}
+	}
+     	tempBullet = nullptr;
 }
 
 
