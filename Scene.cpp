@@ -72,10 +72,28 @@ void Update()
 			if (MAP[i][j] != nullptr)
 			{
 				MAP[i][j]->Update(V, P);
-			}
+			} 
 		}
 	}
 
+
+	for (size_t i = 0; i < Bullet::bulletVector.size();)
+	{
+		if (Bullet::bulletVector[i] == NULL)
+		{
+			Bullet::bulletVector.erase(Bullet::bulletVector.begin() + i);
+		}
+		else if (Bullet::bulletVector[i]->getPosition().y < 0)
+		{
+			SAFE_DELETE(Bullet::bulletVector[i]);
+			Bullet::bulletVector[i] = NULL;
+		}
+		else
+		{
+			Bullet::bulletVector[i]->setVelocity(-90);
+			i++;
+		}
+	}
 }
 
 void Render()

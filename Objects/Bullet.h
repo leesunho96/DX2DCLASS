@@ -4,12 +4,13 @@ class Arrow;
 class Bullet
 {
 public:
-	//static vector<Bullet*> bulletVector;
+	static vector<Bullet*> bulletVector;
 public:
 	void Initialize(std::wstring &shaderFile, const D3DXVECTOR2 &start);
 	Bullet(wstring shaderFile, D3DXVECTOR2 start, float angle, float speed);
 	~Bullet();
 
+	D3DXVECTOR2 getPosition() { return position; };
 	void Position(D3DXVECTOR2& pos);
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
@@ -49,5 +50,3 @@ private:
 	D3DXVECTOR2 GetReflectionVector(D3DXVECTOR2 v2n);
 
 };
-
-void InitializeTempVector(std::vector<std::pair<int, int>> &temp);

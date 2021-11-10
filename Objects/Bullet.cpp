@@ -5,7 +5,7 @@
 extern Bullet* MAP[10][MAXARRHEIGHT];
 extern Bullet* tempBullet;
 
-//vector<Bullet*> Bullet::bulletVector;
+vector<Bullet*> Bullet::bulletVector;
 
 void Bullet::SetAdjustedBulletPosition(std::pair<int, int> &temp, D3DXVECTOR2 &tempPosition)
 {
@@ -210,7 +210,7 @@ void checkIsbulletSame(pair<int, int> pXYidx, vector<pair<int, int>>& sameBullet
 		}
 		if (pXYidx.second + 1 < MAXARRHEIGHT)
 		{
-			if (isAccessable(pXYidx.first+1, pXYidx.second + 1))// x - 1, y - 1 확인
+			if (isAccessable(pXYidx.first + 1, pXYidx.second + 1))// x - 1, y - 1 확인
 			{
 				if (MAP[pXYidx.first][pXYidx.second]->getType()
 					== MAP[pXYidx.first + 1][pXYidx.second + 1]->getType())
@@ -230,21 +230,21 @@ void Bullet::Initialize(std::wstring &shaderFile, const D3DXVECTOR2 &start)
 	pair<float, float> startXY;
 	switch (rand)
 	{
-	case 1:
-		startXY.first = 27;
-		startXY.second = 814;
-		type = 1;
-		break;
-	case 2:
-		startXY.first = 28;
-		startXY.second = 911;
-		type = 2;
-		break;
-	case 3:
-		startXY.first = 27;
-		startXY.second = 1009;
-		type = 0;
-		break;
+		case 1:
+			startXY.first = 27;
+			startXY.second = 814;
+			type = 1;
+			break;
+		case 2:
+			startXY.first = 28;
+			startXY.second = 911;
+			type = 2;
+			break;
+		case 3:
+			startXY.first = 27;
+			startXY.second = 1009;
+			type = 0;
+			break;
 	}
 	sprite = new Sprite(
 		Textures + L"PuzzleBobble/puzzlebobble.png",
@@ -379,21 +379,21 @@ void Bullet::AllocateBullet()
 	int bulletNum = 0;
 
 	vector<pair<int, int>> sameBulletVector;
-	
+
 	checkIsbulletSame(temp, sameBulletVector, bulletNum);
 	sort(sameBulletVector.begin(), sameBulletVector.end());
 	sameBulletVector.erase(unique(sameBulletVector.begin(), sameBulletVector.end()),
 		sameBulletVector.end());
-	
+
 	if (sameBulletVector.size() >= 3)
 	{
 		DeleteMapComponent(sameBulletVector);
 		sameBulletVector.clear();
-
+		vector<pair<int, int>> onAirBulletVector;
 		for (int i = 0; i < 10; i++)
 		{
 			checkIsOnAir(make_pair(i, 0),
-				sameBulletVector);
+				onAirBulletVector);
 
 		}
 
@@ -402,19 +402,21 @@ void Bullet::AllocateBullet()
 			for (int j = 0; j < MAXARRHEIGHT; j++)
 			{
 				bool isremove = true;
-				for (auto a : sameBulletVector)
+				for (auto a : onAirBulletVector)
 				{
 					if (a == make_pair(i, j))
 						isremove = false;
 				}
 				if (isremove)
 				{
+					//Bullet::bulletVector.push_back(MAP[i][j]);
 					SAFE_DELETE(MAP[i][j]);
+					MAP[i][j] = NULL;
 				}
 			}
 		}
 	}
-     	tempBullet = nullptr;
+	tempBullet = nullptr;
 }
 
 
@@ -424,29 +426,29 @@ void Bullet::CollisionTest()
 
 	switch (temp)
 	{
-	case 1:
-	{
-		OverlapTop();
-		AllocateBullet();
-		break;
-	}
-	case 2:
-	{
-		OverlapBottom();
-		break;
-	}
-	case 3:
-	{
-		OverlapLeft();
-		break;
-	}
-	case 4:
-	{
-		OverlapRight();
-		break;
-	}
-	default:
-		break;
+		case 1:
+		{
+			OverlapTop();
+			AllocateBullet();
+			break;
+		}
+		case 2:
+		{
+			OverlapBottom();
+			break;
+		}
+		case 3:
+		{
+			OverlapLeft();
+			break;
+		}
+		case 4:
+		{
+			OverlapRight();
+			break;
+		}
+		default:
+			break;
 	}
 
 	bool isbreak = false;

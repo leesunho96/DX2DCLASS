@@ -12,11 +12,11 @@ Background::Background(wstring shaderFile)
 	(
 		textureFile, shaderFile,
 		18.0f, 18.0f,
-		18.0f + 340.0f,18.0f + 240.0f
+		18.0f + 340.0f, 18.0f + 240.0f
 	);
 	background->Position(Width / 2 + 23, Height / 2 - 25);
 	background->Scale(Width / 320.0f, Height / 225.0f);
-	
+
 }
 
 Background::~Background()
