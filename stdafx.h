@@ -36,6 +36,7 @@ using namespace std;
 
 #include "Draws/Rect.h"
 #include "Draws/Sprite.h"
+#include "Draws/Clip.h"
 
 #include "Utilities/Math.h"
 #include "Utilities/Path.h"

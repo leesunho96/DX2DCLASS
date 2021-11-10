@@ -3,36 +3,32 @@
 #include "Objects/Background.h"
 #include "Objects/Bullet.h"
 
-vector<Sprite*> sprites;
-vector<Bullet*> bullets;
 
 Background* bg;
-
-D3DXVECTOR2 position;
+Clip* clip;
 
 void InitScene()
 {
+	bg = new Background(Shaders + L"/008_Sprite.fx");
+	wstring shaderFile = Shaders + L"/008_Sprite.fx";
 
-	bg = new Background(L"../_Shaders/008_Sprite.fx");
+	wstring spriteFile = Textures + L"Metalslug.png";
+	clip = new Clip(PlayMode::Loop);
+	clip->AddFrame(new Sprite(spriteFile, shaderFile,
+		4, 2, 34, 40), 
+		0.3f);
+	clip->AddFrame(new Sprite(spriteFile, shaderFile, 
+		35, 2, 64, 40), 0.3f);
+	clip->AddFrame(new Sprite(spriteFile, shaderFile, 64, 2, 94, 40), 0.3f);
 
-	wstring shaderFile = L"../_Shaders/008_Sprite.fx";
-
-	Sprite* mario = new Sprite(L"../_Textures/Mario/All.png", shaderFile, 9, 87, 50, 161);
-	mario->Position(300, 145);
-	sprites.push_back(mario);
-
-	position = D3DXVECTOR2(400, 300);
-
+	clip->Position(100, 170);
+	clip->Scale(2.5f, 2.5f);
+	clip->Play();
 }
 
 void DestroyScene()
 {
-	for (Bullet* bullet : bullets)
-		SAFE_DELETE(bullet);
-
-	for (Sprite* sprite : sprites)
-		SAFE_DELETE(sprite);
-
+	SAFE_DELETE(clip);
 	SAFE_DELETE(bg);
 }
 
@@ -41,44 +37,13 @@ void Update()
 {
 	//View
 	D3DXVECTOR3 eye(0, 0, -1);
-	D3DXVECTOR3 at(0, 0, 0);
-	D3DXVECTOR3 up(0, 1, 0);
+	D3DXVECTOR3 at (0, 0, 0);
+	D3DXVECTOR3 up (0, 1, 0);
 	D3DXMatrixLookAtLH(&V, &eye, &at, &up);
-
 	//Projection
 	D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width, 0, (float)Height, -1, 1);
-
 	bg->Update(V, P);
-
-	for (Sprite* sprite : sprites)
-	{
-		sprite->Update(V, P);
-	}
-
-	if (Key->Press(VK_LEFT))
-		position.x -= 200.0f * Timer->Elapsed();
-	else if (Key->Press(VK_RIGHT))
-		position.x += 200.0f * Timer->Elapsed();
-
-	if (Key->Press(VK_UP))
-		position.y += 200.0f * Timer->Elapsed();
-	else if (Key->Press(VK_DOWN))
-		position.y -= 200.0f * Timer->Elapsed();
-
-	if (Key->Down(VK_SPACE))
-	{
-		wstring file = Shaders + L"008_Sprite.fx";
-
-		float angle = Math::Random(-179.9f, 179.9f);
-		float speed = Math::Random(0.05f, 1.0f);
-
-		Bullet* bullet = new Bullet(file, position, angle, speed);
-		bullets.push_back(bullet);
-	}
-
-
-	for (Bullet* bullet : bullets)
-		bullet->Update(V, P);
+	clip->Update(V, P);
 }
 
 void Render()
@@ -87,13 +52,7 @@ void Render()
 	DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	{
 		bg->Render();
-
-		for (Sprite* sprite : sprites)
-			sprite->Render();
-
-		for (Bullet* bullet : bullets)
-			bullet->Render();
-
+		clip->Render();
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);
