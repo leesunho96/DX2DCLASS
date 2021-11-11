@@ -6,9 +6,9 @@ void Cloud::setPosition(D3DXVECTOR2 & position)
 	Position(position);
 }
 
-void Cloud::Update()
+void Cloud::Update(D3DXMATRIX& V, D3DXMATRIX& P)
 {
-	__super::Update();
+	__super::Update(V, P);
 	if (!isStop)
 	{
 		D3DXVECTOR2 position = Position();

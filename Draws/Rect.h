@@ -4,12 +4,13 @@ class Rect
 {
 public:
 	Rect(wstring shaderFile, wstring imgFile);
-	Rect(wstring shaderFile, wstring imgFile, D3DXVECTOR2 position, D3DXVECTOR2 scale);
+	Rect(wstring shaderFile, wstring imgFile, 
+		D3DXVECTOR2 position, D3DXVECTOR2 scale);
 	~Rect();
 
 	void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
 
-	virtual void Update();
+	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 
 public:

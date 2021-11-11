@@ -16,7 +16,7 @@ public:
 		respawnTime(Math::Random(10000, 50000)) {};
 
 	void setPosition(D3DXVECTOR2& position);
-	void Update() override;
+	void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
 
 };
 

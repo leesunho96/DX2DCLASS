@@ -27,9 +27,6 @@
     <ClCompile Include="Draws\Rect.cpp">
       <Filter>Draws</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\Time.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\Device.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
@@ -37,6 +34,11 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Cloud.cpp" />
+    <ClCompile Include="Clip.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Systems\Time.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -64,9 +66,6 @@
     <ClInclude Include="Draws\Rect.h">
       <Filter>Draws</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\Time.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\Device.h">
       <Filter>Systems</Filter>
     </ClInclude>
@@ -74,6 +73,11 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Cloud.h" />
+    <ClInclude Include="Clip.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Systems\Time.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">

@@ -34,6 +34,9 @@ using namespace std;
 #include "Systems/Keyboard.h"
 #include "Systems/Time.h"
 
+#include "Draws/Rect.h"
+#include "Sprite.h"
+#include "Clip.h"
 
 #include "Utilities/Math.h"
 #include "Utilities/Path.h"
@@ -44,10 +47,14 @@ using namespace std;
 #define SAFE_DELETE(p){ if(p){ delete (p); (p) = NULL; } }
 #define SAFE_DELETE_ARRAY(p){ if(p){ delete [] (p); (p) = NULL; } }
 
-#define MoveSpeed 0.1f;
 
-const UINT Width = 1024;
-const UINT Height = 768;
+#define MoveSpeed 0.1f
+const UINT Width = 800;
+const UINT Height = 600;
+
+
+const wstring Textures = L"../_Textures/";
+const wstring Shaders = L"../_Shaders/";
 
 
 // 타 파일의 전역변수를 사용 할 수 있도록 함.
@@ -60,3 +67,4 @@ extern ID3D11DeviceContext* DeviceContext;
 extern ID3D11RenderTargetView* RTV;
 
 extern Keyboard* Key;
+extern Time* Timer;

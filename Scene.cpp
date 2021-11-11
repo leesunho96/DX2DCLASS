@@ -22,7 +22,8 @@ int maxScore = 0;
 */
 void createPlayer()
 {
-	player = new Player(L"../_Shaders/007_Texture.fx", L"../_Textures/Trex/Trex.png", D3DXVECTOR2(100, 50), D3DXVECTOR2(100, 100));
+	player = new Player(L"../_Shaders/007_Texture.fx", L"../_Textures/Trex/Trex.png", 
+		D3DXVECTOR2(100, 50), D3DXVECTOR2(100, 100));
 }
 // 플레이어 삭제 메소드. 게임 종료시만 호출됨
 void DeletePlayer()
@@ -97,12 +98,16 @@ void KeyInput()
 {
 	if (Key->Down(VK_SPACE))
 	{
-		player->StartJump();
+ 		player->StartJump();
 
 	}
 	else if (Key->Up(VK_SPACE))
 	{
 		player->EndJump();
+	}
+	if (Key->Press(VK_DOWN))
+	{
+		player->SetCrouch();
 	}
 }
 
@@ -117,26 +122,26 @@ void SetViewProjection()
 
 	//Projection
 	D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width, 0, (float)Height, -1, 1);
-	player->ViewProjection(V, P);
+	
 
-	player->Update();
+	player->Update(V, P);
 
 	for (auto a : groundVector)
 	{
-		a->ViewProjection(V, P);
-		a->Update();
+		//a->ViewProjection(V, P);
+		a->Update(V, P);
 	}
 
 	for (auto a : enemyVector)
 	{
-		a->ViewProjection(V, P);
-		a->Update();
+		//a->ViewProjection(V, P);
+		a->Update(V, P);
 	}
 
 	for (auto a : cloudVector)
 	{
-		a->ViewProjection(V, P);
-		a->Update();
+		//a->ViewProjection(V, P);
+		a->Update(V, P);
 	}
 }
 
@@ -199,6 +204,7 @@ void Render()
 		ImGui::Text("Death Count : %d", player->deathCount);
 		ImGui::Text("Score : %d", score);
 		ImGui::Text("MaxScore : %d", maxScore);
+		ImGui::Text("Player Y : %d", player->Position().y);
 		if (!bIsGameOn)
 		{
 			ImGui::Text("Game Over");
@@ -206,10 +212,13 @@ void Render()
 			{
 				createEnemys();
 				resetScore();
+				player->ResetClip();
+				player->SetPlaying();
 			}
 		}
 
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);
+
 }

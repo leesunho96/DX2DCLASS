@@ -24,11 +24,11 @@ ID3D11RenderTargetView* RTV;
 
 
 /*
-		
+
 */
 
 Keyboard* Key;
-
+Time* Timer;
 
 void InitWindow(HINSTANCE hInstance, int ShowWnd)
 {
@@ -38,7 +38,7 @@ void InitWindow(HINSTANCE hInstance, int ShowWnd)
 		WNDCLASSEX wndClass;
 		wndClass.cbSize = sizeof(WNDCLASSEX);//해당 구조체 크기
 		wndClass.style = CS_HREDRAW | CS_VREDRAW; // 수평으로 그리기 | 수직으로 그리기
-		wndClass.lpfnWndProc = WndProc; 
+		wndClass.lpfnWndProc = WndProc;
 		wndClass.cbClsExtra = NULL; // 추가기능, 사용 안함
 		wndClass.cbWndExtra = NULL;
 		wndClass.hInstance = hInstance; // 현재 창의 프로그램 식별자
@@ -57,7 +57,7 @@ void InitWindow(HINSTANCE hInstance, int ShowWnd)
 	{
 		Hwnd = CreateWindowEx
 		(
-			NULL, 
+			NULL,
 			Title.c_str(),
 			Title.c_str(),
 			WS_OVERLAPPEDWINDOW,
@@ -106,7 +106,7 @@ void InitDirect3D(HINSTANCE hInstance)
 		bufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 		bufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
-		
+
 		DXGI_SWAP_CHAIN_DESC desc;
 		ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));
 
@@ -159,8 +159,6 @@ void InitDirect3D(HINSTANCE hInstance)
 
 void Destroy()
 {
-
-
 	SwapChain->Release();
 	Device->Release();
 	DeviceContext->Release();
@@ -175,9 +173,8 @@ WPARAM Running()
 	ImGui::Create(Hwnd, Device, DeviceContext);
 	ImGui::StyleColorsDark();
 
-	Time::Create();
-	Time::Get()->Start();
 	Key = new Keyboard;
+	Timer = new Time();
 	InitScene();
 	while (true)
 	{
@@ -194,19 +191,20 @@ WPARAM Running()
 			// 메세지를 WndProc에 보냄.
 			DispatchMessage(&msg);
 		}
-		else 
+		else
 		{
+			Timer->Update();
 			Update();
-			Time::Get()->Update();
+
 			ImGui::Update();
 
 			Render();
 		}
 	}
 	DestroyScene();
-	
-	Time::Delete();
+
 	delete(Key);
+	delete(Timer);
 	ImGui::Delete();
 	return msg.wParam;
 }
@@ -214,21 +212,21 @@ WPARAM Running()
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	// 실제 마우스 좌표보다 화면 베젤로 인해서 약간 틀어짐.
-	if(ImGui::WndProc((UINT*)hwnd, msg, wParam, lParam))
+	if (ImGui::WndProc((UINT*)hwnd, msg, wParam, lParam))
 		return true;
 
 	switch (msg)
 	{
-		case WM_KEYDOWN:
-			if (wParam == VK_ESCAPE) 
-			{
-				DestroyWindow(hwnd);
-			}
-			return 0;
+	case WM_KEYDOWN:
+		if (wParam == VK_ESCAPE)
+		{
+			DestroyWindow(hwnd);
+		}
+		return 0;
 
-		case WM_DESTROY:
-			PostQuitMessage(0);
-			return 0;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 0;
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);

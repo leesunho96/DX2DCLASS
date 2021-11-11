@@ -29,9 +29,11 @@ void Rect::ViewProjection(D3DXMATRIX & V, D3DXMATRIX & P)
 	UpdateWorld();
 }
 
-void Rect::Update()
+void Rect::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-
+	shader->AsMatrix("View")->SetMatrix(V);
+	shader->AsMatrix("Projection")->SetMatrix(P);
+	UpdateWorld();
 }
 
 void Rect::Render()
@@ -42,7 +44,7 @@ void Rect::Render()
 	DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		
-	shader->Draw(0, 1, 6);
+	shader->Draw(0, 0, 6);
 
 
 }

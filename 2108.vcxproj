@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Clip.cpp" />
     <ClCompile Include="Cloud.cpp" />
     <ClCompile Include="Draws\Rect.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -168,12 +170,14 @@
     <ClCompile Include="Utilities\Xml.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Clip.h" />
     <ClInclude Include="Cloud.h" />
     <ClInclude Include="Draws\Rect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renders\Shader.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Systems\Device.h" />
     <ClInclude Include="Systems\Keyboard.h" />

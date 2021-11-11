@@ -14,9 +14,9 @@ void Ground::Move()
 	}
 }
 
-void Ground::Update()
+void Ground::Update(D3DXMATRIX& V, D3DXMATRIX& P)
 {
-	__super::Update();
+	__super::Update(V, P);
 	D3DXVECTOR2 position = Position();
 	position.x -= MoveSpeed;
 	if (position.x < baseLocation.x - 512.0f)
