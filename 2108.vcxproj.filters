@@ -45,6 +45,9 @@
     <ClCompile Include="Objects\Arrow.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Draws\Clip.cpp">
+      <Filter>Draws</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -89,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="Objects\Arrow.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Draws\Clip.h">
+      <Filter>Draws</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

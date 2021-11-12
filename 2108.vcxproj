@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Draws\Clip.cpp" />
     <ClCompile Include="Draws\Rect.cpp" />
     <ClCompile Include="Draws\Sprite.cpp" />
     <ClCompile Include="Objects\Arrow.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="Utilities\Xml.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Draws\Clip.h" />
     <ClInclude Include="Draws\Rect.h" />
     <ClInclude Include="Draws\Sprite.h" />
     <ClInclude Include="Objects\Arrow.h" />
