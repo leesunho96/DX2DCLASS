@@ -227,33 +227,106 @@ void checkIsbulletSame(pair<int, int> pXYidx, vector<pair<int, int>>& sameBullet
 void Bullet::Initialize(std::wstring &shaderFile, const D3DXVECTOR2 &start)
 {
 	int rand = Math::Random(1, 3);
-	pair<float, float> startXY;
+	//pair<float, float> startXY;
+	renderClip = new Clip(PlayMode::Loop, 0.5f);
 	switch (rand)
 	{
-		case 1:
-			startXY.first = 27;
-			startXY.second = 814;
-			type = 1;
-			break;
-		case 2:
-			startXY.first = 28;
-			startXY.second = 911;
-			type = 2;
-			break;
-		case 3:
-			startXY.first = 27;
-			startXY.second = 1009;
-			type = 0;
-			break;
-	}
-	sprite = new Sprite(
+	case 1:
+	{	
+		sprite = new Sprite(
 		Textures + L"PuzzleBobble/puzzlebobble.png",
 		shaderFile,
-		startXY.first, startXY.second,
-		startXY.first + 30, startXY.second + 30);
+		27, 814,
+		27 + 30, 814 + 30);
+		sprite->SetAbsoluteScale(D3DXVECTOR2(30.0f, 30.0f));
+		renderClip->AddFrame(sprite, 0.5f);
 
+		sprite = new Sprite(
+		Textures + L"PuzzleBobble/puzzlebobble.png",
+		shaderFile,
+		225, 805,
+		278, 855
+		);
+		sprite->SetAbsoluteScale(D3DXVECTOR2(30.0f, 30.0f));
+		renderClip->AddFrame(sprite, 0.3f);
+
+		sprite = new Sprite(
+		Textures + L"PuzzleBobble/puzzlebobble.png",
+		shaderFile,
+		294, 805,
+		342, 855
+		);
+		sprite->SetAbsoluteScale(D3DXVECTOR2(30.0f, 30.0f));
+		renderClip->AddFrame(sprite, 0.2f);
+		type = 1;
+		break; }
+	case 2: {
+		/*startXY.first = 28;
+		startXY.second = 911;*/
+
+		sprite = new Sprite(
+			Textures + L"PuzzleBobble/puzzlebobble.png",
+			shaderFile,
+			27, 912,
+			27 + 30, 912 + 30);
+		sprite->SetAbsoluteScale(D3DXVECTOR2(30.0f, 30.0f));
+		renderClip->AddFrame(sprite, 0.5f);
+
+		sprite = new Sprite(
+			Textures + L"PuzzleBobble/puzzlebobble.png",
+			shaderFile,
+			228, 903,
+			278, 953
+		);
+		sprite->SetAbsoluteScale(D3DXVECTOR2(30.0f, 30.0f));
+		renderClip->AddFrame(sprite, 0.3f);
+
+		sprite = new Sprite(
+			Textures + L"PuzzleBobble/puzzlebobble.png",
+			shaderFile,
+			294, 903,
+			342, 953
+		);
+		sprite->SetAbsoluteScale(D3DXVECTOR2(30.0f, 30.0f));
+		renderClip->AddFrame(sprite, 0.2f);
+		type = 2;
+		break; }
+	case 3: {
+		/*startXY.first = 27;
+		startXY.second = 1009;*/
+		sprite = new Sprite(
+			Textures + L"PuzzleBobble/puzzlebobble.png",
+			shaderFile,
+			27, 1009,
+			27 + 30, 1009 + 30);
+		sprite->SetAbsoluteScale(D3DXVECTOR2(30.0f, 30.0f));
+		renderClip->AddFrame(sprite, 0.5f);
+
+		sprite = new Sprite(
+			Textures + L"PuzzleBobble/puzzlebobble.png",
+			shaderFile,
+			228, 1000,
+			278, 1050
+		);
+		sprite->SetAbsoluteScale(D3DXVECTOR2(30.0f, 30.0f));
+		renderClip->AddFrame(sprite, 0.3f);
+
+		sprite = new Sprite(
+			Textures + L"PuzzleBobble/puzzlebobble.png",
+			shaderFile,
+			294, 1000,
+			342, 1050
+		);
+		sprite->SetAbsoluteScale(D3DXVECTOR2(30.0f, 30.0f));
+		renderClip->AddFrame(sprite, 0.2f);
+		type = 0;
+		break; }
+	}
+	
 	position = start;
-	sprite->Position(position);
+	renderClip->Position(position);
+	renderClip->Play();
+	//sprite->Position(position);
 	velocity = D3DXVECTOR2(0.0f, 0.0f);
 }
 
@@ -264,19 +337,23 @@ Bullet::Bullet(wstring shaderFile, D3DXVECTOR2 start, float angle, float speed)
 
 Bullet::~Bullet()
 {
-	SAFE_DELETE(sprite);
+	//SAFE_DELETE(sprite);
+	SAFE_DELETE(renderClip);
 }
 
 void Bullet::Position(D3DXVECTOR2 & pos)
 {
 	position = pos;
-	sprite->Position(position);
+	//sprite->Position(position);
+	renderClip->Position(position);
 }
 
 void Bullet::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-	sprite->Position(position);
-	sprite->Update(V, P);
+	renderClip->Position(position);
+	renderClip->Update(V, P);
+	//sprite->Position(position);
+	//sprite->Update(V, P);
 	if (isMoving)
 	{
 		position += velocity;
@@ -287,7 +364,8 @@ void Bullet::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 void Bullet::Render()
 {
-	sprite->Render();
+	//sprite->Render();
+	renderClip->Render();
 }
 
 void Bullet::setVelocity(float degree)
@@ -302,7 +380,12 @@ void Bullet::setVelocity(float degree)
 
 RECT Bullet::GetWorldPosition()
 {
-	return sprite->GetRect();
+	RECT WorldPosition;
+	WorldPosition.left = (float)((position.x) - 15.0f);
+	WorldPosition.top = (float)((position.y) - 15.0f);
+	WorldPosition.right = (float)((position.x) + 15.0f);
+	WorldPosition.bottom = (float)((position.y) + 15.0f);
+	return WorldPosition;
 }
 
 bool Bullet::getIsmoving()
@@ -426,29 +509,29 @@ void Bullet::CollisionTest()
 
 	switch (temp)
 	{
-		case 1:
-		{
-			OverlapTop();
-			AllocateBullet();
-			break;
-		}
-		case 2:
-		{
-			OverlapBottom();
-			break;
-		}
-		case 3:
-		{
-			OverlapLeft();
-			break;
-		}
-		case 4:
-		{
-			OverlapRight();
-			break;
-		}
-		default:
-			break;
+	case 1:
+	{
+		OverlapTop();
+		AllocateBullet();
+		break;
+	}
+	case 2:
+	{
+		OverlapBottom();
+		break;
+	}
+	case 3:
+	{
+		OverlapLeft();
+		break;
+	}
+	case 4:
+	{
+		OverlapRight();
+		break;
+	}
+	default:
+		break;
 	}
 
 	bool isbreak = false;

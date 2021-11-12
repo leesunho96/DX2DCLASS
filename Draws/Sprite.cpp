@@ -176,7 +176,13 @@ void Sprite::Scale(D3DXVECTOR2 & vec)
 {
 	scale.x *= vec.x;
 	scale.y *= vec.y;
+	//scale = vec;
+	UpdateWorld();
+}
 
+void Sprite::SetAbsoluteScale(D3DXVECTOR2 & vec)
+{
+	scale = vec;
 	UpdateWorld();
 }
 

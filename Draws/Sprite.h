@@ -39,6 +39,7 @@ public:
 	// 객체의 크기 결정 메소드. 
 	void Scale(float x, float y);
 	void Scale(D3DXVECTOR2& scale);
+	void SetAbsoluteScale(D3DXVECTOR2& vec);
 	// 객체의 크기 반환 메소드
 	D3DXVECTOR2 Scale();
 	RECT GetRect();

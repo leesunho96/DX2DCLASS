@@ -48,5 +48,6 @@ private:
 
 	void setStop();
 	D3DXVECTOR2 GetReflectionVector(D3DXVECTOR2 v2n);
-
+	Clip* renderClip;
+	Clip* bomb;
 };
