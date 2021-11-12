@@ -74,40 +74,50 @@ void Animation::SetRotation(float x, float y, float z)
 
 void Animation::SetRotation(D3DXVECTOR3 & vec)
 {
-	for (auto a : clips)
-	{
-		
-	}
-
 	this->rotation = vec;
 }
 
 void Animation::SetRotationDegree(float x, float y, float z)
 {
-	SetRotationDegree(x, y, z);
+	SetRotationDegree(D3DXVECTOR3(x, y, z));
 }
 
 void Animation::SetRotationDegree(D3DXVECTOR3 & vec)
 {
-	this->rotation = D3DXVECTOR3(
+	SetRotation(D3DXVECTOR3(
 		Math::ToRadian(vec.x), Math::ToRadian(vec.y), Math::ToRadian(vec.z)
-	);
+	));
 }
 
 D3DXVECTOR3 Animation::GetRotationDegree()
 {
-	return D3DXVECTOR3();
+	return D3DXVECTOR3(Math::ToDegree(rotation.x),
+		Math::ToDegree(rotation.y),
+		Math::ToDegree(rotation.z));
 }
 
 D3DXVECTOR2 Animation::TextureSize()
 {
-	return D3DXVECTOR2();
+	if (currentClip < 0)
+		return D3DXVECTOR2(0, 0);
+	return clips[currentClip]->TextureSize();
 }
 
-void Animation::Update(D3DXMATRIX & V, D3DXVECTOR3 & P)
+void Animation::Update(D3DXMATRIX &V, D3DXMATRIX &P)
 {
+	if (currentClip < 0)
+		return;
+
+	clips[currentClip]->Position(position);
+	clips[currentClip]->Scale(scale);
+	clips[currentClip]->Rotation(rotation);
+
+	clips[currentClip]->Update(V, P);
 }
 
 void Animation::Render()
 {
+	if (currentClip < 0)
+		return;
+	clips[currentClip]->Render();
 }

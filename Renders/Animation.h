@@ -29,7 +29,7 @@ public:
 
 	D3DXVECTOR2 TextureSize();
 
-	void Update(D3DXMATRIX& V, D3DXVECTOR3& P);
+	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 private:
 	D3DXVECTOR2 position;

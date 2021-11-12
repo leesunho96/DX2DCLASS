@@ -1,11 +1,10 @@
 #include "stdafx.h"
+#include "Clip.h"
 
+//--------------------------------------------------------------------------------------
+//Frame
+//--------------------------------------------------------------------------------------
 
-
-//
-//--------------------------------------
-//------------Frame---------------------
-//--------------------------------------
 Frame::Frame(Sprite * sprite, float time)
 {
 	Image = sprite;
@@ -17,21 +16,23 @@ Frame::~Frame()
 	SAFE_DELETE(Image);
 }
 
-Clip::Clip(PlayMode playmode, float speed)
-	:mode(playmode), speed(speed),
-	length(0), playTime(0), bPlay(false), currentFrame(0),
-	position(0, 0), scale(1, 1), rotation(0, 0, 0)
+//--------------------------------------------------------------------------------------
+//Clip
+//--------------------------------------------------------------------------------------
+
+
+Clip::Clip(PlayMode mode, float speed)
+	:mode(mode), speed(speed)
+	, length(0), playTime(0), bPlay(false), currentFrame(0)
+	, position(0, 0), scale(1, 1), rotation(0, 0, 0)
 {
 
 }
 
 Clip::~Clip()
 {
-	for (auto a : frames)
-	{
-		SAFE_DELETE(a);
-	}
-
+	for (Frame* frame : frames)
+		SAFE_DELETE(frame);
 }
 
 void Clip::Position(float x, float y)
@@ -39,7 +40,7 @@ void Clip::Position(float x, float y)
 	Position(D3DXVECTOR2(x, y));
 }
 
-void Clip::Position(D3DXVECTOR2 & vec)
+void Clip::Position(D3DXVECTOR2 vec)
 {
 	position = vec;
 }
@@ -49,9 +50,16 @@ void Clip::Scale(float x, float y)
 	Scale(D3DXVECTOR2(x, y));
 }
 
-void Clip::Scale(D3DXVECTOR2 & vec)
+void Clip::Scale(D3DXVECTOR2 vec)
 {
 	scale = vec;
+
+	//for (Frame* frame : frames)
+	//{
+	//	D3DXVECTOR2 scale = frame->Image->Scale();
+
+	//	frame->Image->Scale(scale.x * vec.x, scale.y * vec.y);
+	//}
 }
 
 void Clip::Rotation(float x, float y, float z)
@@ -71,20 +79,26 @@ void Clip::RotationDegree(float x, float y, float z)
 
 void Clip::RotationDegree(D3DXVECTOR3 & vec)
 {
-	Rotation(D3DXVECTOR3(
-		Math::ToRadian(vec.x), Math::ToRadian(vec.y), Math::ToRadian(vec.z)
-	));
+	D3DXVECTOR3 temp;
+
+	temp.x = Math::ToRadian(vec.x);
+	temp.y = Math::ToRadian(vec.y);
+	temp.z = Math::ToRadian(vec.z);
+
+	Rotation(temp);
 }
 
 D3DXVECTOR3 Clip::RotationDegree()
 {
-	return D3DXVECTOR3(
-		Math::ToDegree(rotation.x), 
-		Math::ToDegree(rotation.y), 
-		Math::ToDegree(rotation.z));
+	D3DXVECTOR3 temp = Rotation();
+	temp.x = Math::ToDegree(temp.x);
+	temp.y = Math::ToDegree(temp.y);
+	temp.z = Math::ToDegree(temp.z);
+
+	return temp;
 }
 
-D3DXVECTOR3 Clip::TextureSize()
+D3DXVECTOR2 Clip::TextureSize()
 {
 	return frames[currentFrame]->Image->TextureSize();
 }
@@ -98,6 +112,7 @@ void Clip::Play()
 {
 	playTime = 0.0f;
 	currentFrame = 0;
+
 	bPlay = true;
 }
 
@@ -114,7 +129,6 @@ void Clip::Stop()
 	bPlay = false;
 	currentFrame = 0;
 
-
 }
 
 void Clip::Update(D3DXMATRIX & V, D3DXMATRIX & P)
@@ -122,43 +136,40 @@ void Clip::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	Frame* frame = frames[currentFrame];
 	frame->Image->Update(V, P);
 
-	if (bPlay == false)
-		return;
-
-
-	float time = frame->Time * speed;
-	playTime += Timer->Elapsed();
-
-	if (playTime < time)
-		return;
-
-
-	switch (mode)
+	if (bPlay == true)
 	{
-		case PlayMode::End:
-		{
-			currentFrame++;
+		float time = frame->Time * speed;
+		playTime += Timer->Elapsed();
 
-			if (currentFrame >= frames.size())
-				Stop();
-		}
-		break;
-
-		case PlayMode::Loop:
+		if (playTime >= time)
 		{
-			currentFrame++;
-			currentFrame %= frames.size();
-		}
-		break;
+			switch (mode)
+			{
+				case PlayMode::End:
+				{
+					currentFrame++;
 
-		case PlayMode::Reverse:
-		{
-			currentFrame--;
-			currentFrame %= frames.size();
+					if (currentFrame >= frames.size())
+						Stop();
+				}
+				break;
+
+				case PlayMode::Loop:
+				{
+					currentFrame++;
+					currentFrame %= frames.size();
+				}
+				break;
+			}
+
+			playTime = 0.0f;
 		}
 	}
 
-	playTime = 0.0f;
+	frames[currentFrame]->Image->Position(position);
+	frames[currentFrame]->Image->Scale(scale);
+	frames[currentFrame]->Image->Rotation(rotation);
+
 }
 
 void Clip::Render()
