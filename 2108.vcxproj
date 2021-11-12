@@ -148,12 +148,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Draws\Clip.cpp" />
-    <ClCompile Include="Draws\Rect.cpp" />
-    <ClCompile Include="Draws\Sprite.cpp" />
     <ClCompile Include="Objects\Background.cpp" />
     <ClCompile Include="Objects\Bullet.cpp" />
+    <ClCompile Include="Renders\Clip.cpp" />
+    <ClCompile Include="Renders\Rect.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
+    <ClCompile Include="Renders\Sprite.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -168,12 +168,12 @@
     <ClCompile Include="Utilities\Xml.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Draws\Clip.h" />
-    <ClInclude Include="Draws\Rect.h" />
-    <ClInclude Include="Draws\Sprite.h" />
     <ClInclude Include="Objects\Background.h" />
     <ClInclude Include="Objects\Bullet.h" />
+    <ClInclude Include="Renders\Clip.h" />
+    <ClInclude Include="Renders\Rect.h" />
     <ClInclude Include="Renders\Shader.h" />
+    <ClInclude Include="Renders\Sprite.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Systems\Device.h" />
     <ClInclude Include="Systems\Keyboard.h" />

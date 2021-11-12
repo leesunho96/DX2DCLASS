@@ -24,17 +24,11 @@
     <ClCompile Include="Utilities\Xml.cpp">
       <Filter>Utilites</Filter>
     </ClCompile>
-    <ClCompile Include="Draws\Rect.cpp">
-      <Filter>Draws</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\Time.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="Systems\Device.cpp">
       <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Draws\Sprite.cpp">
-      <Filter>Draws</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Background.cpp">
       <Filter>Objects</Filter>
@@ -42,8 +36,14 @@
     <ClCompile Include="Objects\Bullet.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Draws\Clip.cpp">
-      <Filter>Draws</Filter>
+    <ClCompile Include="Renders\Clip.cpp">
+      <Filter>Renders</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\Rect.cpp">
+      <Filter>Renders</Filter>
+    </ClCompile>
+    <ClCompile Include="Renders\Sprite.cpp">
+      <Filter>Renders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,17 +69,11 @@
     <ClInclude Include="Utilities\Xml.h">
       <Filter>Utilites</Filter>
     </ClInclude>
-    <ClInclude Include="Draws\Rect.h">
-      <Filter>Draws</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\Time.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Systems\Device.h">
       <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Draws\Sprite.h">
-      <Filter>Draws</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Background.h">
       <Filter>Objects</Filter>
@@ -87,8 +81,14 @@
     <ClInclude Include="Objects\Bullet.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Draws\Clip.h">
-      <Filter>Draws</Filter>
+    <ClInclude Include="Renders\Clip.h">
+      <Filter>Renders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\Rect.h">
+      <Filter>Renders</Filter>
+    </ClInclude>
+    <ClInclude Include="Renders\Sprite.h">
+      <Filter>Renders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -100,9 +100,6 @@
     </Filter>
     <Filter Include="Utilites">
       <UniqueIdentifier>{1c4c5cc0-10b5-4ca5-aaf0-473f8a1ed0cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Draws">
-      <UniqueIdentifier>{739e5832-5091-48db-904d-74102572a068}</UniqueIdentifier>
     </Filter>
     <Filter Include="Objects">
       <UniqueIdentifier>{52ad0b39-6828-4e4d-97de-bad8c3602b73}</UniqueIdentifier>

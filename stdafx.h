@@ -34,9 +34,9 @@ using namespace std;
 #include "Systems/Keyboard.h"
 #include "Systems/Time.h"
 
-#include "Draws/Rect.h"
-#include "Draws/Sprite.h"
-#include "Draws/Clip.h"
+#include "Renders/Rect.h"
+#include "Renders/Sprite.h"
+#include "Renders/Clip.h"
 
 #include "Utilities/Math.h"
 #include "Utilities/Path.h"
