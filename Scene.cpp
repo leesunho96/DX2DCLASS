@@ -109,6 +109,8 @@ void KeyInput()
 	{
 		player->SetCrouch();
 	}
+
+
 }
 
 // update 시 호출, 각 벡터 내 객체들에 V, P 세팅
@@ -204,7 +206,7 @@ void Render()
 		ImGui::Text("Death Count : %d", player->deathCount);
 		ImGui::Text("Score : %d", score);
 		ImGui::Text("MaxScore : %d", maxScore);
-		ImGui::Text("Player Y : %d", player->Position().y);
+	//	ImGui::Text("Player Y : %d", player->Position().y);
 		if (!bIsGameOn)
 		{
 			ImGui::Text("Game Over");

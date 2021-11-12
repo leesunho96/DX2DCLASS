@@ -173,6 +173,11 @@ void Player::SetCrouch()
 	PresentClip = Crouch;
 }
 
+void Player::ResetCrouch()
+{
+	PresentClip = Walk;
+}
+
 
 bool Player::CollisionTest(vector<Enemy*>& input)
 {

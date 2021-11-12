@@ -22,6 +22,7 @@ public:
 	void StartJump();
 	void EndJump();
 	void SetCrouch();
+	void ResetCrouch();
 
 	bool CollisionTest(vector<Enemy*>& input);
 private:
