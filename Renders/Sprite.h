@@ -42,8 +42,18 @@ public:
 	// 객체의 크기 반환 메소드
 	D3DXVECTOR2 Scale();
 
+	void Rotation(float x, float y, float z);
+	void Rotation(D3DXVECTOR3& vec);
+	D3DXVECTOR3 Rotation() { return rotation; };
+
+
+	void RotationDegree(float x, float y, float z);
+	void RotationDegree(D3DXVECTOR3& vec);
+	D3DXVECTOR3 RotationDegree();
 	// 객체의 텍스쳐 크기 반환 메소드.
 	D3DXVECTOR2 TextureSize() { return textureSize; };
+
+
 private:
 	// 생성자에서 공통으로 사용 될 초기화 메소드. 해당 메소드에 적절한 값 입력하여
 	// 생성자 구현
@@ -68,6 +78,7 @@ private:
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;
 	D3DXVECTOR2 textureSize;
+	D3DXVECTOR3 rotation;
 
 	ID3D11ShaderResourceView* srv;
 public:

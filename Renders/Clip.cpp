@@ -19,8 +19,10 @@ Frame::~Frame()
 
 Clip::Clip(PlayMode playmode, float speed)
 	:mode(playmode), speed(speed),
-	length(0), playTime(0), bPlay(false), currentFrame(0)
+	length(0), playTime(0), bPlay(false), currentFrame(0),
+	position(0, 0), scale(1, 1), rotation(0, 0, 0)
 {
+
 }
 
 Clip::~Clip()
@@ -39,10 +41,7 @@ void Clip::Position(float x, float y)
 
 void Clip::Position(D3DXVECTOR2 & vec)
 {
-	for (auto a : frames)
-	{
-		a->Image->Position(vec);
-	}
+	position = vec;
 }
 
 void Clip::Scale(float x, float y)
@@ -52,11 +51,42 @@ void Clip::Scale(float x, float y)
 
 void Clip::Scale(D3DXVECTOR2 & vec)
 {
-	for (auto a : frames)
-	{
-		D3DXVECTOR2 scale = a->Image->Scale();
-		a->Image->Scale(scale.x * vec.x, scale.y * vec.y);
-	}
+	scale = vec;
+}
+
+void Clip::Rotation(float x, float y, float z)
+{
+	Rotation(D3DXVECTOR3(x, y, z));
+}
+
+void Clip::Rotation(D3DXVECTOR3 & vec)
+{
+	rotation = vec;
+}
+
+void Clip::RotationDegree(float x, float y, float z)
+{
+	RotationDegree(D3DXVECTOR3(x, y, z));
+}
+
+void Clip::RotationDegree(D3DXVECTOR3 & vec)
+{
+	Rotation(D3DXVECTOR3(
+		Math::ToRadian(vec.x), Math::ToRadian(vec.y), Math::ToRadian(vec.z)
+	));
+}
+
+D3DXVECTOR3 Clip::RotationDegree()
+{
+	return D3DXVECTOR3(
+		Math::ToDegree(rotation.x), 
+		Math::ToDegree(rotation.y), 
+		Math::ToDegree(rotation.z));
+}
+
+D3DXVECTOR3 Clip::TextureSize()
+{
+	return frames[currentFrame]->Image->TextureSize();
 }
 
 void Clip::AddFrame(Sprite * sprite, float time)

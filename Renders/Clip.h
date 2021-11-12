@@ -22,9 +22,24 @@ public:
 
 	void Position(float x, float y);
 	void Position(D3DXVECTOR2 &vec);
+	D3DXVECTOR2 Position() { return position; };
+
 
 	void Scale(float x, float y);
 	void Scale(D3DXVECTOR2& vec);
+	D3DXVECTOR2 Scale() { return scale; };
+
+	void Rotation(float x, float y, float z);
+	void Rotation(D3DXVECTOR3& vec);
+	D3DXVECTOR3 Rotation() { return rotation; };
+
+
+	void RotationDegree(float x, float y, float z);
+	void RotationDegree(D3DXVECTOR3& vec);
+	D3DXVECTOR3 RotationDegree();
+	// 객체의 텍스쳐 크기 반환 메소드.
+
+	D3DXVECTOR3 TextureSize();
 
 	void AddFrame(Sprite* sprite, float time);
 
@@ -37,6 +52,11 @@ public:
 private:
 	float length; // 시간의 합
 	float speed; // 플레이 될 속도
+
+	D3DXVECTOR2 position;
+	D3DXVECTOR2 scale;
+	D3DXVECTOR3 rotation;
+
 
 	bool bPlay; // 플레이중인지 아닌지
 	UINT currentFrame; // 현재 프레임

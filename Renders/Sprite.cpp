@@ -86,6 +86,8 @@ void Sprite::Initialize(wstring spriteFile,
 	// 실제 출력할 크기.
 	scale = D3DXVECTOR2(sizeX, sizeY);
 
+
+	textureSize = D3DXVECTOR2((float)info.Width, (float)info.Height);
 	UpdateWorld();
 
 	// vertexBUffer생성.
@@ -171,14 +173,46 @@ D3DXVECTOR2 Sprite::Scale()
 	return scale;
 }
 
+void Sprite::Rotation(float x, float y, float z)
+{
+	Rotation(D3DXVECTOR3(x, y, z));
+}
+
+void Sprite::Rotation(D3DXVECTOR3 & vec)
+{
+	this->rotation = vec;
+}
+
+void Sprite::RotationDegree(float x, float y, float z)
+{
+	RotationDegree(D3DXVECTOR3(x, y, z));
+}
+
+void Sprite::RotationDegree(D3DXVECTOR3 & vec)
+{
+	D3DXVECTOR3 temp;
+
+	temp.x = Math::ToRadian(vec.x);
+	temp.y = Math::ToRadian(vec.y);
+	temp.z = Math::ToRadian(vec.z);
+
+	rotation = temp;
+}
+
+D3DXVECTOR3 Sprite::RotationDegree()
+{
+	return D3DXVECTOR3();
+}
+
 void Sprite::UpdateWorld()
 {
-	D3DXMATRIX W, S, T;
+	D3DXMATRIX W, S,R,  T;
 
 	D3DXMatrixScaling(&S, scale.x, scale.y, 1);
+	D3DXMatrixRotationY(&R, rotation.y);
 	D3DXMatrixTranslation(&T, position.x, position.y, 0);
 
-	W = S * T;
+	W = S * R * T;
 	// W = SRT // Scale(크기) Rotation(회전) Translation(평행이동)
 	shader->AsMatrix("World")->SetMatrix(W);
 }
