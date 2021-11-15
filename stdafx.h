@@ -29,14 +29,14 @@ using namespace std;
 // imgui : Image G
 #pragma comment(lib, "imgui.lib")
 
-
-#include "Renders/Shader.h"
 #include "Systems/Keyboard.h"
 #include "Systems/Time.h"
 
+#include "Renders/Shader.h"
 #include "Renders/Rect.h"
 #include "Renders/Sprite.h"
 #include "Renders/Clip.h"
+#include "Renders/Animation.h"
 
 #include "Utilities/Math.h"
 #include "Utilities/Path.h"

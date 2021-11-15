@@ -103,6 +103,17 @@ D3DXVECTOR2 Animation::TextureSize()
 	return clips[currentClip]->TextureSize();
 }
 
+RECT Animation::GetWorldLocation()
+{
+	RECT temp;
+	temp.left = position.x - clips[currentClip]->TextureSize().x * 0.5f;
+	temp.top = position.y - clips[currentClip]->TextureSize().y * 0.5f;
+	temp.right = position.x + clips[currentClip]->TextureSize().x * 0.5f;
+	temp.bottom = position.y + clips[currentClip]->TextureSize().y * 0.5f;
+
+	return temp;
+}
+
 void Animation::Update(D3DXMATRIX &V, D3DXMATRIX &P)
 {
 	if (currentClip < 0)
@@ -111,7 +122,6 @@ void Animation::Update(D3DXMATRIX &V, D3DXMATRIX &P)
 	clips[currentClip]->Position(position);
 	clips[currentClip]->Scale(scale);
 	clips[currentClip]->Rotation(rotation);
-
 	clips[currentClip]->Update(V, P);
 }
 

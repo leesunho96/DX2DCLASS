@@ -10,16 +10,10 @@ Background::Background(wstring shaderFile)
 	textureFile = L"../_Textures/Mario/Cloud.png";
 	cloud[0] = new Sprite(textureFile, shaderFile, 126, 128);
 	cloud[1] = new Sprite(textureFile, shaderFile, 144, 0, 336, 128);
-
-
-
 	textureFile = L"../_Textures/Mario/Bush.png";
 	bush[0] = new Sprite(textureFile, shaderFile);
-
 	textureFile = L"../_Textures/Mario/Bush2.png";
 	bush[1] = new Sprite(textureFile, shaderFile);
-
-
 	textureFile = L"../_Textures/Mario/Tile.png";
 	tile[0] = new Sprite(textureFile, shaderFile);
 	tile[1] = new Sprite(textureFile, shaderFile, 0, 66, 0, 0);
@@ -40,13 +34,20 @@ Background::~Background()
 void Background::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	cloud[0]->Update(V, P);
+	cloud[0]->Rotation(0, 0, 0);
 	cloud[1]->Update(V, P);
+	cloud[1]->Rotation(0, 0, 0);
 
 	bush[0]->Update(V, P);
+	bush[0]->Rotation(0, 0, 0);
 	bush[1]->Update(V, P);
+	bush[1]->Rotation(0, 0, 0);
+
 
 	tile[0]->Update(V, P);
+	tile[0]->Rotation(0, 0, 0);
 	tile[1]->Update(V, P);
+	tile[1]->Rotation(0, 0, 0);
 }
 
 void Background::Render()
@@ -81,9 +82,11 @@ void Background::Render()
 
 	for (int i = 0; i < 7; i++)
 	{
+		tile[0]->Rotation(0, 0, 0);
 		tile[0]->Position((float)i * tileWidth, 45);
 		tile[0]->Render();
 
+		tile[1]->Rotation(0, 0, 0);
 		tile[1]->Position((float)i * tileWidth2, 25);
 		tile[1]->Render();
 	}
