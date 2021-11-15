@@ -80,16 +80,27 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	bool bMove = false;
 	RECT temp;
 	velocity += gravity;
-	if (IntersectRect(&temp, &rect, &animation->GetWorldLocation()))
+
+	if (isOverlapBox())
 	{
-		position.y = rect.bottom;
-		bOnGround = false;
-		bOnSecondFloor = true;
-		bIsJumpable = true;
-		velocity = 0.0f;
+		if (isOverBox(position.y))
+		{
+			position.y = rect.bottom;
+			bOnGround = true;
+			bOnSecondFloor = true;
+			bIsJumpable = true;
+			velocity = 0.0f;
+		}
+		else if (isUnderBox(position.y))
+		{
+			bOnGround = false;
+			bOnSecondFloor = false;
+			bIsJumpable = false;
+			velocity = -velocity;
+		}
 	}
 	else
-	{	
+	{
 		if (bOnSecondFloor)
 		{
 			bOnSecondFloor = false;
@@ -97,13 +108,8 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			bOnGround = false;
 			velocity = -0.1f;
 		}
-		//if (bIsJumpable)
-		//{
-		//	bOnSecondFloor = false;
-		//	bIsJumpable = false;
-		//	bOnGround = false;
-		//}
 	}
+
 	if (Key->Press('A'))
 	{
 		bMove = true;
@@ -129,17 +135,13 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		position.y = animation->TextureSize().y / 2 + 20;
 		velocity = 0.0f;
 		bOnGround = true;
+		bOnSecondFloor = false;
 		bIsJumpable = true;
 	}
-
-
 	if (!bOnGround)
 	{
 		position.y += velocity;
 	}
-
-
-
 	animation->SetPosition(position);
 
 	int setClip;
@@ -188,4 +190,20 @@ void Player::StartJump()
 		bOnSecondFloor = false;
 		velocity = 0.8f;
 	}
+}
+
+bool Player::isOverlapBox()
+{
+	RECT temp;
+	return IntersectRect(&temp, &rect, &animation->GetWorldLocation());
+}
+
+bool Player::isOverBox(float fPositonY)
+{
+	return fPositonY >= rect.bottom ? true : false;
+}
+
+bool Player::isUnderBox(float fPositionY)
+{
+	return fPositionY < rect.bottom ? true : false;
 }

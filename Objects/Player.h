@@ -13,10 +13,16 @@ public:
 private:
 	float moveSpeed;
 	float velocity = 0.0f;
-	float gravity= -0.001f;
+	float gravity = -0.001f;
 	float fBottomY = 50.0f;
 	bool bOnGround = false;
 	bool bOnSecondFloor = false;
 	bool bIsJumpable = false;
+
+	
 	Animation* animation;
+private:
+	bool isOverlapBox();
+	bool isOverBox(float fPositonY);
+	bool isUnderBox(float fPositionY);
 };
