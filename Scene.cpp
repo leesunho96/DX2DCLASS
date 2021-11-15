@@ -12,6 +12,8 @@ void InitScene()
 {
 	bg = new Background(Shaders + L"/008_Sprite.fx");
 	
+
+
 	player = new Player(D3DXVECTOR2(100, 170), D3DXVECTOR2(2.5f, 2.5f));
 	sprite = new Sprite(Textures + L"Mario/Single.png", Shaders + L"009_Sprite.fx");
 	sprite->Position(300, 170);
