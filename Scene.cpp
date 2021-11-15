@@ -2,33 +2,27 @@
 #include "Systems/Device.h"
 #include "Objects/Background.h"
 #include "Objects/Bullet.h"
-
+#include "Objects/Player.h"
 
 Background* bg;
-Clip* clip;
+Player* player;
+Sprite* sprite;
 
 void InitScene()
 {
 	bg = new Background(Shaders + L"/008_Sprite.fx");
-	wstring shaderFile = Shaders + L"/008_Sprite.fx";
-
-	wstring spriteFile = Textures + L"Metalslug.png";
-	clip = new Clip(PlayMode::Loop);
-	clip->AddFrame(new Sprite(spriteFile, shaderFile,
-		4, 2, 34, 40), 
-		0.3f);
-	clip->AddFrame(new Sprite(spriteFile, shaderFile, 
-		35, 2, 64, 40), 0.3f);
-	clip->AddFrame(new Sprite(spriteFile, shaderFile, 64, 2, 94, 40), 0.3f);
-
-	clip->Position(100, 170);
-	clip->Scale(2.5f, 2.5f);
-	clip->Play();
+	
+	player = new Player(D3DXVECTOR2(100, 170), D3DXVECTOR2(2.5f, 2.5f));
+	sprite = new Sprite(Textures + L"Mario/Single.png", Shaders + L"009_Sprite.fx");
+	sprite->Position(300, 170);
+	sprite->Scale(2.5, 2.5);
+	sprite->Rotation(0, 0, 0);
 }
 
 void DestroyScene()
 {
-	SAFE_DELETE(clip);
+	SAFE_DELETE(sprite);
+	SAFE_DELETE(player);
 	SAFE_DELETE(bg);
 }
 
@@ -43,7 +37,10 @@ void Update()
 	//Projection
 	D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width, 0, (float)Height, -1, 1);
 	bg->Update(V, P);
-	clip->Update(V, P);
+	player->Update(V, P);
+	sprite->Rotation(0, sinf(Timer->Running()) * Math::PI, 0);
+	sprite->Update(V, P);
+
 }
 
 void Render()
@@ -52,7 +49,8 @@ void Render()
 	DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	{
 		bg->Render();
-		clip->Render();
+		sprite->Render();
+		player->Render();
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);

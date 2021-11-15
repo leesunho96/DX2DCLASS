@@ -111,7 +111,6 @@ void Animation::Update(D3DXMATRIX &V, D3DXMATRIX &P)
 	clips[currentClip]->Position(position);
 	clips[currentClip]->Scale(scale);
 	clips[currentClip]->Rotation(rotation);
-
 	clips[currentClip]->Update(V, P);
 }
 
