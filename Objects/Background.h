@@ -13,5 +13,5 @@ private:
 	Sprite* cloud[2];
 	Sprite* bush[2];
 	Sprite* tile[2];
-
+	vector<Sprite*> things;
 };

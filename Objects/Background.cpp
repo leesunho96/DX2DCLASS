@@ -8,21 +8,25 @@ Background::Background(wstring shaderFile)
 	//L"../_Textures/Mario/Cloud.png"
 
 	textureFile = L"../_Textures/Mario/Cloud.png";
-	cloud[0] = new Sprite(textureFile, shaderFile, 126, 128);
-	cloud[1] = new Sprite(textureFile, shaderFile, 144, 0, 336, 128);
+	things.push_back(cloud[0] = new Sprite(textureFile, shaderFile, 126, 128));
+	things.push_back(cloud[1] = new Sprite(textureFile, shaderFile, 144, 0, 336, 128));
 
 
 
 	textureFile = L"../_Textures/Mario/Bush.png";
-	bush[0] = new Sprite(textureFile, shaderFile);
+	things.push_back(bush[0] = new Sprite(textureFile, shaderFile));
 
 	textureFile = L"../_Textures/Mario/Bush2.png";
-	bush[1] = new Sprite(textureFile, shaderFile);
+	things.push_back(bush[1] = new Sprite(textureFile, shaderFile));
 
 
 	textureFile = L"../_Textures/Mario/Tile.png";
-	tile[0] = new Sprite(textureFile, shaderFile);
-	tile[1] = new Sprite(textureFile, shaderFile, 0, 66, 0, 0);
+	things.push_back(tile[0] = new Sprite(textureFile, shaderFile));
+	things.push_back(tile[1] = new Sprite(textureFile, shaderFile, 0, 66, 0, 0));
+	for (auto a : things)
+	{
+		a->Rotation(0, 0, 0);
+	}
 }
 
 Background::~Background()
