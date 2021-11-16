@@ -2,7 +2,7 @@
 #include "Objects/Player.h"
 
 Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
-	:moveSpeed(200.0f)
+	:moveSpeed(200.0f), focusoffset(0, -120)
 {
 	animation = new Animation;
 
@@ -45,6 +45,13 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 Player::~Player()
 {
 	SAFE_DELETE(animation);
+}
+
+void Player::Focus(D3DXVECTOR2 * position, D3DXVECTOR2 * size)
+{
+	*position = animation->GetPosition() - focusoffset;
+	(*size) = D3DXVECTOR2(1, 1);
+	
 }
 
 void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)

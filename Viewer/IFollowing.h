@@ -10,8 +10,6 @@ public:
 		D3DXVECTOR2* size
 	) = 0;
 
-
-
 private:
 
 };

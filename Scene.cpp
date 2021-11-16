@@ -4,6 +4,7 @@
 #include "Objects/Bullet.h"
 #include "Objects/Player.h"
 #include "Viewer/Freedom.h"
+#include "Viewer/Following.h"
 
 Player* player;
 Sprite* sprite;
@@ -14,7 +15,8 @@ void InitScene()
 {
 	player = new Player(D3DXVECTOR2(100, 170), D3DXVECTOR2(2.5f, 2.5f));
 	sprite = new Sprite(Textures + L"Stage.png", Shaders + L"009_Sprite.fx");
-	camera = new Freedom(0.00000000001f);
+	//camera = new Freedom();
+	camera = new Following(player);
 }
 
 void DestroyScene()

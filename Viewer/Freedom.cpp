@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Freedom.h"
 
-Freedom::Freedom(float speed)
-{
+Freedom::Freedom(float speed) : speed(speed)
+{	
 }
 
 Freedom::~Freedom()
