@@ -11,7 +11,7 @@ public:
 	virtual void Update() override;
 	void SetPosition(float x, float y);
 	void SetPosition(D3DXVECTOR2& vec);
-
+	void SetSpeed(float speed) { this->speed = speed; };
 private:
 	void Move(D3DXVECTOR2& translation);
 public:
