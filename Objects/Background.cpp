@@ -1,94 +1,64 @@
 #include "stdafx.h"
 #include "Background.h"
 
-Background::Background(wstring shaderFile)
+Background::Background()
 {
-	wstring textureFile = L"";
+	bgSprite = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx");
+	bgSprite->Position(0, 0);
+	bgSprite->Scale(2.5, 2.5);
+	bgSprite->Rotation(0, 0, 0);
+	SetSpriteScaleRotationPosition(bgSprite, D3DXVECTOR2(0, 0));
+	Sprite* temp;
+	// Ã¹¹ø¤Š ¹Ù´Ú
+	temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx", 
+		0, 210, 1104 ,240);
+	SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(0,240));
+	objects.push_back(temp);
+	// µÎ¹ø¤Š ¹Ù´Ú
+	temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+		1135, 210, 1375, 240);
+	SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1135, 240));
+	objects.push_back(temp);
+	// ¼¼¹ø¤Š ¹Ù´Ú
+	temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+		1424, 210, 2447, 240);
+	SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1424, 240));
+	objects.push_back(temp);
 
-	//L"../_Textures/Mario/Cloud.png"
-
-	textureFile = L"../_Textures/Mario/Cloud.png";
-	things.push_back(cloud[0] = new Sprite(textureFile, shaderFile, 126, 128));
-	things.push_back(cloud[1] = new Sprite(textureFile, shaderFile, 144, 0, 336, 128));
-
-
-
-	textureFile = L"../_Textures/Mario/Bush.png";
-	things.push_back(bush[0] = new Sprite(textureFile, shaderFile));
-
-	textureFile = L"../_Textures/Mario/Bush2.png";
-	things.push_back(bush[1] = new Sprite(textureFile, shaderFile));
-
-
-	textureFile = L"../_Textures/Mario/Tile.png";
-	things.push_back(tile[0] = new Sprite(textureFile, shaderFile));
-	things.push_back(tile[1] = new Sprite(textureFile, shaderFile, 0, 66, 0, 0));
-	for (auto a : things)
-	{
-		a->Rotation(0, 0, 0);
-	}
+	temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+		2480, 210, 3376, 240);
+	SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(2480, 240));
+	objects.push_back(temp);
 }
 
 Background::~Background()
 {
-	SAFE_DELETE(cloud[0]);
-	SAFE_DELETE(cloud[1]);
-
-	SAFE_DELETE(bush[0]);
-	SAFE_DELETE(bush[1]);
-
-	SAFE_DELETE(tile[0]);
-	SAFE_DELETE(tile[1]);
 }
 
-void Background::Update(D3DXMATRIX & V, D3DXMATRIX & P)
+void Background::Update(D3DXMATRIX & V, D3DXMATRIX P)
 {
-	cloud[0]->Update(V, P);
-	cloud[1]->Update(V, P);
 
-	bush[0]->Update(V, P);
-	bush[1]->Update(V, P);
-
-	tile[0]->Update(V, P);
-	tile[1]->Update(V, P);
+	bgSprite->Update(V, P);
+	for (auto sObjects : objects )
+	{
+		sObjects->Update(V, P);
+	}
 }
-
 void Background::Render()
 {
-	cloud[0]->Position(200, 420);
-	cloud[0]->Render();
-
-	cloud[0]->Position(40, 420);
-	cloud[0]->Render();
-
-	cloud[1]->Position(500, 420);
-	cloud[1]->Render();
-
-	bush[1]->Position(-50, 170);
-	bush[1]->Render();
-
-	bush[1]->Position(300, 170);
-	bush[1]->Render();
-
-	bush[1]->Position(680, 170);
-	bush[1]->Render();
-
-	bush[0]->Position(100, 128);
-	bush[0]->Render();
-
-	bush[0]->Position(650, 128);
-	bush[0]->Render();
-
-
-	float tileWidth = tile[0]->Scale().x;
-	float tileWidth2 = tile[1]->Scale().x;
-
-	for (int i = 0; i < 7; i++)
+	bgSprite->Render();
+	for (auto sObjects : objects)
 	{
-		tile[0]->Position((float)i * tileWidth, 45);
-		tile[0]->Render();
-
-		tile[1]->Position((float)i * tileWidth2, 25);
-		tile[1]->Render();
+		sObjects->Render();
 	}
+}
+
+void Background::SetSpriteScaleRotationPosition(Sprite * sprite, D3DXVECTOR2 position)
+{
+	D3DXVECTOR2 adjustPosition = position;
+	adjustPosition.x = (position.x + (-(MAPWIDTH * 0.5) + (sprite->TextureSize().x * 0.5))) * 2.5;
+	adjustPosition.y = (position.y + (-(MAPHEIGHT * 0.5) + (sprite->TextureSize().y * 0.5))) * 2.5;
+	sprite->Rotation(0, 0, 0);
+	sprite->Position(adjustPosition);
+	sprite->Scale(2.5f, 2.5f);
 }

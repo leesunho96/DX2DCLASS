@@ -20,6 +20,16 @@ Sprite::Sprite(wstring textureFile, wstring shaderFile, float startX, float star
 	Initialize(textureFile, shaderFile, startX, startY, endX, endY);
 }
 
+RECT Sprite::GetWorldLocation()
+{
+	RECT temp;
+	temp.left = position.x - textureSize.x * 0.5f;
+	temp.top = position.y - textureSize.y * 0.5f;
+	temp.right = position.x + textureSize.x * 0.5f;
+	temp.left = position.y + textureSize.y + 0.5f;
+	return temp;
+}
+
 void Sprite::Initialize(wstring spriteFile, wstring shaderFile, float startX, float startY, float endX, float endY)
 {
 	int a = 10;

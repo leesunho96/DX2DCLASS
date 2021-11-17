@@ -42,6 +42,8 @@ using namespace std;
 #include "Utilities/Path.h"
 #include "Utilities/String.h"
 
+#define MAPWIDTH 3376
+#define MAPHEIGHT 480
 
 #define SAFE_RELEASE(p){ if(p){ (p)->Release(); (p) = NULL; } }
 #define SAFE_DELETE(p){ if(p){ delete (p); (p) = NULL; } }

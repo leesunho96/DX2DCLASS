@@ -57,6 +57,9 @@
     <ClCompile Include="Viewer\Following.cpp">
       <Filter>Viewer</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Background.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -116,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="Viewer\Following.h">
       <Filter>Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Background.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

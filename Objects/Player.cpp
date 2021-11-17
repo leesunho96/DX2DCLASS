@@ -1,39 +1,44 @@
 #include "stdafx.h"
 #include "Objects/Player.h"
+#include "Objects/Background.h"
+
+extern Background* bg;
 
 Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
-	:moveSpeed(200.0f), focusoffset(0, -120)
+	:moveSpeed(200.0f), focusoffset(0, -215)
 {
 	animation = new Animation;
 
-	wstring spriteFile = Textures + L"Metalslug.png";
+	wstring spriteFile = Textures + L"/Mario/All.png";
 	wstring shaderFile = Shaders + L"009_Sprite.fx";
 
 	Clip* clip;
 	//Idle
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 4, 2, 34, 40), 0.3f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 35, 2, 64, 40), 0.3f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 64, 2, 94, 40), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 9,   254, 51,  326), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 73,  254, 115, 326), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 137, 254, 179, 326), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 199, 254, 241, 326), 0.3f);
 		animation->AddClip(clip);
 	}
 
 	//Run
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 33, 600, 64, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 65, 600, 96, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 97, 600, 124, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 125, 600, 154, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 158, 600, 188, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 191, 600, 222, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 224, 599, 258, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 259, 600, 294, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 295, 600, 326, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 329, 600, 360, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 362, 600, 393, 640), 0.1f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 9,   2, 51,  82), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 73,  2, 115, 82), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 137, 2, 179, 82), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 199, 2, 241, 82), 0.3f);
+		animation->AddClip(clip);
+	}
+	// Jump
+	{
+		clip = new Clip(PlayMode::Loop);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 9,   87, 51,  156), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 73,  87, 115, 156), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 137, 87, 179, 156), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 199, 87, 241, 156), 0.3f);
 		animation->AddClip(clip);
 	}
 
@@ -56,25 +61,56 @@ void Player::Focus(D3DXVECTOR2 * position, D3DXVECTOR2 * size)
 
 void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-	D3DXVECTOR2 position = animation->GetPosition();
-
+	position = animation->GetPosition();
 	bool bMove = false;
-	if (Key->Press('A'))
-	{
-		bMove = true;
-		position.x -= moveSpeed * Timer->Elapsed();
-		animation->SetRotationDegree(0, 180, 0);
-	}
-	else if (Key->Press('D'))
-	{
-		bMove = true;
-		position.x += moveSpeed * Timer->Elapsed();
-		animation->SetRotationDegree(0, 0, 0);
-	}
 
+	velocity += gravity;
+	// 키 입력 받은 후, 그에 따른 position 좌표 처리, 움직이는지 아닌지 bMove 변수 처리.
+	KeyInput(position, bMove);
+
+
+	// animation texturesize = 42, 72
+
+	if ((position.y < animation->TextureSize().y / 2 + 50) && !bOnGround)
+	{
+		position.y = animation->TextureSize().y / 2 + 50;
+		velocity = 0.0f;
+		bOnGround = true;
+		bOnSecondFloor = false;
+		bIsJumpable = true;
+	}
+	if (!bOnGround)
+	{
+		position.y += velocity;
+	}
 	animation->SetPosition(position);
-	animation->Play(bMove ? 1 : 0);
 
+	int setClip;
+
+	if (bMove)
+	{
+		if (bOnGround || bOnSecondFloor)
+		{
+			setClip = 1;
+		}
+		else
+		{
+			setClip = 2;
+		}
+	}
+	else
+	{
+		if (bOnGround || bOnSecondFloor)
+		{
+			setClip = 0;
+		}
+		else
+		{
+			setClip = 2;
+		}
+	}
+
+	animation->Play(setClip);
 	animation->Update(V, P);
 
 }
@@ -82,7 +118,61 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 void Player::Render()
 {
 	ImGui::SliderFloat("Move Speed", &moveSpeed, 50, 400);
-
+	ImGui::SliderFloat("Character's X Pos", &position.x, -4000, 4000);
 	animation->Render();
 
 }
+
+void Player::StartJump()
+{
+	if (bIsJumpable)
+	{
+		bOnGround = false;
+		bOnSecondFloor = false;
+		velocity = 0.1f;
+	}
+}
+
+void Player::KeyInput(D3DXVECTOR2& position, bool& bMove)
+{
+	if (Key->Press('A'))
+	{
+		bMove = true;
+		position.x -= moveSpeed * Timer->Elapsed();
+		if (position.x < -4200.0f + animation->TextureSize().x / 2)
+		{
+			position.x = -4200.0f + animation->TextureSize().x / 2;
+		}
+		animation->SetRotationDegree(0, 180, 0);
+	}
+	else if (Key->Press('D'))
+	{
+		bMove = true;
+		position.x += moveSpeed * Timer->Elapsed();
+		if (position.x > +4200.0f - animation->TextureSize().x / 2)
+		{
+			position.x = +4200.0f - animation->TextureSize().x / 2;
+		}
+		animation->SetRotationDegree(0, 0, 0);
+	}
+
+	if (Key->Press(VK_SPACE))
+	{
+		StartJump();
+	}
+}
+
+//bool Player::isOverlapBox()
+//{
+//
+//}
+
+//bool Player::isOverBox(float fPositonY)
+//{
+//	return fPositonY >= rect.bottom ? true : false;
+//}
+//
+//bool Player::isUnderBox(float fPositionY)
+//{
+//	return fPositionY < rect.bottom ? true : false;
+//}

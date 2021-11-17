@@ -20,6 +20,6 @@ void Camera::Update()
 
 void Camera::Render()
 {
-	ImGui::SliderFloat("position X", &position.x, -1500, 1500);
-	ImGui::SliderFloat("position Y", &position.y, -400, 400);
+	ImGui::SliderFloat("position X", &position.x, -10000, 10000);
+	ImGui::SliderFloat("position Y", &position.y, -10000, 10000);
 }

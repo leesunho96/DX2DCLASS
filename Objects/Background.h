@@ -1,17 +1,18 @@
 #pragma once
-
-class Background 
+class Background
 {
 public:
-	Background(wstring shaderFile);
+	Background();
 	~Background();
 
-	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
+
+	void Update(D3DXMATRIX& V, D3DXMATRIX P);
 	void Render();
 
+	vector<Sprite*>& GetObjects() { return objects; };
 private:
-	Sprite* cloud[2];
-	Sprite* bush[2];
-	Sprite* tile[2];
-	vector<Sprite*> things;
+	void SetSpriteScaleRotationPosition(Sprite* sprite, D3DXVECTOR2 position);
+	vector<Sprite*> objects;
+	Sprite* bgSprite;
 };
+

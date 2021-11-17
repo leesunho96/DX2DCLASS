@@ -30,6 +30,8 @@ public:
 
 	D3DXVECTOR2 TextureSize() { return textureSize; }
 
+	RECT GetWorldLocation();
+
 private:
 	void Initialize(wstring spriteFile, wstring shaderFile, float startX, float startY, float endX, float endY);
 	void UpdateWorld();
