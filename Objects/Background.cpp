@@ -29,6 +29,8 @@ Background::Background()
 		2480, 210, 3376, 240);
 	SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(2480, 240));
 	objects.push_back(temp);
+
+
 }
 
 Background::~Background()

@@ -19,13 +19,13 @@ private:
 	float gravity = -0.0001f;
 	float fBottomY = 50.0f;
 	bool bOnGround = false;
-	bool bOnSecondFloor = false;
 	bool bIsJumpable = false;
 	D3DXVECTOR2 position;
 	Animation* animation;
 private:
 	void KeyInput(D3DXVECTOR2& position, bool& bMove);
 	void CheckPosition(D3DXVECTOR2& position);
+	void EndJump();
 	//bool isOverlapBox();
 	//bool isOverBox(float fPositonY);
 	//bool isUnderBox(float fPositionY);

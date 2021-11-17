@@ -47,7 +47,7 @@ private:
 	D3DXVECTOR2 scale;
 	D3DXVECTOR3 rotation;
 	D3DXVECTOR2 textureSize;
-
+	RECT WorldPosition;
 	ID3D11ShaderResourceView* srv;
 
 private:

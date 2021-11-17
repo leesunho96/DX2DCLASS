@@ -63,33 +63,52 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	position = animation->GetPosition();
 	bool bMove = false;
+	D3DXVECTOR2 tempPos = position;
+	RECT temp;
+	RECT PlayerLocation;
+	{
+		PlayerLocation.left   = tempPos.x - animation->TextureSize().x * 0.5f;
+		PlayerLocation.top    = tempPos.y - animation->TextureSize().y * 0.5f;
+		PlayerLocation.right  = tempPos.x + animation->TextureSize().x * 0.5f;
+		PlayerLocation.bottom = tempPos.y + animation->TextureSize().y * 0.5f; 
+	}
+
+	bool isoverlap = false;
+	for (int i = 0; i < bg->GetObjects().size(); i++)
+	{
+		RECT objectRect = bg->GetObjects()[i]->GetWorldLocation();
+		if (IntersectRect(&temp, &objectRect, &PlayerLocation))
+		{
+			bOnGround = true;
+			bIsJumpable = true;
+			position.y = animation->GetPosition().y;
+			isoverlap = true;
+			break;
+		}
+	}
+	if (!isoverlap)
+	{
+		bOnGround = false;
+	}
+
+
 
 	velocity += gravity;
 	// 키 입력 받은 후, 그에 따른 position 좌표 처리, 움직이는지 아닌지 bMove 변수 처리.
 	KeyInput(position, bMove);
-
-
-	// animation texturesize = 42, 72
-
-	if ((position.y < animation->TextureSize().y / 2 + 50) && !bOnGround)
-	{
-		position.y = animation->TextureSize().y / 2 + 50;
-		velocity = 0.0f;
-		bOnGround = true;
-		bOnSecondFloor = false;
-		bIsJumpable = true;
-	}
+	
 	if (!bOnGround)
 	{
 		position.y += velocity;
 	}
-	animation->SetPosition(position);
+	// 현재 충돌용 RECT
+
 
 	int setClip;
 
 	if (bMove)
 	{
-		if (bOnGround || bOnSecondFloor)
+		if (bOnGround)
 		{
 			setClip = 1;
 		}
@@ -100,7 +119,7 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	}
 	else
 	{
-		if (bOnGround || bOnSecondFloor)
+		if (bOnGround)
 		{
 			setClip = 0;
 		}
@@ -110,6 +129,12 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		}
 	}
 
+	if (position.y < -1000)
+	{
+		position.x = -4000.0f;
+		position.y = 500.0f;
+	}
+	animation->SetPosition(position);
 	animation->Play(setClip);
 	animation->Update(V, P);
 
@@ -119,6 +144,7 @@ void Player::Render()
 {
 	ImGui::SliderFloat("Move Speed", &moveSpeed, 50, 400);
 	ImGui::SliderFloat("Character's X Pos", &position.x, -4000, 4000);
+	ImGui::SliderFloat("Character's Y Pos", &position.y, -4000, 4000);
 	animation->Render();
 
 }
@@ -127,14 +153,16 @@ void Player::StartJump()
 {
 	if (bIsJumpable)
 	{
+		position.y += 5.0f;
 		bOnGround = false;
-		bOnSecondFloor = false;
-		velocity = 0.1f;
+		bIsJumpable = false;
+		velocity = 0.2f;
 	}
 }
 
 void Player::KeyInput(D3DXVECTOR2& position, bool& bMove)
 {
+	D3DXVECTOR2 tempPosition = position;
 	if (Key->Press('A'))
 	{
 		bMove = true;
@@ -145,7 +173,7 @@ void Player::KeyInput(D3DXVECTOR2& position, bool& bMove)
 		}
 		animation->SetRotationDegree(0, 180, 0);
 	}
-	else if (Key->Press('D'))
+	if (Key->Press('D'))
 	{
 		bMove = true;
 		position.x += moveSpeed * Timer->Elapsed();
@@ -160,6 +188,19 @@ void Player::KeyInput(D3DXVECTOR2& position, bool& bMove)
 	{
 		StartJump();
 	}
+}
+
+void Player::CheckPosition(D3DXVECTOR2 & position)
+{
+
+}
+
+void Player::EndJump()
+{
+	bOnGround = true;
+	bIsJumpable = true;
+	velocity = 0.0f;
+
 }
 
 //bool Player::isOverlapBox()

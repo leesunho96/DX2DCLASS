@@ -22,11 +22,12 @@ Sprite::Sprite(wstring textureFile, wstring shaderFile, float startX, float star
 
 RECT Sprite::GetWorldLocation()
 {
-	RECT temp;
-	temp.left = position.x - textureSize.x * 0.5f;
-	temp.top = position.y - textureSize.y * 0.5f;
-	temp.right = position.x + textureSize.x * 0.5f;
-	temp.left = position.y + textureSize.y + 0.5f;
+	RECT temp{ 
+		position.x - (textureSize.x * 0.5f)* Scale().x,
+		position.y - (textureSize.y * 0.5f)* Scale().y,
+		position.x + (textureSize.x * 0.5f)* Scale().x,
+		position.y + (textureSize.y * 0.5f)* Scale().y
+	};
 	return temp;
 }
 

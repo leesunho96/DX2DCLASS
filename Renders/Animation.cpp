@@ -44,7 +44,7 @@ void Animation::SetPosition(float x, float y)
 
 void Animation::SetPosition(D3DXVECTOR2 & vec)
 {
-	for (auto a : clips )
+	for (auto a : clips)
 	{
 		a->Position(vec);
 	}
@@ -101,6 +101,17 @@ D3DXVECTOR2 Animation::TextureSize()
 	if (currentClip < 0)
 		return D3DXVECTOR2(0, 0);
 	return clips[currentClip]->TextureSize();
+}
+
+RECT Animation::GetWorldLocation()
+{
+	RECT temp;
+	temp.left = position.x - clips[currentClip]->TextureSize().x * 0.5f;
+	temp.top = position.y - clips[currentClip]->TextureSize().y * 0.5f;
+	temp.right = position.x + clips[currentClip]->TextureSize().x * 0.5f;
+	temp.bottom = position.y + clips[currentClip]->TextureSize().y * 0.5f;
+
+	return temp;
 }
 
 void Animation::Update(D3DXMATRIX &V, D3DXMATRIX &P)

@@ -29,6 +29,8 @@ public:
 
 	D3DXVECTOR2 TextureSize();
 
+	RECT GetWorldLocation();
+
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 private:

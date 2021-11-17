@@ -47,6 +47,10 @@ public:
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 
+	RECT GetWorldLocation() {
+		return frames[currentFrame]->Image->GetWorldLocation();
+	}
+
 private:
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;
