@@ -294,7 +294,86 @@ Background::Background()
 		Pipes.push_back(temp);
 		temppos2 += 15.0f;
 		temppos3 -= 15.0f;
+	}
 
+	// 공중 박스들.
+	{
+		//1
+		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+			320, 145, 335, 160);
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(320, 160));
+		objects.push_back(temp);
+		Pipes.push_back(temp);
+
+		//2
+		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+			320, 145, 335, 160);
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(351, 160));
+		objects.push_back(temp);
+		Pipes.push_back(temp);
+
+		//3
+		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+			320, 145, 335, 160);
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(384, 160));
+		objects.push_back(temp);
+		Pipes.push_back(temp);
+
+		//4
+		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+			320, 145, 335, 160);
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1231, 160));
+		objects.push_back(temp);
+		Pipes.push_back(temp);
+
+		//5
+		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+			320, 145, 335, 160);
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1263, 160));
+		objects.push_back(temp);
+		Pipes.push_back(temp);
+
+		//6
+		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+			320, 145, 335, 160);
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1504, 160));
+		objects.push_back(temp);
+		Pipes.push_back(temp);
+
+		//7
+		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+			320, 145, 335, 160);
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1599, 160), D3DXVECTOR2(5.0, 2.5));		
+		objects.push_back(temp);
+		Pipes.push_back(temp);
+
+		//8
+		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+			320, 145, 335, 160);
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1888, 160));
+		objects.push_back(temp);
+		Pipes.push_back(temp);
+
+		//9
+		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+			320, 145, 335, 160);
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(2063, 160), D3DXVECTOR2(5.0, 2.5));		
+		objects.push_back(temp);
+		Pipes.push_back(temp);
+
+		//10
+		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+			320, 145, 335, 160);
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1280, 95), D3DXVECTOR2(20.0, 2.5));		
+		objects.push_back(temp);
+		Pipes.push_back(temp);
+
+		//11
+		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+			320, 145, 335, 160);
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1456, 95), D3DXVECTOR2(7.5, 2.5));		
+		objects.push_back(temp);
+		Pipes.push_back(temp);
 
 	}
 }
@@ -304,11 +383,13 @@ Background::~Background()
 
 void Background::Update(D3DXMATRIX & V, D3DXMATRIX P)
 {
-
 	bgSprite->Update(V, P);
 	for (auto sObjects : objects)
 	{
-		sObjects->Update(V, P);
+		if (sObjects != nullptr)
+		{
+			sObjects->Update(V, P);
+		}
 	}
 }
 void Background::Render()
@@ -320,12 +401,22 @@ void Background::Render()
 	}
 }
 
-void Background::SetSpriteScaleRotationPosition(Sprite * sprite, D3DXVECTOR2 position)
+void Background::SetSpriteScaleRotationPosition(Sprite * sprite, D3DXVECTOR2 position, D3DXVECTOR2 Scale)
 {
 	D3DXVECTOR2 adjustPosition = position;
-	adjustPosition.x = (position.x + (-(MAPWIDTH * 0.5) + (sprite->TextureSize().x * 0.5))) * 2.5;
-	adjustPosition.y = (480.0f - position.y + (-(MAPHEIGHT * 0.5) + (sprite->TextureSize().y * 0.5))) * 2.5;
+	adjustPosition.x = (position.x + (-(MAPWIDTH * 0.5) + (sprite->TextureSize().x * 0.5))) * Scale.x;
+	adjustPosition.y = (480.0f - position.y + (-(MAPHEIGHT * 0.5) + (sprite->TextureSize().y * 0.5))) * Scale.y;
 	sprite->Rotation(0, 0, 0);
 	sprite->Position(adjustPosition);
-	sprite->Scale(2.5f, 2.5f);
+	sprite->Scale(Scale);
+}
+
+Sprite* Background::CreateObject(float startX, float startY, float endX, float endY, D3DXVECTOR2 Positon, D3DXVECTOR2 Scale)
+{
+	Sprite* temp;
+	temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+		startX, startY, endX, endY);
+	SetSpriteScaleRotationPosition(temp, Positon, Scale);
+	objects.push_back(temp);
+	return temp;
 }

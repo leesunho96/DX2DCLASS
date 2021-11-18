@@ -82,25 +82,24 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		RECT objectRect = bg->GetObjects()[i]->GetWorldLocation();
 		if (IntersectRect(&temp, &objectRect, &PlayerLocation))
 		{
-			bOnGround = true;
-			bIsJumpable = true;
-			isoverlap = true;
-			velocity = 0.0f;
+			if (PlayerLocation.top <= objectRect.bottom && PlayerLocation.top >= objectRect.bottom - 10.0f)
+			{
+
+				bOnGround = true;
+				bIsJumpable = true;
+				isoverlap = true;
+				velocity = 0.0f;
+			}
+
+			//position.y = objectRect.bottom + bg->GetObjects()[i]->TextureSize().y * 0.5f;
+
 			if (bg->GetObjects()[i]->GetBottom())
 			{
 				bisXadjustRequire = true;
 			}
-
-			// player : L1, R2
-			// object : L2, R3 
-			// 오른쪽으로 진행 불가, 왼쪽으로는 가능해야함.
-			// player : 1, 2
-			// object = 0, 1
-			// 왼쪽으로 진행 불가, 오른쪽으로는 가능해야함
-			// 3 >= 1 ? falseda
-			// 1 >= 1 ? true
-			//break;
 		}
+
+
 	}
 
 

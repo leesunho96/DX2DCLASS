@@ -60,6 +60,9 @@
     <ClCompile Include="Objects\Background.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Boxes.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -121,6 +124,9 @@
       <Filter>Viewer</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Background.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Boxes.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
