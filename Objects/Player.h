@@ -14,9 +14,10 @@ public:
 
 private:
 	float moveSpeed;
+	float moveXPos = 0.0f;
 	D3DXVECTOR2 focusoffset;
 	float velocity = 0.0f;
-	float gravity = -0.0001f;
+	float gravity = -0.001f;
 	float fBottomY = 50.0f;
 	bool bOnGround = false;
 	bool bIsJumpable = false;

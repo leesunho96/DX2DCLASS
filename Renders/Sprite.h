@@ -29,7 +29,8 @@ public:
 	D3DXVECTOR3 RotationDegree();
 
 	D3DXVECTOR2 TextureSize() { return textureSize; }
-
+	void SetBottom() { isbottom = true; };
+	bool GetBottom() { return isbottom; };
 	RECT GetWorldLocation();
 
 private:
@@ -49,7 +50,7 @@ private:
 	D3DXVECTOR2 textureSize;
 	RECT WorldPosition;
 	ID3D11ShaderResourceView* srv;
-
+	bool isbottom = false;
 private:
 	struct Vertex
 	{

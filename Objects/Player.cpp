@@ -16,8 +16,8 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	//Idle
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 9,   254, 51,  326), 0.3f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 73,  254, 115, 326), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 9, 254, 51, 326), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 73, 254, 115, 326), 0.3f);
 		clip->AddFrame(new Sprite(spriteFile, shaderFile, 137, 254, 179, 326), 0.3f);
 		clip->AddFrame(new Sprite(spriteFile, shaderFile, 199, 254, 241, 326), 0.3f);
 		animation->AddClip(clip);
@@ -26,8 +26,8 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	//Run
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 9,   2, 51,  82), 0.3f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 73,  2, 115, 82), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 9, 2, 51, 82), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 73, 2, 115, 82), 0.3f);
 		clip->AddFrame(new Sprite(spriteFile, shaderFile, 137, 2, 179, 82), 0.3f);
 		clip->AddFrame(new Sprite(spriteFile, shaderFile, 199, 2, 241, 82), 0.3f);
 		animation->AddClip(clip);
@@ -35,8 +35,8 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	// Jump
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 9,   87, 51,  156), 0.3f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 73,  87, 115, 156), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 9, 87, 51, 156), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 73, 87, 115, 156), 0.3f);
 		clip->AddFrame(new Sprite(spriteFile, shaderFile, 137, 87, 179, 156), 0.3f);
 		clip->AddFrame(new Sprite(spriteFile, shaderFile, 199, 87, 241, 156), 0.3f);
 		animation->AddClip(clip);
@@ -56,7 +56,7 @@ void Player::Focus(D3DXVECTOR2 * position, D3DXVECTOR2 * size)
 {
 	*position = animation->GetPosition() - focusoffset;
 	(*size) = D3DXVECTOR2(1, 1);
-	
+
 }
 
 void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
@@ -65,15 +65,18 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	bool bMove = false;
 	D3DXVECTOR2 tempPos = position;
 	RECT temp;
+
 	RECT PlayerLocation;
 	{
-		PlayerLocation.left   = tempPos.x - animation->TextureSize().x * 0.5f;
-		PlayerLocation.top    = tempPos.y - animation->TextureSize().y * 0.5f;
-		PlayerLocation.right  = tempPos.x + animation->TextureSize().x * 0.5f;
-		PlayerLocation.bottom = tempPos.y + animation->TextureSize().y * 0.5f; 
+		PlayerLocation.left = tempPos.x - animation->TextureSize().x * 0.5f;
+		PlayerLocation.top = tempPos.y - animation->TextureSize().y * 0.5f;
+		PlayerLocation.right = tempPos.x + animation->TextureSize().x * 0.5f;
+		PlayerLocation.bottom = tempPos.y + animation->TextureSize().y * 0.5f;
 	}
 
 	bool isoverlap = false;
+	bool bisXadjustRequire = false;
+
 	for (int i = 0; i < bg->GetObjects().size(); i++)
 	{
 		RECT objectRect = bg->GetObjects()[i]->GetWorldLocation();
@@ -81,11 +84,50 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		{
 			bOnGround = true;
 			bIsJumpable = true;
-			position.y = animation->GetPosition().y;
 			isoverlap = true;
+			velocity = 0.0f;
+			if (bg->GetObjects()[i]->GetBottom())
+			{
+				bisXadjustRequire = true;
+			}
+
+			// player : L1, R2
+			// object : L2, R3 
+			// 오른쪽으로 진행 불가, 왼쪽으로는 가능해야함.
+			// player : 1, 2
+			// object = 0, 1
+			// 왼쪽으로 진행 불가, 오른쪽으로는 가능해야함
+			// 3 >= 1 ? falseda
+			// 1 >= 1 ? true
+			//break;
+		}
+	}
+
+
+	// object Right : 1, left = 0
+
+	//player Right : -1, left = 0
+	for (size_t i = 0; i < bg->GetPipes().size(); i++)
+	{
+		RECT objectRect = bg->GetPipes()[i]->GetWorldLocation();
+
+		if (IntersectRect(&temp, &objectRect, &PlayerLocation))
+		{
+			if ((objectRect.right + objectRect.left) *0.5f > (PlayerLocation.left + PlayerLocation.right) *0.5f && bisXadjustRequire) // 왼쪽으로 겹쳤는가?
+			{
+				//bOverlapLeft = false;
+				this->position.x = objectRect.left - animation->TextureSize().x * 0.5f;
+			}
+			else if((objectRect.right + objectRect.left) *0.5f < (PlayerLocation.left + PlayerLocation.right) *0.5f && bisXadjustRequire) // 왼쪽으로 겹쳤는가?
+			{
+				//bOverlapRight = true;
+				this->position.x = objectRect.right + animation->TextureSize().x * 0.5f;
+			}
+
 			break;
 		}
 	}
+
 	if (!isoverlap)
 	{
 		bOnGround = false;
@@ -93,10 +135,11 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 
 
-	velocity += gravity;
+	velocity += gravity /** Timer->Elapsed()*/;
+
 	// 키 입력 받은 후, 그에 따른 position 좌표 처리, 움직이는지 아닌지 bMove 변수 처리.
 	KeyInput(position, bMove);
-	
+
 	if (!bOnGround)
 	{
 		position.y += velocity;
@@ -153,10 +196,10 @@ void Player::StartJump()
 {
 	if (bIsJumpable)
 	{
-		position.y += 5.0f;
+		position.y += 1.0f;
 		bOnGround = false;
 		bIsJumpable = false;
-		velocity = 0.2f;
+		velocity = 0.65f;
 	}
 }
 
