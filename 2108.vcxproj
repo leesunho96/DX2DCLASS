@@ -151,8 +151,10 @@
     <ClCompile Include="Objects\Background.cpp" />
     <ClCompile Include="Objects\Boxes.cpp" />
     <ClCompile Include="Objects\Bullet.cpp" />
+    <ClCompile Include="Objects\Goomba.cpp" />
     <ClCompile Include="Objects\Mushroom.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
+    <ClCompile Include="Objects\Pole.cpp" />
     <ClCompile Include="Renders\Animation.cpp" />
     <ClCompile Include="Renders\Clip.cpp" />
     <ClCompile Include="Renders\Rect.cpp" />
@@ -178,8 +180,10 @@
     <ClInclude Include="Objects\Background.h" />
     <ClInclude Include="Objects\Boxes.h" />
     <ClInclude Include="Objects\Bullet.h" />
+    <ClInclude Include="Objects\Goomba.h" />
     <ClInclude Include="Objects\Mushroom.h" />
     <ClInclude Include="Objects\Player.h" />
+    <ClInclude Include="Objects\Pole.h" />
     <ClInclude Include="Renders\Animation.h" />
     <ClInclude Include="Renders\Clip.h" />
     <ClInclude Include="Renders\Rect.h" />

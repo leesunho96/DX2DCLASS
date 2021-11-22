@@ -2,6 +2,7 @@
 #include "Background.h"
 #include "Objects/Mushroom.h"
 #include "Objects/Boxes.h"
+#include "Objects/Pole.h"
 
 bool bgOn = true;
 bool ObjectOn = true;
@@ -343,6 +344,11 @@ Background::Background()
 		temp->Position(255, 159);
 		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(255, 159), D3DXVECTOR2(2.5f, 2.5f));
 		PushVectoresWIthPipe(temp);
+		
+		// Á¾·á¿ë ±âµÕ
+		temp = new Pole();
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(3158, 208));
+		Poles.push_back(temp);
 	}
 
 	{
@@ -369,6 +375,11 @@ void Background::Update(D3DXMATRIX & V, D3DXMATRIX P)
 	for (auto sprites : Mushrooms)
 	{
 		sprites->Update(V, P);
+	}
+
+	for (auto poles : Poles)
+	{
+		poles->Update(V, P);
 	}
 }
 

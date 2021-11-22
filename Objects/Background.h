@@ -24,5 +24,6 @@ private:
 	vector<Sprite*> Pipes;
  	Sprite* bgSprite;
 	vector<Sprite*> Mushrooms;
+	vector<Sprite*> Poles;
 };
 

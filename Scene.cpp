@@ -6,8 +6,10 @@
 #include "Viewer/Freedom.h"
 #include "Viewer/Following.h"
 #include "Objects/Background.h"
+#include "Objects/Goomba.h"
 
 Player* player;
+vector<Goomba*> enemylist;
 Background* bg;
 
 Following* following;
@@ -22,6 +24,9 @@ void InitScene()
 	freedom = new Freedom();
 	following = new Following(player);
 
+	/*Goomba* enemy = new Goomba(-3000, -2700);
+	enemylist.push_back(enemy);
+*/
 	camera = following;
 }
 
@@ -44,6 +49,10 @@ void Update()
 	player->Update(V, P);
 	bg->Update(V, P);
 
+	for (auto a : enemylist )
+	{
+		a->Update(V, P);
+	}
 }
 
 void Render()
@@ -65,7 +74,12 @@ void Render()
 		ImGui::LabelText("FPS", "%.0f", ImGui::GetIO().Framerate);
 		camera->Render();
 		bg->Render();
+		for (auto a : enemylist )
+		{
+			a->Render();
+		}
 		player->Render();
+
 	}
 	ImGui::Render();
 	SwapChain->Present(0, 0);

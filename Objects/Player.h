@@ -15,6 +15,7 @@ public:
 	void GetMushroom();
 	void ApplyDamege();
 	void LoseLife() { lives--; animation->SetScale(1.0f, 1.0f); };
+	void StageClear() { isPlayingGame = false; };
 private:
 	float moveSpeed;
 	float moveXPos = 0.0f;
@@ -26,7 +27,9 @@ private:
 	bool bIsJumpable = false;
 	D3DXVECTOR2 position;
 	Animation* animation;
+	vector<Sprite*> heart;
 	int lives = 3;
+	bool isPlayingGame = true;
 private:
 	void KeyInput(D3DXVECTOR2& position, bool& bMove);
 	void CheckPosition(D3DXVECTOR2& position);
