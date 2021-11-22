@@ -90,6 +90,11 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 				isoverlap = true;
 				velocity = 0.0f;
 			}
+			else if (PlayerLocation.bottom >= objectRect.top && PlayerLocation.bottom <= objectRect.bottom + 10.0f)
+			{
+				velocity = -velocity;
+				break;
+			}
 
 			//position.y = objectRect.bottom + bg->GetObjects()[i]->TextureSize().y * 0.5f;
 
@@ -117,7 +122,7 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 				//bOverlapLeft = false;
 				this->position.x = objectRect.left - animation->TextureSize().x * 0.5f;
 			}
-			else if((objectRect.right + objectRect.left) *0.5f < (PlayerLocation.left + PlayerLocation.right) *0.5f && bisXadjustRequire) // ¿ÞÂÊÀ¸·Î °ãÃÆ´Â°¡?
+			else if ((objectRect.right + objectRect.left) *0.5f < (PlayerLocation.left + PlayerLocation.right) *0.5f && bisXadjustRequire) // ¿ÞÂÊÀ¸·Î °ãÃÆ´Â°¡?
 			{
 				//bOverlapRight = true;
 				this->position.x = objectRect.right + animation->TextureSize().x * 0.5f;
@@ -175,13 +180,13 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	{
 		position.x = -4000.0f;
 		position.y = 500.0f;
+		LoseLife();
 	}
 	animation->SetPosition(position);
 	animation->Play(setClip);
 	animation->Update(V, P);
 
 }
-
 void Player::Render()
 {
 	ImGui::SliderFloat("Move Speed", &moveSpeed, 50, 400);
@@ -199,6 +204,26 @@ void Player::StartJump()
 		bOnGround = false;
 		bIsJumpable = false;
 		velocity = 0.65f;
+	}
+}
+
+void Player::GetMushroom()
+{
+	if (animation->GetScale() == D3DXVECTOR2(1.0f, 1.0f))
+	{
+		animation->SetScale(D3DXVECTOR2(1.3f, 1.3f));
+	}
+}
+
+void Player::ApplyDamege()
+{
+	if (animation->GetScale().x > 1.0f)
+	{
+		animation->SetScale(1.0f, 1.0f);
+	}
+	else
+	{
+		LoseLife();
 	}
 }
 

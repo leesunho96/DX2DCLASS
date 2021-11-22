@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "Background.h"
+#include "Objects/Mushroom.h"
+#include "Objects/Boxes.h"
 
+bool bgOn = true;
+bool ObjectOn = true;
 Background::Background()
 {
 	bgSprite = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx");
@@ -50,11 +54,12 @@ Background::Background()
 	{
 		// 첫번째 토관
 		{
-			temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
-				446, 175, 479, 208);
-			SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(446, temppos));
-			objects.push_back(temp);
-			Pipes.push_back(temp);
+			PushVectoresWIthPipe(CreateObject(446, 175, 479, 208, D3DXVECTOR2(446, temppos)));
+			//temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
+			//	446, 175, 479, 208);
+			//SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(446, temppos));
+			//objects.push_back(temp);
+			//Pipes.push_back(temp);
 		}
 
 		// 두번째 토관
@@ -297,84 +302,52 @@ Background::Background()
 	}
 
 	// 공중 박스들.
+	{	//1
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(320,  159)));
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(352,  159)));
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(384,  159)));
+		//4																		 59)
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(1232, 159)));
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(1263, 159)));
+																				// 59)
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(1504, 159)));
+																			//	 59)
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(1600, 159)));
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(1616, 159)));
+																				// 59)
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(1888, 159)));
+																				// 59)
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(2063, 159)));
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(2079, 159)));
+
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(2688, 159)));
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(2704, 159)));
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(2720, 159)));
+
+
+		//2층
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(1280, 95)));
+																				 
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(1457, 95), D3DXVECTOR2(7.5f, 2.5f)));
+																				 
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(1457, 95), D3DXVECTOR2(7.5f, 2.5f)));
+																				 
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(1936, 95), D3DXVECTOR2(7.5f, 2.5f)));
+																				 
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(2047, 95)));
+		PushVectoresWIthPipe(CreateObject(352, 144, 367, 159, D3DXVECTOR2(2096, 95)));
+
+	
+		// ? 박스
+		temp = new Boxes();
+		temp->Position(255, 159);
+		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(255, 159), D3DXVECTOR2(2.5f, 2.5f));
+		PushVectoresWIthPipe(temp);
+	}
+
 	{
-		//1
-		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
-			320, 145, 335, 160);
-		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(320, 160));
-		objects.push_back(temp);
-		Pipes.push_back(temp);
-
-		//2
-		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
-			320, 145, 335, 160);
-		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(351, 160));
-		objects.push_back(temp);
-		Pipes.push_back(temp);
-
-		//3
-		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
-			320, 145, 335, 160);
-		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(384, 160));
-		objects.push_back(temp);
-		Pipes.push_back(temp);
-
-		//4
-		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
-			320, 145, 335, 160);
-		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1231, 160));
-		objects.push_back(temp);
-		Pipes.push_back(temp);
-
-		//5
-		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
-			320, 145, 335, 160);
-		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1263, 160));
-		objects.push_back(temp);
-		Pipes.push_back(temp);
-
-		//6
-		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
-			320, 145, 335, 160);
-		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1504, 160));
-		objects.push_back(temp);
-		Pipes.push_back(temp);
-
-		//7
-		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
-			320, 145, 335, 160);
-		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1599, 160), D3DXVECTOR2(5.0, 2.5));		
-		objects.push_back(temp);
-		Pipes.push_back(temp);
-
-		//8
-		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
-			320, 145, 335, 160);
-		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1888, 160));
-		objects.push_back(temp);
-		Pipes.push_back(temp);
-
-		//9
-		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
-			320, 145, 335, 160);
-		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(2063, 160), D3DXVECTOR2(5.0, 2.5));		
-		objects.push_back(temp);
-		Pipes.push_back(temp);
-
-		//10
-		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
-			320, 145, 335, 160);
-		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1280, 95), D3DXVECTOR2(20.0, 2.5));		
-		objects.push_back(temp);
-		Pipes.push_back(temp);
-
-		//11
-		temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
-			320, 145, 335, 160);
-		SetSpriteScaleRotationPosition(temp, D3DXVECTOR2(1456, 95), D3DXVECTOR2(7.5, 2.5));		
-		objects.push_back(temp);
-		Pipes.push_back(temp);
-
+		//temp = new Mushroom(D3DXVECTOR2(-3500, 100));
+		//Mushrooms.push_back(temp);
 	}
 }
 Background::~Background()
@@ -383,6 +356,7 @@ Background::~Background()
 
 void Background::Update(D3DXMATRIX & V, D3DXMATRIX P)
 {
+	//if(bgSprite != nullptr)
 	bgSprite->Update(V, P);
 	for (auto sObjects : objects)
 	{
@@ -391,13 +365,45 @@ void Background::Update(D3DXMATRIX & V, D3DXMATRIX P)
 			sObjects->Update(V, P);
 		}
 	}
+
+	for (auto sprites : Mushrooms)
+	{
+		sprites->Update(V, P);
+	}
 }
+
 void Background::Render()
 {
-	bgSprite->Render();
-	for (auto sObjects : objects)
+	//if (bgSprite != nullptr)
+	if (ImGui::Button("BG Check"))
 	{
-		sObjects->Render();
+		bgOn = bgOn == true ? false : true;
+	}
+
+	if (ImGui::Button("Object Check"))
+	{
+		ObjectOn = ObjectOn == true ? false : true;
+	}
+	if (bgOn)
+	{
+		bgSprite->Render();
+	}
+
+	if (ObjectOn)
+	{
+		for (auto sObjects : objects)
+		{
+			sObjects->Render();
+		}
+	}
+	// 카메라 영역 내부 계산용 RECT
+	RECT CameraRECT = RECT(
+
+	);
+
+	for (auto sprites : Mushrooms)
+	{
+		sprites->Render();
 	}
 }
 
@@ -414,9 +420,10 @@ void Background::SetSpriteScaleRotationPosition(Sprite * sprite, D3DXVECTOR2 pos
 Sprite* Background::CreateObject(float startX, float startY, float endX, float endY, D3DXVECTOR2 Positon, D3DXVECTOR2 Scale)
 {
 	Sprite* temp;
+	
 	temp = new Sprite(Textures + L"/Mario/SuperMarioStage1.png", Shaders + L"009_Sprite.fx",
 		startX, startY, endX, endY);
 	SetSpriteScaleRotationPosition(temp, Positon, Scale);
-	objects.push_back(temp);
+	//objects.push_back(temp);
 	return temp;
 }

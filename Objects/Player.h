@@ -12,7 +12,9 @@ public:
 	void Render();
 	void StartJump();
 	RECT GetWorldLocation() { return animation->GetWorldLocation(); };
-
+	void GetMushroom();
+	void ApplyDamege();
+	void LoseLife() { lives--; animation->SetScale(1.0f, 1.0f); };
 private:
 	float moveSpeed;
 	float moveXPos = 0.0f;
@@ -24,6 +26,7 @@ private:
 	bool bIsJumpable = false;
 	D3DXVECTOR2 position;
 	Animation* animation;
+	int lives = 3;
 private:
 	void KeyInput(D3DXVECTOR2& position, bool& bMove);
 	void CheckPosition(D3DXVECTOR2& position);

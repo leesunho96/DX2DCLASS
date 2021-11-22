@@ -9,7 +9,7 @@ public:
 	virtual ~Sprite();
 
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P);
-	void Render();
+	virtual void Render();
 
 public:
 	void Position(float x, float y);

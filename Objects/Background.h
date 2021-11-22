@@ -17,10 +17,12 @@ private:
 	void PushVectors(Sprite* temp) { objects.push_back(temp); };
 	void PushVectoresWIthPipe(Sprite* temp) { PushVectors(temp); Pipes.push_back(temp); };
 	void PushVectoresWIthBottom(Sprite* temp) { PushVectors(temp); Bottoms.push_back(temp); };
+	
 
 	vector<Sprite*> objects;
 	vector<Sprite*> Bottoms;
 	vector<Sprite*> Pipes;
  	Sprite* bgSprite;
+	vector<Sprite*> Mushrooms;
 };
 

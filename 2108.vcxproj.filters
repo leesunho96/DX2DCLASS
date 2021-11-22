@@ -63,6 +63,9 @@
     <ClCompile Include="Objects\Boxes.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Mushroom.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -127,6 +130,9 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Boxes.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Mushroom.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
