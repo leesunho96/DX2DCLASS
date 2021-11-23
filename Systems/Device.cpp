@@ -14,6 +14,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 
 
+UINT Width = 800;
+UINT Height = 600;
+
 HWND Hwnd = NULL;
 wstring Title = L"Draw Sprite";
 
@@ -23,8 +26,10 @@ ID3D11DeviceContext* DeviceContext;
 ID3D11RenderTargetView* RTV;
 
 
+
+
 /*
-		
+		RTV : Pixel 정보, SWapChain과 연결
 */
 
 Keyboard* Key;
@@ -118,16 +123,33 @@ void InitDirect3D(HINSTANCE hInstance)
 		desc.OutputWindow = Hwnd;
 		desc.Windowed = TRUE;
 		desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+		// flag 생성 후, Swapchain 생성때 적용.
+		UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 
 		HRESULT hr = D3D11CreateDeviceAndSwapChain
 		(
-			NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, NULL, NULL, NULL,
+			NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, creationFlags, NULL, NULL,
 			D3D11_SDK_VERSION, &desc, &SwapChain, &Device, NULL, &DeviceContext
 		);
 		assert(SUCCEEDED(hr));
 	}
 
-	//Create BackBuffer
+	CreateBackBuffer();
+
+}
+
+void Destroy()
+{
+	DeleteBackBuffer();
+	SwapChain->Release();
+	Device->Release();
+	DeviceContext->Release();
+	//RTV->Release();
+}
+
+void CreateBackBuffer()
+{	
+	// Create BackBuffer
 	{
 		HRESULT hr;
 
@@ -142,9 +164,7 @@ void InitDirect3D(HINSTANCE hInstance)
 		DeviceContext->OMSetRenderTargets(1, &RTV, NULL);
 	}
 
-
-
-	//Create Viewport
+	// Create ViewPort, 모니터에 최종적으로 출력될 영역 표시.
 	{
 		D3D11_VIEWPORT viewport = { 0 };
 
@@ -157,12 +177,9 @@ void InitDirect3D(HINSTANCE hInstance)
 	}
 }
 
-void Destroy()
+void DeleteBackBuffer()
 {
-	SwapChain->Release();
-	Device->Release();
-	DeviceContext->Release();
-	RTV->Release();
+	SAFE_RELEASE(RTV);
 }
 
 WPARAM Running()
@@ -219,7 +236,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		case WM_KEYDOWN:
 			if (wParam == VK_ESCAPE) 
-			{
+			{			
 				DestroyWindow(hwnd);
 			}
 			return 0;
@@ -227,6 +244,37 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;
+
+		case WM_LBUTTONDOWN:
+		{
+			//MessageBox(hwnd, L"Hello World!", L"WORLD!" , MB_OK);
+			break;
+		}
+
+		case WM_SIZE:
+		{
+			//Width = LOWORD(lParam);
+			//Height = HIWORD(lParam);
+			//		
+			//wstring temp = to_wstring(Width) + L", " + to_wstring(Height);
+			//MessageBox(hwnd, L" ", temp.c_str(), MB_OK);
+			if (Device != NULL)
+			{
+				ImGui::Invalidate();
+
+				Width = LOWORD(lParam);
+				Height = HIWORD(lParam);
+
+				DeleteBackBuffer();
+
+				HRESULT hr = SwapChain->ResizeBuffers(0, Width, Height, DXGI_FORMAT_UNKNOWN, 0);
+				assert(SUCCEEDED(hr));
+
+				CreateBackBuffer();
+				ImGui::Validate();
+				break;
+			}
+		}
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
