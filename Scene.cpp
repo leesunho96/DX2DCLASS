@@ -24,9 +24,12 @@ void InitScene()
 	freedom = new Freedom();
 	following = new Following(player);
 
-	/*Goomba* enemy = new Goomba(-3000, -2700);
+	Goomba* enemy = new Goomba(-3000, -2700);
 	enemylist.push_back(enemy);
-*/
+	enemy = new Goomba(-1850, -1485);
+	enemylist.push_back(enemy);
+
+
 	camera = following;
 }
 

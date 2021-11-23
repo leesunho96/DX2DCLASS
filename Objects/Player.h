@@ -14,8 +14,10 @@ public:
 	RECT GetWorldLocation() { return animation->GetWorldLocation(); };
 	void GetMushroom();
 	void ApplyDamege();
-	void LoseLife() { lives--; animation->SetScale(1.0f, 1.0f); };
+	void LoseLife() { lives--; animation->SetScale(1.0f, 1.0f);};
 	void StageClear() { isPlayingGame = false; };
+	void SetVelocity() { velocity = 0.2; };
+	
 private:
 	float moveSpeed;
 	float moveXPos = 0.0f;
@@ -30,6 +32,8 @@ private:
 	vector<Sprite*> heart;
 	int lives = 3;
 	bool isPlayingGame = true;
+	void CharacterRestart() { position = D3DXVECTOR2(-4000, 200); animation->SetPosition(position); };
+	bool isInvincible = false;
 private:
 	void KeyInput(D3DXVECTOR2& position, bool& bMove);
 	void CheckPosition(D3DXVECTOR2& position);

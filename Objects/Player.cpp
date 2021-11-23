@@ -237,14 +237,20 @@ void Player::GetMushroom()
 
 void Player::ApplyDamege()
 {
-	if (animation->GetScale().x > 1.0f)
-	{
-		animation->SetScale(1.0f, 1.0f);
-	}
-	else
-	{
-		LoseLife();
-	}
+	
+		if (animation->GetScale().x > 1.0f)
+		{
+			animation->SetScale(1.0f, 1.0f);
+			isInvincible = true;
+		}
+		else
+		{
+			LoseLife();
+			isInvincible = true;
+		}
+		CharacterRestart();
+	
+
 }
 
 void Player::KeyInput(D3DXVECTOR2& position, bool& bMove)

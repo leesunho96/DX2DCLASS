@@ -438,3 +438,4 @@ Sprite* Background::CreateObject(float startX, float startY, float endX, float e
 	//objects.push_back(temp);
 	return temp;
 }
+

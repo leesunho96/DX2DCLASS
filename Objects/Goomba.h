@@ -15,5 +15,7 @@ private:
 	float fStartXpos, fEndXpos;
 	D3DXVECTOR2 position;
 	bool isToRight = true;
+	bool isOverlap = false;
+	float elapseTime = 0.0f;
 	void ApplyDamege();
 };

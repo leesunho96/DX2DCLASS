@@ -28,6 +28,7 @@ Goomba::Goomba(float fStartXpos, float fEndXPos)
 		clip = new Clip(PlayMode::End);
 		clip->AddFrame(new Sprite(spriteFile, shaderFile, 540, 100, 703, 181), 1.0f);
 	}
+	animation->AddClip(clip);
 	position.x = (fStartXpos + fEndXPos) * 0.5f;
 	position.y = 100.0f;
 	animation->SetPosition(position);
@@ -48,7 +49,7 @@ void Goomba::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	if (isToRight)
 	{
 		position.x += 0.1f;
-		isToRight = position.x >= fEndXpos ? true : false;
+		isToRight = position.x >= fEndXpos ? false : true;
 	}
 	else
 	{
@@ -56,6 +57,10 @@ void Goomba::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		isToRight = position.x <= fStartXpos ? true : false;
 	}
 
+	if (isOverlap)
+	{
+		elapseTime += Timer->Elapsed();
+	}
 
 	RECT PlayerLocation = player->GetWorldLocation();
 	RECT GoombaLocation = animation->GetWorldLocation();
@@ -65,26 +70,50 @@ void Goomba::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		RECT temp;
 		if (IntersectRect(&temp, &PlayerLocation, &GoombaLocation))
 		{
-			if (PlayerLocation.top <= GoombaLocation.bottom)
+			if ((PlayerLocation.top <= GoombaLocation.bottom + 1.0f) &&  
+				(PlayerLocation.left + PlayerLocation.right) * 0.5f > GoombaLocation.left - 10.0f
+				&& (PlayerLocation.left + PlayerLocation.right) * 0.5f < GoombaLocation.right + 10.0f)
 			{
-				setClip = 1;
+				isOverlap = true;
+				player->SetVelocity();
 			}
-			else
+			else if ((PlayerLocation.left + PlayerLocation.right) * 0.5f <= GoombaLocation.right - 10.0f ||
+				(PlayerLocation.left + PlayerLocation.right) * 0.5f >= GoombaLocation.left + 10.0f)
 			{
 				player->ApplyDamege();
-				setClip = 0;
+				
 			}
 
 		}
 		else
 		{
+			
+		}
+	}
+	else
+	{
+		
+	}
+
+	if (isOverlap)
+	{
+		if (elapseTime >= 1.0f)
+		{
+			isOverlap = false;
+			elapseTime = 0.0f;
 			setClip = 0;
+		}
+		else
+		{
+			setClip = 1;
 		}
 	}
 	else
 	{
 		setClip = 0;
+		isOverlap = false;
 	}
+
 	animation->SetPosition(position);
 	animation->Play(setClip);
 	animation->Update(V, P);
