@@ -15,11 +15,20 @@ using namespace std;
 #include <d3dcompiler.h>
 
 
+
+
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dx11.lib")
 #pragma comment(lib, "d3dx10.lib")
 #pragma comment(lib, "effects11d.lib")
 #pragma comment(lib, "d3dcompiler.lib")
+
+// for DirectWrite
+#include <d2d1_2.h>
+#include <dwrite.h>
+
+#pragma comment (lib, "d2d1.lib")
+#pragma comment (lib, "dwrite.lib")
 
 // ImGUI
 #include <imgui.h>
@@ -31,6 +40,7 @@ using namespace std;
 
 #include "Systems/Keyboard.h"
 #include "Systems/Time.h"
+#include "Systems/DirectWrite.h"
 
 #include "Renders/Shader.h"
 #include "Renders/Rect.h"

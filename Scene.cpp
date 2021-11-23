@@ -54,5 +54,26 @@ void Render()
 		player->Render();
 	}
 	ImGui::Render();
+
+	DirectWrite::GetDC()->BeginDraw();
+	{
+		wstring text = L"에러를 잡자";
+
+		RECT rect;
+		rect.left = 20.0f;
+		rect.top = 20.0f;
+		rect.right = 1000.0f;
+		rect.bottom = 40.0f;
+
+		DirectWrite::RenderText(text, rect);
+
+		text = L"LSH";
+		rect.top += 30;
+		rect.bottom += 30;
+
+		DirectWrite::RenderText(text, rect);
+	}
+
+	DirectWrite::GetDC()->EndDraw();
 	SwapChain->Present(0, 0);
 }

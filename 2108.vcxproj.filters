@@ -57,6 +57,9 @@
     <ClCompile Include="Viewer\Following.cpp">
       <Filter>Viewer</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\DirectWrite.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -116,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="Viewer\Following.h">
       <Filter>Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\DirectWrite.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

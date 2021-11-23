@@ -160,6 +160,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Systems\Device.cpp" />
+    <ClCompile Include="Systems\DirectWrite.cpp" />
     <ClCompile Include="Systems\Keyboard.cpp" />
     <ClCompile Include="Systems\Time.cpp" />
     <ClCompile Include="Utilities\BinaryFile.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Renders\Sprite.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Systems\Device.h" />
+    <ClInclude Include="Systems\DirectWrite.h" />
     <ClInclude Include="Systems\Keyboard.h" />
     <ClInclude Include="Systems\Time.h" />
     <ClInclude Include="Utilities\BinaryFile.h" />

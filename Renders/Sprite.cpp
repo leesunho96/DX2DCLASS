@@ -29,7 +29,7 @@ void Sprite::Initialize(wstring spriteFile, wstring shaderFile, float startX, fl
 	shader = new Shader(shaderFile);
 	srv = Sprites::Load(spriteFile);
 	shader->AsShaderResource("Map")->SetResource(srv);
-
+	
 	Position(0, 0);
 	Scale(1, 1);
 

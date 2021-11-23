@@ -35,6 +35,8 @@ ID3D11RenderTargetView* RTV;
 Keyboard* Key;
 Time* Timer;
 
+
+
 void InitWindow(HINSTANCE hInstance, int ShowWnd)
 {
 	//Register Class
@@ -187,8 +189,12 @@ WPARAM Running()
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
 
+	DirectWrite::Create();
+
 	ImGui::Create(Hwnd, Device, DeviceContext);
 	ImGui::StyleColorsDark();
+
+
 
 	Key = new Keyboard;
 	Timer = new Time();
@@ -210,6 +216,7 @@ WPARAM Running()
 		}
 		else 
 		{
+			
 			Timer->Update();
 			Update();
 
@@ -222,6 +229,7 @@ WPARAM Running()
 
 	delete(Key);
 	delete(Timer);
+	DirectWrite::Delete();
 	ImGui::Delete();
 	return msg.wParam;
 }
@@ -266,10 +274,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				Height = HIWORD(lParam);
 
 				DeleteBackBuffer();
+				// 글씨도 화면 크기 따라 변경되어야 해서 버퍼 삭제->생성 반복해야함
+				DirectWrite::DeleteBackBuffer();
 
 				HRESULT hr = SwapChain->ResizeBuffers(0, Width, Height, DXGI_FORMAT_UNKNOWN, 0);
 				assert(SUCCEEDED(hr));
 
+				DirectWrite::CreateBackBuffer();
 				CreateBackBuffer();
 				ImGui::Validate();
 				break;
