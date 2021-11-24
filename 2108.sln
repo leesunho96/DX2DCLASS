@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{23
 		..\_Shaders\007_Texture.fx = ..\_Shaders\007_Texture.fx
 		..\_Shaders\008_Sprite.fx = ..\_Shaders\008_Sprite.fx
 		..\_Shaders\009_Sprite.fx = ..\_Shaders\009_Sprite.fx
+		..\_Shaders\014_Bounding.fx = ..\_Shaders\014_Bounding.fx
 	EndProjectSection
 EndProject
 Global

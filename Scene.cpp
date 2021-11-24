@@ -15,8 +15,8 @@ void InitScene()
 {
 	player = new Player(D3DXVECTOR2(100, 170), D3DXVECTOR2(2.5f, 2.5f));
 	sprite = new Sprite(Textures + L"Stage.png", Shaders + L"009_Sprite.fx");
-	//camera = new Freedom();
-	camera = new Following(player);
+	camera = new Freedom();
+	//camera = new Following(player);
 }
 
 void DestroyScene()
