@@ -72,6 +72,15 @@
     <ClCompile Include="Objects\Goomba.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Ghost.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -145,6 +154,15 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Goomba.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Ghost.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>

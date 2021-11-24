@@ -33,6 +33,8 @@ public:
 
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
+
+	void DrawBound(bool val);
 private:
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;

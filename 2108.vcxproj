@@ -148,6 +148,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bomb.cpp" />
+    <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="Objects\Background.cpp" />
     <ClCompile Include="Objects\Boxes.cpp" />
     <ClCompile Include="Objects\Bullet.cpp" />
@@ -177,6 +180,9 @@
     <ClCompile Include="Viewer\Freedom.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bomb.h" />
+    <ClInclude Include="Coin.h" />
+    <ClInclude Include="Ghost.h" />
     <ClInclude Include="Objects\Background.h" />
     <ClInclude Include="Objects\Boxes.h" />
     <ClInclude Include="Objects\Bullet.h" />

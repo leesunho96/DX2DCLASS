@@ -178,3 +178,10 @@ void Clip::Render()
 	frame->Image->Render();
 }
 
+void Clip::DrawBound(bool val)
+{
+	for (Frame* frame : frames)
+	{
+		frame->Image->DrawBound(val);
+	}
+}

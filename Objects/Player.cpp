@@ -45,8 +45,8 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	animation->SetPosition(position);
 	animation->SetScale(scale);
 	animation->Play(0);
-
-
+	
+	animation->DrawBound(true);
 }
 
 Player::~Player()

@@ -38,10 +38,13 @@ void Sprite::Initialize(wstring spriteFile, wstring shaderFile, float startX, fl
 	textureFile = spriteFile;
 
 	shader = new Shader(shaderFile);
+	boundShader = new Shader(Shaders + L"014_Bounding.fx");
+
 	srv = Sprites::Load(spriteFile);
 	shader->AsShaderResource("Map")->SetResource(srv);
 
 	Position(0, 0);
+	Rotation(0, 0, 0);
 	Scale(1, 1);
 
 	HRESULT hr;
@@ -94,6 +97,7 @@ void Sprite::Initialize(wstring spriteFile, wstring shaderFile, float startX, fl
 		assert(SUCCEEDED(hr));
 	}
 
+	CreateBound();
 }
 
 Sprite::~Sprite()
@@ -108,6 +112,21 @@ void Sprite::Update(D3DXMATRIX& V, D3DXMATRIX& P)
 {
 	shader->AsMatrix("View")->SetMatrix(V);
 	shader->AsMatrix("Projection")->SetMatrix(P);
+
+	boundShader->AsMatrix("View")->SetMatrix(V);
+	boundShader->AsMatrix("Projection")->SetMatrix(P);
+
+	D3DXMATRIX W, S, R, T;
+
+	D3DXMatrixScaling(&S, textureSize.x * scale.x, textureSize.y * scale.y, 1);
+	D3DXMatrixRotationY(&R, rotation.y);
+	D3DXMatrixTranslation(&T, position.x + scale.x * 0.5f, position.y + scale.y * 0.5f, 0);
+
+	W = S * R * T;
+
+	shader->AsMatrix("World")->SetMatrix(W);
+	boundShader->AsMatrix("World")->SetMatrix(W);
+
 }
 
 void Sprite::Render()
@@ -119,6 +138,40 @@ void Sprite::Render()
 	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	shader->Draw(0, 0, 6);
+
+	if (bDrawBound == true)
+	{
+		stride = sizeof(BoundVertex);
+		offset = 0;
+		DeviceContext->IASetVertexBuffers(0, 1, &boundVertexBuffer, &stride, &offset);
+		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+		boundShader->Draw(0, 0, 5);
+	}
+}
+
+void Sprite::CreateBound()
+{
+	BoundVertex vertices[5];
+	vertices[0].Position = D3DXVECTOR3(-0.5f, -0.5f, 0.0f);
+	vertices[1].Position = D3DXVECTOR3(-0.5f, +0.5f, 0.0f);
+	vertices[2].Position = D3DXVECTOR3(+0.5f, +0.5f, 0.0f);
+	vertices[3].Position = D3DXVECTOR3(+0.5f, -0.5f, 0.0f);
+	vertices[4].Position = D3DXVECTOR3(-0.5f, -0.5f, 0.0f);
+
+	//Create Vertex Buffer
+	{
+		D3D11_BUFFER_DESC desc = { 0 };
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.ByteWidth = sizeof(BoundVertex) * 5;
+		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+		D3D11_SUBRESOURCE_DATA data = { 0 };
+		data.pSysMem = vertices;
+
+		HRESULT hr = Device->CreateBuffer(&desc, &data, &boundVertexBuffer);
+		assert(SUCCEEDED(hr));
+	}
 }
 
 void Sprite::Position(float x, float y)

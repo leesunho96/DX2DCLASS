@@ -11,6 +11,8 @@ public:
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	virtual void Render();
 
+	void DrawBound(bool val) { bDrawBound = true; };
+
 public:
 	void Position(float x, float y);
 	void Position(D3DXVECTOR2& vec);
@@ -36,8 +38,10 @@ public:
 private:
 	void Initialize(wstring spriteFile, wstring shaderFile, float startX, float startY, float endX, float endY);
 	void UpdateWorld();
-
-
+	// 충돌 구현 위한 bound
+	// 충돌은 각 스프라이트에서 일어나야 함. 스프라이트 크기 변경시 충돌 반경도 변해야 함.
+private:
+	void CreateBound();
 private:
 	wstring textureFile;
 
@@ -51,12 +55,25 @@ private:
 	RECT WorldPosition;
 	ID3D11ShaderResourceView* srv;
 	bool isbottom = false;
+
+	// 충돌 위한 셰이더
+	Shader* boundShader;
+	ID3D11Buffer* boundVertexBuffer;
+	bool bDrawBound;
+
 private:
 	struct Vertex
 	{
 		D3DXVECTOR3 Position;
 		D3DXVECTOR2 Uv;
 	};
+
+	struct BoundVertex
+	{
+		D3DXVECTOR3 Position;
+
+	};
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////

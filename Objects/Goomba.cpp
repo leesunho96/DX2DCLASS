@@ -46,17 +46,19 @@ void Goomba::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 	position = animation->GetPosition();
 
-	if (isToRight)
+	if (!isOverlap)
 	{
-		position.x += 0.1f;
-		isToRight = position.x >= fEndXpos ? false : true;
+		if (isToRight)
+		{
+			position.x += 0.1f;
+			isToRight = position.x >= fEndXpos ? false : true;
+		}
+		else
+		{
+			position.x -= 0.1f;
+			isToRight = position.x <= fStartXpos ? true : false;
+		}
 	}
-	else
-	{
-		position.x -= 0.1f;
-		isToRight = position.x <= fStartXpos ? true : false;
-	}
-
 	if (isOverlap)
 	{
 		elapseTime += Timer->Elapsed();

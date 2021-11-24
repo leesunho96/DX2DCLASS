@@ -131,3 +131,11 @@ void Animation::Render()
 		return;
 	clips[currentClip]->Render();
 }
+
+void Animation::DrawBound(bool val)
+{
+	for (auto clip : clips)
+	{
+		clip->DrawBound(val);
+	}
+}

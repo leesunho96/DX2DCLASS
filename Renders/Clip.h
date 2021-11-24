@@ -50,7 +50,7 @@ public:
 	RECT GetWorldLocation() {
 		return frames[currentFrame]->Image->GetWorldLocation();
 	}
-
+	void DrawBound(bool val);
 private:
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;
