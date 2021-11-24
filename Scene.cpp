@@ -67,7 +67,8 @@ void Render()
 
 		DirectWrite::RenderText(text, rect);
 
-		text = L"LSH";
+		int temp = (int)ImGui::GetIO().Framerate;
+		text = std::to_wstring(temp);
 		rect.top += 30;
 		rect.bottom += 30;
 
