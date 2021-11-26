@@ -88,9 +88,8 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			RECT objectRect = bg->GetObjects()[i]->GetWorldLocation();
 			if (IntersectRect(&temp, &objectRect, &PlayerLocation))
 			{
-				if (PlayerLocation.top <= objectRect.bottom && PlayerLocation.top >= objectRect.bottom - 10.0f)
+				if (PlayerLocation.top <= objectRect.bottom && PlayerLocation.top >= objectRect.bottom - 30.0f)
 				{
-
 					bOnGround = true;
 					bIsJumpable = true;
 					isoverlap = true;

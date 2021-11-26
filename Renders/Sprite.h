@@ -59,7 +59,7 @@ private:
 	// 충돌 위한 셰이더
 	Shader* boundShader;
 	ID3D11Buffer* boundVertexBuffer;
-	bool bDrawBound;
+	bool bDrawBound = true;
 
 private:
 	struct Vertex

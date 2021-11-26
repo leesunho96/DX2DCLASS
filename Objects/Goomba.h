@@ -17,5 +17,7 @@ private:
 	bool isToRight = true;
 	bool isOverlap = false;
 	float elapseTime = 0.0f;
+
+	bool isActivate = true;
 	void ApplyDamege();
 };

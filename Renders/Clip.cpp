@@ -170,6 +170,8 @@ void Clip::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	frames[currentFrame]->Image->Scale(scale);
 	frames[currentFrame]->Image->Rotation(rotation);
 
+
+	frames[currentFrame]->Image->Update(V, P);
 }
 
 void Clip::Render()

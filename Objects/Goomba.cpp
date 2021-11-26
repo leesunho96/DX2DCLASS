@@ -42,6 +42,8 @@ Goomba::~Goomba()
 
 void Goomba::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
+	if (!isActivate)
+		return;
 	int setClip;
 
 	position = animation->GetPosition();
@@ -67,7 +69,7 @@ void Goomba::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	RECT PlayerLocation = player->GetWorldLocation();
 	RECT GoombaLocation = animation->GetWorldLocation();
 	if (PlayerLocation.right > fStartXpos &&
-		PlayerLocation.left < fEndXpos)
+		PlayerLocation.left < fEndXpos && !isOverlap)
 	{
 		RECT temp;
 		if (IntersectRect(&temp, &PlayerLocation, &GoombaLocation))
@@ -82,8 +84,7 @@ void Goomba::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			else if ((PlayerLocation.left + PlayerLocation.right) * 0.5f <= GoombaLocation.right - 10.0f ||
 				(PlayerLocation.left + PlayerLocation.right) * 0.5f >= GoombaLocation.left + 10.0f)
 			{
-				player->ApplyDamege();
-				
+				player->ApplyDamege();				
 			}
 
 		}
@@ -101,21 +102,20 @@ void Goomba::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	{
 		if (elapseTime >= 1.0f)
 		{
-			isOverlap = false;
-			elapseTime = 0.0f;
-			setClip = 0;
+			position.y -= 200.0f * Timer->Elapsed();	
+			D3DXVECTOR3 temp = animation->GetRotation();
+			temp.z += 5.0f;
+			animation->SetRotation(temp);
 		}
-		else
-		{
-			setClip = 1;
-		}
+		setClip = 1;
 	}
 	else
 	{
 		setClip = 0;
 		isOverlap = false;
 	}
-
+	if (position.y < 0.0f)
+		isActivate = false;
 	animation->SetPosition(position);
 	animation->Play(setClip);
 	animation->Update(V, P);
@@ -123,6 +123,7 @@ void Goomba::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 void Goomba::Render()
 {
+	if(isActivate)
 	animation->Render();
 }
 
