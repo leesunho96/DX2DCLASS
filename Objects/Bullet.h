@@ -9,9 +9,12 @@ public:
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 
+	Clip* GetClip() { return clip; };
+	D3DXVECTOR2 Position() { return position; };
+
 private:
-	D3DXVECTOR2 velocity;
-	Sprite* sprite;
+	
+	Clip* clip;
 
 	D3DXVECTOR2 position;
 

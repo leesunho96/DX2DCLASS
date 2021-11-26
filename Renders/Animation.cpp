@@ -128,3 +128,19 @@ void Animation::DrawBound(bool val)
 		clip->DrawBound(val);
 	}
 }
+
+Sprite * Animation::GetSprite()
+{
+	if (currentClip < 0)
+		return NULL;
+
+	return clips[currentClip]->GetSprite();
+}
+
+Clip * Animation::GetClip()
+{
+	if (currentClip < 0)
+		return NULL;
+
+	return clips[currentClip];
+}

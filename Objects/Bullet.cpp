@@ -3,33 +3,41 @@
 
 Bullet::Bullet(wstring shaderFile, D3DXVECTOR2 start, float angle, float speed)
 {
-	sprite = new Sprite(Textures + L"Mario/Bullets.png", shaderFile, 173, 155, 183, 167);
+	clip = new Clip(PlayMode::Loop);
+	for (UINT i = 0; i < 7; i++)
+	{
+		float x = (float)i * 15 + 173;
+		clip->AddFrame(new Sprite(Textures + L"/Mario/Bullets.png", shaderFile, x, 155, x + 11, 167), 0.3f);
+	}
 
 	position = start;
-	sprite->Position(position);
-
-	float radian = Math::ToRadian(angle);
-	velocity.x = cosf(radian);
-	velocity.y = sinf(radian);
-	velocity *= speed;
-
+	clip->Position(position);
+	clip->Play();
+	clip->DrawBound(true);
 }
 
 Bullet::~Bullet()
 {
-	SAFE_DELETE(sprite);
+	SAFE_DELETE(clip);
 }
 
 void Bullet::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-	position += velocity;
+	if (Key->Press('I'))
+		position.y += 200.0f * Timer->Elapsed();
+	else if (Key->Press('K'))
+		position.y -= 200.0f * Timer->Elapsed();
 
-	sprite->Position(position);
-	sprite->Update(V, P);
+	if (Key->Press('J'))
+		position.x -= 200.0f * Timer->Elapsed();
+	else if (Key->Press('L'))
+		position.x += 200.0f * Timer->Elapsed();
+
+	clip->Position(position);
+	clip->Update(V, P);
 }
 
 void Bullet::Render()
 {
-	sprite->Render();
+	clip->Render();
 }
-

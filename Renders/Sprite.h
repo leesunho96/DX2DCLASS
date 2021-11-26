@@ -33,6 +33,16 @@ public:
 	D3DXVECTOR2 TextureSize() { return textureSize; }
 
 
+public:
+	// axis aligned bounding boxes
+	// 축이 정렬된 객체들의 충돌
+
+	bool AABB(D3DXVECTOR2 position);
+	bool AABB(Sprite* b);
+
+	static bool AABB(Sprite* a, D3DXVECTOR2& position);
+	static bool AABB(Sprite* a, Sprite* b);
+
 	// 충돌 구현 위한 bound
 	// 충돌은 각 스프라이트에서 일어나야 함. 스프라이트 크기 변경시 충돌 반경도 변해야 함.
 private:

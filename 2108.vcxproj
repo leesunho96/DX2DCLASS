@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Objects\Bullet.cpp" />
+    <ClCompile Include="Objects\Fire.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Renders\Animation.cpp" />
     <ClCompile Include="Renders\Clip.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="Renders\Sprite.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Scene\Stage1.cpp" />
+    <ClCompile Include="Scene\Stage2.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -175,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Objects\Bullet.h" />
+    <ClInclude Include="Objects\Fire.h" />
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Renders\Animation.h" />
     <ClInclude Include="Renders\Clip.h" />
@@ -183,6 +186,7 @@
     <ClInclude Include="Renders\Sprite.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\Stage1.h" />
+    <ClInclude Include="Scene\Stage2.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Systems\Device.h" />
     <ClInclude Include="Systems\DirectWrite.h" />

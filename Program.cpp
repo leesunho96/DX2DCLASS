@@ -5,7 +5,7 @@
 #include "Objects/Player.h"
 #include "Viewer/Freedom.h"
 #include "Scene/Scene.h"
-#include "Scene/Stage1.h"
+#include "Scene/Stage2.h"
 
 SceneValues* values;
 vector<Scene*> scenes;
@@ -17,7 +17,7 @@ void InitScene()
 	values->MainCamera = new Freedom();
 	D3DXMatrixIdentity(&values->Projection);
 
-	scenes.push_back(new Stage1(values));
+	scenes.push_back(new Stage2(values));
 }
 
 void DestroyScene()

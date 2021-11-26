@@ -8,6 +8,9 @@ public:
 	~Player();
 
 	virtual void Focus(D3DXVECTOR2* position, D3DXVECTOR2* size) override;
+	
+	Sprite* GetSprite() { return animation->GetSprite(); };
+	
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 

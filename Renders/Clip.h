@@ -49,6 +49,9 @@ public:
 
 
 	void DrawBound(bool val);
+
+	Sprite* GetSprite();
+	Clip* GetClip();
 private:
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;

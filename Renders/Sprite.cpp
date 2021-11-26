@@ -24,6 +24,7 @@ void Sprite::Initialize(wstring spriteFile, wstring shaderFile, float startX, fl
 {
 	textureFile = spriteFile;
 
+	bDrawBound = false;
 	shader = new Shader(shaderFile);
 	boundShader = new Shader(Shaders + L"014_Bounding.fx");
 
@@ -216,8 +217,65 @@ D3DXVECTOR3 Sprite::RotationDegree()
 	return vec;
 }
 
+bool Sprite::AABB(D3DXVECTOR2 position)
+{
 
+	return AABB(this, position);
+}
 
+bool Sprite::AABB(Sprite * b)
+{
+
+	return AABB(this, b);
+}
+
+bool Sprite::AABB(Sprite * a, D3DXVECTOR2 & position)
+{
+	float xScale = a->scale.x * a->TextureSize().x * 0.5f;
+	float yScale = a->scale.y* a->TextureSize().y * 0.5f;
+
+	float left = a->position.x - xScale;
+	float right = a->position.x + xScale;
+	float bottom = a->position.y - yScale;
+	float top = a->position.y + yScale;
+
+	// position이 Sprite와 겹치는 영역이 있는지 검사 => Sprite 내부에 있는지 검사함
+	bool b = true;
+	b &= position.x > left;
+	b &= position.x <= right;
+	b &= position.y > bottom;
+	b &= position.y <= top;
+
+	return b;
+}
+
+bool Sprite::AABB(Sprite * a, Sprite * b)
+{
+	float xScale = a->scale.x * a->TextureSize().x * 0.5f;
+	float yScale = a->scale.y* a->TextureSize().y * 0.5f;
+
+	float leftA   = a->position.x - xScale;
+	float rightA  = a->position.x + xScale;
+	float bottomA = a->position.y - yScale;
+	float topA    = a->position.y + yScale;
+
+	xScale = b->scale.x * b->TextureSize().x * 0.5f;
+	yScale = b->scale.y * b->TextureSize().y * 0.5f;
+
+	float leftB = b->position.x - xScale;
+	float rightB = b->position.x + xScale;
+	float bottomB = b->position.y - yScale;
+	float topB = b->position.y + yScale;
+	   	 	
+
+	bool bCheck = true;
+	bCheck &= leftB < rightB;
+	bCheck &= topA > bottomB;
+	bCheck &= rightA > leftB;
+	bCheck &= bottomA < topB;
+
+	return bCheck;
+}
 
 //-----------------------------------------------------------------------------
 //Sprites
