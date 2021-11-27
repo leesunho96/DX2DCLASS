@@ -1,39 +1,30 @@
 #include "stdafx.h"
 #include "Objects/Player.h"
+#include "Objects/Ball.h"
+
+extern Ball* ball;
 
 Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	:moveSpeed(200.0f), focusoffset(0, -120)
 {
 	animation = new Animation;
 
-	wstring spriteFile = Textures + L"Metalslug.png";
+	wstring spriteFile = Textures + L"/Alkanoid/Blocks.png";
 	wstring shaderFile = Shaders + L"009_Sprite.fx";
 
 	Clip* clip;
 	//Idle
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 4, 2, 34, 40), 0.3f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 35, 2, 64, 40), 0.3f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 64, 2, 94, 40), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 302, 58, 331), 0.3f);
+
 		animation->AddClip(clip);
 	}
 
 	//Run
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 33, 600, 64, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 65, 600, 96, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 97, 600, 124, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 125, 600, 154, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 158, 600, 188, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 191, 600, 222, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 224, 599, 258, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 259, 600, 294, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 295, 600, 326, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 329, 600, 360, 640), 0.1f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 362, 600, 393, 640), 0.1f);
+		
 		animation->AddClip(clip);
 	}
 
@@ -59,32 +50,48 @@ void Player::Focus(D3DXVECTOR2 * position, D3DXVECTOR2 * size)
 void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	D3DXVECTOR2 position = animation->GetPosition();
+	D3DXVECTOR2 ballPosition = ball->GetPosition();
 
+
+	if (ballPosition.y <= position.y + 50.0f)
+	{
+		if (Sprite::AABB(this->animation->GetSprite(), ball->GetSprite()))
+		{
+			ball->CollisionTestWithBall(animation->GetSprite());
+		}
+	}
 	bool bMove = false;
 	if (Key->Press('A'))
 	{
 		bMove = true;
-		position.x -= moveSpeed * Timer->Elapsed();
+		if (!(position.x <= 230.0f))
+		{
+			position.x -= moveSpeed * Timer->Elapsed();
+		}
 		animation->SetRotationDegree(0, 180, 0);
 	}
 	else if (Key->Press('D'))
 	{
 		bMove = true;
-		position.x += moveSpeed * Timer->Elapsed();
+		if (!(position.x >= 570.0f))
+		{
+			position.x += moveSpeed * Timer->Elapsed();
+		}
+		
 		animation->SetRotationDegree(0, 0, 0);
 	}
 
 	animation->SetPosition(position);
-	animation->Play(bMove ? 1 : 0);
-
+	animation->Play(0);
 	animation->Update(V, P);
 
 }
 
 void Player::Render()
 {
+	
 	ImGui::SliderFloat("Move Speed", &moveSpeed, 50, 400);
-
+	
 	animation->Render();
 
 }

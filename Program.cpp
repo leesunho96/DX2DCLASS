@@ -1,15 +1,15 @@
 #include "stdafx.h"
 #include "Systems/Device.h"
 
-#include "Objects/Bullet.h"
+#include "Objects/Ball.h"
 #include "Objects/Player.h"
 #include "Viewer/Freedom.h"
 #include "Scene/Scene.h"
-#include "Scene/Stage2.h"
+#include "Scene/Stage1.h"
 
 SceneValues* values;
 vector<Scene*> scenes;
-
+bool isStop = false;
 
 void InitScene()
 {
@@ -17,7 +17,7 @@ void InitScene()
 	values->MainCamera = new Freedom();
 	D3DXMatrixIdentity(&values->Projection);
 
-	scenes.push_back(new Stage2(values));
+	scenes.push_back(new Stage1(values));
 }
 
 void DestroyScene()
@@ -35,14 +35,16 @@ void Update()
 {
 	//View
 
-	values->MainCamera->Update();
-
-
-	D3DXMatrixOrthoOffCenterLH(&values->Projection, 0, (float)Width, 0, (float)Height, -1, 1);
-
-	for (Scene* scene : scenes)
+	if (!isStop)
 	{
-		scene->Update();
+		values->MainCamera->Update();
+
+		D3DXMatrixOrthoOffCenterLH(&values->Projection, 0, (float)Width, 0, (float)Height, -1, 1);
+
+		for (Scene* scene : scenes)
+		{
+			scene->Update();
+		}
 	}
 }
 
@@ -79,7 +81,11 @@ void Render()
 		text += to_wstring((int)values->MainCamera->GetPosition().y);
 		DirectWrite::RenderText(text, rect);
 	}
+	
+
+
 
 	DirectWrite::GetDC()->EndDraw();
 	SwapChain->Present(0, 0);
+	
 }
