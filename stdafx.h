@@ -64,6 +64,8 @@ extern UINT Height;
 const wstring Textures = L"../_Textures/";
 const wstring Shaders = L"../_Shaders/";
 
+const float BRICKSWIDTH = 54.0f;
+const float BRICKSHEIGHT = 22.0f;
 
 // 타 파일의 전역변수를 사용 할 수 있도록 함.
 extern HWND Hwnd;

@@ -14,7 +14,7 @@ public:
 	Sprite* GetSprite() { return sprite; };
 
 	void CollisionTestWithBall(Sprite * others);
-
+	void CollisionTestWithPlayer(Sprite * player);
 
 private:
 	D3DXVECTOR2 velocity;
@@ -27,6 +27,8 @@ private:
 	float presentSpeed = speed;
 
 	D3DXVECTOR2 position;	
+
+	static vector<Ball*> ballVector;
 
 private:
 	void CollisionTest();

@@ -1,7 +1,12 @@
 #include "stdafx.h"
 #include "Objects/Ball.h"
+#include "Objects/Player.h"
 
-Ball::Ball(wstring shaderFile, D3DXVECTOR2 start, float angle, float speed) 
+extern bool istouch;
+extern Player* player;
+void SetIsTouch() { istouch = true; }
+
+Ball::Ball(wstring shaderFile, D3DXVECTOR2 start, float angle, float speed)
 	: startPosition(start), speed(speed), angle(angle)
 {
 	sprite = new Sprite(
@@ -11,6 +16,8 @@ Ball::Ball(wstring shaderFile, D3DXVECTOR2 start, float angle, float speed)
 		485, 480);
 
 	InitializeVelocityPosition(start, angle, speed);
+	sprite->DrawBound(true);
+	sprite->Scale(0.5f, 0.5f);
 
 }
 
@@ -31,7 +38,7 @@ Ball::~Ball()
 }
 
 void Ball::Update(D3DXMATRIX & V, D3DXMATRIX & P)
-{	
+{
 	position += velocity;
 
 	sprite->Position(position);
@@ -43,62 +50,213 @@ void Ball::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 void Ball::Render()
 {
 	sprite->Render();
+	ImGui::SliderFloat("ball Position X", &position.x, -500, 500);
+	ImGui::SliderFloat("ball Position Y", &position.y, -500, 500);
 }
 
 void Ball::CollisionTestWithBall(Sprite * others)
 {
 
 	D3DXVECTOR2 ballTextureSize = this->sprite->TextureSize();
-	D3DXVECTOR2 ballPosition = this-> position;
+	D3DXVECTOR2 ballPosition = this->position;
 
 	D3DXVECTOR2 playerTextureSize = others->TextureSize();
 	D3DXVECTOR2 playerPosition = others->Position();
+
+
 	float adjustvalue = 1.0f;
 
 
 	//if (playerPosition.x - playerTextureSize.x * 0.5f + adjustvalue >= ballPosition.x + ballTextureSize.x * 0.5f)
 	//{
-	//	// 1번 위치
-	//	if (playerPosition.y + playerTextureSize.y * 0.5f - adjustvalue <= ballPosition.y - ballTextureSize.y * 0.5f)
+	//	SetIsTouch();
+	//	if (playerPosition.y - playerTextureSize.y * 0.5f + adjustvalue >= ballPosition.y + ballTextureSize.y * 0.5f)
 	//	{
 	//		velocity = -velocity;
+
+	//		position.x -= adjustvalue;
+	//		position.y -= adjustvalue;
 	//		return;
 	//	}
-	//	//if(playerPosition.y )
-	//	
+	//	else if (playerPosition.y + playerTextureSize.y * 0.5f - adjustvalue <= ballPosition.y - ballTextureSize.y * 0.5f)
+	//	{
+	//		velocity = -velocity;
+	//		position.x -= adjustvalue;
+	//		position.y += adjustvalue;
+	//		return;
+	//	}
+	//	else
+	//	{
+	//		OverlapLeft();
+	//		return;
+	//	}
+
+	//}
+	//else if (playerPosition.x + playerTextureSize.x * 0.5f - adjustvalue <= ballPosition.x - ballTextureSize.x * 0.5f)
+	//{
+	//	SetIsTouch();
+	//	if (playerPosition.y - playerTextureSize.y * 0.5f + adjustvalue >= ballPosition.y + ballTextureSize.y * 0.5f)
+	//	{
+	//		velocity = -velocity;
+	//		position.x += adjustvalue;
+	//		position.y -= adjustvalue;
+	//		return;
+	//	}
+	//	else if (playerPosition.y + playerTextureSize.y * 0.5f - adjustvalue <= ballPosition.y - ballTextureSize.y * 0.5f)
+	//	{
+	//		velocity = -velocity;
+	//		position.x += adjustvalue;
+	//		position.y += adjustvalue;
+	//		return;
+	//	}
+	//	else
+	//	{
+	//		OverlapRight();
+	//		return;
+	//	}
+	//}
+	//else /*if ((playerPosition.x - playerTextureSize.x * 0.5f + adjustvalue <= ballPosition.x + ballTextureSize.x * 0.5f) &&
+	//	playerPosition.x + playerTextureSize.x * 0.5f - adjustvalue >= ballPosition.x - ballTextureSize.x * 0.5f)*/
+	//{
+	//	SetIsTouch();
+	//	if (playerPosition.y > ballPosition.y)
+	//	{
+	//		// 7번
+	//		OverlapOthersBottom();
+	//		position.y -= 0.1f; 
+	//		return;
+	//	}
+	//	else
+	//	{
+	//		// 2번
+	//		OverlapTop();
+	//		position.y += 0.1f; 
+	//		return;
+	//	}
 	//}
 
-	if ((playerPosition.x - playerTextureSize.x * 0.5f + adjustvalue <= ballPosition.x + ballTextureSize.x * 0.5f) &&
-		playerPosition.x + playerTextureSize.x * 0.5f - adjustvalue >= ballPosition.x - ballTextureSize.x * 0.5f)
+
+
+	// 외부 코드. 분석해보자.
+	float overlapLeft{playerPosition.x + playerTextureSize.x * 0.5f - (ballPosition.x - ballTextureSize.x * 0.5f)}; //mBall.right() - mBrick.left() };
+	float overlapRight{ -(playerPosition.x + playerTextureSize.x * 0.5f) + (ballPosition.x - ballTextureSize.x * 0.5f) };// mBrick.right() - mBall.left() };
+	float overlapTop{ ballPosition.y - ballTextureSize.y * 0.5f - (playerPosition.y + playerTextureSize.y * 0.5f) };//mBall.bottom() - mBrick.top() };
+	float overlapBottom{ -(ballPosition.y - ballTextureSize.y * 0.5f) + (playerPosition.y + playerTextureSize.y * 0.5f) };// mBrick.bottom() - mBall.top() };
+
+	bool ballFromLeft(abs(overlapLeft) < abs(overlapRight));
+	bool ballFromTop(abs(overlapTop) < abs(overlapBottom));
+
+	float minOverlapX{ ballFromLeft ? overlapLeft : overlapRight };
+	float minOverlapY{ ballFromTop ? overlapTop : overlapBottom };
+
+	if (abs(minOverlapX) < abs(minOverlapY))
 	{
+		if (ballFromLeft)
+		{
+			OverlapRight();
+			position.x -= adjustvalue;
+		}
+		else
+		{
+			OverlapLeft();
+			position.x += adjustvalue;
+		}
+		//velocity.x = ballFromLeft ? -velocity.x : velocity.x;
+	}
+	else
+	{
+		if (ballFromTop)
+		{
+			OverlapTop();
+			position.y -= adjustvalue;
+		}
+		else
+		{
+			OverlapOthersBottom();
+			position.y += adjustvalue;
+		}
+
+		//velocity.y = ballFromTop ? -velocity.y : velocity.y;
+	}
+	SetIsTouch();
+}
+
+void Ball::CollisionTestWithPlayer(Sprite * player)
+{
+	D3DXVECTOR2 ballTextureSize = this->sprite->TextureSize();
+	D3DXVECTOR2 ballPosition = this->position;
+
+	D3DXVECTOR2 playerTextureSize = player->TextureSize();
+	D3DXVECTOR2 playerPosition = player->Position();
+
+
+	float adjustvalue = 1.0f;
+
+
+	if (playerPosition.x - playerTextureSize.x * 0.5f + adjustvalue >= ballPosition.x + ballTextureSize.x * 0.5f)
+	{
+		SetIsTouch();
+		if (playerPosition.y - playerTextureSize.y * 0.5f + adjustvalue >= ballPosition.y + ballTextureSize.y * 0.5f)
+		{
+			velocity = -velocity;
+
+			position.x -= adjustvalue;
+			position.y -= adjustvalue;
+			return;
+		}
+		else if (playerPosition.y + playerTextureSize.y * 0.5f - adjustvalue <= ballPosition.y - ballTextureSize.y * 0.5f)
+		{
+			velocity = -velocity;
+			position.x -= adjustvalue;
+			position.y += adjustvalue;
+			return;
+		}
+		else
+		{
+			OverlapLeft();
+			return;
+		}
+
+	}
+	else if (playerPosition.x + playerTextureSize.x * 0.5f - adjustvalue <= ballPosition.x - ballTextureSize.x * 0.5f)
+	{
+		SetIsTouch();
+		if (playerPosition.y - playerTextureSize.y * 0.5f + adjustvalue >= ballPosition.y + ballTextureSize.y * 0.5f)
+		{
+			velocity = -velocity;
+			position.x += adjustvalue;
+			position.y -= adjustvalue;
+			return;
+		}
+		else if (playerPosition.y + playerTextureSize.y * 0.5f - adjustvalue <= ballPosition.y - ballTextureSize.y * 0.5f)
+		{
+			velocity = -velocity;
+			position.x += adjustvalue;
+			position.y += adjustvalue;
+			return;
+		}
+		else
+		{
+			OverlapRight();
+			return;
+		}
+	}
+	else /*if ((playerPosition.x - playerTextureSize.x * 0.5f + adjustvalue <= ballPosition.x + ballTextureSize.x * 0.5f) &&
+		playerPosition.x + playerTextureSize.x * 0.5f - adjustvalue >= ballPosition.x - ballTextureSize.x * 0.5f)*/
+	{
+		SetIsTouch();
 		if (playerPosition.y > ballPosition.y)
 		{
 			// 7번
 			OverlapOthersBottom();
+			position.y -= 0.1f; 
 			return;
 		}
 		else
 		{
 			// 2번
 			OverlapTop();
-			return;
-		}
-	}
-	else
-	{
-		if ((playerPosition.x - playerTextureSize.x * 0.5f + adjustvalue >= ballPosition.x + ballTextureSize.x * 0.5f))
-		{
-			OverlapRight();
-			return;
-		}
-		else if((playerPosition.x + playerTextureSize.x * 0.5f - adjustvalue <= ballPosition.x - ballTextureSize.x * 0.5f))
-		{
-			OverlapLeft();
-			return;
-		}
-		else
-		{
-			velocity = -velocity;
+			position.y += 0.1f; 
 			return;
 		}
 	}
@@ -112,7 +270,7 @@ void Ball::CollisionTest()
 	{
 	case 1:
 	{
-		OverlapTop();
+		OverlapOthersBottom();
 		break;
 	}
 	case 2:
@@ -178,29 +336,35 @@ void Ball::OverlapTop()
 {
 	D3DXVECTOR2 n(0.0f, -1.0f);
 	velocity = GetReflectionVector(n);
+	position.y += 1.0f;
 }
 
 void Ball::OverlapDieSection()
-{	
-	InitializeVelocityPosition(startPosition, angle, speed);
+{
+	D3DXVECTOR2 temp = player->GetSprite()->Position();
+	temp.y += 50.0f;
+	InitializeVelocityPosition(temp, angle, speed);
 }
 
 void Ball::OverlapLeft()
 {
 	D3DXVECTOR2 n(1.0f, 0.0f);
 	velocity = GetReflectionVector(n);
+	position.x += 1.0f;
 }
 
 void Ball::OverlapRight()
 {
 	D3DXVECTOR2 n(-1.0f, 0.0f);
 	velocity = GetReflectionVector(n);
+	position.x -= 1.0f;
 }
 
 void Ball::OverlapOthersBottom()
 {
 	D3DXVECTOR2 n(0.0f, 1.0f);
 	velocity = GetReflectionVector(n);
+	position.y -= 1.0f;
 }
 
 void Ball::setStop()

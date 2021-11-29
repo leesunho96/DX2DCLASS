@@ -160,11 +160,12 @@ void Bricks::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		D3DXVECTOR2 position = animation->GetPosition();
 		D3DXVECTOR2 ballPosition = ball->GetPosition();
 
-		if (ballPosition.y <= position.y + 30.0f && ballPosition.y >= position.y - 30.0f)
+		if ((ballPosition.y <= position.y + 30.0f && ballPosition.y >= position.y - 30.0f) && ballPosition.x <= position.x + 30.0f && ballPosition.x >= position.x -30.0f)
 		{
 			if (Sprite::AABB(this->animation->GetSprite(), ball->GetSprite()))
 			{
-				ball->CollisionTestWithBall(animation->GetSprite());
+				//ball->CollisionTestWithBall(animation->GetSprite());
+				ball->CollisionTestWithPlayer(animation->GetSprite());
 				life++;
 			}
 		}
@@ -183,4 +184,8 @@ void Bricks::Render()
 		return;
 
 	animation->Render();
+}
+
+void Bricks::SetItem(int type)
+{
 }

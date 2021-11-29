@@ -11,6 +11,9 @@ SceneValues* values;
 vector<Scene*> scenes;
 bool isStop = false;
 
+Player* player;
+Ball* ball;
+
 void InitScene()
 {
 	values = new SceneValues();

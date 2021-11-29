@@ -5,11 +5,14 @@
 #include "Viewer/Freedom.h"
 #include "Objects/Ball.h"
 #include "Objects/Bricks.h"
+#include "Objects/NonBreakableBricks.h"
 
-Player* player;
-Ball* ball;
+extern Player* player;
+extern Ball* ball;
 
-vector<Bricks*> bricksvector;
+vector<IBRICKSINTERFACE*> bricksvector;
+bool istouch = false;
+
 Stage1::Stage1(SceneValues * values)
 	: Scene(values)
 {
@@ -22,40 +25,73 @@ Stage1::Stage1(SceneValues * values)
 	backGround->Position(bgPosition);
 
 	player = new Player(D3DXVECTOR2(450, 100), D3DXVECTOR2(1.0f, 1.0f));
-	ball = new Ball(shaderFile, D3DXVECTOR2(350, 300), Math::Random(30, 150), 0.2f);
+	ball = new Ball(shaderFile, D3DXVECTOR2(450, 150), Math::Random(30, 150), 0.8f);
 
 
 
 
 	// 맵 가로 : 220 ~ 580 px
 	// 벽돌 하나 크기 : 54 * 22 px
-	bricksvector.push_back(new Bricks(0, D3DXVECTOR2(300, 500)));
+
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		bricksvector.push_back(new Bricks(Math::Random(0, 2), D3DXVECTOR2(300 + BRICKSWIDTH * i, 500)));
+	}
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		bricksvector.push_back(new Bricks(Math::Random(0, 2), D3DXVECTOR2(300 + BRICKSWIDTH * i, 500 - BRICKSHEIGHT)));
+	}
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		bricksvector.push_back(new Bricks(Math::Random(0, 2), D3DXVECTOR2(300 + BRICKSWIDTH * i, 500 - BRICKSHEIGHT * 2)));
+	}
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		bricksvector.push_back(new Bricks(Math::Random(0, 2), D3DXVECTOR2(300 + BRICKSWIDTH * i, 500 - BRICKSHEIGHT * 3)));
+	}
+
+	bricksvector.push_back(new NonBreakableBricks(D3DXVECTOR2(300 + BRICKSWIDTH * 3, 300)));
+	bricksvector.push_back(new NonBreakableBricks(D3DXVECTOR2(300 + BRICKSWIDTH * 1, 300)));
 	SAFE_DELETE(values->MainCamera);
 	values->MainCamera = new Freedom();
 }
 
 Stage1::~Stage1()
 {
-	SAFE_DELETE(player);
+	for (auto bricks : bricksvector)
+	{
+		
+		SAFE_DELETE(bricks);
+	}
+	//SAFE_DELETE(player);
 	SAFE_DELETE(ball);
 	SAFE_DELETE(backGround);
 }
 
 void Stage1::Update()
 {
+	istouch = false;
 	D3DXMATRIX V = values->MainCamera->GetView();
 	D3DXMATRIX P = values->Projection;
 
 	backGround->Update(V, P);
 
 	player->Update(V, P);
+	ball->Update(V, P);
 	
 	for (auto bricks : bricksvector)
 	{
+		if (istouch)
+		{
+			return;
+		}
 		bricks->Update(V, P);
 	}
 
-	ball->Update(V, P);
 	
 }
 

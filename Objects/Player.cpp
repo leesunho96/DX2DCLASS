@@ -5,7 +5,7 @@
 extern Ball* ball;
 
 Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
-	:moveSpeed(200.0f), focusoffset(0, -120)
+	:moveSpeed(300.0f), focusoffset(0, -120)
 {
 	animation = new Animation;
 
@@ -23,8 +23,10 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 
 	//Run
 	{
-		clip = new Clip(PlayMode::Loop);
-		
+		clip = new Clip();
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 302, 58, 331), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 58, 302, 148, 331), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 148, 302, 276, 331), 0.3f);
 		animation->AddClip(clip);
 	}
 
@@ -57,7 +59,7 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	{
 		if (Sprite::AABB(this->animation->GetSprite(), ball->GetSprite()))
 		{
-			ball->CollisionTestWithBall(animation->GetSprite());
+			ball->CollisionTestWithPlayer(animation->GetSprite());
 		}
 	}
 	bool bMove = false;
@@ -80,9 +82,8 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		
 		animation->SetRotationDegree(0, 0, 0);
 	}
-
 	animation->SetPosition(position);
-	animation->Play(0);
+	animation->Play(clipNum);
 	animation->Update(V, P);
 
 }
@@ -94,4 +95,20 @@ void Player::Render()
 	
 	animation->Render();
 
+}
+
+void Player::GetItem(int type)
+{
+	switch (type)
+	{
+	case 0:
+		GetBullet();
+		break;
+	case 1:
+		GetLargerItem();
+		break;
+	case 2:
+		GetMoreBallItem();
+		break;
+	}
 }

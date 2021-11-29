@@ -69,6 +69,12 @@
     <ClCompile Include="Objects\Ball.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\NonBreakableBricks.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Item.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -145,6 +151,12 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Ball.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\NonBreakableBricks.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Item.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>

@@ -107,7 +107,9 @@ void Sprite::Update(D3DXMATRIX& V, D3DXMATRIX& P)
 	D3DXMATRIX W, S, R, T;
 
 	D3DXMatrixScaling(&S, textureSize.x * scale.x, textureSize.y * scale.y, 1);
+	D3DXMatrixRotationX(&R, rotation.x);
 	D3DXMatrixRotationY(&R, rotation.y);
+	D3DXMatrixRotationZ(&R, rotation.z);
 	D3DXMatrixTranslation(&T, position.x + scale.x * 0.5f, position.y + scale.y * 0.5f, 0);
 
 	W = S * R * T;

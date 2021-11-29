@@ -14,8 +14,18 @@ public:
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 
+	void GetItem(int type);
+
+private:
+	void GetBullet() { clipNum++; bIsGetBulletItem = true; };
+	void GetLargerItem() { bIsGetLargerItem = true; };
+	void GetMoreBallItem() { bIsGetMoreBall = true; };
 private:
 	float moveSpeed;
 	Animation* animation;
 	D3DXVECTOR2 focusoffset;
+	int clipNum = 0;
+	bool bIsGetLargerItem = false;
+	bool bIsGetBulletItem = false;
+	bool bIsGetMoreBall = false;
 };

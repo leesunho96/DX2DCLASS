@@ -13,8 +13,11 @@ public:
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
 	virtual void Render() override;
 
+	void SetItem(int type);
+
 private:
 	Animation* animation;
+	Sprite* ItemSprite = nullptr;
 	bool isAvailable = true;
 	bool isPlayingBreaking = false;
 	int life = 0;
