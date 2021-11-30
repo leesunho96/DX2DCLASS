@@ -13,7 +13,7 @@ public:
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
 	virtual void Render() override;
 
-	void SetItem(int type);
+	virtual void SetItem() override;
 
 private:
 	Animation* animation;
@@ -23,5 +23,7 @@ private:
 	int life = 0;
 	float waitingTime = 0.0f;
 	const float animationTime = 0.2f;
+	const int maximumLife = 1;
 	D3DXVECTOR2 Position;
+	bool bIsHavingItem = false;
 };

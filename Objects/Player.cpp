@@ -59,10 +59,11 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	{
 		if (Sprite::AABB(this->animation->GetSprite(), ball->GetSprite()))
 		{
-			ball->CollisionTestWithPlayer(animation->GetSprite());
+			ball->CollisionTestWithBall(animation->GetSprite());
 		}
 	}
 	bool bMove = false;
+
 	if (Key->Press('A'))
 	{
 		bMove = true;

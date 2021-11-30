@@ -11,13 +11,33 @@ public:
 	virtual void Update(D3DXMATRIX&V, D3DXMATRIX& P);
 	virtual void Render();
 
-	void SetPosition(D3DXVECTOR2 position) { this->position = position; };
+	void SetPosition(D3DXVECTOR2 position) { this->position = position; sprite->Position(position); };
+	bool GetIsValid() { return isvalid; };
 
 private:
 	Sprite* sprite;
 	D3DXVECTOR2 position;
-	D3DXVECTOR2 scale;
+	D3DXVECTOR2 scale = D3DXVECTOR2(1.0f, 1.0f);
 	int type;
-	float speed = 200.0f;
+	float speed = 2.0f;
+	bool isvalid = true;
 
+};
+
+class ItemMemoryPool
+{
+public:
+
+	ItemMemoryPool();
+	~ItemMemoryPool();
+
+	void PushItemToPool(Item * item);
+	Item* GetItemFromPool();
+	void CheckItemPool();
+
+	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
+	void Render();
+private:
+	vector<Item*> ItemPool;
+	vector<Item*> ActivateItemVector;
 };

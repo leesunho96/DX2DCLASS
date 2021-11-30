@@ -2,7 +2,9 @@
 #include "Bricks.h"
 #include "Renders/Animation.h";
 #include "Objects/Ball.h"
+#include "Objects/Item.h"
 
+extern ItemMemoryPool* itempool;
 extern Ball* ball;
 
 Bricks::Bricks(int type, D3DXVECTOR2 position) : IBRICKSINTERFACE(), Position(position)
@@ -150,9 +152,14 @@ void Bricks::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	if (isPlayingBreaking)
 	{
 		waitingTime += Timer->Elapsed();
-		if (waitingTime >= animationTime * 4)
+		if (waitingTime >= animationTime * maximumLife)
 		{
 			isAvailable = false;
+			if (bIsHavingItem)
+			{
+				Item* temp = itempool->GetItemFromPool();
+				temp->SetPosition(animation->GetPosition());
+			}
 		}
 	}
 	else
@@ -169,7 +176,7 @@ void Bricks::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 				life++;
 			}
 		}
-		if (life == 3)
+		if (life == maximumLife)
 		{
 			isPlayingBreaking = true;
 		}
@@ -186,6 +193,7 @@ void Bricks::Render()
 	animation->Render();
 }
 
-void Bricks::SetItem(int type)
+void Bricks::SetItem()
 {
+	bIsHavingItem = true;
 }

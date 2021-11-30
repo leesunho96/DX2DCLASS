@@ -9,6 +9,7 @@ public:
 	virtual ~NonBreakableBricks();
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
 	virtual void Render() override;
+	virtual void SetItem() override {};
 private:
 	Animation* animation;
 	D3DXVECTOR2 Position;

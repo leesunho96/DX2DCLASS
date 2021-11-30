@@ -6,6 +6,7 @@
 class Player;
 class Bullet;
 class Sprite;
+class Item;
 
 class Stage1 : public Scene
 {
@@ -17,4 +18,7 @@ public:
 	virtual void Render() override;
 private:
 	Sprite* backGround;	
+	vector<Item*> itemlist;
+private:
+
 };

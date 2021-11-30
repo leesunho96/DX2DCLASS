@@ -62,81 +62,8 @@ void Ball::CollisionTestWithBall(Sprite * others)
 
 	D3DXVECTOR2 playerTextureSize = others->TextureSize();
 	D3DXVECTOR2 playerPosition = others->Position();
-
-
-	float adjustvalue = 1.0f;
-
-
-	//if (playerPosition.x - playerTextureSize.x * 0.5f + adjustvalue >= ballPosition.x + ballTextureSize.x * 0.5f)
-	//{
-	//	SetIsTouch();
-	//	if (playerPosition.y - playerTextureSize.y * 0.5f + adjustvalue >= ballPosition.y + ballTextureSize.y * 0.5f)
-	//	{
-	//		velocity = -velocity;
-
-	//		position.x -= adjustvalue;
-	//		position.y -= adjustvalue;
-	//		return;
-	//	}
-	//	else if (playerPosition.y + playerTextureSize.y * 0.5f - adjustvalue <= ballPosition.y - ballTextureSize.y * 0.5f)
-	//	{
-	//		velocity = -velocity;
-	//		position.x -= adjustvalue;
-	//		position.y += adjustvalue;
-	//		return;
-	//	}
-	//	else
-	//	{
-	//		OverlapLeft();
-	//		return;
-	//	}
-
-	//}
-	//else if (playerPosition.x + playerTextureSize.x * 0.5f - adjustvalue <= ballPosition.x - ballTextureSize.x * 0.5f)
-	//{
-	//	SetIsTouch();
-	//	if (playerPosition.y - playerTextureSize.y * 0.5f + adjustvalue >= ballPosition.y + ballTextureSize.y * 0.5f)
-	//	{
-	//		velocity = -velocity;
-	//		position.x += adjustvalue;
-	//		position.y -= adjustvalue;
-	//		return;
-	//	}
-	//	else if (playerPosition.y + playerTextureSize.y * 0.5f - adjustvalue <= ballPosition.y - ballTextureSize.y * 0.5f)
-	//	{
-	//		velocity = -velocity;
-	//		position.x += adjustvalue;
-	//		position.y += adjustvalue;
-	//		return;
-	//	}
-	//	else
-	//	{
-	//		OverlapRight();
-	//		return;
-	//	}
-	//}
-	//else /*if ((playerPosition.x - playerTextureSize.x * 0.5f + adjustvalue <= ballPosition.x + ballTextureSize.x * 0.5f) &&
-	//	playerPosition.x + playerTextureSize.x * 0.5f - adjustvalue >= ballPosition.x - ballTextureSize.x * 0.5f)*/
-	//{
-	//	SetIsTouch();
-	//	if (playerPosition.y > ballPosition.y)
-	//	{
-	//		// 7번
-	//		OverlapOthersBottom();
-	//		position.y -= 0.1f; 
-	//		return;
-	//	}
-	//	else
-	//	{
-	//		// 2번
-	//		OverlapTop();
-	//		position.y += 0.1f; 
-	//		return;
-	//	}
-	//}
-
-
-
+	
+	float adjustvalue = 3.0f;
 	// 외부 코드. 분석해보자.
 	float overlapLeft{playerPosition.x + playerTextureSize.x * 0.5f - (ballPosition.x - ballTextureSize.x * 0.5f)}; //mBall.right() - mBrick.left() };
 	float overlapRight{ -(playerPosition.x + playerTextureSize.x * 0.5f) + (ballPosition.x - ballTextureSize.x * 0.5f) };// mBrick.right() - mBall.left() };
@@ -154,29 +81,25 @@ void Ball::CollisionTestWithBall(Sprite * others)
 		if (ballFromLeft)
 		{
 			OverlapRight();
-			position.x -= adjustvalue;
+			//position.x -= adjustvalue;
 		}
 		else
 		{
 			OverlapLeft();
-			position.x += adjustvalue;
-		}
-		//velocity.x = ballFromLeft ? -velocity.x : velocity.x;
+			//position.x += adjustvalue;
+		}		
 	}
 	else
 	{
-		if (ballFromTop)
+		if (ballPosition.y > playerPosition.y)
 		{
 			OverlapTop();
-			position.y -= adjustvalue;
+			
 		}
 		else
 		{
 			OverlapOthersBottom();
-			position.y += adjustvalue;
 		}
-
-		//velocity.y = ballFromTop ? -velocity.y : velocity.y;
 	}
 	SetIsTouch();
 }

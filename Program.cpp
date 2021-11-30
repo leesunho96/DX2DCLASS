@@ -6,6 +6,8 @@
 #include "Viewer/Freedom.h"
 #include "Scene/Scene.h"
 #include "Scene/Stage1.h"
+#include "Objects/Item.h"
+
 
 SceneValues* values;
 vector<Scene*> scenes;
@@ -13,6 +15,7 @@ bool isStop = false;
 
 Player* player;
 Ball* ball;
+ItemMemoryPool* itempool;
 
 void InitScene()
 {
@@ -30,7 +33,8 @@ void DestroyScene()
 		SAFE_DELETE(scene);
 	}
 	SAFE_DELETE(values->MainCamera);
-	SAFE_DELETE(values);
+	SAFE_DELETE(values);	
+	SAFE_DELETE(itempool);
 }
 
 D3DXMATRIX V, P;
