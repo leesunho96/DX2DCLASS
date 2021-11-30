@@ -23,7 +23,7 @@ private:
 	int life = 0;
 	float waitingTime = 0.0f;
 	const float animationTime = 0.2f;
-	const int maximumLife = 1;
+	const int maximumLife = 3;
 	D3DXVECTOR2 Position;
 	bool bIsHavingItem = false;
 };

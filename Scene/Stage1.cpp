@@ -103,15 +103,17 @@ void Stage1::Update()
 	ball->Update(V, P);
 	
 
+	itempool->Update(V, P);
+
 	for (auto bricks : bricksvector)
 	{
-		//if (istouch)
-		//{
-		//	return;
-		//}
+		if (istouch)
+		{
+			return;
+		}
 		bricks->Update(V, P);
 	}
-	itempool->Update(V, P);
+
 	
 	
 }
@@ -126,5 +128,7 @@ void Stage1::Render()
 	}
 	ball->Render();
 	itempool->Render();
+	
+	
 	
 }

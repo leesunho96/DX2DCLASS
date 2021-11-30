@@ -1,9 +1,6 @@
 #pragma once
 #include <stack>
 
-
-
-
 template<typename T>
 class CObjectPool
 {
@@ -20,8 +17,7 @@ public:
 
 	// 오브젝트를 비운다.
 	~CObjectPool()
-	{
-	
+	{	
 		while (!_objects.empty()) {
 			T* object = _objects.top();
 			_objects.pop();
@@ -34,8 +30,6 @@ public:
 	// 오브젝트를 꺼낸다.
 	T* PopObject()
 	{
-	
-
 		// 오브젝트가 없다면 확장한다.
 		if (_objects.empty()) {
 			Expand();
@@ -69,3 +63,5 @@ private:
 	std::stack<T*> _objects;
 	int _maxSize; // 최대 배열 크기
 };
+
+

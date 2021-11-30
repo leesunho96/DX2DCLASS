@@ -78,9 +78,6 @@
     <ClCompile Include="Systems\Device.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\MemoryPool.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

@@ -39,6 +39,7 @@ Ball::~Ball()
 
 void Ball::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
+
 	position += velocity;
 
 	sprite->Position(position);

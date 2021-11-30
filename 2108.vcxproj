@@ -168,7 +168,6 @@
     <ClCompile Include="Systems\Device.cpp" />
     <ClCompile Include="Systems\DirectWrite.cpp" />
     <ClCompile Include="Systems\Keyboard.cpp" />
-    <ClCompile Include="Systems\MemoryPool.cpp" />
     <ClCompile Include="Systems\Time.cpp" />
     <ClCompile Include="Utilities\BinaryFile.cpp" />
     <ClCompile Include="Utilities\Math.cpp" />

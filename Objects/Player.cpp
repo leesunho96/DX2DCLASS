@@ -24,8 +24,8 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	//Run
 	{
 		clip = new Clip();
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 302, 58, 331), 0.5f);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 58, 302, 148, 331), 0.5f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 302, 58, 331), 0.3f);
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 58, 302, 148, 331), 0.3f);
 		clip->AddFrame(new Sprite(spriteFile, shaderFile, 148, 302, 276, 331), 99999999.0f);
 		animation->AddClip(clip);
 	}
