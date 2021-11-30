@@ -133,6 +133,9 @@ void ItemMemoryPool::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	{
 		ActivateItemVector[i]->Update(V, P);
 	}
+	activateNum = ActivateItemVector.size();
+	
+	
 }
 
 void ItemMemoryPool::Render()
@@ -141,4 +144,5 @@ void ItemMemoryPool::Render()
 	{
 		ActivateItemVector[i]->Render();
 	}
+	ImGui::BulletText("Activate Bullet Num : %d", activateNum);
 }

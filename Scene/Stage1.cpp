@@ -129,4 +129,6 @@ void Stage1::Render()
 	ball->Render();
 	itempool->Render();
 	
+	
+	
 }
