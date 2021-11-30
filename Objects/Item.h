@@ -1,7 +1,5 @@
 #pragma once
 
-class Sprite;
-
 class Item
 {
 public:
@@ -19,7 +17,7 @@ private:
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale = D3DXVECTOR2(1.0f, 1.0f);
 	int type;
-	float speed = 2.0f;
+	float speed = 50.0f;
 	bool isvalid = true;
 
 };

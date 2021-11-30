@@ -17,7 +17,7 @@ public:
 	void GetItem(int type);
 
 private:
-	void GetBullet() { clipNum++; bIsGetBulletItem = true; };
+	void GetBullet() { bIsGetBulletItem = true; };
 	void GetLargerItem() { bIsGetLargerItem = true; };
 	void GetMoreBallItem() { bIsGetMoreBall = true; };
 private:

@@ -14,7 +14,7 @@ extern ItemMemoryPool* itempool;
 
 vector<IBRICKSINTERFACE*> bricksvector;
 bool istouch = false;
-
+Item* item;
 
 Stage1::Stage1(SceneValues * values)
 	: Scene(values)
@@ -85,7 +85,7 @@ Stage1::~Stage1()
 	//SAFE_DELETE(player);
 	SAFE_DELETE(ball);
 	SAFE_DELETE(backGround);
-
+	
 	// 아이템 풀로 객체들 반환.
 
 }
@@ -102,16 +102,16 @@ void Stage1::Update()
 	player->Update(V, P);
 	ball->Update(V, P);
 	
-	itempool->Update(V, P);
 
 	for (auto bricks : bricksvector)
 	{
-		if (istouch)
-		{
-			return;
-		}
+		//if (istouch)
+		//{
+		//	return;
+		//}
 		bricks->Update(V, P);
 	}
+	itempool->Update(V, P);
 	
 	
 }
@@ -119,12 +119,12 @@ void Stage1::Update()
 void Stage1::Render()
 {
 	backGround->Render();
-
 	player->Render();
 	for (auto bricks : bricksvector)
 	{
 		bricks->Render();
 	}
-	itempool->Render();
 	ball->Render();
+	itempool->Render();
+	
 }

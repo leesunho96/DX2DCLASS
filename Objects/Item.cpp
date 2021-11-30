@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Objects/Item.h"
-#include "Renders/Sprite.h"
 #include "Objects/Player.h"
 
 extern Player* player;
@@ -9,6 +8,7 @@ Item::Item(int type) : type(type)
 {
 	wstring TexturesName = Textures + L"/Alkanoid/Blocks.png";
 	wstring ShaderName = Shaders + L"009_Sprite.fx";
+
 
 	switch (type)
 	{
@@ -22,8 +22,9 @@ Item::Item(int type) : type(type)
 		sprite = new Sprite(TexturesName, ShaderName, 594, 308, 648, 329);
 		break;
 	}
+	position = D3DXVECTOR2(0, 0);
+	sprite->Position(position);
 	sprite->Scale(1, 1);
-	sprite->Position(D3DXVECTOR2(0, 0));
 	sprite->DrawBound(true);
 }
 
@@ -37,7 +38,7 @@ void Item::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	if (!isvalid)
 		return;
 
-	position.y -= speed * Timer->Elapsed();
+	position.y -=  speed * Timer->Elapsed();
 	sprite->Position(position);
 
 	if (player->GetSprite()->Position().y <= position.y + 50.0f)
@@ -45,17 +46,20 @@ void Item::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		if (Sprite::AABB(sprite, player->GetSprite()))
 		{
 			player->GetItem(type);
+			isvalid = false;
 		}
 	}
 	if (position.y <= -100)
 	{
 		isvalid = false;
 	}
+	
 }
 
 void Item::Render()
 {
 	sprite->Render();
+	ImGui::SliderFloat("Item Y pos", &position.y, -500, 500);
 }
 
 
@@ -88,6 +92,7 @@ ItemMemoryPool::~ItemMemoryPool()
 	{
 		SAFE_DELETE(freeItem);
 	}
+	ItemPool.clear();
 }
 
 void ItemMemoryPool::PushItemToPool(Item * item)
@@ -122,16 +127,16 @@ void ItemMemoryPool::CheckItemPool()
 
 void ItemMemoryPool::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-	for (auto items : ActivateItemVector )
+	for (int i = 0; i < ActivateItemVector.size(); i++)
 	{
-		items->Update(V, P);
+		ActivateItemVector[i]->Update(V, P);
 	}
 }
 
 void ItemMemoryPool::Render()
 {
-	for (auto items : ActivateItemVector)
+	for (int i = 0; i < ActivateItemVector.size(); i++)
 	{
-		items->Render();
+		ActivateItemVector[i]->Render();
 	}
 }
