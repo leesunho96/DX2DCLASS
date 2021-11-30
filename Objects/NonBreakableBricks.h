@@ -10,6 +10,8 @@ public:
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
 	virtual void Render() override;
 	virtual void SetItem() override {};
+	virtual Sprite* GetSprite() override { return animation->GetSprite(); };
+	virtual void ApplyDamege() override {};
 private:
 	Animation* animation;
 	D3DXVECTOR2 Position;

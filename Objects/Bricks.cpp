@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Bricks.h"
-#include "Renders/Animation.h";
+#include "Renders/Animation.h"
 #include "Objects/Ball.h"
 #include "Objects/Item.h"
 
@@ -164,6 +164,11 @@ void Bricks::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	}
 	else
 	{
+		if (life == maximumLife)
+		{
+			isPlayingBreaking = true;
+			return;
+		}
 		D3DXVECTOR2 position = animation->GetPosition();
 		D3DXVECTOR2 ballPosition = ball->GetPosition();
 
@@ -172,13 +177,9 @@ void Bricks::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			if (Sprite::AABB(this->animation->GetSprite(), ball->GetSprite()))
 			{
 				//ball->CollisionTestWithBall(animation->GetSprite());
-				ball->CollisionTestWithPlayer(animation->GetSprite());
+				ball->CollisionTestWithBall(animation->GetSprite());
 				life++;
 			}
-		}
-		if (life == maximumLife)
-		{
-			isPlayingBreaking = true;
 		}
 	}
 	animation->Play(life);
@@ -196,4 +197,9 @@ void Bricks::Render()
 void Bricks::SetItem()
 {
 	bIsHavingItem = true;
+}
+
+void Bricks::ApplyDamege()
+{
+	life++;
 }

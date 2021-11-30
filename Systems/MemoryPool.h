@@ -1,67 +1,82 @@
 #pragma once
+#include "stdafx.h"
 #include <stack>
 
 template<typename T>
-class CObjectPool
+class MemoryPool
 {
 public:
 	// 사이즈만큼 오브젝트를 만든다.
-	CObjectPool(int size = 100) {
-		_maxSize = size;
-
-		for (int i = 0; i < _maxSize; ++i) {
-			T* newObject = new T();
-			_objects.push(newObject);
-		}
-	}
+	MemoryPool() {}
 
 	// 오브젝트를 비운다.
-	~CObjectPool()
+	~MemoryPool()
 	{	
 		while (!_objects.empty()) {
 			T* object = _objects.top();
 			_objects.pop();
-			delete object;
-		}
-
-		_maxSize = 0;
+			SAFE_DELETE(object);
+		}		
 	}
+
+	void PushObject(T* input)
+	{	
+		_objects.push(input);
+	}
+
+	void CheckObjectPool() 
+	{
+		for (int i = 0; i < activateObjects.size();)
+		{
+			if (objects->GetIsValid())
+			{
+				activateObjects.erase(activateObjects.begin() + i);
+			}
+			else
+			{
+				i++;
+			}
+		}
+	};
 
 	// 오브젝트를 꺼낸다.
 	T* PopObject()
 	{
 		// 오브젝트가 없다면 확장한다.
 		if (_objects.empty()) {
-			Expand();
+			return nullptr;
 		}
-
-		T* retVal = _objects.top();
-		_objects.pop();
+		T* retVal = _objects.at(_objects.end());
+		_objects.pop_back();
+		activateObjects.push_back(retVal);
 		return retVal;
-	}
-
-	// 현재 크기만큼 새로운 오브젝트를 넣어 확장한다.
-	void Expand() {
-		// 늘린 크기만큼 새로운 오브젝트를 넣어준다.
-		for (int i = 0; i < _maxSize; ++i)
-		{
-			T* newObject = new T();
-			_objects.push(newObject);
-		}
-
-		// 최대 크기를 늘린다.
-		_maxSize += _maxSize;
 	}
 
 	// 오브젝트를 수거한다.
 	void ReturnObject(T* object)
-	{		_objects.push(object);
+	{		
+		_objects.push(object);
 	}
 
-private:
-	
-	std::stack<T*> _objects;
-	int _maxSize; // 최대 배열 크기
+	void Update(D3DXMATRIX& V, D3DXMATRIX& P)
+	{
+		for (auto objects : activateObjects)
+		{
+			objects->Update(V, P);
+		}
+	}
+
+	void Render()
+	{
+		for (auto objects : activateObjects)
+		{
+			objects->Render();
+		}
+	}
+
+private:	
+	vector<T*> _objects;
+	vector<T*> activateObjects;
 };
 
 

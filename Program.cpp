@@ -7,6 +7,8 @@
 #include "Scene/Scene.h"
 #include "Scene/Stage1.h"
 #include "Objects/Item.h"
+#include "Objects/IBRICKSINTERFACE.h"
+//#include "Systems/MemoryPool.h"
 
 
 SceneValues* values;
@@ -15,14 +17,15 @@ bool isStop = false;
 
 Player* player;
 Ball* ball;
+vector<IBRICKSINTERFACE*> * pbricksvector;
 ItemMemoryPool* itempool;
+//MemoryPool<Bullet>* bulletPool;
 
 void InitScene()
 {
 	values = new SceneValues();
 	values->MainCamera = new Freedom();
 	D3DXMatrixIdentity(&values->Projection);
-
 	scenes.push_back(new Stage1(values));
 }
 
@@ -35,6 +38,7 @@ void DestroyScene()
 	SAFE_DELETE(values->MainCamera);
 	SAFE_DELETE(values);	
 	SAFE_DELETE(itempool);
+	//SAFE_DELETE(bulletPool);
 }
 
 D3DXMATRIX V, P;
@@ -88,10 +92,6 @@ void Render()
 		text += to_wstring((int)values->MainCamera->GetPosition().y);
 		DirectWrite::RenderText(text, rect);
 	}
-	
-
-
-
 	DirectWrite::GetDC()->EndDraw();
 	SwapChain->Present(0, 0);
 	

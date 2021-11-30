@@ -15,6 +15,9 @@ public:
 
 	virtual void SetItem() override;
 
+	virtual Sprite* GetSprite() override { return animation->GetSprite(); };
+
+	virtual void ApplyDamege() override;
 private:
 	Animation* animation;
 	Sprite* ItemSprite = nullptr;

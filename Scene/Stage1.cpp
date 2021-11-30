@@ -1,16 +1,20 @@
 #include "stdafx.h"
 #include "Stage1.h"
-#include "Objects/Player.h"
 #include "Viewer/Following.h"
 #include "Viewer/Freedom.h"
+#include "Objects/Player.h"
 #include "Objects/Ball.h"
 #include "Objects/Bricks.h"
 #include "Objects/NonBreakableBricks.h"
 #include "Objects/Item.h"
+#include "Objects/Bullet.h"
+//#include "Systems/MemoryPool.h"
 
 extern Player* player;
 extern Ball* ball;
 extern ItemMemoryPool* itempool;
+extern vector<IBRICKSINTERFACE*> * pbricksvector;
+//extern MemoryPool<Bullet>* bulletPool;
 
 vector<IBRICKSINTERFACE*> bricksvector;
 bool istouch = false;
@@ -32,12 +36,16 @@ Stage1::Stage1(SceneValues * values)
 
 	// 아이템 풀 생성
 	itempool = new ItemMemoryPool();
+	// bricks pointer setting
+	pbricksvector = &bricksvector;
 
-
+	//for (size_t i = 0; i < 30; i++)
+	//{
+	//	bulletPool->PushObject(new Bullet());
+	//}
 
 	// 맵 가로 : 220 ~ 580 px
 	// 벽돌 하나 크기 : 54 * 22 px
-
 
 	for (size_t i = 0; i < 5; i++)
 	{
@@ -58,9 +66,6 @@ Stage1::Stage1(SceneValues * values)
 	{
 		bricksvector.push_back(new Bricks(Math::Random(0, 2), D3DXVECTOR2(300 + BRICKSWIDTH * i, 500 - BRICKSHEIGHT * 3)));
 	}
-
-
-
 
 	bricksvector.push_back(new NonBreakableBricks(D3DXVECTOR2(300 + BRICKSWIDTH * 3, 300)));
 	bricksvector.push_back(new NonBreakableBricks(D3DXVECTOR2(300 + BRICKSWIDTH * 1, 300)));
@@ -85,7 +90,8 @@ Stage1::~Stage1()
 	//SAFE_DELETE(player);
 	SAFE_DELETE(ball);
 	SAFE_DELETE(backGround);
-	
+	bricksvector.clear();
+	pbricksvector = nullptr;
 	// 아이템 풀로 객체들 반환.
 
 }
@@ -104,6 +110,7 @@ void Stage1::Update()
 	
 
 	itempool->Update(V, P);
+	//bulletPool->Update(V, P);
 
 	for (auto bricks : bricksvector)
 	{
@@ -112,10 +119,7 @@ void Stage1::Update()
 			return;
 		}
 		bricks->Update(V, P);
-	}
-
-	
-	
+	}	
 }
 
 void Stage1::Render()
@@ -128,7 +132,7 @@ void Stage1::Render()
 	}
 	ball->Render();
 	itempool->Render();
-	
+	//bulletPool->Render();
 	
 	
 }

@@ -1,8 +1,11 @@
 #include "stdafx.h"
 #include "Objects/Player.h"
 #include "Objects/Ball.h"
+//#include "Systems/MemoryPool.h"
+#include "Objects/Bullet.h"
 
 extern Ball* ball;
+//extern MemoryPool<Bullet>* bulletPool;
 
 Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	:moveSpeed(300.0f), focusoffset(0, -120)
@@ -54,9 +57,15 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	D3DXVECTOR2 position = animation->GetPosition();
 	D3DXVECTOR2 ballPosition = ball->GetPosition();
 
-	if (bIsGetBulletItem)
+	//if (bIsGetBulletItem)
 	{
-
+		if (Key->Press(VK_SPACE))
+		{
+			//Bullet* temp1 = bulletPool->PopObject();
+			//Bullet* temp2 = bulletPool->PopObject();
+			//temp1->SetPosition(D3DXVECTOR2(position.x - animation->TextureSize().x * 0.5f, position.y));
+			//temp2->SetPosition(D3DXVECTOR2(position.x + animation->TextureSize().x * 0.5f, position.y));
+		}
 	}
 
 	if (bIsGetLargerItem)

@@ -198,7 +198,6 @@
     <ClInclude Include="Systems\Device.h" />
     <ClInclude Include="Systems\DirectWrite.h" />
     <ClInclude Include="Systems\Keyboard.h" />
-    <ClInclude Include="Systems\MemoryPool.h" />
     <ClInclude Include="Systems\Time.h" />
     <ClInclude Include="Utilities\BinaryFile.h" />
     <ClInclude Include="Utilities\Math.h" />

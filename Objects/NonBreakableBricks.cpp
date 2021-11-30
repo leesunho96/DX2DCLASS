@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "NonBreakableBricks.h"
-#include "Renders/Animation.h";
+#include "Renders/Animation.h"
 #include "Objects/Ball.h"
 
 extern Ball* ball;
@@ -27,11 +27,11 @@ NonBreakableBricks::NonBreakableBricks(D3DXVECTOR2 position) : IBRICKSINTERFACE(
 
 NonBreakableBricks::~NonBreakableBricks()
 {
+	SAFE_DELETE(animation);
 }
 
 void NonBreakableBricks::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-
 	D3DXVECTOR2 position = animation->GetPosition();
 	D3DXVECTOR2 ballPosition = ball->GetPosition();
 
