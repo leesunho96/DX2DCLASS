@@ -9,17 +9,16 @@ Item::Item(int type) : type(type)
 	wstring TexturesName = Textures + L"/Alkanoid/Blocks.png";
 	wstring ShaderName = Shaders + L"009_Sprite.fx";
 
-
 	switch (type)
 	{
 	case 0:
-		sprite = new Sprite(TexturesName, ShaderName, 594, 308, 648, 329);
+		sprite = new Sprite(TexturesName, ShaderName, 594, 308, 648, 330);
 		break;
 	case 1:
-		sprite = new Sprite(TexturesName, ShaderName, 594, 308, 648, 329);
+		sprite = new Sprite(TexturesName, ShaderName, 594, 330, 648, 352);
 		break;
 	case 2:
-		sprite = new Sprite(TexturesName, ShaderName, 594, 308, 648, 329);
+		sprite = new Sprite(TexturesName, ShaderName, 594, 352, 648, 374);
 		break;
 	}
 	position = D3DXVECTOR2(0, 0);
@@ -38,6 +37,7 @@ void Item::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	if (!isvalid)
 		return;
 
+	position = sprite->Position();
 	position.y -=  speed * Timer->Elapsed();
 	sprite->Position(position);
 
@@ -49,15 +49,17 @@ void Item::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			isvalid = false;
 		}
 	}
-	if (position.y <= -100)
+	if (position.y <= -10)
 	{
 		isvalid = false;
 	}
-	
+	sprite->Update(V, P);
 }
 
 void Item::Render()
 {
+	if (!isvalid)
+		return;
 	sprite->Render();
 	ImGui::SliderFloat("Item Y pos", &position.y, -500, 500);
 }
@@ -81,7 +83,7 @@ ItemMemoryPool::ItemMemoryPool()
 {
 	for (size_t i = 0; i < 10; i++)
 	{
-		ItemPool.push_back(new Item(Math::Random(0, 2)));
+		ItemPool.push_back(new Item(i % 3));
 	}
 
 }
