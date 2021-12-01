@@ -39,5 +39,12 @@ void Bullet::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 void Bullet::Render()
 {
+	ImGui::SliderFloat2("Bullet Scale", (float*)&scale, 1, 5);
+	ImGui::SliderFloat3("Bullet Rotation", (float*)&rotation, -360, 360);
+
+	clip->Scale(scale);
+	clip->RotationDegree(rotation);
+
 	clip->Render();
+	
 }

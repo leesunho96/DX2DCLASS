@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Fire.h"
 
-Fire::Fire(wstring shaderFile, D3DXVECTOR2 start)
+Fire::Fire(wstring shaderFile, D3DXVECTOR2 start) : scale(1.5f, 1.5f), rotation(0, 0, 0)
 {
 	clip = new Clip(PlayMode::Loop);
 
@@ -22,7 +22,8 @@ Fire::Fire(wstring shaderFile, D3DXVECTOR2 start)
 	position = start;
 
 	clip->Position(position);
-	clip->Scale(1.5f, 1.5f);
+	clip->Scale(scale);
+	clip->Rotation(rotation);
 	clip->Play();
 	clip->DrawBound(true);
 }
@@ -39,5 +40,14 @@ void Fire::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 void Fire::Render()
 {
+	clip->Render();
+	ImGui::Separator();
+
+	ImGui::SliderFloat2("Fire Scale", (float*)&scale, 1, 5);
+	ImGui::SliderFloat3("Fire Rotation", (float*)&rotation, -360, 360);
+
+	clip->Scale(scale);
+	clip->RotationDegree(rotation);
+
 	clip->Render();
 }

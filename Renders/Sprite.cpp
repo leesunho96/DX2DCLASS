@@ -35,6 +35,9 @@ void Sprite::Initialize(wstring spriteFile, wstring shaderFile, float startX, fl
 	Position(0, 0);
 	Rotation(0, 0, 0);
 	Scale(1, 1);
+	D3DXMatrixIdentity(&world);
+
+	bDrawCollision = false;
 
 	HRESULT hr;
 	D3DX11_IMAGE_INFO info;
@@ -104,16 +107,19 @@ void Sprite::Update(D3DXMATRIX& V, D3DXMATRIX& P)
 	boundShader->AsMatrix("View")->SetMatrix(V);
 	boundShader->AsMatrix("Projection")->SetMatrix(P);
 
-	D3DXMATRIX W, S, R, T;
+	D3DXMATRIX S, R, T;
 
 	D3DXMatrixScaling(&S, textureSize.x * scale.x, textureSize.y * scale.y, 1);
-	D3DXMatrixRotationY(&R, rotation.y);
+	// 짐벌락 : 완전히 없애진 못함.
+	// 오일러 / 쿼터니온 등
+	// 한번에 돌리거나 사원소를 쓰거나. 백프로 없애지 못함.
+	D3DXMatrixRotationYawPitchRoll(&R, rotation.y, rotation.x, rotation.z);
 	D3DXMatrixTranslation(&T, position.x + scale.x * 0.5f, position.y + scale.y * 0.5f, 0);
 
-	W = S * R * T;
+	world = S * R * T;
 
-	shader->AsMatrix("World")->SetMatrix(W);
-	boundShader->AsMatrix("World")->SetMatrix(W);
+	shader->AsMatrix("World")->SetMatrix(world);
+	boundShader->AsMatrix("World")->SetMatrix(world);
 }
 
 void Sprite::Render()
@@ -133,9 +139,10 @@ void Sprite::Render()
 		DeviceContext->IASetVertexBuffers(0, 1, &boundVertexBuffer, &stride, &offset);
 		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
-		boundShader->Draw(0, 0, 5);
+		boundShader->Draw(0, bDrawCollision ? 1 : 0, 5);
 	}
 }
+
 
 void Sprite::CreateBound()
 {
@@ -229,6 +236,11 @@ bool Sprite::AABB(Sprite * b)
 	return AABB(this, b);
 }
 
+bool Sprite::OBB(Sprite * b)
+{
+	return OBB(this, b);
+}
+
 bool Sprite::AABB(Sprite * a, D3DXVECTOR2 & position)
 {
 	float xScale = a->scale.x * a->TextureSize().x * 0.5f;
@@ -277,6 +289,81 @@ bool Sprite::AABB(Sprite * a, Sprite * b)
 	return bCheck;
 }
 
+bool Sprite::OBB(Sprite * a, Sprite * b)
+{
+	OBBDesc obbA, obbB;
+	float xScale, yScale;
+
+	// _11, _22 : xscale, yscale
+	D3DXVECTOR2 lengthA = D3DXVECTOR2(a->world._11, a->world._22) * 0.5f;
+	CreateOBB(&obbA, a->position, a->world, lengthA);
+
+	D3DXVECTOR2 lengthB = D3DXVECTOR2(b->world._11, b->world._22) * 0.5f;
+	CreateOBB(&obbB, b->position, b->world, lengthB);
+
+	return CheckOBB(obbA, obbB);
+}
+
+void Sprite::CreateOBB(OUT OBBDesc * out, D3DXVECTOR2 & position, D3DXMATRIX & world, D3DXVECTOR2 & length)
+{
+	out->Position = position;
+
+	out->Length[0] = length.x;
+	out->Length[1] = length.y;
+
+	out->Direction[0] = D3DXVECTOR2(world._11, world._12);
+	out->Direction[1] = D3DXVECTOR2(world._21, world._22);
+
+	D3DXVec2Normalize(&out->Direction[0], &out->Direction[0]);
+	D3DXVec2Normalize(&out->Direction[1], &out->Direction[1]);
+}
+
+float Sprite::SeperateAxis(D3DXVECTOR2 seperate, D3DXVECTOR2 & e1, D3DXVECTOR2 & e2)
+{
+	float r1 = fabsf(D3DXVec2Dot(&seperate, &e1));
+	float r2 = fabsf(D3DXVec2Dot(&seperate, &e2));
+
+	return r1 + r2;
+}
+
+bool Sprite::CheckOBB(OBBDesc & obbA, OBBDesc & obbB)
+{
+	D3DXVECTOR2 nea1 = obbA.Direction[0], ea1 = nea1 * obbA.Length[0];
+	D3DXVECTOR2 nea2 = obbA.Direction[1], ea2 = nea2 * obbA.Length[1];
+	D3DXVECTOR2 neb1 = obbB.Direction[0], eb1 = neb1 * obbB.Length[0];
+	D3DXVECTOR2 neb2 = obbB.Direction[1], eb2 = neb2 * obbB.Length[1];
+	D3DXVECTOR2 direction = obbA.Position - obbB.Position;
+
+
+	float lengthA = 0.0f, lengthB = 0.0f, length = 0.0f;
+
+	lengthA = D3DXVec2Length(&ea1);
+	lengthB = SeperateAxis(nea1, eb1, eb2);
+	length = fabsf(D3DXVec2Dot(&direction, &nea1));
+	if (length > lengthA + lengthB)
+		return false;
+
+	lengthA = D3DXVec2Length(&ea2);
+	lengthB = SeperateAxis(nea2, eb1, eb2);
+	length = fabsf(D3DXVec2Dot(&direction, &nea2));
+	if (length > lengthA + lengthB)
+		return false;
+
+
+	lengthA = SeperateAxis(neb1, ea1, ea2);
+	lengthB = D3DXVec2Length(&eb1);
+	length = fabsf(D3DXVec2Dot(&direction, &neb1));
+	if (length > lengthA + lengthB)
+		return false;
+
+	lengthA = SeperateAxis(neb2, ea1, ea2);
+	lengthB = D3DXVec2Length(&eb2);
+	length = fabsf(D3DXVec2Dot(&direction, &neb2));
+	if (length > lengthA + lengthB)
+		return false;
+
+	return true;	
+}
 //-----------------------------------------------------------------------------
 //Sprites
 //-----------------------------------------------------------------------------

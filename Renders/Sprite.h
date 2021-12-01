@@ -11,7 +11,10 @@ public:
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 
-	void DrawBound(bool val) { bDrawBound = true; };
+	void DrawBound(bool val) { bDrawBound = val; }
+	void DrawCollision(bool val) { bDrawCollision = val; }
+
+
 
 public:
 	void Position(float x, float y);
@@ -32,6 +35,8 @@ public:
 
 	D3DXVECTOR2 TextureSize() { return textureSize; }
 
+	D3DXMATRIX GetWorld() { return world; };
+
 
 public:
 	// axis aligned bounding boxes
@@ -40,11 +45,27 @@ public:
 	bool AABB(D3DXVECTOR2 position);
 	bool AABB(Sprite* b);
 
+	bool OBB(Sprite* b);
+	
 	static bool AABB(Sprite* a, D3DXVECTOR2& position);
 	static bool AABB(Sprite* a, Sprite* b);
 
+	static bool OBB(Sprite* a, Sprite* b);
+
 	// 충돌 구현 위한 bound
 	// 충돌은 각 스프라이트에서 일어나야 함. 스프라이트 크기 변경시 충돌 반경도 변해야 함.
+
+private:
+	struct OBBDesc
+	{
+		D3DXVECTOR2 Position;
+		D3DXVECTOR2 Direction[2];
+		float Length[2];
+	};
+
+	static void CreateOBB(OUT OBBDesc* out, D3DXVECTOR2& position, D3DXMATRIX& world, D3DXVECTOR2& length);
+	static float SeperateAxis(D3DXVECTOR2 seperate, D3DXVECTOR2& e1, D3DXVECTOR2& e2);
+	static bool CheckOBB(OBBDesc& obbA, OBBDesc& obbB);
 private:
 	void CreateBound();
 
@@ -64,12 +85,13 @@ private:
 	Shader* boundShader;
 	ID3D11Buffer* boundVertexBuffer;
 	bool bDrawBound;
+	bool bDrawCollision;
 
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;
 	D3DXVECTOR3 rotation;
 	D3DXVECTOR2 textureSize;
-
+	D3DXMATRIX world;
 	ID3D11ShaderResourceView* srv;
 
 private:

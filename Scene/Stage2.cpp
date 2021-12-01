@@ -59,20 +59,16 @@ void Stage2::Render()
 	RenderBackground();
 
 	static bool check = false;
-
-	Sprite* a = player->GetSprite();
-	check = Sprite::AABB(a, bullet->Position());
-
-	ImGui::LabelText("AABB", "%d", check ? 1 : 0);
-
-
-	static bool check2 = false;
+	
+	Sprite* a = bullet->GetClip()->GetSprite();
 	Sprite* b = fire->GetClip()->GetSprite();
 
-	check2 = a->AABB(b);
-	ImGui::LabelText("AABB Rectr", "%d", check2 ? 1 : 0);
+	check = Sprite::OBB(a, b);
 
+	a->DrawCollision(check);
+	b->DrawCollision(check);
 
+	ImGui::LabelText("OBB", "%d", check ? 1 : 0);
 
 	player->Render();
 	bullet->Render();
