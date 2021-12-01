@@ -166,11 +166,6 @@ void Bricks::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	}
 	else
 	{
-		if (life == maximumLife)
-		{
-			isPlayingBreaking = true;
-			return;
-		}
 		D3DXVECTOR2 position = animation->GetPosition();
 		D3DXVECTOR2 ballPosition = ball->GetPosition();
 
@@ -181,7 +176,10 @@ void Bricks::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 				//ball->CollisionTestWithBall(animation->GetSprite());
 				ball->CollisionTestWithPlayer(animation->GetSprite());
 				life++;
-				bIsAvailableCollision = false;
+				if (life >= maximumLife)
+				{
+					isPlayingBreaking = true;					
+				}
 			}
 		}
 	}
@@ -205,4 +203,10 @@ void Bricks::SetItem()
 void Bricks::ApplyDamege()
 {
 	life++;
+	if (life >= maximumLife)
+	{
+		isPlayingBreaking = true;
+	}
 }
+
+

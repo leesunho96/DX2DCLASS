@@ -8,13 +8,16 @@
 #include "Objects/NonBreakableBricks.h"
 #include "Objects/Item.h"
 #include "Objects/Bullet.h"
-//#include "Systems/MemoryPool.h"
+
 
 extern Player* player;
 extern Ball* ball;
 extern ItemMemoryPool* itempool;
 extern BulletMemoryPool* bulletpool;
+
 extern vector<IBRICKSINTERFACE*> * pbricksvector;
+extern vector<IBRICKSINTERFACE*> * exitbricksvector;
+
 //extern MemoryPool<Bullet>* bulletPool;
 
 vector<IBRICKSINTERFACE*> bricksvector;
@@ -69,8 +72,8 @@ Stage1::Stage1(SceneValues * values)
 		bricksvector.push_back(new Bricks(Math::Random(0, 2), D3DXVECTOR2(300 + BRICKSWIDTH * i, 500 - BRICKSHEIGHT * 3)));
 	}
 
-	//bricksvector.push_back(new NonBreakableBricks(D3DXVECTOR2(300 + BRICKSWIDTH * 3, 300)));
-	//bricksvector.push_back(new NonBreakableBricks(D3DXVECTOR2(300 + BRICKSWIDTH * 1, 300)));
+	bricksvector.push_back(new NonBreakableBricks(D3DXVECTOR2(300 + BRICKSWIDTH * 3, 300)));
+	bricksvector.push_back(new NonBreakableBricks(D3DXVECTOR2(300 + BRICKSWIDTH * 1, 300)));
 
 	bricksvector.at(0)->SetItem(); 
 	bricksvector.at(3)->SetItem();
@@ -102,6 +105,19 @@ void Stage1::Update()
 {
 	itempool->CheckItemPool();
 	bulletpool->CheckItemPool();
+	//for (int i = 0; i < bricksvector.size();)
+	//{
+	//	if (bricksvector.at(i)->GetIsValid())
+	//	{
+	//		exitbricksvector->push_back(bricksvector.at(i));
+	//		bricksvector.erase(bricksvector.begin() + i);
+	//	}
+	//	else
+	//	{
+	//		i++;
+	//	}
+	//}
+
 
 	istouch = false;
 	D3DXMATRIX V = values->MainCamera->GetView();
@@ -115,7 +131,7 @@ void Stage1::Update()
 
 	itempool->Update(V, P);
 	bulletpool->Update(V, P);
-	//bulletPool->Update(V, P);
+	
 
 	for (auto bricks : bricksvector)
 	{
@@ -138,5 +154,5 @@ void Stage1::Render()
 	ball->Render();
 	itempool->Render();
 	bulletpool->Render();
-	//bulletPool->Render();	
+	
 }

@@ -19,7 +19,7 @@ Bullet::Bullet()
 
 	
 	sprite->DrawBound(true);
-	sprite->Scale(1.0f, 0.5f);
+	sprite->Scale(0.5f, 0.5f);
 }
 
 Bullet::~Bullet()
@@ -37,19 +37,20 @@ void Bullet::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	if (!isValid)
 		return;
-
+	position = sprite->Position();
 	position.y += 1;
 	sprite->Position(position);
 
 	if (position.y >= 1000)
 	{
 		isValid = false;
+		return;
 	}
 	for (auto bricks : *pbricksvector)
 	{
 		if (bricks->GetIsValid())
 		{
-			if (bricks->GetSprite()->AABB(sprite))
+			if (bricks->GetSprite()->AABB(/*sprite))*/D3DXVECTOR2(position.x, position.y + sprite->TextureSize().y * 0.5f)))
 			{
 				bricks->ApplyDamege();
 				isValid = false;
@@ -115,6 +116,8 @@ void BulletMemoryPool::CheckItemPool()
 			i++;
 		}
 	}
+	activateNum = ActivateItemVector.size();
+	deactivateNum = ItemPool.size();
 }
 
 void BulletMemoryPool::Update(D3DXMATRIX & V, D3DXMATRIX & P)
@@ -123,7 +126,6 @@ void BulletMemoryPool::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	{
 		ActivateItemVector[i]->Update(V, P);
 	}
-	activateNum = ActivateItemVector.size();
 }
 
 void BulletMemoryPool::Render()
@@ -133,4 +135,5 @@ void BulletMemoryPool::Render()
 		ActivateItemVector[i]->Render();
 	}
 	ImGui::BulletText("Activate Bullet Num : %d", activateNum);
+	ImGui::BulletText("Deactivate Bullet Num : %d", deactivateNum);
 }

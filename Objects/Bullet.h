@@ -39,4 +39,5 @@ private:
 	vector<Bullet*> ItemPool;
 	vector<Bullet*> ActivateItemVector;
 	int activateNum = 0;
+	int deactivateNum = 50;
 };

@@ -19,6 +19,7 @@ bool isStop = false;
 Player* player;
 Ball* ball;
 vector<IBRICKSINTERFACE*> * pbricksvector;
+vector<IBRICKSINTERFACE*> * exitbricksvector;
 ItemMemoryPool* itempool;
 BulletMemoryPool* bulletpool;
 //MemoryPool<Bullet>* bulletPool;

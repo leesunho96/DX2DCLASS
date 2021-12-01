@@ -39,7 +39,8 @@ Ball::~Ball()
 
 void Ball::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-
+	if (!bIsActivate)
+		return;
 	position += velocity;
 
 	sprite->Position(position);
@@ -53,6 +54,10 @@ void Ball::Render()
 	sprite->Render();
 	ImGui::SliderFloat("ball Position X", &position.x, -500, 500);
 	ImGui::SliderFloat("ball Position Y", &position.y, -500, 500);
+	if (ImGui::Button("Ball Activate"))
+	{
+		bIsActivate = bIsActivate ? false : true;
+	}
 }
 
 void Ball::CollisionTestWithBall(Sprite * others)

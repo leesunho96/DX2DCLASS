@@ -30,6 +30,8 @@ private:
 
 	static vector<Ball*> ballVector;
 
+	bool bIsActivate = true;
+
 private:
 	void CollisionTest();
 	void testMethod();
