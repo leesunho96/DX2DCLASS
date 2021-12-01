@@ -151,7 +151,6 @@
     <ClCompile Include="Objects\Ball.cpp" />
     <ClCompile Include="Objects\Bricks.cpp" />
     <ClCompile Include="Objects\Bullet.cpp" />
-    <ClCompile Include="Objects\Fire.cpp" />
     <ClCompile Include="Objects\Item.cpp" />
     <ClCompile Include="Objects\NonBreakableBricks.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
@@ -182,7 +181,6 @@
     <ClInclude Include="Objects\Ball.h" />
     <ClInclude Include="Objects\Bricks.h" />
     <ClInclude Include="Objects\Bullet.h" />
-    <ClInclude Include="Objects\Fire.h" />
     <ClInclude Include="Objects\IBRICKSINTERFACE.h" />
     <ClInclude Include="Objects\Item.h" />
     <ClInclude Include="Objects\NonBreakableBricks.h" />

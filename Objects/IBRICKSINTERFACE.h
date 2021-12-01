@@ -9,5 +9,6 @@ public:
 	virtual void SetItem() = 0;
 	virtual Sprite* GetSprite() = 0;
 	virtual void ApplyDamege() = 0;
+	virtual bool GetIsValid() = 0;
 private:
 };

@@ -5,6 +5,7 @@
 #include "Objects/Bullet.h"
 
 extern Ball* ball;
+extern BulletMemoryPool* bulletpool;
 //extern MemoryPool<Bullet>* bulletPool;
 
 Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
@@ -56,15 +57,16 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	D3DXVECTOR2 position = animation->GetPosition();
 	D3DXVECTOR2 ballPosition = ball->GetPosition();
-
+	bulletCooltime += Timer->Elapsed();
 	//if (bIsGetBulletItem)
 	{
-		if (Key->Press(VK_SPACE))
+		if (Key->Press(VK_SPACE) && bulletCooltime >= 0.5f)
 		{
-			//Bullet* temp1 = bulletPool->PopObject();
-			//Bullet* temp2 = bulletPool->PopObject();
-			//temp1->SetPosition(D3DXVECTOR2(position.x - animation->TextureSize().x * 0.5f, position.y));
-			//temp2->SetPosition(D3DXVECTOR2(position.x + animation->TextureSize().x * 0.5f, position.y));
+			Bullet* temp1 = bulletpool->GetItemFromPool();
+			Bullet* temp2 = bulletpool->GetItemFromPool();
+			temp1->SetPosition(D3DXVECTOR2(position.x - animation->TextureSize().x * 0.5f, position.y));
+			temp2->SetPosition(D3DXVECTOR2(position.x + animation->TextureSize().x * 0.5f, position.y));
+			bulletCooltime = 0.0f;
 		}
 	}
 

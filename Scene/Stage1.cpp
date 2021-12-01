@@ -13,6 +13,7 @@
 extern Player* player;
 extern Ball* ball;
 extern ItemMemoryPool* itempool;
+extern BulletMemoryPool* bulletpool;
 extern vector<IBRICKSINTERFACE*> * pbricksvector;
 //extern MemoryPool<Bullet>* bulletPool;
 
@@ -36,6 +37,7 @@ Stage1::Stage1(SceneValues * values)
 
 	// 아이템 풀 생성
 	itempool = new ItemMemoryPool();
+	bulletpool = new BulletMemoryPool();
 	// bricks pointer setting
 	pbricksvector = &bricksvector;
 
@@ -67,8 +69,8 @@ Stage1::Stage1(SceneValues * values)
 		bricksvector.push_back(new Bricks(Math::Random(0, 2), D3DXVECTOR2(300 + BRICKSWIDTH * i, 500 - BRICKSHEIGHT * 3)));
 	}
 
-	bricksvector.push_back(new NonBreakableBricks(D3DXVECTOR2(300 + BRICKSWIDTH * 3, 300)));
-	bricksvector.push_back(new NonBreakableBricks(D3DXVECTOR2(300 + BRICKSWIDTH * 1, 300)));
+	//bricksvector.push_back(new NonBreakableBricks(D3DXVECTOR2(300 + BRICKSWIDTH * 3, 300)));
+	//bricksvector.push_back(new NonBreakableBricks(D3DXVECTOR2(300 + BRICKSWIDTH * 1, 300)));
 
 	bricksvector.at(0)->SetItem(); 
 	bricksvector.at(3)->SetItem();
@@ -99,6 +101,8 @@ Stage1::~Stage1()
 void Stage1::Update()
 {
 	itempool->CheckItemPool();
+	bulletpool->CheckItemPool();
+
 	istouch = false;
 	D3DXMATRIX V = values->MainCamera->GetView();
 	D3DXMATRIX P = values->Projection;
@@ -110,6 +114,7 @@ void Stage1::Update()
 	
 
 	itempool->Update(V, P);
+	bulletpool->Update(V, P);
 	//bulletPool->Update(V, P);
 
 	for (auto bricks : bricksvector)
@@ -132,7 +137,6 @@ void Stage1::Render()
 	}
 	ball->Render();
 	itempool->Render();
-	//bulletPool->Render();
-	
-	
+	bulletpool->Render();
+	//bulletPool->Render();	
 }

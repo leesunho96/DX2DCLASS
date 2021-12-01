@@ -18,6 +18,7 @@ public:
 	virtual Sprite* GetSprite() override { return animation->GetSprite(); };
 
 	virtual void ApplyDamege() override;
+	virtual bool GetIsValid() override { return isAvailable; };
 private:
 	Animation* animation;
 	Sprite* ItemSprite = nullptr;
@@ -29,4 +30,5 @@ private:
 	const int maximumLife = 3;
 	D3DXVECTOR2 Position;
 	bool bIsHavingItem = false;
+	bool bIsAvailableCollision = true;
 };

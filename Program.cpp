@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "Systems/Device.h"
 
-#include "Objects/Ball.h"
-#include "Objects/Player.h"
 #include "Viewer/Freedom.h"
 #include "Scene/Scene.h"
 #include "Scene/Stage1.h"
+#include "Objects/Ball.h"
+#include "Objects/Player.h"
 #include "Objects/Item.h"
 #include "Objects/IBRICKSINTERFACE.h"
+#include "Objects/Bullet.h"
 //#include "Systems/MemoryPool.h"
 
 
@@ -19,6 +20,7 @@ Player* player;
 Ball* ball;
 vector<IBRICKSINTERFACE*> * pbricksvector;
 ItemMemoryPool* itempool;
+BulletMemoryPool* bulletpool;
 //MemoryPool<Bullet>* bulletPool;
 
 void InitScene()

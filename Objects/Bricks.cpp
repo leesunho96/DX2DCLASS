@@ -160,7 +160,9 @@ void Bricks::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 				Item* temp = itempool->GetItemFromPool();
 				temp->SetPosition(animation->GetPosition());
 			}
+
 		}
+
 	}
 	else
 	{
@@ -177,8 +179,9 @@ void Bricks::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			if (Sprite::AABB(this->animation->GetSprite(), ball->GetSprite()))
 			{
 				//ball->CollisionTestWithBall(animation->GetSprite());
-				ball->CollisionTestWithBall(animation->GetSprite());
+				ball->CollisionTestWithPlayer(animation->GetSprite());
 				life++;
+				bIsAvailableCollision = false;
 			}
 		}
 	}

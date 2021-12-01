@@ -12,6 +12,7 @@ public:
 	virtual void SetItem() override {};
 	virtual Sprite* GetSprite() override { return animation->GetSprite(); };
 	virtual void ApplyDamege() override {};
+	virtual bool GetIsValid() { return true; };
 private:
 	Animation* animation;
 	D3DXVECTOR2 Position;

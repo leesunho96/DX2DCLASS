@@ -28,4 +28,5 @@ private:
 	bool bIsGetLargerItem = false;
 	bool bIsGetBulletItem = false;
 	bool bIsGetMoreBall = false;
+	float bulletCooltime = 0.0f;
 };

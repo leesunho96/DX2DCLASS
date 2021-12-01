@@ -144,5 +144,5 @@ void ItemMemoryPool::Render()
 	{
 		ActivateItemVector[i]->Render();
 	}
-	ImGui::BulletText("Activate Bullet Num : %d", activateNum);
+	ImGui::BulletText("Activate Item Num : %d", activateNum);
 }

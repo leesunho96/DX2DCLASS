@@ -20,3 +20,23 @@ private:
 	bool isValid = true;
 };
 
+class BulletMemoryPool
+{
+public:
+
+	BulletMemoryPool();
+	~BulletMemoryPool();
+
+	void PushItemToPool(Bullet * item);
+	Bullet* GetItemFromPool();
+	void CheckItemPool();
+
+	int GetActivateItemNum() { return activateNum; };
+
+	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
+	void Render();
+private:
+	vector<Bullet*> ItemPool;
+	vector<Bullet*> ActivateItemVector;
+	int activateNum = 0;
+};

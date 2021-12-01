@@ -57,9 +57,6 @@
     <ClCompile Include="Scene\Stage1.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Fire.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\Bricks.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -143,9 +140,6 @@
     </ClInclude>
     <ClInclude Include="Scene\Stage1.h">
       <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Fire.h">
-      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\IBRICKSINTERFACE.h">
       <Filter>Objects</Filter>
