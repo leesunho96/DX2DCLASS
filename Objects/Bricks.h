@@ -26,7 +26,7 @@ private:
 	bool isPlayingBreaking = false;
 	int life = 0;
 	float waitingTime = 0.0f;
-	const float animationTime = 0.2f;
+	const float animationTime = 0.05f;
 	const int maximumLife = 3;
 	D3DXVECTOR2 Position;
 	bool bIsHavingItem = false;

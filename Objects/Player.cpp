@@ -58,7 +58,7 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	D3DXVECTOR2 position = animation->GetPosition();
 	D3DXVECTOR2 ballPosition = ball->GetPosition();
 	bulletCooltime += Timer->Elapsed();
-	//if (bIsGetBulletItem)
+	if (bIsGetBulletItem)
 	{
 		if (Key->Press(VK_SPACE) && bulletCooltime >= 0.5f)
 		{
