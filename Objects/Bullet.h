@@ -13,7 +13,6 @@ public:
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 	bool GetIsValid() { return isValid; };
-
 private:
 	Sprite* sprite;
 	D3DXVECTOR2 position;

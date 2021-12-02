@@ -64,6 +64,10 @@ void Update()
 
 void Render()
 {
+	if (ImGui::Button("isstop"))
+	{
+		isStop = isStop ? false : true;
+	}
 	D3DXCOLOR bgColor = D3DXCOLOR(1, 1, 1, 1);
 	DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	{

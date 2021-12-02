@@ -19,7 +19,7 @@ Bullet::Bullet()
 
 	
 	sprite->DrawBound(true);
-	sprite->RotationDegree(0, 180, 0);
+	sprite->RotationDegree(0, 0, 180);
 	sprite->Scale(0.5f, 0.5f);
 }
 
