@@ -14,11 +14,12 @@ Bullet::Bullet()
 	sprite = new Sprite(
 		Textures + L"/Alkanoid/Bullets.png",
 		shaderFile,
-		334, 695,
-		337, 776);
+		216, 702,
+		228, 773);
 
 	
 	sprite->DrawBound(true);
+	sprite->RotationDegree(0, 180, 0);
 	sprite->Scale(0.5f, 0.5f);
 }
 
@@ -50,7 +51,7 @@ void Bullet::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	{
 		if (bricks->GetIsValid())
 		{
-			if (bricks->GetSprite()->AABB(/*sprite))*/D3DXVECTOR2(position.x, position.y + sprite->TextureSize().y * 0.5f)))
+			if (bricks->GetSprite()->AABB(D3DXVECTOR2(position.x, position.y + sprite->TextureSize().y * 0.5f)))
 			{
 				bricks->ApplyDamege();
 				isValid = false;

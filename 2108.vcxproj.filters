@@ -159,6 +159,9 @@
     <ClInclude Include="Objects\Bullet.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Systems\MemoryPool.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">

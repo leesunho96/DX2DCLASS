@@ -66,6 +66,11 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			Bullet* temp2 = bulletpool->GetItemFromPool();
 			temp1->SetPosition(D3DXVECTOR2(position.x - animation->TextureSize().x * 0.5f, position.y));
 			temp2->SetPosition(D3DXVECTOR2(position.x + animation->TextureSize().x * 0.5f, position.y));
+			if (bIsGetLargerItem)
+			{
+				Bullet* temp3 = bulletpool->GetItemFromPool();
+				temp3->SetPosition(position);
+			}
 			bulletCooltime = 0.0f;
 		}
 	}

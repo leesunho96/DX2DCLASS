@@ -1,6 +1,5 @@
 #pragma once
 #include "stdafx.h"
-#include <stack>
 
 template<typename T>
 class MemoryPool
