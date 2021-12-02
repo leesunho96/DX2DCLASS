@@ -307,30 +307,36 @@ bool Sprite::OBB(Sprite * a, Sprite * b)
 	OBBDesc obbA, obbB;
 	float xScale, yScale;
 
-	// _11, _22 : xscale, yscale
+	// _11, _22 : xscale, yscale, sprite a의 길이 구함
 	D3DXVECTOR2 lengthA = D3DXVECTOR2(a->world._11, a->world._22) * 0.5f;
+	// OBB 생성
 	CreateOBB(&obbA, a->position, a->world, lengthA);
-
+	// _11, _22 : xscale, yscale, sprite b의 길이 구함
 	D3DXVECTOR2 lengthB = D3DXVECTOR2(b->world._11, b->world._22) * 0.5f;
+	// obb 생성
 	CreateOBB(&obbB, b->position, b->world, lengthB);
 
+	// 생성된 obb값으로 check
 	return CheckOBB(obbA, obbB);
 }
 
+// obbDesc 생성하는 메소드, out을 출력 매개변수로 받고, position, world, length를 이용한다.
 void Sprite::CreateOBB(OUT OBBDesc * out, D3DXVECTOR2 & position, D3DXMATRIX & world, D3DXVECTOR2 & length)
 {
+	// obbDesc.position에 position 입력
 	out->Position = position;
-
+	// obbDesc.length에 length 입력
 	out->Length[0] = length.x;
 	out->Length[1] = length.y;
-
+	// obbDesc.direction에 world.11/12,. 21/22 입력
 	out->Direction[0] = D3DXVECTOR2(world._11, world._12);
 	out->Direction[1] = D3DXVECTOR2(world._21, world._22);
 
+	// directon을 정규화. => seperate axis
 	D3DXVec2Normalize(&out->Direction[0], &out->Direction[0]);
 	D3DXVec2Normalize(&out->Direction[1], &out->Direction[1]);
 }
-
+// seperate axis에 두 벡터를 내적한 값의 절대값을 합한 값을 반환.
 float Sprite::SeperateAxis(D3DXVECTOR2 seperate, D3DXVECTOR2 & e1, D3DXVECTOR2 & e2)
 {
 	// fabsf : 절대값. dxdxvec2dot : 내적
@@ -342,18 +348,25 @@ float Sprite::SeperateAxis(D3DXVECTOR2 seperate, D3DXVECTOR2 & e1, D3DXVECTOR2 &
 
 bool Sprite::CheckOBB(OBBDesc & obbA, OBBDesc & obbB)
 {
+	// nea : A의 seperate Axis, ea : A의 seperate axis * length
 	D3DXVECTOR2 nea1 = obbA.Direction[0], ea1 = nea1 * obbA.Length[0];
 	D3DXVECTOR2 nea2 = obbA.Direction[1], ea2 = nea2 * obbA.Length[1];
+	// neb : B의 seperate Axis, eb : B의 seperate axis * length
 	D3DXVECTOR2 neb1 = obbB.Direction[0], eb1 = neb1 * obbB.Length[0];
 	D3DXVECTOR2 neb2 = obbB.Direction[1], eb2 = neb2 * obbB.Length[1];
-	D3DXVECTOR2 direction = obbA.Position - obbB.Position;
+
+	D3DXVECTOR2 direction = obbA.Position - obbB.Position; // 중점 사이의 벡터
 
 
 	float lengthA = 0.0f, lengthB = 0.0f, length = 0.0f;
 
+	// lengthA : ea1의 길이
 	lengthA = D3DXVec2Length(&ea1);
+	// lengthB : nea1로 spriteB의 길이 eb1, eb2 투영
 	lengthB = SeperateAxis(nea1, eb1, eb2);
+	// 중점사이의 길이를 nea1로 투영한 값
 	length = fabsf(D3DXVec2Dot(&direction, &nea1));
+	// 중점 사이의 길이가 각 스프라이트의 길이의 합보다 크면 해당 축에서는 충돌 X, 작으면 해당 축에서 충돌.
 	if (length > lengthA + lengthB)
 		return false;
 
