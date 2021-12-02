@@ -236,6 +236,19 @@ bool Sprite::AABB(Sprite * b)
 	return AABB(this, b);
 }
 
+// OBB(Object oriented Bounding Box) COLLISION
+
+// AABB는 모든 축이 정렬된 sprite들에만 적용 가능 => 충돌 확인 하려는 스프라이트들이 평행해야 함
+// AABB( Axis Aligned Bounding Box)는 축에 정렬된 상태이기 때문에
+// 박스가 회전하지 않고 축 방향으로 이동만 하여 위치를 잡게 된다.
+// 그러므로 AABB의 두가지 요소 Min, Max값을 이용하여 각각의 축에 대하여 1차원적인 비교만 하면 된다.
+// OBB는 축이 정렬되어 있지 않은 sprite들 충돌 체크하는 방식.
+// => 별개의 seperate axis를 생성 후, 해당 축에 각 sprite를 투영.
+// seperate axis에 각 sprite의 position(중점)부터 가장 긴 가장자리를 투영한다.
+// 그렇게 투영한 길이의 합을 구한다.
+// 각 두개의 스프라이트의 중점사이의 벡터를 seperate axis에 투영한다.
+// 중점사이의 벡터를 투영한 값과 각 스프라이트의 벡터를 투영한 값의 합을 비교하여 중점사이의 벡터가 길면 충돌 X, 스프라이트의 벡터 합이 크면 충돌하는 방식.
+// 
 bool Sprite::OBB(Sprite * b)
 {
 	return OBB(this, b);
@@ -320,6 +333,7 @@ void Sprite::CreateOBB(OUT OBBDesc * out, D3DXVECTOR2 & position, D3DXMATRIX & w
 
 float Sprite::SeperateAxis(D3DXVECTOR2 seperate, D3DXVECTOR2 & e1, D3DXVECTOR2 & e2)
 {
+	// fabsf : 절대값. dxdxvec2dot : 내적
 	float r1 = fabsf(D3DXVec2Dot(&seperate, &e1));
 	float r2 = fabsf(D3DXVec2Dot(&seperate, &e2));
 
