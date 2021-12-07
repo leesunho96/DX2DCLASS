@@ -23,6 +23,9 @@ public:
 
 	void Scale(float x, float y);
 	void Scale(D3DXVECTOR2& vec);
+
+	void SetAbsoluteScale(float x, float y);
+	void SetAbsoluteScale(D3DXVECTOR2& vec);
 	D3DXVECTOR2 Scale() { return scale; }
 
 	void Rotation(float x, float y, float z);

@@ -69,6 +69,12 @@
     <ClCompile Include="Objects\Fire.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Background_Yeti.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CMouse.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -143,6 +149,12 @@
     </ClInclude>
     <ClInclude Include="Objects\Fire.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Background_Yeti.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CMouse.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

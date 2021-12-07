@@ -2,9 +2,7 @@
 
 #include "Scene.h"
 
-class Player;
-class Bullet;
-class Fire;
+class Background_Yeti;
 
 class Stage2 : public Scene
 {
@@ -14,16 +12,9 @@ public:
 
 	void Update() override;
 	void Render() override;
-
+	
 private:
-	void RenderBackground();
-		
-private:
-	Sprite* backGrounds[3];
-
-	Player* player;
-	Bullet* bullet;
-	Fire* fire;
+	Background_Yeti* bg;
 
 	bool check;
 };

@@ -34,7 +34,7 @@ ID3D11RenderTargetView* RTV;
 
 Keyboard* Key;
 Time* Timer;
-
+CMouse* Mouse;
 
 
 void InitWindow(HINSTANCE hInstance, int ShowWnd)
@@ -45,7 +45,7 @@ void InitWindow(HINSTANCE hInstance, int ShowWnd)
 		WNDCLASSEX wndClass;
 		wndClass.cbSize = sizeof(WNDCLASSEX);//해당 구조체 크기
 		wndClass.style = CS_HREDRAW | CS_VREDRAW; // 수평으로 그리기 | 수직으로 그리기
-		wndClass.lpfnWndProc = WndProc; 
+		wndClass.lpfnWndProc = WndProc;
 		wndClass.cbClsExtra = NULL; // 추가기능, 사용 안함
 		wndClass.cbWndExtra = NULL;
 		wndClass.hInstance = hInstance; // 현재 창의 프로그램 식별자
@@ -64,7 +64,7 @@ void InitWindow(HINSTANCE hInstance, int ShowWnd)
 	{
 		Hwnd = CreateWindowEx
 		(
-			NULL, 
+			NULL,
 			Title.c_str(),
 			Title.c_str(),
 			WS_OVERLAPPEDWINDOW,
@@ -96,6 +96,8 @@ void InitWindow(HINSTANCE hInstance, int ShowWnd)
 
 	ShowWindow(Hwnd, ShowWnd);
 	UpdateWindow(Hwnd);
+
+
 }
 
 void InitDirect3D(HINSTANCE hInstance)
@@ -113,7 +115,7 @@ void InitDirect3D(HINSTANCE hInstance)
 		bufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 		bufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
-		
+
 		DXGI_SWAP_CHAIN_DESC desc;
 		ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));
 
@@ -150,7 +152,7 @@ void Destroy()
 }
 
 void CreateBackBuffer()
-{	
+{
 	// Create BackBuffer
 	{
 		HRESULT hr;
@@ -195,10 +197,12 @@ WPARAM Running()
 	ImGui::StyleColorsDark();
 
 
-
+	// mouse 생성
+	Mouse = new CMouse(Hwnd);
 	Key = new Keyboard;
 	Timer = new Time();
 	InitScene();
+
 	while (true)
 	{
 		// peekMessage : 메세지큐에 값이 없어도 반환
@@ -214,12 +218,12 @@ WPARAM Running()
 			// 메세지를 WndProc에 보냄.
 			DispatchMessage(&msg);
 		}
-		else 
+		else
 		{
-			
-			Timer->Update();
-			Update();
 
+			Timer->Update();
+			Mouse->Update();
+			Update();
 			ImGui::Update();
 
 			Render();
@@ -227,8 +231,10 @@ WPARAM Running()
 	}
 	DestroyScene();
 
-	delete(Key);
-	delete(Timer);
+	SAFE_DELETE(Mouse);
+	SAFE_DELETE(Key);
+	SAFE_DELETE(Timer);
+
 	DirectWrite::Delete();
 	ImGui::Delete();
 	return msg.wParam;
@@ -237,55 +243,60 @@ WPARAM Running()
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	// 실제 마우스 좌표보다 화면 베젤로 인해서 약간 틀어짐.
-	if(ImGui::WndProc((UINT*)hwnd, msg, wParam, lParam))
+	if (ImGui::WndProc((UINT*)hwnd, msg, wParam, lParam))
 		return true;
+
+	if (Mouse != NULL)
+	{
+		Mouse->WndProc(msg, wParam, lParam);
+	}
 
 	switch (msg)
 	{
-		case WM_KEYDOWN:
-			if (wParam == VK_ESCAPE) 
-			{			
-				DestroyWindow(hwnd);
-			}
-			return 0;
-
-		case WM_DESTROY:
-			PostQuitMessage(0);
-			return 0;
-
-		case WM_LBUTTONDOWN:
+	case WM_KEYDOWN:
+		if (wParam == VK_ESCAPE)
 		{
-			//MessageBox(hwnd, L"Hello World!", L"WORLD!" , MB_OK);
+			DestroyWindow(hwnd);
+		}
+		return 0;
+
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 0;
+
+	case WM_LBUTTONDOWN:
+	{
+		//MessageBox(hwnd, L"Hello World!", L"WORLD!" , MB_OK);
+		break;
+	}
+
+	case WM_SIZE:
+	{
+		//Width = LOWORD(lParam);
+		//Height = HIWORD(lParam);
+		//		
+		//wstring temp = to_wstring(Width) + L", " + to_wstring(Height);
+		//MessageBox(hwnd, L" ", temp.c_str(), MB_OK);
+		if (Device != NULL)
+		{
+			ImGui::Invalidate();
+
+			Width = LOWORD(lParam);
+			Height = HIWORD(lParam);
+
+			DeleteBackBuffer();
+			// 글씨도 화면 크기 따라 변경되어야 해서 버퍼 삭제->생성 반복해야함
+			DirectWrite::DeleteBackBuffer();
+
+			HRESULT hr = SwapChain->ResizeBuffers(0, Width, Height, DXGI_FORMAT_UNKNOWN, 0);
+			assert(SUCCEEDED(hr));
+
+			DirectWrite::CreateBackBuffer();
+			CreateBackBuffer();
+			ImGui::Validate();
 			break;
 		}
-
-		case WM_SIZE:
-		{
-			//Width = LOWORD(lParam);
-			//Height = HIWORD(lParam);
-			//		
-			//wstring temp = to_wstring(Width) + L", " + to_wstring(Height);
-			//MessageBox(hwnd, L" ", temp.c_str(), MB_OK);
-			if (Device != NULL)
-			{
-				ImGui::Invalidate();
-
-				Width = LOWORD(lParam);
-				Height = HIWORD(lParam);
-
-				DeleteBackBuffer();
-				// 글씨도 화면 크기 따라 변경되어야 해서 버퍼 삭제->생성 반복해야함
-				DirectWrite::DeleteBackBuffer();
-
-				HRESULT hr = SwapChain->ResizeBuffers(0, Width, Height, DXGI_FORMAT_UNKNOWN, 0);
-				assert(SUCCEEDED(hr));
-
-				DirectWrite::CreateBackBuffer();
-				CreateBackBuffer();
-				ImGui::Validate();
-				break;
-			}
-		}
+	}
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
