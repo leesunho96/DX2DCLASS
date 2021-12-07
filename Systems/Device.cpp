@@ -34,7 +34,7 @@ ID3D11RenderTargetView* RTV;
 
 Keyboard* Key;
 Time* Timer;
-
+CMouse* Mouse;
 
 
 void InitWindow(HINSTANCE hInstance, int ShowWnd)
@@ -96,6 +96,8 @@ void InitWindow(HINSTANCE hInstance, int ShowWnd)
 
 	ShowWindow(Hwnd, ShowWnd);
 	UpdateWindow(Hwnd);
+
+
 }
 
 void InitDirect3D(HINSTANCE hInstance)
@@ -195,10 +197,12 @@ WPARAM Running()
 	ImGui::StyleColorsDark();
 
 
-
+	// mouse 생성
+	Mouse = new CMouse(Hwnd);
 	Key = new Keyboard;
 	Timer = new Time();
 	InitScene();
+
 	while (true)
 	{
 		// peekMessage : 메세지큐에 값이 없어도 반환
@@ -218,8 +222,8 @@ WPARAM Running()
 		{
 			
 			Timer->Update();
+			Mouse->Update();
 			Update();
-
 			ImGui::Update();
 
 			Render();
@@ -227,8 +231,10 @@ WPARAM Running()
 	}
 	DestroyScene();
 
-	delete(Key);
-	delete(Timer);
+	SAFE_DELETE(Mouse);
+	SAFE_DELETE(Key);
+	SAFE_DELETE(Timer);
+
 	DirectWrite::Delete();
 	ImGui::Delete();
 	return msg.wParam;
@@ -239,6 +245,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	// 실제 마우스 좌표보다 화면 베젤로 인해서 약간 틀어짐.
 	if(ImGui::WndProc((UINT*)hwnd, msg, wParam, lParam))
 		return true;
+
+	if (Mouse != NULL)
+	{
+		Mouse->WndProc(msg, wParam, lParam);
+	}
 
 	switch (msg)
 	{
