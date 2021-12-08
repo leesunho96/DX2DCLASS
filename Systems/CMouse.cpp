@@ -147,3 +147,20 @@ void CMouse::Update()
 	wheelPrevValue = wheelValue;
 	wheelMoveValue = wheelValue - wheelPrevValue;
 }
+
+D3DXVECTOR2 CMouse::GetAdjustPos(D3DXVECTOR2 camerapos)
+{
+	return GetAdjustPos(this->Position(), camerapos);
+}
+
+D3DXVECTOR2 CMouse::GetAdjustPos(D3DXVECTOR2 mousepos, D3DXVECTOR2 camerapos)
+{
+	D3DXVECTOR2 mouse = mousepos;
+	D3DXVECTOR2 camera = camerapos;
+
+	mouse.x = mouse.x - (float)Width * 0.5f;
+	mouse.y = (mouse.y - (float)Height * 0.5f) * -1.0f;
+	return mouse + camera;
+}
+
+

@@ -12,6 +12,7 @@ SceneValues* values;
 vector<Scene*> scenes;
 
 
+
 void InitScene()
 {
 	values = new SceneValues();

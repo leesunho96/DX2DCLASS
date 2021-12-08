@@ -41,6 +41,9 @@ public:
 
 	float Wheel() { return wheelMoveValue; }
 
+public:
+	D3DXVECTOR2 GetAdjustPos(D3DXVECTOR2 camerapos);
+	static D3DXVECTOR2 GetAdjustPos(D3DXVECTOR2 mousepos, D3DXVECTOR2 camerapos);
 
 private:
 	HWND handle;
