@@ -63,17 +63,17 @@ void Update()
 	//	-1, 1 // z축
 	//);
 
-	//D3DXMatrixOrthoOffCenterLH(&values->Projection, 
-	//	-(float)Width * 0.5f, (float)Width * 0.5f, 
-	//	-(float)Height * 0.5f, (float)Height * 0.5f,
+	D3DXMatrixOrthoOffCenterLH(&values->Projection, 
+		-(float)Width * 0.5f, (float)Width * 0.5f, 
+		-(float)Height * 0.5f, (float)Height * 0.5f,
+		-10, 10 // z축
+	);
+
+	//D3DXMatrixOrthoOffCenterLH(&values->Projection,
+	//	horizental.x, horizental.y,
+	//	vertical.x, vertical.y,
 	//	-1, 1 // z축
 	//);
-
-	D3DXMatrixOrthoOffCenterLH(&values->Projection,
-		horizental.x, horizental.y,
-		vertical.x, vertical.y,
-		-1, 1 // z축
-	);
 
 
 
@@ -90,8 +90,8 @@ void Render()
 	D3DXCOLOR bgColor = D3DXCOLOR(0, 0, 0, 0);
 	DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	{
-		ImGui::SliderFloat2("Horizental", (float*)&horizental, -1000, 1000);
-		ImGui::SliderFloat2("Vertical", (float*)&vertical, -1000, 1000);
+		//ImGui::SliderFloat2("Horizental", (float*)&horizental, -1000, 1000);
+		//ImGui::SliderFloat2("Vertical", (float*)&vertical, -1000, 1000);
 
 		for (Scene* scene : scenes )
 		{
@@ -120,6 +120,7 @@ void Render()
 		text += L" , ";
 		text += to_wstring((int)values->MainCamera->GetPosition().y);
 		DirectWrite::RenderText(text, rect);
+
 	}
 
 	DirectWrite::GetDC()->EndDraw();

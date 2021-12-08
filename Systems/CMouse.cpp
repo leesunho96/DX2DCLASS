@@ -12,11 +12,10 @@ CMouse::CMouse(HWND handle)
 	// 만약 구조체로 선언 된 경우 val = {0}으로 해도 0으로 초기화.
 	// {0}은 어셈블리로 내려간 경우 0으로 모든 값 mov, zeromemory는 0을 스택에 push.
 	// 일반적으로 컴파일러에 최적화 옵션 켜져있기 때문에 다 알아서 최적화해줌. => 크게 신경 안써도 된다.
-	// 
+	 
 	ZeroMemory(buttonStatus, sizeof(byte) * 8);
 	ZeroMemory(buttonPrevStatus, sizeof(byte) * 8);
 	ZeroMemory(buttonMap, sizeof(byte) * 8);
-
 	ZeroMemory(buttonCount, sizeof(int) * 8);
 
 

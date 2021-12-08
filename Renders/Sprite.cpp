@@ -24,7 +24,7 @@ void Sprite::Initialize(wstring spriteFile, wstring shaderFile, float startX, fl
 {
 	textureFile = spriteFile;
 
-	bDrawBound = false;
+	bDrawBound = true;
 	shader = new Shader(shaderFile);
 	boundShader = new Shader(Shaders + L"014_Bounding.fx");
 
@@ -147,6 +147,7 @@ void Sprite::Render()
 void Sprite::CreateBound()
 {
 	BoundVertex vertices[5];
+
 	vertices[0].Position = D3DXVECTOR3(-0.5f, -0.5f, 0.0f);
 	vertices[1].Position = D3DXVECTOR3(-0.5f, +0.5f, 0.0f);
 	vertices[2].Position = D3DXVECTOR3(+0.5f, +0.5f, 0.0f);
@@ -186,8 +187,9 @@ void Sprite::Scale(float x, float y)
 void Sprite::Scale(D3DXVECTOR2 & vec)
 {
 	scale = vec;
-
 }
+
+
 
 void Sprite::Rotation(float x, float y, float z)
 {
@@ -396,6 +398,7 @@ bool Sprite::CheckOBB(OBBDesc & obbA, OBBDesc & obbB)
 
 	return true;	
 }
+
 //-----------------------------------------------------------------------------
 //Sprites
 //-----------------------------------------------------------------------------
