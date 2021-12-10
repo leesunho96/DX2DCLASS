@@ -12,6 +12,9 @@ public:
 	Sprite* GetSprite() { return animation->GetSprite(); };
 	
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
+	void SetKeyInputToIsRoll(unsigned char forwardflag, bool &isRoll);
+	void SetKeyInputToDirectionVector(unsigned char forwardflag, D3DXVECTOR2 &direction);
+	void GetKeyInputByBitFlag(unsigned char &forwardflag);
 	void Render();
 
 private:
