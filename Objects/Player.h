@@ -12,6 +12,8 @@ public:
 	Sprite* GetSprite() { return animation->GetSprite(); };
 	
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
+	void ResetStopWatch();
+	void SetAnimationFromDirectionAndSpace(D3DXVECTOR2 &direction, int &playAnimation, bool isRoll);
 	void SetKeyInputToIsRoll(unsigned char forwardflag, bool &isRoll);
 	void SetKeyInputToDirectionVector(unsigned char forwardflag, D3DXVECTOR2 &direction);
 	void GetKeyInputByBitFlag(unsigned char &forwardflag);
@@ -21,4 +23,10 @@ private:
 	float moveSpeed;
 	Animation* animation;
 	D3DXVECTOR2 focusoffset;
+	bool isplayingOtherAnimation = false;
+	D3DXVECTOR2 direction = D3DXVECTOR2(0, 0);
+	float stopwatch = 0.0f;
+	float stopTime = 0.0f;
+	int playAnimation = 0;
+	bool isRoll = false;
 };

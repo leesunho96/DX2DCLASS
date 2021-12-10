@@ -45,6 +45,16 @@ void Clip::Position(D3DXVECTOR2 vec)
 	position = vec;
 }
 
+void Clip::SetAbsoluteScale(float x, float y)
+{
+	SetAbsoluteScale(D3DXVECTOR2(x, y));
+}
+
+void Clip::SetAbsoluteScale(D3DXVECTOR2 & vec)
+{
+
+}
+
 void Clip::Scale(float x, float y)
 {
 	Scale(D3DXVECTOR2(x, y));
@@ -53,13 +63,6 @@ void Clip::Scale(float x, float y)
 void Clip::Scale(D3DXVECTOR2 vec)
 {
 	scale = vec;
-
-	//for (Frame* frame : frames)
-	//{
-	//	D3DXVECTOR2 scale = frame->Image->Scale();
-
-	//	frame->Image->Scale(scale.x * vec.x, scale.y * vec.y);
-	//}
 }
 
 void Clip::Rotation(float x, float y, float z)

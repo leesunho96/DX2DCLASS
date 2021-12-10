@@ -13,7 +13,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	//Idle : 0
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 4, 2, 34, 40), 0.3f);		
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 3, 49, 13, 64), 0.3f);		
 		animation->AddClip(clip);
 	}
 
@@ -220,6 +220,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 
 	animation->SetPosition(position);
 	animation->SetScale(scale);
+	
 	animation->Play(0);
 	animation->DrawBound(true);
 }
@@ -241,32 +242,108 @@ void Player::Focus(D3DXVECTOR2 * position, D3DXVECTOR2 * size)
 void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	D3DXVECTOR2 position = animation->GetPosition();
-	D3DXVECTOR2 direction(0, 0);
-	bool isRoll = false;
-	int playAnimation = 0;
 
-	// bitflag 이용.
-	unsigned char forwardflag = 0;
+	// 구르기, 피격 등으로 애니메이션 출력중인 경우
+	if (!isplayingOtherAnimation)
+	{
+		// bitflag 이용.
+		direction = D3DXVECTOR2(0, 0);
+		unsigned char forwardflag = 0;
+		GetKeyInputByBitFlag(forwardflag);	// 현재 입력된 키를 확인 한 후, 해당 키에 따라 forwardflag에 비트 삽입
+		SetKeyInputToDirectionVector(forwardflag, direction); // 입력된 비트에 따라 벡터 결정. 
+		SetKeyInputToIsRoll(forwardflag, isRoll); // 현재 스페이스바 키가 입력되었는지 확인, isroll 변수 세팅
+		SetAnimationFromDirectionAndSpace(direction, playAnimation, isRoll); // 현재 방향벡터와 isroll변수로 애니메이션 세팅.
+		D3DXVec2Normalize(&direction, &direction); // 현재 방향 벡터를 정규화.
+	}
+	else
+	{
+		stopwatch += Timer->Elapsed();
+		if (isRoll)
+		{
 
-	GetKeyInputByBitFlag(forwardflag);	// 현재 입력된 키를 확인 한 후, 해당 키에 따라 forwardflag에 비트 삽입
-	SetKeyInputToDirectionVector(forwardflag, direction); // 입력된 비트에 따라 벡터 결정. 
-	SetKeyInputToIsRoll(forwardflag, isRoll); // 현재 스페이스바 키가 입력되었는지 확인, isroll 변수 세팅
-	D3DXVec2Normalize(&direction, &direction); // 현재 방향 벡터를 정규화.
+		}
 
-
-
+		if (stopwatch > stopTime)
+		{
+			ResetStopWatch();
+			isRoll = false;
+		}
+	}
+	position += direction * Timer->Elapsed() * moveSpeed;
 	animation->SetPosition(position);
-	animation->Play(0);
-
+	animation->Play(playAnimation);
 	animation->Update(V, P);
 
 }
 
+void Player::ResetStopWatch()
+{
+	stopTime = 0.0f;
+	stopwatch = 0.0f;
+	isplayingOtherAnimation = false;
+}
+
+void Player::SetAnimationFromDirectionAndSpace(D3DXVECTOR2 &direction, int &playAnimation, bool isRoll)
+{
+	if (direction.x == 0 && direction.y == 0)
+	{
+		playAnimation = 0;
+		animation->SetRotationDegree(0, 0, 0);
+	}
+	else if (direction.x == 0 && direction.y == 1)
+	{
+		playAnimation = 1;
+		animation->SetRotationDegree(0, 0, 0);
+	}
+	else if (direction.x == 0 && direction.y == -1)
+	{
+		playAnimation = 5;
+		animation->SetRotationDegree(0, 0, 0);
+	}
+	else if (direction.x == 1 && direction.y == 0)
+	{
+		playAnimation = 3;
+		animation->SetRotationDegree(0, 0, 0);
+	}
+	else if (direction.x == -1 && direction.y == 0)
+	{
+		playAnimation = 3;
+		animation->SetRotationDegree(0, 180, 0);
+	}
+	else if (direction.x > 0 && direction.y > 0)
+	{
+		playAnimation = 2;
+		animation->SetRotationDegree(0, 180, 0);
+	}
+	else if (direction.x > 0 && direction.y < 0)
+	{
+		playAnimation = 4;
+		animation->SetRotationDegree(0, 180, 0);
+	}
+	else if (direction.x < 0 && direction.y > 0)
+	{
+		playAnimation = 2;
+		animation->SetRotationDegree(0, 0, 0);
+	}
+	else if (direction.x < 0 && direction.y < 0)
+	{
+		playAnimation = 4;
+		animation->SetRotationDegree(0, 0, 0);
+	}
+	if (isRoll)
+	{
+		playAnimation += 5;
+	}
+}
+
 void Player::SetKeyInputToIsRoll(unsigned char forwardflag, bool &isRoll)
 {
-	if (forwardflag & PressSpace)
+	if ((forwardflag & PressSpace )
+		&& (direction != D3DXVECTOR2(0, 0)))
 	{
 		isRoll = true;
+		stopTime = 0.6f;
+		isplayingOtherAnimation = true;
 	}
 }
 
@@ -274,20 +351,21 @@ void Player::SetKeyInputToDirectionVector(unsigned char forwardflag, OUT D3DXVEC
 {
 	if (forwardflag & PressA)
 	{
-		direction.x -= 1;
+		direction.x = -1;
 	}
 	if (forwardflag & PressD)
 	{
-		direction.x += 1;
+		direction.x = 1;
 	}
 	if (forwardflag & PressW)
 	{
-		direction.y += 1;
+		direction.y = 1;
 	}
-	if (forwardflag & PressD)
+	if (forwardflag & PressS)
 	{
-		direction.y -= 1;
+		direction.y = -1;
 	}
+
 }
 
 void Player::GetKeyInputByBitFlag(unsigned char &forwardflag)
@@ -295,12 +373,12 @@ void Player::GetKeyInputByBitFlag(unsigned char &forwardflag)
 	if (Key->Press('A'))
 	{
 		forwardflag |= PressA;
-		animation->SetRotationDegree(0, 180, 0);
+		
 	}
 	if (Key->Press('D'))
 	{
 		forwardflag |= PressD;
-		animation->SetRotationDegree(0, 0, 0);
+		
 	}
 	if (Key->Press('W'))
 	{
@@ -321,5 +399,4 @@ void Player::Render()
 	ImGui::SliderFloat("Move Speed", &moveSpeed, 50, 400);
 
 	animation->Render();
-
 }

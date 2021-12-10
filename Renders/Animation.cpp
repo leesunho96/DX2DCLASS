@@ -51,6 +51,16 @@ void Animation::SetPosition(D3DXVECTOR2 & vec)
 	this->position = vec;
 }
 
+void Animation::SetAbsoluteScale(float x, float y)
+{
+	D3DXVECTOR2 temp = TextureSize();
+	for (auto a : clips)
+	{
+		a->Scale(x / temp.x, y / temp.y);
+	}
+	this->scale = D3DXVECTOR2(x, y);
+}
+
 void Animation::SetScale(float x, float y)
 {
 	SetScale(D3DXVECTOR2(x, y));
@@ -58,7 +68,6 @@ void Animation::SetScale(float x, float y)
 
 void Animation::SetScale(D3DXVECTOR2 & vec)
 {
-
 	for (auto a : clips)
 	{
 		a->Scale(vec);

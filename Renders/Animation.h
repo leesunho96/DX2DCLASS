@@ -15,6 +15,8 @@ public:
 	void SetPosition(D3DXVECTOR2& vec);
 	D3DXVECTOR2 GetPosition() { return position; };
 
+	void SetAbsoluteScale(float x, float y);
+
 	void SetScale(float x, float y);
 	void SetScale(D3DXVECTOR2 &vec);
 	D3DXVECTOR2 GetScale() { return scale; };
