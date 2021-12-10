@@ -1,25 +1,32 @@
 #pragma once
 
 class Marker;
-class Scene;
-
-extern SceneValues* values;
 
 class Line
 {
 public:
-	Line();
+	Line(Marker* a, Marker* b);
 	~Line();
-
 
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 
 private:
-	vector<Marker*> activateMarker;
-	vector<Marker*> MarkerPool;
+	struct BoundVertex
+	{
+		D3DXVECTOR3 Position;
+	};
+private:
+	// 각각 시작/끝 marker
+	Marker* startpos;
+	Marker* endPos;
 
-	D3DXVECTOR2 mousePosition;
+	//vertex
+	BoundVertex vertices[2];
+
+	// shader
+	Shader* boundShader;
+	ID3D11Buffer* boundVertexBuffer;
+	D3DXVECTOR2 normalVector = D3DXVECTOR2(0, 0);
+	bool bistouch = false;
 };
-
-

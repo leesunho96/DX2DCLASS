@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="Objects\Bullet.cpp" />
     <ClCompile Include="Objects\Fire.cpp" />
+    <ClCompile Include="Objects\Line.cpp" />
     <ClCompile Include="Objects\Marker.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Renders\Animation.cpp" />
@@ -181,6 +182,7 @@
   <ItemGroup>
     <ClInclude Include="Objects\Bullet.h" />
     <ClInclude Include="Objects\Fire.h" />
+    <ClInclude Include="Objects\Line.h" />
     <ClInclude Include="Objects\Marker.h" />
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Renders\Animation.h" />

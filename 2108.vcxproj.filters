@@ -78,6 +78,9 @@
     <ClCompile Include="Objects\Marker.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Line.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -160,6 +163,9 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Marker.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Line.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>

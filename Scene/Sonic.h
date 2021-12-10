@@ -4,6 +4,7 @@
 
 class Player;
 class Marker;
+class Line;
 
 class Sonic : public Scene
 {
@@ -17,5 +18,7 @@ private:
 	Sprite* backGround;
 	Player* player;
 	vector<Marker*> markers;
-	
+	vector<Line*> lines;
+
+
 };

@@ -104,7 +104,6 @@ private:
 	struct BoundVertex
 	{
 		D3DXVECTOR3 Position;
-
 	};
 };
 
