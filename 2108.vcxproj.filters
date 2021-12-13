@@ -81,6 +81,9 @@
     <ClCompile Include="Objects\Line.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\CollisionSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -167,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="Objects\Line.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CollisionSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

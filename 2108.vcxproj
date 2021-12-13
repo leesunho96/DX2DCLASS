@@ -166,6 +166,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Systems\CMouse.cpp" />
+    <ClCompile Include="Systems\CollisionSystem.cpp" />
     <ClCompile Include="Systems\Device.cpp" />
     <ClCompile Include="Systems\DirectWrite.cpp" />
     <ClCompile Include="Systems\Keyboard.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Scene\Stage2.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Systems\CMouse.h" />
+    <ClInclude Include="Systems\CollisionSystem.h" />
     <ClInclude Include="Systems\Device.h" />
     <ClInclude Include="Systems\DirectWrite.h" />
     <ClInclude Include="Systems\Keyboard.h" />

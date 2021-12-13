@@ -3,8 +3,7 @@
 #include "Scene.h"
 
 class Player;
-class Marker;
-class Line;
+class CollisionSystem;
 
 class Sonic : public Scene
 {
@@ -17,8 +16,7 @@ public:
 private:
 	Sprite* backGround;
 	Player* player;
-	vector<Marker*> markers;
-	vector<Line*> lines;
 
+	CollisionSystem* collisionsystem;
 
 };
