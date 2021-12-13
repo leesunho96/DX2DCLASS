@@ -6,11 +6,20 @@
 Line::Line(Marker * a, Marker * b) : startpos(a), endPos(b)
 {
 	boundShader = new Shader(Shaders + L"014_Bounding.fx");
-	vertices[0].Position = D3DXVECTOR3(a->Position().x, a->Position().y, 0.0f);
-	vertices[1].Position = D3DXVECTOR3(b->Position().x, b->Position().y, 0.0f);
 
-	pastVertices[0].Position = D3DXVECTOR3(a->Position().x, a->Position().y, 0.0f);
-	pastVertices[1].Position = D3DXVECTOR3(b->Position().x, b->Position().y, 0.0f);
+	Marker* temp1 = a;
+	Marker* temp2 = b;
+
+	if (a->Position().x >= b->Position().x)
+	{
+		swap(temp1, temp2);
+	}
+
+	vertices[0].Position = D3DXVECTOR3(temp1->Position().x, temp1->Position().y, 0.0f);
+	vertices[1].Position = D3DXVECTOR3(temp2->Position().x, temp2->Position().y, 0.0f);
+
+	pastVertices[0].Position = D3DXVECTOR3(temp1->Position().x, temp1->Position().y, 0.0f);
+	pastVertices[1].Position = D3DXVECTOR3(temp2->Position().x, temp2->Position().y, 0.0f);
 	{
 		D3D11_BUFFER_DESC desc = { 0 };
 		desc.Usage = D3D11_USAGE_DEFAULT;
@@ -92,13 +101,15 @@ bool Line::IsCollide(Sprite * input)
 
 	texturesize.x *= Scale.x;
 	texturesize.y *= Scale.y;
+	SpriteStatus spritestatus;
 
-	D3DXVECTOR2	rightUp   = D3DXVECTOR2(position.x - texturesize.x * 0.5f, position.y + texturesize.y * 0.5f);
-	D3DXVECTOR2	rightDown = D3DXVECTOR2(position.x - texturesize.x * 0.5f, position.y - texturesize.y * 0.5f);
-	D3DXVECTOR2	leftUp    = D3DXVECTOR2(position.x + texturesize.x * 0.5f, position.y + texturesize.y * 0.5f);
-	D3DXVECTOR2	leftDown  = D3DXVECTOR2(position.x + texturesize.x * 0.5f, position.y - texturesize.y * 0.5f);
+	spritestatus.rightUp   = D3DXVECTOR2(position.x - texturesize.x * 0.5f, position.y + texturesize.y * 0.5f);
+	spritestatus.rightDown = D3DXVECTOR2(position.x - texturesize.x * 0.5f, position.y - texturesize.y * 0.5f);
+	spritestatus.leftUp    = D3DXVECTOR2(position.x + texturesize.x * 0.5f, position.y + texturesize.y * 0.5f);
+	spritestatus.leftDown  = D3DXVECTOR2(position.x + texturesize.x * 0.5f, position.y - texturesize.y * 0.5f);
 	   	  
-
+	if (!IsInArea(spritestatus))
+		return false;
 
 
 	int zeroNum = 0;
@@ -110,10 +121,10 @@ bool Line::IsCollide(Sprite * input)
 	// 거리가 양수인 경우가 0 | 4 인경우 충돌하지 않음.
 	// 거리가 양수인 경우가 위의 케이스가 아닌경우 충돌
 
-	GetDistanceBetweenLineAndPoint(lineEquation, rightUp)   == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, rightUp)   > 0 ? positiveNum++ : positiveNum;
-	GetDistanceBetweenLineAndPoint(lineEquation, rightDown) == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, rightDown) > 0 ? positiveNum++ : positiveNum;
-	GetDistanceBetweenLineAndPoint(lineEquation, leftUp)    == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, leftUp)    > 0 ? positiveNum++ : positiveNum;
-	GetDistanceBetweenLineAndPoint(lineEquation, leftDown)  == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, leftDown)  > 0 ? positiveNum++ : positiveNum;
+	GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.rightUp)   == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.rightUp)   > 0 ? positiveNum++ : positiveNum;
+	GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.rightDown) == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.rightDown) > 0 ? positiveNum++ : positiveNum;
+	GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.leftUp)    == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.leftUp)    > 0 ? positiveNum++ : positiveNum;
+	GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.leftDown)  == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.leftDown)  > 0 ? positiveNum++ : positiveNum;
 
 	
 
@@ -133,6 +144,62 @@ bool Line::IsCollide(Sprite * input)
 		return true;
 	}
 }
+
+bool Line::IsInAreaX(D3DXVECTOR2 pos)
+{
+	float xpos1, xpos2;
+
+	if (vertices[0].Position.x >= vertices[1].Position.x)
+	{
+		xpos1 = vertices[1].Position.x;
+		xpos2 = vertices[0].Position.x;
+	}
+	else
+	{
+		xpos1 = vertices[0].Position.x;
+		xpos2 = vertices[1].Position.x;
+	}
+
+
+	if (pos.x > xpos1 && pos.x < xpos2)
+		return true;
+	else
+		return false;
+}
+
+bool Line::IsInAreaY(D3DXVECTOR2 pos)
+{
+	float ypos1, ypos2;
+
+	if (vertices[0].Position.y >= vertices[1].Position.y)
+	{
+		ypos1 = vertices[1].Position.y;
+		ypos2 = vertices[0].Position.y;
+	}
+	else
+	{
+		ypos1 = vertices[0].Position.y;
+		ypos2 = vertices[1].Position.y;
+	}
+
+
+	if (pos.x > ypos1 && pos.x < ypos2)
+		return true;
+	else
+		return false;
+}
+
+bool Line::IsInArea(SpriteStatus input)
+{
+	bool rightup   = IsInAreaX(input.rightUp)   || IsInAreaY(input.rightUp);
+	bool rightdown = IsInAreaX(input.rightDown) || IsInAreaY(input.rightDown);
+	bool leftup    = IsInAreaX(input.leftUp)    || IsInAreaY(input.leftUp);
+	bool leftdown  = IsInAreaX(input.leftDown)  || IsInAreaY(input.leftDown);
+
+	return rightup || rightdown || leftup || leftdown ? true : false;
+}
+
+
 
 float Line::GetSlope()
 {

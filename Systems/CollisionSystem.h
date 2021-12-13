@@ -19,4 +19,7 @@ private:
 	vector<Marker*> markers;
 	vector<Line*> lines;
 	SceneValues* scenevalue;
+
+private:
+
 };

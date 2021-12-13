@@ -33,6 +33,14 @@ private:
 	D3DXVECTOR2 normalVector = D3DXVECTOR2(0, 0);
 	bool bistouch = false;
 	D3DXVECTOR3 lineEquation = D3DXVECTOR3(0, 0, 0);
+private:
+	struct SpriteStatus
+	{
+		D3DXVECTOR2 rightUp;
+		D3DXVECTOR2 rightDown;
+		D3DXVECTOR2 leftUp;
+		D3DXVECTOR2 leftDown;
+	};
 
 private:
 	float GetSlope();
@@ -41,5 +49,6 @@ private:
 	bool IsCollide(Sprite* input);
 	bool IsInAreaX(D3DXVECTOR2 pos);
 	bool IsInAreaY(D3DXVECTOR2 pos);
+	bool IsInArea(SpriteStatus input);
 
 };

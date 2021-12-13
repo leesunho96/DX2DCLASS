@@ -10,6 +10,14 @@ CollisionSystem::CollisionSystem(SceneValues * values) : scenevalue(values)
 
 CollisionSystem::~CollisionSystem()
 {
+	for (auto marker : markers)
+	{
+		SAFE_DELETE(marker);
+	}
+	for (auto line : lines)
+	{
+		SAFE_DELETE(line);
+	}
 }
 
 void CollisionSystem::Update(D3DXMATRIX & V, D3DXMATRIX & P)
