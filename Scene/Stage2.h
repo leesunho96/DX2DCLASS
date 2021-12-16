@@ -4,6 +4,7 @@
 
 class Background_Yeti;
 class Player;
+class CollisionSystem;
 
 class Stage2 : public Scene
 {
@@ -17,5 +18,6 @@ public:
 private:
 	Background_Yeti* bg;
 	Player* player;
+	
 	bool check;
 };

@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "Objects/Player.h"
+#include "Systems/CollisionSystem.h"
+
+extern CollisionSystem* collisionsystem;
 
 Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	:moveSpeed(200.0f), focusoffset(0, -120)
@@ -13,7 +16,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	//Idle : 0
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(spriteFile, shaderFile, 3, 49, 13, 64), 0.3f);		
+		clip->AddFrame(new Sprite(spriteFile, shaderFile, 3, 49, 13, 64), 0.3f);
 		animation->AddClip(clip);
 	}
 
@@ -76,9 +79,9 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 		}
 	}
 	// roll
-	{   
+	{
 		// Roll To UP : 6 // 완료, 체크 전.
-		{			
+		{
 			clip = new Clip(PlayMode::End);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 98, 18, 108, 31), 0.1f);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 115, 20, 125, 31), 0.1f);
@@ -220,7 +223,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 
 	animation->SetPosition(position);
 	animation->SetScale(scale);
-	
+
 	animation->Play(0);
 	animation->DrawBound(true);
 }
@@ -234,14 +237,18 @@ void Player::Focus(D3DXVECTOR2 * position, D3DXVECTOR2 * size)
 {
 	*position = animation->GetPosition() - focusoffset;
 	(*size) = D3DXVECTOR2(1, 1);
-	
+
 }
 
 // bitflag
 // https://ansohxxn.github.io/cpp/chapter3-3/
+
 void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	D3DXVECTOR2 position = animation->GetPosition();
+	D3DXVECTOR2 pastPosition = position;
+	Sprite* presentSprite = animation->GetSprite();
+	float timerelapse = Timer->Elapsed();
 
 	// 구르기, 피격 등으로 애니메이션 출력중인 경우
 	if (!isplayingOtherAnimation)
@@ -254,6 +261,8 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		SetKeyInputToIsRoll(forwardflag, isRoll); // 현재 스페이스바 키가 입력되었는지 확인, isroll 변수 세팅
 		SetAnimationFromDirectionAndSpace(direction, playAnimation, isRoll); // 현재 방향벡터와 isroll변수로 애니메이션 세팅.
 		D3DXVec2Normalize(&direction, &direction); // 현재 방향 벡터를 정규화.
+		
+		pastDirection = direction == D3DXVECTOR2(0, 0) ? pastDirection : direction;
 	}
 	else
 	{
@@ -269,7 +278,24 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			isRoll = false;
 		}
 	}
-	position += direction * Timer->Elapsed() * moveSpeed;
+	position += direction * timerelapse * moveSpeed;
+	//animation->SetPosition(position);
+	presentSprite->Position(position);
+
+
+	while (collisionsystem->CollisionTest(presentSprite))
+	{
+		//if (direction = D3DXVECTOR2(0, 0))
+		//{
+		//	position -= pastDirection * timerelapse * moveSpeed;			
+		//}
+		//else
+		//{
+		//	position -= direction * timerelapse * moveSpeed;
+		//}
+		position -= pastDirection * timerelapse * moveSpeed;			
+		presentSprite->Position(position);
+	}
 	animation->SetPosition(position);
 	animation->Play(playAnimation);
 	animation->Update(V, P);
@@ -338,7 +364,7 @@ void Player::SetAnimationFromDirectionAndSpace(D3DXVECTOR2 &direction, int &play
 
 void Player::SetKeyInputToIsRoll(unsigned char forwardflag, bool &isRoll)
 {
-	if ((forwardflag & PressSpace )
+	if ((forwardflag & PressSpace)
 		&& (direction != D3DXVECTOR2(0, 0)))
 	{
 		isRoll = true;
@@ -347,7 +373,8 @@ void Player::SetKeyInputToIsRoll(unsigned char forwardflag, bool &isRoll)
 	}
 }
 
-void Player::SetKeyInputToDirectionVector(unsigned char forwardflag, OUT D3DXVECTOR2 &direction)
+
+void Player::SetKeyInputToDirectionVector(unsigned char forwardflag, D3DXVECTOR2 &direction)
 {
 	if (forwardflag & PressA)
 	{
@@ -373,12 +400,12 @@ void Player::GetKeyInputByBitFlag(unsigned char &forwardflag)
 	if (Key->Press('A'))
 	{
 		forwardflag |= PressA;
-		
+
 	}
 	if (Key->Press('D'))
 	{
 		forwardflag |= PressD;
-		
+
 	}
 	if (Key->Press('W'))
 	{
@@ -397,6 +424,5 @@ void Player::GetKeyInputByBitFlag(unsigned char &forwardflag)
 void Player::Render()
 {
 	ImGui::SliderFloat("Move Speed", &moveSpeed, 50, 400);
-
 	animation->Render();
 }

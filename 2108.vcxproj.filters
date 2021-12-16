@@ -72,6 +72,15 @@
     <ClCompile Include="Objects\Background_Yeti.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Line.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Marker.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CollisionSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
     <ClCompile Include="Systems\CMouse.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
@@ -152,6 +161,15 @@
     </ClInclude>
     <ClInclude Include="Objects\Background_Yeti.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Line.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Marker.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CollisionSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Systems\CMouse.h">
       <Filter>Systems</Filter>

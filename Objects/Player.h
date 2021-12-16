@@ -29,4 +29,10 @@ private:
 	float stopTime = 0.0f;
 	int playAnimation = 0;
 	bool isRoll = false;
+	float pastFarDistance = 999.9f;
+	float presentDistance = 999.9f;
+	bool bIsOverlap = false;
+	bool bIsGetFarDisatance = false;
+	vector<float> pastFarDistanceVector;
+	D3DXVECTOR2 pastDirection = D3DXVECTOR2(0, 0);
 };

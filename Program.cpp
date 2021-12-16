@@ -6,11 +6,12 @@
 #include "Viewer/Freedom.h"
 #include "Scene/Scene.h"
 #include "Scene/Stage2.h"
+#include "Systems/CollisionSystem.h"
 
 
 SceneValues* values;
 vector<Scene*> scenes;
-
+CollisionSystem* collisionsystem;
 
 void InitScene()
 {
