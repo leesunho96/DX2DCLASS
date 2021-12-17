@@ -240,14 +240,20 @@ void Player::Focus(D3DXVECTOR2 * position, D3DXVECTOR2 * size)
 
 }
 
+
+// 외적으로 선분 교점 구하기.
+//https://bowbowbow.tistory.com/17
+
 // bitflag
 // https://ansohxxn.github.io/cpp/chapter3-3/
-
+bool isonUpperSide = false;
 void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	D3DXVECTOR2 position = animation->GetPosition();
 	D3DXVECTOR2 pastPosition = position;
+	D3DXVECTOR2 textureSize = animation->TextureSize();
 	Sprite* presentSprite = animation->GetSprite();
+
 	float timerelapse = Timer->Elapsed();
 
 	// 구르기, 피격 등으로 애니메이션 출력중인 경우
@@ -261,7 +267,7 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		SetKeyInputToIsRoll(forwardflag, isRoll); // 현재 스페이스바 키가 입력되었는지 확인, isroll 변수 세팅
 		SetAnimationFromDirectionAndSpace(direction, playAnimation, isRoll); // 현재 방향벡터와 isroll변수로 애니메이션 세팅.
 		D3DXVec2Normalize(&direction, &direction); // 현재 방향 벡터를 정규화.
-		
+
 		pastDirection = direction == D3DXVECTOR2(0, 0) ? pastDirection : direction;
 	}
 	else
@@ -279,26 +285,27 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		}
 	}
 	position += direction * timerelapse * moveSpeed;
-	//animation->SetPosition(position);
-	presentSprite->Position(position);
-
-
-	while (collisionsystem->CollisionTest(presentSprite))
+	//presentSprite->Position(position);
+	animation->SetPosition(position);
+	
+	while (collisionsystem->CollisionTest(animation->GetSprite()))
 	{
 		//if (direction = D3DXVECTOR2(0, 0))
 		//{
-		//	position -= pastDirection * timerelapse * moveSpeed;			
+		//	float degree = collisionsystem->GetDegree(animation->GetSprite());
+		//	//position -= pastDirection * timerelapse * moveSpeed;			
+		//	position -= D3DXVECTOR2(cosf(degree), sinf(degree)) * timerelapse * moveSpeed;
 		//}
 		//else
-		//{
-		//	position -= direction * timerelapse * moveSpeed;
-		//}
-		position -= pastDirection * timerelapse * moveSpeed;			
-		presentSprite->Position(position);
+		
+		position -= pastDirection * timerelapse * moveSpeed;		
+		animation->SetPosition(position);
+		animation->Update(V, P);
+		//presentSprite->Position(position);
 	}
 	animation->SetPosition(position);
-	animation->Play(playAnimation);
 	animation->Update(V, P);
+	animation->Play(playAnimation);
 
 }
 
@@ -378,19 +385,19 @@ void Player::SetKeyInputToDirectionVector(unsigned char forwardflag, D3DXVECTOR2
 {
 	if (forwardflag & PressA)
 	{
-		direction.x = -1;
+		direction.x += -1;
 	}
 	if (forwardflag & PressD)
 	{
-		direction.x = 1;
+		direction.x += 1;
 	}
 	if (forwardflag & PressW)
 	{
-		direction.y = 1;
+		direction.y += 1;
 	}
 	if (forwardflag & PressS)
 	{
-		direction.y = -1;
+		direction.y += -1;
 	}
 
 }
@@ -423,6 +430,9 @@ void Player::GetKeyInputByBitFlag(unsigned char &forwardflag)
 
 void Player::Render()
 {
+	D3DXVECTOR2 position = animation->GetPosition();
 	ImGui::SliderFloat("Move Speed", &moveSpeed, 50, 400);
+	ImGui::LabelText("Position :", "%.0f, %.0f", position.x, position.y);
+	ImGui::LabelText("IsOnUpperSide : ", "%.0f", isonUpperSide);
 	animation->Render();
 }

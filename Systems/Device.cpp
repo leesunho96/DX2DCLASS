@@ -174,8 +174,8 @@ void CreateBackBuffer()
 
 		viewport.TopLeftX = 0;
 		viewport.TopLeftY = 0;
-		viewport.Width = Width;
-		viewport.Height = Height;
+		viewport.Width = (float)Width;
+		viewport.Height = (float)Height;
 
 		DeviceContext->RSSetViewports(1, &viewport);
 	}

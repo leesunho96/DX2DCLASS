@@ -44,6 +44,14 @@ void Line::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	vertices[0].Position = D3DXVECTOR3(startpos->Position().x, startpos->Position().y, 0.0f);
 	vertices[1].Position = D3DXVECTOR3(endPos->Position().x, endPos->Position().y, 0.0f);
+
+
+	if (vertices[0].Position.x >= vertices[1].Position.x)
+	{
+		swap(vertices[0], vertices[1]);
+		swap(pastVertices[0], pastVertices[1]);
+	}
+
 	//Create Vertex Buffer
 	if (!(pastVertices[0].Position == vertices[0].Position && pastVertices[1].Position == vertices[1].Position))
 	{
@@ -114,7 +122,18 @@ float Line::GetDegree()
 	float dy = vertices[1].Position.y - vertices[0].Position.y;
 	float dx = vertices[1].Position.x - vertices[0].Position.x;
 
-	float result = atan2(dy, dx) * (180.0 / Math::PI);
+	float result = atan2(dy, dx) * (180.0f / Math::PI);
+
+	if (result > 90.0f)
+	{
+		result = result - 180.0f;
+	}
+	else if (result < -90.0f)
+	{
+		result = result +180.0f;
+	}
+	else
+		result = result;
 	return result;
 }
 
@@ -128,10 +147,10 @@ bool Line::IsCollide(Sprite * input)
 	texturesize.y *= Scale.y;
 	SpriteStatus spritestatus;
 
-	spritestatus.rightUp   = D3DXVECTOR2(position.x - texturesize.x * 0.5f, position.y + texturesize.y * 0.5f);
-	spritestatus.rightDown = D3DXVECTOR2(position.x - texturesize.x * 0.5f, position.y - texturesize.y * 0.5f);
-	spritestatus.leftUp    = D3DXVECTOR2(position.x + texturesize.x * 0.5f, position.y + texturesize.y * 0.5f);
-	spritestatus.leftDown  = D3DXVECTOR2(position.x + texturesize.x * 0.5f, position.y - texturesize.y * 0.5f);
+	spritestatus.rightUp   = D3DXVECTOR2(position.x + texturesize.x * 0.5f, position.y + texturesize.y * 0.5f);
+	spritestatus.rightDown = D3DXVECTOR2(position.x + texturesize.x * 0.5f, position.y - texturesize.y * 0.5f);
+	spritestatus.leftUp    = D3DXVECTOR2(position.x - texturesize.x * 0.5f, position.y + texturesize.y * 0.5f);
+	spritestatus.leftDown  = D3DXVECTOR2(position.x - texturesize.x * 0.5f, position.y - texturesize.y * 0.5f);
 	   	  
 	if (!IsInArea(spritestatus))
 		return false;
@@ -139,6 +158,9 @@ bool Line::IsCollide(Sprite * input)
 
 	int zeroNum = 0;
 	int positiveNum = 0;
+
+
+	//if(vertices[0].Position.x )
 
 
 	// 거리가 0인 경우와 거리가 양수인 경우 두 경우를 체크.
@@ -208,7 +230,7 @@ bool Line::IsInAreaY(D3DXVECTOR2 pos)
 	}
 
 
-	if (pos.y < ypos1 && pos.y > ypos2)
+	if (pos.y > ypos1 && pos.y < ypos2)
 		return true;
 	else
 		return false;
@@ -221,6 +243,10 @@ bool Line::IsLinePointInSpriteWidth(SpriteStatus spritestatus)
 	float bottom = spritestatus.leftDown.y;
 	float height = spritestatus.leftUp.y;
 
+	if (vertices[0].Position.x <= right && vertices[0].Position.x >= left)
+	{
+		
+	}
 
 	return true;
 }
@@ -232,14 +258,11 @@ bool Line::IsLinePointInSpriteHeight(SpriteStatus spritestatus)
 
 bool Line::IsInArea(SpriteStatus input)
 {
-	bool rightup   = IsInAreaX(input.rightUp)   || IsInAreaY(input.rightUp);
-	bool rightdown = IsInAreaX(input.rightDown) || IsInAreaY(input.rightDown);
-	bool leftup    = IsInAreaX(input.leftUp)    || IsInAreaY(input.leftUp);
-	bool leftdown  = IsInAreaX(input.leftDown)  || IsInAreaY(input.leftDown);
-
-	//bool inWidth = IsLinePointInSpriteWidth(input);
-	//bool inHeight = IsLinePointInSpriteHeight(input);
-
+	// 플레이어의 각 꼭지점 좌표가 line 가 그리는 사각형 내부에 있는 경우 충돌 판정.
+	bool rightup   = IsInAreaX(input.rightUp)   && IsInAreaY(input.rightUp);
+	bool rightdown = IsInAreaX(input.rightDown) && IsInAreaY(input.rightDown);
+	bool leftup    = IsInAreaX(input.leftUp)    && IsInAreaY(input.leftUp);
+	bool leftdown  = IsInAreaX(input.leftDown)  && IsInAreaY(input.leftDown);
 
 	return rightup || rightdown || leftup || leftdown /*|| inWidth || inHeight*/ ? true : false;
 }
@@ -248,6 +271,10 @@ bool Line::IsInArea(SpriteStatus input)
 
 float Line::GetSlope()
 {
+	if (vertices[0].Position.x == vertices[1].Position.x)
+	{
+		return 90.0f;
+	}
 	return (vertices[0].Position.y - vertices[1].Position.y) / (vertices[0].Position.x - vertices[1].Position.x);
 }
 
@@ -255,6 +282,7 @@ D3DXVECTOR3 Line::GetLineEquastion()
 {
 	D3DXVECTOR3 temp;
 	float slope = GetSlope();
+	
 	
 	//	y = ((y2 - y1) / (x2 - x1)) * (x - x1) + y1
 	// slope * x 
@@ -270,7 +298,9 @@ D3DXVECTOR3 Line::GetLineEquastion()
 
 float Line::GetDistanceBetweenLineAndPoint(D3DXVECTOR3 line, D3DXVECTOR2 point)
 {
-	//if (line.x == 0 && line.y == 0)
-	//	return -D3D11_FLOAT32_MAX + 1;
+	//if (line.x == 0)
+	//	return point.x + line.z / line.y;
+	if (line.y == 0)
+		return point.y + line.z / line.x;
 	return (line.x * point.x) + (line.y * point.y) + line.z;
 }

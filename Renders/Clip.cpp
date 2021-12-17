@@ -52,7 +52,8 @@ void Clip::SetAbsoluteScale(float x, float y)
 
 void Clip::SetAbsoluteScale(D3DXVECTOR2 & vec)
 {
-
+	scale.x = vec.x / scale.x;
+	scale.y = vec.y / scale.y;
 }
 
 void Clip::Scale(float x, float y)

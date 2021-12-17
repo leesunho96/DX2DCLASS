@@ -1,6 +1,7 @@
 #pragma once
 
 class SceneValues;
+//class Scene;
 class Line;
 class Marker;
 class Player;
@@ -15,6 +16,8 @@ public:
 	void Render();
 	bool CollisionTest(Sprite* sprite);
 	float GetDegree(Sprite* sprite);
+
+	void PushMarkerByCode(D3DXVECTOR2 Point);
 
 	vector<float> GetDistance(Sprite* input);
 

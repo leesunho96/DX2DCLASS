@@ -315,7 +315,7 @@ bool Sprite::AABB(Sprite * a, Sprite * b)
 bool Sprite::OBB(Sprite * a, Sprite * b)
 {
 	OBBDesc obbA, obbB;
-	float xScale, yScale;
+	//float xScale, yScale;
 
 	// _11, _22 : xscale, yscale, sprite a의 길이 구함
 	D3DXVECTOR2 lengthA = D3DXVECTOR2(a->world._11, a->world._22) * 0.5f;

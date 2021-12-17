@@ -3,12 +3,12 @@
 #include "stdafx.h"
 #include "Viewer/Camera.h"
 
-
 struct SceneValues
 {
 	Camera* MainCamera;
 	D3DXMATRIX Projection;
 };
+
 
 class Scene
 {

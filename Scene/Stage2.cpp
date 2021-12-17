@@ -16,6 +16,10 @@ Stage2::Stage2(SceneValues * values)
 	((Freedom*)(values->MainCamera))->SetPosition(0, 0);
 	collisionsystem = new CollisionSystem(values, player);
 	player = new Player(D3DXVECTOR2(0, 0), D3DXVECTOR2(3, 3));
+
+	//collisionsystem->PushMarkerByCode(D3DXVECTOR2(0, 0));
+	//collisionsystem->PushMarkerByCode(D3DXVECTOR2(100, 100));
+
 }
 
 Stage2::~Stage2()

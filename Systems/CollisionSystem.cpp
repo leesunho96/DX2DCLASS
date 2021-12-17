@@ -112,11 +112,7 @@ float CollisionSystem::GetDegree(Sprite* sprite)
 	//	{
 	//		return line->GetAngle();
 	//	}
-	//}
-
-	
-	
-	
+	//}	
 	if (CollideLineIndexVector.size() != 0)
 	{
 		float temp = lines[CollideLineIndexVector[0]]->GetAngle();
@@ -135,6 +131,12 @@ float CollisionSystem::GetDegree(Sprite* sprite)
 		return temp;
 	}
 	return -D3D11_FLOAT32_MAX + 1;
+}
+
+void CollisionSystem::PushMarkerByCode(D3DXVECTOR2 Point)
+{
+	markers.push_back(new Marker(Shaders + L"009_Sprite.fx", Point));
+
 }
 
 vector<float> CollisionSystem::GetDistance(Sprite * input)
@@ -159,6 +161,10 @@ bool CollisionSystem::GetIsOnUpperLine(Sprite * sprite)
 
 bool CollisionSystem::GetIsOnUpperLine(D3DXVECTOR2 point)
 {
-	return lines[CollideLineIndexVector[0]]->GetDistance(point) > 0 ? true : false;
+	if (lines.size() == 0)
+		return false;
+
+	//return lines[CollideLineIndexVector[0]]->GetDistance(point) > 0 ? true : false;
+	return lines[0]->GetDistance(point) > 0 ? true : false;
 }
 
