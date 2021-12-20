@@ -269,7 +269,7 @@ bool Line::IsInArea(SpriteStatus input)
 
 
 
-float Line::GetSlope()
+float Line::GetSlope() 
 {
 	if (vertices[0].Position.x == vertices[1].Position.x)
 	{

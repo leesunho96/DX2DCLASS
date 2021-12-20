@@ -1,9 +1,13 @@
 #include "stdafx.h"
 #include "Stage2.h"
+
 #include "Objects/Player.h"
+#include "Objects/Marker.h"
+#include "Objects/Background_Yeti.h"
+
 #include "Viewer/Following.h"
 #include "Viewer/Freedom.h"
-#include "Objects/Background_Yeti.h"
+
 #include "Systems/CollisionSystem.h"
 
 extern CollisionSystem* collisionsystem;
@@ -16,9 +20,6 @@ Stage2::Stage2(SceneValues * values)
 	((Freedom*)(values->MainCamera))->SetPosition(0, 0);
 	collisionsystem = new CollisionSystem(values, player);
 	player = new Player(D3DXVECTOR2(0, 0), D3DXVECTOR2(3, 3));
-
-	//collisionsystem->PushMarkerByCode(D3DXVECTOR2(0, 0));
-	//collisionsystem->PushMarkerByCode(D3DXVECTOR2(100, 100));
 
 }
 

@@ -11,14 +11,7 @@ CollisionSystem::CollisionSystem(SceneValues * values, Player* player) : sceneva
 
 CollisionSystem::~CollisionSystem()
 {
-	for (auto marker : markers)
-	{
-		SAFE_DELETE(marker);
-	}
-	for (auto line : lines)
-	{
-		SAFE_DELETE(line);
-	}
+	ClearMarkersAndLines();
 }
 
 void CollisionSystem::Update(D3DXMATRIX & V, D3DXMATRIX & P)
@@ -137,6 +130,43 @@ void CollisionSystem::PushMarkerByCode(D3DXVECTOR2 Point)
 {
 	markers.push_back(new Marker(Shaders + L"009_Sprite.fx", Point));
 
+}
+
+void CollisionSystem::PushLineByCode(Line * line)
+{
+	markers.push_back(line->GetMarker().first);
+	markers.push_back(line->GetMarker().second);
+	lines.push_back(line);
+}
+
+void CollisionSystem::PushCollisionSettingByDesc(LineDesc & desc)
+{
+	int markersize = desc.Markers.size();
+	int linesize = desc.lines.size();
+
+	for (size_t i = 0; i < markersize; i++)
+	{
+		markers.push_back(desc.Markers[i]);
+	}
+	for (size_t i = 0; i < linesize; i++)
+	{
+		lines.push_back(desc.lines[i]);
+	}
+}
+
+void CollisionSystem::ClearMarkersAndLines()
+{
+	for (auto a : lines)
+	{
+		SAFE_DELETE(a);
+	}
+	for (auto a : markers)
+	{
+		SAFE_DELETE(a);
+	}
+
+	lines.clear();
+	markers.clear();
 }
 
 vector<float> CollisionSystem::GetDistance(Sprite * input)
