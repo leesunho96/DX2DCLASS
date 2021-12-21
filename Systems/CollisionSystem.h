@@ -17,6 +17,7 @@ public:
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 	bool CollisionTest(Sprite* sprite);
+	bool CollisionTest(RECT spritestatus);
 	float GetDegree(Sprite* sprite);
 
 
@@ -37,8 +38,8 @@ public:
 
 private:
 	D3DXVECTOR2 mpos;
-	vector<Marker*> markers;
-	vector<Line*> lines;
+	//vector<Marker*> markers;
+	//vector<Line*> lines;
 	SceneValues* scenevalue;
 	Player* player;
 	vector<int> CollideLineIndexVector;

@@ -43,6 +43,10 @@ void Clip::Position(float x, float y)
 void Clip::Position(D3DXVECTOR2 vec)
 {
 	position = vec;
+	for (auto a : frames )
+	{
+		a->Image->Position(vec);
+	}
 }
 
 void Clip::SetAbsoluteScale(float x, float y)

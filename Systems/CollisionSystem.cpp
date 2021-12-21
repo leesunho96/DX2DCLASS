@@ -18,39 +18,39 @@ CollisionSystem::~CollisionSystem()
 
 void CollisionSystem::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-	D3DXVECTOR2 mouse = Mouse->Position();
+	//D3DXVECTOR2 mouse = Mouse->Position();
 
-	mpos = Mouse->GetAdjustPos(scenevalue->MainCamera->GetPosition());
-	if (Mouse->DoubleClick(0))
-	{
-		if (Key->Press(VK_CONTROL))
-		{
-			markers.push_back(new Marker(Shaders + L"009_Sprite.fx",
-				D3DXVECTOR2(mpos.x, markers[markers.size() - 1]->Position().y)));
-		}
-		else if (Key->Press(VK_MENU))
-		{
-			markers.push_back(new Marker(Shaders + L"009_Sprite.fx",
-				D3DXVECTOR2(markers[markers.size() - 1]->Position().x, mpos.y)));
-		}
-		else
-		{
-			markers.push_back(new Marker(Shaders + L"009_Sprite.fx", mpos));
-		}
-	}
+	//mpos = Mouse->GetAdjustPos(scenevalue->MainCamera->GetPosition());
+	//if (Mouse->DoubleClick(0))
+	//{
+	//	if (Key->Press(VK_CONTROL))
+	//	{
+	//		collisiondata->marker.push_back(new Marker(Shaders + L"009_Sprite.fx",
+	//			D3DXVECTOR2(mpos.x, collisiondata->marker[collisiondata->marker.size() - 1]->Position().y)));
+	//	}
+	//	else if (Key->Press(VK_MENU))
+	//	{
+	//		collisiondata->marker.push_back(new Marker(Shaders + L"009_Sprite.fx",
+	//			D3DXVECTOR2(collisiondata->marker[collisiondata->marker.size() - 1]->Position().x, mpos.y)));
+	//	}
+	//	else
+	//	{
+	//		collisiondata->marker.push_back(new Marker(Shaders + L"009_Sprite.fx", mpos));
+	//	}
+	//}
 
-	if (markers.size() % 2 == 0)
-	{
-		while (lines.size() != markers.size() / 2)
-		{
-			lines.push_back(new Line(markers[lines.size() * 2], markers[lines.size() * 2 + 1]));
-		}
-	}
-	for (Marker* marker : markers)
+	//if (collisiondata->marker.size() % 2 == 0)
+	//{
+	//	while (collisiondata->line.size() != collisiondata->marker.size() / 2)
+	//	{
+	//		collisiondata->line.push_back(new Line(collisiondata->marker[collisiondata->line.size() * 2], collisiondata->marker[collisiondata->line.size() * 2 + 1]));
+	//	}
+	//}
+	for (Marker* marker : collisiondata->marker)
 	{
 		marker->Update(V, P);
 	}
-	for (auto marker : lines)
+	for (auto marker : collisiondata->line)
 	{
 		marker->Update(V, P);
 	}
@@ -64,19 +64,19 @@ void CollisionSystem::Render()
 	}
 	if (bIsRenderMarker)
 	{
-		for (Marker* marker : markers)
+		for (Marker* marker : collisiondata->marker)
 		{
 			marker->Render();
 		}
 	}
 
-	for (auto marker : lines)
+	for (auto marker : collisiondata->line)
 	{
 		marker->Render();
 	}
 
-	int markersize = markers.size();
-	int LineNum = lines.size();
+	int markersize = collisiondata->marker.size();
+	int LineNum = collisiondata->line.size();
 	ImGui::LabelText("MarkerNum", "%d", markersize);
 	ImGui::LabelText("LineNum", "%d", LineNum);
 	
@@ -87,7 +87,7 @@ bool CollisionSystem::CollisionTest(Sprite * sprite)
 	CollideLineIndexVector.clear();
 	bool isColide = false;
 	int index = 0;
-	for (auto line : lines)
+	for (auto line : collisiondata->line)
 	{
 		if (line->CollisionTest(sprite))
 		{			
@@ -99,11 +99,30 @@ bool CollisionSystem::CollisionTest(Sprite * sprite)
 	return isColide;
 }
 
+bool CollisionSystem::CollisionTest(RECT spritestatus)
+{
+	CollideLineIndexVector.clear();
+	bool isColide = false;
+	int index = 0;
+	for (auto line : collisiondata->line)
+	{
+		if (line->CollisionTest(spritestatus))
+		{
+			isColide = true;
+			CollideLineIndexVector.push_back(index);
+		}
+		index++;
+	}
+	return isColide;
+
+	return false;
+}
+
 float CollisionSystem::GetDegree(Sprite* sprite)
 {
 	if (CollideLineIndexVector.size() != 0)
 	{
-		float temp = lines[CollideLineIndexVector[0]]->GetAngle();
+		float temp = collisiondata->line[CollideLineIndexVector[0]]->GetAngle();
 		
 		if (temp > 90.0f)
 		{
@@ -123,15 +142,15 @@ float CollisionSystem::GetDegree(Sprite* sprite)
 
 void CollisionSystem::PushMarkerByCode(D3DXVECTOR2 Point)
 {
-	markers.push_back(new Marker(Shaders + L"009_Sprite.fx", Point));
+	collisiondata->marker.push_back(new Marker(Shaders + L"009_Sprite.fx", Point));
 
 }
 
 void CollisionSystem::PushLineByCode(Line * line)
 {
-	markers.push_back(line->GetMarker().first);
-	markers.push_back(line->GetMarker().second);
-	lines.push_back(line);
+	collisiondata->marker.push_back(line->GetMarker().first);
+	collisiondata->marker.push_back(line->GetMarker().second);
+	collisiondata->line.push_back(line);
 }
 
 void CollisionSystem::PushLineByCode(vector<Line*> line)
@@ -145,43 +164,43 @@ void CollisionSystem::PushLineByCode(vector<Line*> line)
 void CollisionSystem::GetCollisionData(CollisionData * data)
 {
 	collisiondata = data;
-	for (auto a : data->line)
-	{
-		lines.push_back(a);
-		markers.push_back(a->GetMarker().first);
-		markers.push_back(a->GetMarker().second);
-	}
+	//for (auto a : data->line)
+	//{
+	//	collisiondata->line.push_back(a);
+	//	collisiondata->marker.push_back(a->GetMarker().first);
+	//	collisiondata->marker.push_back(a->GetMarker().second);
+	//}
 	
 }
 
 //void CollisionSystem::PushCollisionSettingByDesc(LineDesc & desc)
 //{
 //	int markersize = desc.Markers.size();
-//	int linesize = desc.lines.size();
+//	int linesize = desc.collisiondata->line.size();
 //
 //	for (size_t i = 0; i < markersize; i++)
 //	{
-//		markers.push_back(desc.Markers[i]);
+//		collisiondata->marker.push_back(desc.Markers[i]);
 //	}
 //	for (size_t i = 0; i < linesize; i++)
 //	{
-//		lines.push_back(desc.lines[i]);
+//		collisiondata->line.push_back(desc.collisiondata->line[i]);
 //	}
 //}
 
 void CollisionSystem::ClearMarkersAndLines()
 {
-	for (auto a : lines)
+	for (auto a : collisiondata->line)
 	{
 		SAFE_DELETE(a);
 	}
-	for (auto a : markers)
+	for (auto a : collisiondata->marker)
 	{
 		SAFE_DELETE(a);
 	}
 
-	markers.clear();
-	lines.clear();
+	collisiondata->marker.clear();
+	collisiondata->line.clear();
 
 }
 
@@ -189,7 +208,7 @@ vector<float> CollisionSystem::GetDistance(Sprite * input)
 {
 	vector<float> result;
 
-	for (auto a : lines)
+	for (auto a : collisiondata->line)
 	{
 		if (a->CollisionTest(input))
 		{
@@ -207,10 +226,10 @@ bool CollisionSystem::GetIsOnUpperLine(Sprite * sprite)
 
 bool CollisionSystem::GetIsOnUpperLine(D3DXVECTOR2 point)
 {
-	if (lines.size() == 0)
+	if (collisiondata->line.size() == 0)
 		return false;
 
-	//return lines[CollideLineIndexVector[0]]->GetDistance(point) > 0 ? true : false;
-	return lines[0]->GetDistance(point) > 0 ? true : false;
+	//return collisiondata->line[CollideLineIndexVector[0]]->GetDistance(point) > 0 ? true : false;
+	return collisiondata->line[0]->GetDistance(point) > 0 ? true : false;
 }
 

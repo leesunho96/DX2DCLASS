@@ -99,6 +99,14 @@ bool Line::CollisionTest(Sprite * input)
 	return bistouch;
 }
 
+bool Line::CollisionTest(RECT rect)
+{
+	bool result = IsCollide(rect);
+	bistouch = result == true ? true : false;
+	return bistouch;
+	
+}
+
 float Line::GetDistance(Sprite * sprite)
 {
 	D3DXVECTOR2 point = sprite->Position();	
@@ -137,21 +145,8 @@ float Line::GetDegree()
 	return result;
 }
 
-bool Line::IsCollide(Sprite * input)
+bool Line::CheckIsColide(Line::SpriteStatus &spritestatus)
 {
-	D3DXVECTOR2 texturesize = input->TextureSize();
-	D3DXVECTOR2 position = input->Position();
-	D3DXVECTOR2 Scale = input->Scale();
-
-	texturesize.x *= Scale.x;
-	texturesize.y *= Scale.y;
-	SpriteStatus spritestatus;
-
-	spritestatus.rightUp   = D3DXVECTOR2(position.x + texturesize.x * 0.5f, position.y + texturesize.y * 0.5f);
-	spritestatus.rightDown = D3DXVECTOR2(position.x + texturesize.x * 0.5f, position.y - texturesize.y * 0.5f);
-	spritestatus.leftUp    = D3DXVECTOR2(position.x - texturesize.x * 0.5f, position.y + texturesize.y * 0.5f);
-	spritestatus.leftDown  = D3DXVECTOR2(position.x - texturesize.x * 0.5f, position.y - texturesize.y * 0.5f);
-	   	  
 	if (!IsInArea(spritestatus))
 		return false;
 
@@ -168,12 +163,12 @@ bool Line::IsCollide(Sprite * input)
 	// 거리가 양수인 경우가 0 | 4 인경우 충돌하지 않음.
 	// 거리가 양수인 경우가 위의 케이스가 아닌경우 충돌
 
-	GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.rightUp)   == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.rightUp)   > 0 ? positiveNum++ : positiveNum;
+	GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.rightUp) == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.rightUp)   > 0 ? positiveNum++ : positiveNum;
 	GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.rightDown) == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.rightDown) > 0 ? positiveNum++ : positiveNum;
-	GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.leftUp)    == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.leftUp)    > 0 ? positiveNum++ : positiveNum;
-	GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.leftDown)  == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.leftDown)  > 0 ? positiveNum++ : positiveNum;
+	GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.leftUp) == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.leftUp)    > 0 ? positiveNum++ : positiveNum;
+	GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.leftDown) == 0.0f ? zeroNum++ : GetDistanceBetweenLineAndPoint(lineEquation, spritestatus.leftDown)  > 0 ? positiveNum++ : positiveNum;
 
-	
+
 
 	// 스프라이트의 네 꼭지점중 하나라도 직선과의 거리가 0이면 직선과 스프라이트는 충돌.
 	if (zeroNum != 0)
@@ -190,6 +185,37 @@ bool Line::IsCollide(Sprite * input)
 	{
 		return true;
 	}
+}
+
+bool Line::IsCollide(Sprite * input)
+{
+	D3DXVECTOR2 texturesize = input->TextureSize();
+	D3DXVECTOR2 position = input->Position();
+	D3DXVECTOR2 Scale = input->Scale();
+
+	texturesize.x *= Scale.x;
+	texturesize.y *= Scale.y;
+	SpriteStatus spritestatus;
+
+	spritestatus.rightUp   = D3DXVECTOR2(position.x + texturesize.x * 0.5f, position.y + texturesize.y * 0.5f);
+	spritestatus.rightDown = D3DXVECTOR2(position.x + texturesize.x * 0.5f, position.y - texturesize.y * 0.5f);
+	spritestatus.leftUp    = D3DXVECTOR2(position.x - texturesize.x * 0.5f, position.y + texturesize.y * 0.5f);
+	spritestatus.leftDown  = D3DXVECTOR2(position.x - texturesize.x * 0.5f, position.y - texturesize.y * 0.5f);
+	   	  
+	return CheckIsColide(spritestatus);
+}
+
+bool Line::IsCollide(RECT rect)
+{
+	SpriteStatus spritestatus;
+
+	spritestatus.rightUp   = D3DXVECTOR2(rect.right, rect.top);
+	spritestatus.rightDown = D3DXVECTOR2(rect.right, rect.bottom);
+	spritestatus.leftUp    = D3DXVECTOR2(rect.left, rect.top);
+	spritestatus.leftDown  = D3DXVECTOR2(rect.left, rect.bottom);
+
+	return CheckIsColide(spritestatus);
+
 }
 
 bool Line::IsInAreaX(D3DXVECTOR2 pos)

@@ -36,6 +36,7 @@ public:
 
 	void DrawBound(bool val);
 	Sprite* GetSprite();
+	RECT GetSpriteStatusByRect();
 	Clip* GetClip();
 private:
 	D3DXVECTOR2 position;

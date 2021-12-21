@@ -41,7 +41,7 @@ Background_Yeti::Background_Yeti(SceneValues* scenevalues)
 		}
 		//mapCollision.lines.push_back(new Line(markers[0], markers[markers.size() - 1]));		
 		lines.push_back(new Line(markers[0], markers[markers.size() - 1]));
-		markers.clear();
+		//markers.clear();
 		collisiondata = new CollisionData(markers, lines);
 	}
 

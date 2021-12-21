@@ -151,6 +151,19 @@ Sprite * Animation::GetSprite()
 	return clips[currentClip]->GetSprite();
 }
 
+RECT Animation::GetSpriteStatusByRect()
+{
+	RECT result;
+	D3DXVECTOR2 texturesSize = GetSprite()->TextureSize();
+
+	result.top    = position.y + texturesSize.y * 0.5f /* scale.y*/;
+	result.bottom = position.y - texturesSize.y * 0.5f /* scale.y*/;
+	result.right  = position.x + texturesSize.x * 0.5f /* scale.y*/;
+	result.left   = position.x - texturesSize.x * 0.5f /* scale.y*/;
+
+	return result;
+}
+
 Clip * Animation::GetClip()
 {
 	if (currentClip < 0)
