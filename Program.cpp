@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "Systems/Device.h"
+#include "Systems/CollisionSystem.h"
 
 #include "Objects/Bullet.h"
 #include "Objects/Player.h"
 #include "Viewer/Freedom.h"
 #include "Scene/Scene.h"
 #include "Scene/Stage2.h"
-#include "Systems/CollisionSystem.h"
 
 
 SceneValues* values;

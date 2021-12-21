@@ -180,6 +180,7 @@ void Clip::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 void Clip::Render()
 {
 	Frame* frame = frames[currentFrame];
+	//frame->Image->Position(position);
 	frame->Image->Render();
 }
 

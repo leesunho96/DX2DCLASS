@@ -236,24 +236,46 @@ bool Line::IsInAreaY(D3DXVECTOR2 pos)
 		return false;
 }
 
+
 bool Line::IsLinePointInSpriteWidth(SpriteStatus spritestatus)
 {
-	float left = spritestatus.leftDown.x;
-	float right = spritestatus.rightDown.x;
+	float left   = spritestatus.leftDown.x;
+	float right  = spritestatus.rightDown.x;
 	float bottom = spritestatus.leftDown.y;
-	float height = spritestatus.leftUp.y;
+	float top = spritestatus.leftUp.y;
 
-	if (vertices[0].Position.x <= right && vertices[0].Position.x >= left)
-	{
-		
-	}
+	float lineRight  = vertices[0].Position.x >  vertices[1].Position.x ? vertices[0].Position.x : vertices[1].Position.x;
+	float lineLeft   = vertices[0].Position.x <= vertices[1].Position.x ? vertices[0].Position.x : vertices[1].Position.x;
+	float lineTop    = vertices[0].Position.y >  vertices[1].Position.y ? vertices[0].Position.y : vertices[1].Position.y;
+	float lineBottom = vertices[0].Position.y <= vertices[1].Position.y ? vertices[0].Position.y : vertices[1].Position.y;
 
-	return true;
+	bool lineRightPosInArea   = lineRight  <= right && lineRight >= left ? true : false;
+	bool lineLeftPosInArea    = lineLeft   <= right && lineLeft  >= left ? true : false;
+	bool lineTopPosOutArea    = lineTop    >= top    ? true : false;
+	bool lineBottomPosOutArea = lineBottom <= bottom ? true : false;
+
+	return lineRightPosInArea && lineLeftPosInArea && lineTopPosOutArea && lineBottomPosOutArea ? true : false;
 }
 
 bool Line::IsLinePointInSpriteHeight(SpriteStatus spritestatus)
 {
-	return false;
+	float left   = spritestatus.leftDown.x;
+	float right  = spritestatus.rightDown.x;
+	float bottom = spritestatus.leftDown.y;
+	float top = spritestatus.leftUp.y;
+
+	float lineRight  = vertices[0].Position.x >  vertices[1].Position.x ? vertices[0].Position.x : vertices[1].Position.x;
+	float lineLeft   = vertices[0].Position.x <= vertices[1].Position.x ? vertices[0].Position.x : vertices[1].Position.x;
+	float lineTop    = vertices[0].Position.y >  vertices[1].Position.y ? vertices[0].Position.y : vertices[1].Position.y;
+	float lineBottom = vertices[0].Position.y <= vertices[1].Position.y ? vertices[0].Position.y : vertices[1].Position.y;
+
+	bool lineRightPosOutArea = lineRight  >= right ? true : false;
+	bool lineLeftPosOutArea  = lineLeft   <= left  ? true : false;
+	bool lineTopPosInArea    = lineTop    <= top && lineTop    >= bottom ? true : false;
+	bool lineBottomPosInArea = lineBottom <= top && lineBottom >= bottom ? true : false;
+
+	return lineRightPosOutArea && lineLeftPosOutArea && lineTopPosInArea && lineBottomPosInArea ? true : false;
+	
 }
 
 bool Line::IsInArea(SpriteStatus input)
@@ -264,7 +286,10 @@ bool Line::IsInArea(SpriteStatus input)
 	bool leftup    = IsInAreaX(input.leftUp)    && IsInAreaY(input.leftUp);
 	bool leftdown  = IsInAreaX(input.leftDown)  && IsInAreaY(input.leftDown);
 
-	return rightup || rightdown || leftup || leftdown /*|| inWidth || inHeight*/ ? true : false;
+	bool inWidth  = IsLinePointInSpriteWidth(input);
+	bool inHeight = IsLinePointInSpriteHeight(input);
+
+	return rightup || rightdown || leftup || leftdown || inWidth || inHeight ? true : false;
 }
 
 

@@ -62,8 +62,10 @@ private:
 	D3DXVECTOR3 GetLineEquastion();
 	float GetDistanceBetweenLineAndPoint(D3DXVECTOR3 line, D3DXVECTOR2 point);
 	bool IsCollide(Sprite* input);
+
 	bool IsInAreaX(D3DXVECTOR2 pos);
 	bool IsInAreaY(D3DXVECTOR2 pos);
+
 
 	bool IsLinePointInSpriteWidth(SpriteStatus spritestatus);
 	bool IsLinePointInSpriteHeight(SpriteStatus spritestatus);

@@ -2,8 +2,9 @@
 #include "CollisionSystem.h"
 #include "Objects/Marker.h"
 #include "Objects/Line.h"
-#include "Scene/Scene.h"
 #include "Objects/Player.h"
+#include "Scene/Scene.h"
+#include "Systems/LineDesc.h"
 
 CollisionSystem::CollisionSystem(SceneValues * values, Player* player) : scenevalue(values), player(player)
 {
@@ -11,7 +12,7 @@ CollisionSystem::CollisionSystem(SceneValues * values, Player* player) : sceneva
 
 CollisionSystem::~CollisionSystem()
 {
-	ClearMarkersAndLines();
+	//ClearMarkersAndLines();
 }
 
 void CollisionSystem::Update(D3DXMATRIX & V, D3DXMATRIX & P)
@@ -99,13 +100,6 @@ bool CollisionSystem::CollisionTest(Sprite * sprite)
 
 float CollisionSystem::GetDegree(Sprite* sprite)
 {
-	//for (auto line : lines)
-	//{
-	//	if (line->CollisionTest(sprite))
-	//	{
-	//		return line->GetAngle();
-	//	}
-	//}	
 	if (CollideLineIndexVector.size() != 0)
 	{
 		float temp = lines[CollideLineIndexVector[0]]->GetAngle();
@@ -139,20 +133,28 @@ void CollisionSystem::PushLineByCode(Line * line)
 	lines.push_back(line);
 }
 
-void CollisionSystem::PushCollisionSettingByDesc(LineDesc & desc)
+void CollisionSystem::PushLineByCode(vector<Line*> line)
 {
-	int markersize = desc.Markers.size();
-	int linesize = desc.lines.size();
-
-	for (size_t i = 0; i < markersize; i++)
+	for (auto a : line)
 	{
-		markers.push_back(desc.Markers[i]);
-	}
-	for (size_t i = 0; i < linesize; i++)
-	{
-		lines.push_back(desc.lines[i]);
+		PushLineByCode(a);
 	}
 }
+
+//void CollisionSystem::PushCollisionSettingByDesc(LineDesc & desc)
+//{
+//	int markersize = desc.Markers.size();
+//	int linesize = desc.lines.size();
+//
+//	for (size_t i = 0; i < markersize; i++)
+//	{
+//		markers.push_back(desc.Markers[i]);
+//	}
+//	for (size_t i = 0; i < linesize; i++)
+//	{
+//		lines.push_back(desc.lines[i]);
+//	}
+//}
 
 void CollisionSystem::ClearMarkersAndLines()
 {
@@ -165,8 +167,8 @@ void CollisionSystem::ClearMarkersAndLines()
 		SAFE_DELETE(a);
 	}
 
-	lines.clear();
-	markers.clear();
+	//lines.clear();
+	//markers.clear();
 }
 
 vector<float> CollisionSystem::GetDistance(Sprite * input)

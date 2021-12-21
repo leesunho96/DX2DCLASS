@@ -5,12 +5,8 @@ class SceneValues;
 class Line;
 class Marker;
 class Player;
+//class LineDesc;
 
-struct LineDesc
-{
-	vector<Line*> lines;
-	vector<Marker*> Markers;
-};
 
 class CollisionSystem
 {
@@ -27,7 +23,8 @@ public:
 	// 해당 충돌 시스템을 위한 선/좌표 입력 메소드.
 	void PushMarkerByCode(D3DXVECTOR2 Point);
 	void PushLineByCode(Line* line);
-	void PushCollisionSettingByDesc(LineDesc& desc); // 라인과 마커 별개로 인식.
+	void PushLineByCode(vector<Line*> line);
+	//void PushCollisionSettingByDesc(LineDesc& desc); // 라인과 마커 별개로 인식.
 
 	// 기존에 입력된 충돌 좌표/선 초기화 메소드
 	void ClearMarkersAndLines();
