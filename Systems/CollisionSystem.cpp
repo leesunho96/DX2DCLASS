@@ -5,6 +5,7 @@
 #include "Objects/Player.h"
 #include "Scene/Scene.h"
 #include "Systems/LineDesc.h"
+#include "Data/CollisionData.h"
 
 CollisionSystem::CollisionSystem(SceneValues * values, Player* player) : scenevalue(values), player(player)
 {
@@ -141,6 +142,18 @@ void CollisionSystem::PushLineByCode(vector<Line*> line)
 	}
 }
 
+void CollisionSystem::GetCollisionData(CollisionData * data)
+{
+	collisiondata = data;
+	for (auto a : data->line)
+	{
+		lines.push_back(a);
+		markers.push_back(a->GetMarker().first);
+		markers.push_back(a->GetMarker().second);
+	}
+	
+}
+
 //void CollisionSystem::PushCollisionSettingByDesc(LineDesc & desc)
 //{
 //	int markersize = desc.Markers.size();
@@ -167,8 +180,9 @@ void CollisionSystem::ClearMarkersAndLines()
 		SAFE_DELETE(a);
 	}
 
-	//lines.clear();
-	//markers.clear();
+	markers.clear();
+	lines.clear();
+
 }
 
 vector<float> CollisionSystem::GetDistance(Sprite * input)

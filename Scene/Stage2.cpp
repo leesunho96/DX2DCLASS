@@ -10,6 +10,7 @@
 
 #include "Systems/CollisionSystem.h"
 #include "Systems/LineDesc.h"
+#include "Data/CollisionData.h"
 
 
 extern CollisionSystem* collisionsystem;
@@ -22,8 +23,7 @@ Stage2::Stage2(SceneValues * values)
 	((Freedom*)(values->MainCamera))->SetPosition(0, 0);
 	collisionsystem = new CollisionSystem(values, player);
 	player = new Player(D3DXVECTOR2(0, 0), D3DXVECTOR2(3, 3));
-	//collisionsystem->PushCollisionSettingByDesc(bg->GetCollision());
-	collisionsystem->PushLineByCode(bg->Getlines());
+	collisionsystem->GetCollisionData(bg->GetCollisionData());
 }
 
 Stage2::~Stage2()

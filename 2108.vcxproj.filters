@@ -84,6 +84,9 @@
     <ClCompile Include="Systems\CMouse.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Data\CollisionData.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -177,6 +180,9 @@
     <ClInclude Include="Systems\LineDesc.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Data\CollisionData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">
@@ -196,6 +202,9 @@
     </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{2eac4a32-43cc-4827-9178-932e2ffea3ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{f1be0a8d-614c-4cbe-b6d8-14bc4b0ff430}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

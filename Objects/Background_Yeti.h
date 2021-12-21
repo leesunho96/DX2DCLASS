@@ -4,6 +4,7 @@ class Sprite;
 class LineDesc;
 class SceneValues;
 class Line;
+class CollisionData;
 
 
 class Background_Yeti
@@ -20,8 +21,10 @@ public:
 	//	return mapCollision.lines;
 	//};
 	vector<Line*> Getlines() { return lines; };
+	CollisionData* GetCollisionData() { return collisiondata; };
+
 private:
 	Sprite* mapSprite;	
-	//LineDesc mapCollision;
+	CollisionData* collisiondata;
 	vector<Line*> lines;
 };

@@ -1,11 +1,11 @@
 #pragma once
 
 class SceneValues;
-//class Scene;
 class Line;
 class Marker;
 class Player;
-//class LineDesc;
+class CollisionData;
+
 
 
 class CollisionSystem
@@ -24,6 +24,7 @@ public:
 	void PushMarkerByCode(D3DXVECTOR2 Point);
 	void PushLineByCode(Line* line);
 	void PushLineByCode(vector<Line*> line);
+	void GetCollisionData(CollisionData* data);
 	//void PushCollisionSettingByDesc(LineDesc& desc); // 라인과 마커 별개로 인식.
 
 	// 기존에 입력된 충돌 좌표/선 초기화 메소드
@@ -43,5 +44,5 @@ private:
 	vector<int> CollideLineIndexVector;
 	bool bIsRenderMarker = true;
 private:
-
+	CollisionData* collisiondata;
 };

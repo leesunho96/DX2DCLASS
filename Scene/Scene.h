@@ -14,9 +14,7 @@ class Scene
 {
 public:
 	Scene(SceneValues* values) : values(values) {};
-	//{
-	//	this->values = values;
-	//}
+
 
 	virtual ~Scene() {};
 

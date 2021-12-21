@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Data\CollisionData.cpp" />
     <ClCompile Include="Objects\Background_Yeti.cpp" />
     <ClCompile Include="Objects\Bullet.cpp" />
     <ClCompile Include="Objects\Fire.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="Viewer\Freedom.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Data\CollisionData.h" />
     <ClInclude Include="Objects\Background_Yeti.h" />
     <ClInclude Include="Objects\Bullet.h" />
     <ClInclude Include="Objects\Fire.h" />

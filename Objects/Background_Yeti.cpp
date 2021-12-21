@@ -6,6 +6,7 @@
 #include "Systems/CollisionSystem.h"
 #include "Systems/CMouse.h"
 #include "Systems/LineDesc.h"
+#include "Data/CollisionData.h"
 
 
 Background_Yeti::Background_Yeti(SceneValues* scenevalues) 
@@ -31,6 +32,7 @@ Background_Yeti::Background_Yeti(SceneValues* scenevalues)
 		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(),  D3DXVECTOR2(800,  - 450))));
 		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(),  D3DXVECTOR2(600,  - 600))));
 
+		vector<Line*> lines;
 
 		for (UINT i = 0; i < markers.size() - 1; i++)
 		{
@@ -39,6 +41,8 @@ Background_Yeti::Background_Yeti(SceneValues* scenevalues)
 		}
 		//mapCollision.lines.push_back(new Line(markers[0], markers[markers.size() - 1]));		
 		lines.push_back(new Line(markers[0], markers[markers.size() - 1]));
+		markers.clear();
+		collisiondata = new CollisionData(markers, lines);
 	}
 
 }

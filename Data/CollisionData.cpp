@@ -5,5 +5,4 @@
 
 CollisionData::CollisionData(vector<Marker*> markers, vector<Line*> lines) : marker(markers), line(lines)
 {
-
 }
