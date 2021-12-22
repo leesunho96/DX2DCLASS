@@ -12,40 +12,11 @@ CollisionSystem::CollisionSystem(SceneValues * values, Player* player) : sceneva
 }
 
 CollisionSystem::~CollisionSystem()
-{
-	//ClearMarkersAndLines();
+{	
 }
 
 void CollisionSystem::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-	//D3DXVECTOR2 mouse = Mouse->Position();
-
-	//mpos = Mouse->GetAdjustPos(scenevalue->MainCamera->GetPosition());
-	//if (Mouse->DoubleClick(0))
-	//{
-	//	if (Key->Press(VK_CONTROL))
-	//	{
-	//		collisiondata->marker.push_back(new Marker(Shaders + L"009_Sprite.fx",
-	//			D3DXVECTOR2(mpos.x, collisiondata->marker[collisiondata->marker.size() - 1]->Position().y)));
-	//	}
-	//	else if (Key->Press(VK_MENU))
-	//	{
-	//		collisiondata->marker.push_back(new Marker(Shaders + L"009_Sprite.fx",
-	//			D3DXVECTOR2(collisiondata->marker[collisiondata->marker.size() - 1]->Position().x, mpos.y)));
-	//	}
-	//	else
-	//	{
-	//		collisiondata->marker.push_back(new Marker(Shaders + L"009_Sprite.fx", mpos));
-	//	}
-	//}
-
-	//if (collisiondata->marker.size() % 2 == 0)
-	//{
-	//	while (collisiondata->line.size() != collisiondata->marker.size() / 2)
-	//	{
-	//		collisiondata->line.push_back(new Line(collisiondata->marker[collisiondata->line.size() * 2], collisiondata->marker[collisiondata->line.size() * 2 + 1]));
-	//	}
-	//}
 	for (Marker* marker : collisiondata->marker)
 	{
 		marker->Update(V, P);
@@ -75,10 +46,10 @@ void CollisionSystem::Render()
 		marker->Render();
 	}
 
-	int markersize = collisiondata->marker.size();
-	int LineNum = collisiondata->line.size();
-	ImGui::LabelText("MarkerNum", "%d", markersize);
-	ImGui::LabelText("LineNum", "%d", LineNum);
+	//int markersize = collisiondata->marker.size();
+	//int LineNum = collisiondata->line.size();
+	//ImGui::LabelText("MarkerNum", "%d", markersize);
+	//ImGui::LabelText("LineNum", "%d", LineNum);
 	
 }
 

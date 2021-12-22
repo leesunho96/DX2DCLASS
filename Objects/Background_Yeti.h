@@ -15,16 +15,10 @@ public:
 
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
-
-	//LineDesc GetCollision() { return mapCollision; };
-	//vector<Line*> GetLineCollision() {
-	//	return mapCollision.lines;
-	//};
-	vector<Line*> Getlines() { return lines; };
+	
 	CollisionData* GetCollisionData() { return collisiondata; };
 
 private:
 	Sprite* mapSprite;	
-	CollisionData* collisiondata;
-	vector<Line*> lines;
+	CollisionData* collisiondata;	
 };

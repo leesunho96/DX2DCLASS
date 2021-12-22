@@ -88,8 +88,8 @@ void Line::Render()
 	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 	
 	boundShader->Draw(0, bistouch ? 1 : 0, 2);
-	ImGui::LabelText("LineEquation", "%.0f , %.0f, %.0f", lineEquation.x, lineEquation.y, lineEquation.z);
-	ImGui::LabelText("Angle", "%.0f", angle);
+	//ImGui::LabelText("LineEquation", "%.0f , %.0f, %.0f", lineEquation.x, lineEquation.y, lineEquation.z);
+	//ImGui::LabelText("Angle", "%.0f", angle);
 }
 
 bool Line::CollisionTest(Sprite * input)

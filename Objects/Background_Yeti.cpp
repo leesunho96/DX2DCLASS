@@ -50,6 +50,7 @@ Background_Yeti::Background_Yeti(SceneValues* scenevalues)
 Background_Yeti::~Background_Yeti()
 {
 	SAFE_DELETE(mapSprite);
+	SAFE_DELETE(collisiondata);
 }
 
 void Background_Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)

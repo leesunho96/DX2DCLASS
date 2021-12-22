@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Objects/Player.h"
+#include "Objects/Arrow.h"
 #include "Systems/CollisionSystem.h"
 
 
@@ -13,6 +14,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	wstring spriteFile = Textures + L"TianSouls/player.png";
 	wstring shaderFile = Shaders + L"009_Sprite.fx";
 
+	arrow = new Arrow(spriteFile, shaderFile);
 	Clip* clip;
 	//Idle : 0
 	{
@@ -83,7 +85,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	{
 		// Roll To UP : 6 // 완료, 체크 전.
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Loop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 98, 18, 108, 31), 0.1f);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 115, 20, 125, 31), 0.1f);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 130, 23, 141, 31), 0.1f);
@@ -94,7 +96,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 		}
 		// Roll To Right_UP : 7 // 완료, 체크 전
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Loop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 97, 98, 104, 111), 0.1f);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 112, 101, 124, 111), 0.1f);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 130, 103, 141, 111), 0.1f);
@@ -105,7 +107,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 		}
 		// Roll To Right : 8 // 완료, 체크 전
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Loop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 98, 3, 108, 16), 0.1f);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 114, 5, 126, 16), 0.1f);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 130, 7, 142, 16), 0.1f);
@@ -116,7 +118,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 		}
 		// Roll To Right_down : 9 // 완료/체크전
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Loop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 98, 82, 107, 96), 0.1f);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 112, 84, 124, 96), 0.1f);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 129, 88, 140, 96), 0.1f);
@@ -128,7 +130,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 		}
 		// Roll To Down : 10 
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Loop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 98, 49, 108, 63), 0.1f);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 115, 53, 125, 63), 0.1f);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 131, 55, 141, 63), 0.1f);
@@ -192,37 +194,37 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	{
 		// Charge To UP
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Loop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
 			animation->AddClip(clip);
 		}
 		// Charge To Right_UP
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Loop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
 			animation->AddClip(clip);
 		}
 		// Charge To Right
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Loop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
 			animation->AddClip(clip);
 		}
 		// Charge To Right_down
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Loop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
 			animation->AddClip(clip);
 		}
 		// Charge To Down
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Loop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
 			animation->AddClip(clip);
 		}
 	}
 
-	Arrow = new Sprite(spriteFile, shaderFile, 428, 9, 435, 24);
+	
 
 	animation->SetPosition(position);
 	animation->SetScale(scale);
@@ -233,6 +235,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 
 Player::~Player()
 {
+	SAFE_DELETE(arrow);
 	SAFE_DELETE(animation);
 }
 
@@ -249,8 +252,6 @@ void Player::Focus(D3DXVECTOR2 * position, D3DXVECTOR2 * size)
 
 // bitflag
 // https://ansohxxn.github.io/cpp/chapter3-3/
-bool isonUpperSide = false;
-
 void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	D3DXVECTOR2 position = animation->GetPosition();
@@ -278,28 +279,64 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		{
 
 		}
-
-
 		if (stopwatch > stopTime)
 		{
 			ResetStopWatch();
-			isRoll = false;
+			isRoll = false;		
 		}
 	}
-	position += direction * timerelapse * moveSpeed;
 
-	animation->SetPosition(position);
-		
-	while (collisionsystem->CollisionTest(animation->GetSpriteStatusByRect()))
+	if (!isCharge)
 	{
-		position -= pastDirection * timerelapse * moveSpeed;		
+		arrow->SetActivate(false);
+		position += direction * timerelapse * moveSpeed;
 		animation->SetPosition(position);
-		animation->Update(V, P);
+		while (collisionsystem->CollisionTest(animation->GetSpriteStatusByRect()))
+		{
+			position -= pastDirection * timerelapse * moveSpeed;		
+			animation->SetPosition(position);
+			animation->Update(V, P);
+		}
 	}
+	else
+	{
+		arrow->SetActivate(true);
+		arrow->SetPosition(GetArrowPosition());
+		arrow->Update(V, P);
+	}
+
+
 	animation->SetPosition(position);
 	animation->Update(V, P);
 	animation->Play(playAnimation);
 
+}
+
+void Player::Render()
+{
+	D3DXVECTOR2 position = animation->GetPosition();
+	ImGui::SliderFloat("Move Speed", &moveSpeed, 50, 400);
+	ImGui::LabelText("Position :", "%.0f, %.0f", position.x, position.y);
+
+	animation->Render();
+	arrow->Render();
+}
+D3DXVECTOR2 Player::GetArrowPosition()
+{
+	D3DXVECTOR2 ArrowDirection = GetArrowDirection();
+
+	ArrowDirection.x = ArrowDirection.x == 0 ? 0 :  ArrowDirection.x * 1 / fabs(ArrowDirection.x);
+	ArrowDirection.y = ArrowDirection.y == 0 ? 0 :  ArrowDirection.y * 1 / fabs(ArrowDirection.y);
+
+	D3DXVECTOR2 ArrowPosition = animation->GetPosition();
+	ArrowPosition.x += ArrowDirection.x * ((animation->TextureSize().x + arrow->GetTextureSize().x) * 0.5f) * 2.0f;
+	ArrowPosition.y += ArrowDirection.y * ((animation->TextureSize().y + arrow->GetTextureSize().y) * 0.5f) * 2.0f;
+	return ArrowPosition;
+}
+
+D3DXVECTOR2 Player::GetArrowDirection()
+{
+	return direction == D3DXVECTOR2(0, 0) ? D3DXVECTOR2(0, -1) : direction;	
 }
 
 void Player::ResetStopWatch()
@@ -311,7 +348,6 @@ void Player::ResetStopWatch()
 
 void Player::SetAnimationFromDirectionAndSpace(D3DXVECTOR2 &direction, int &playAnimation, bool isRoll)
 {
-
 	if (direction.x == 0 && direction.y == 0)
 	{
 		playAnimation = 0;
@@ -377,6 +413,9 @@ void Player::SetKeyInputToIsRoll(unsigned char forwardflag, bool &isRoll)
 
 void Player::SetKeyInputToDirectionVector(unsigned char forwardflag, D3DXVECTOR2 &direction)
 {
+	if (isCharge)
+		return;
+
 	if (forwardflag & PressA)
 	{
 		direction.x += -1;
@@ -398,36 +437,35 @@ void Player::SetKeyInputToDirectionVector(unsigned char forwardflag, D3DXVECTOR2
 
 void Player::GetKeyInputByBitFlag(unsigned char &forwardflag)
 {	
-	direction = D3DXVECTOR2(0, 0);
-	if (Key->Press('A'))
+	if (Key->Press('C'))
 	{
-		forwardflag |= PressA;
+		isCharge = true;
+	}
+	else
+	{
+		isCharge = false;
+		direction = D3DXVECTOR2(0, 0);
+		if (Key->Press('A'))
+		{
+			forwardflag |= PressA;
 
-	}
-	if (Key->Press('D'))
-	{
-		forwardflag |= PressD;
+		}
+		if (Key->Press('D'))
+		{
+			forwardflag |= PressD;
 
+		}
+		if (Key->Press('W'))
+		{
+			forwardflag |= PressW;
+		}
+		if (Key->Press('S'))
+		{
+			forwardflag |= PressS;
+		}
+		if (Key->Press(VK_SPACE))
+		{
+			forwardflag |= PressSpace;
+		}
 	}
-	if (Key->Press('W'))
-	{
-		forwardflag |= PressW;
-	}
-	if (Key->Press('S'))
-	{
-		forwardflag |= PressS;
-	}
-	if (Key->Press(VK_SPACE))
-	{
-		forwardflag |= PressSpace;
-	}
-}
-
-void Player::Render()
-{
-	D3DXVECTOR2 position = animation->GetPosition();
-	ImGui::SliderFloat("Move Speed", &moveSpeed, 50, 400);
-	ImGui::LabelText("Position :", "%.0f, %.0f", position.x, position.y);
-	ImGui::LabelText("IsOnUpperSide : ", "%.0f", isonUpperSide);
-	animation->Render();
 }
