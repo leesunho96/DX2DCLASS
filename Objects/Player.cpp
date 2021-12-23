@@ -331,11 +331,12 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		// 화살 발사
 		else
 		{
-			arrow->SetActivate(true);
 			arrow->SetPosition(GetArrowPosition());
 			arrow->SetDirection(GetArrowDirection());
+			arrow->SetStart();			
 			playAnimation = 0;
 			bIsHaveArrow = false;
+			bIsReTrivingArrow = false;
 		}
 	}
 
@@ -374,6 +375,14 @@ void Player::GetArrow()
 	this->bIsHaveArrow = true;
 }
 
+void Player::SetPlayerGetArrow()
+{
+	bIsReTrivingArrow = false;
+	isCharge = false;
+	bIsHaveArrow = true;
+
+}
+
 
 
 D3DXVECTOR2 Player::GetArrowPosition()
@@ -384,8 +393,8 @@ D3DXVECTOR2 Player::GetArrowPosition()
 	ArrowDirection.y = ArrowDirection.y == 0 ? 0 :  ArrowDirection.y * 1 / fabs(ArrowDirection.y);
 
 	D3DXVECTOR2 ArrowPosition = animation->GetPosition();
-	ArrowPosition.x += ArrowDirection.x * ((animation->TextureSize().x + arrow->GetTextureSize().x) * 0.5f) * 2.0f;
-	ArrowPosition.y += ArrowDirection.y * ((animation->TextureSize().y + arrow->GetTextureSize().y) * 0.5f) * 2.0f;
+	ArrowPosition.x += ArrowDirection.x * ((animation->TextureSize().x + arrow->GetTextureSize().x) * 0.5f) * 3.5f;
+	ArrowPosition.y += ArrowDirection.y * ((animation->TextureSize().y + arrow->GetTextureSize().y) * 0.5f) * 3.5f;
 	return ArrowPosition;
 }
 
@@ -492,7 +501,7 @@ void Player::SetKeyInputToDirectionVector(unsigned char forwardflag, D3DXVECTOR2
 
 void Player::GetKeyInputByBitFlag(unsigned char &forwardflag)
 {	
-	if (Key->Press('C'))
+	if (Key->Toggle('C'))
 	{
 		isCharge = true;
 	}

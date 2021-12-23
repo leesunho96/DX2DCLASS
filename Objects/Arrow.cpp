@@ -31,8 +31,8 @@ void Arrow::SetBack()
 	if (isGoing)
 	{
 		this->isGoing = false;
-		direction = GetArrowDirectionToPlayer(*pPlayerPosition);
-		Rotation = GetArrowRotationByPoint(*pPlayerPosition, position);
+		direction = GetArrowDirectionToPlayer(player->GetSprite()->Position());
+		Rotation = GetArrowRotationByPoint(player->GetSprite()->Position(), position);
 	}
 }
 
@@ -60,6 +60,7 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		if (player->GetSprite()->OBB(sprite))
 		{
 			isActivate = false;
+			player->SetPlayerGetArrow();
 		}
 		else
 		{
@@ -128,14 +129,17 @@ D3DXVECTOR3 Arrow::GetArrowRotation()
 
 D3DXVECTOR3 Arrow::GetArrowRotationByPoint(D3DXVECTOR2 point1, D3DXVECTOR2 point2)
 {
-	return D3DXVECTOR3(0, 0, atan2(point1.y - point2.y, point1.x - point2.x));
+	return D3DXVECTOR3(0, 0, atan2(point1.y - point2.y, point1.x - point2.x) + Math::ToRadian(90.0f));
 }
 
 D3DXVECTOR2 Arrow::GetArrowDirectionToPlayer(D3DXVECTOR2 playerPos)
 {
-	D3DXVECTOR2 tempdirection = playerPos - position;
+	direction = playerPos - position;
 
-	return *D3DXVec2Normalize(&tempdirection, &tempdirection);
+	D3DXVec2Normalize(&direction, &direction);
+
+	return direction;
+	
 }
 	
 

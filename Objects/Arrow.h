@@ -13,8 +13,7 @@ public:
 	Sprite* GetSprite() { return sprite; };
 	D3DXVECTOR2 GetTextureSize() { return sprite->TextureSize(); };
 
-	void SetActivate(bool input) { isActivate = input; };
-	void SetStart() { this->isGoing = true; };
+	void SetStart() { this->isGoing = true; SetActivate(true); };
 	void SetBack();// { this->isGoing = false; };
 	void SetRotation(D3DXVECTOR3 vec) { this->Rotation = vec; };
 	void SetDirection(D3DXVECTOR2 vec) { this->direction = vec; };
@@ -38,6 +37,7 @@ private:
 	bool isGoing = true;
 
 private:
+	void SetActivate(bool input) { isActivate = input; };
 	D3DXVECTOR3 GetArrowRotation();
 	D3DXVECTOR3 GetArrowRotationByPoint(D3DXVECTOR2 point1, D3DXVECTOR2 point2);
 	D3DXVECTOR2 GetArrowDirectionToPlayer(D3DXVECTOR2 playerPos);
