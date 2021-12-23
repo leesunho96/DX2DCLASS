@@ -7,7 +7,7 @@ public:
 	~StopWatch();
 
 	void SetTimer(float input) { max_Time = input; };
-	void ResetTimer() { max_Time = 0.0f; present_Time = 0.0f; };
+	void ResetTimer() { max_Time = 0.0f; present_Time = 0.0f; isOver = false; };
 
 	void Update();
 	bool IsOver();

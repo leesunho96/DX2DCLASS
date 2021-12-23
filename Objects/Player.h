@@ -15,7 +15,12 @@ public:
 	Sprite* GetSprite() { return animation->GetSprite(); };
 
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
+	void PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXMATRIX & V, D3DXMATRIX & P);
 	void Render();
+
+	void GetArrow();
+	
+
 private:
 	void ResetStopWatch();
 	void SetAnimationFromDirectionAndSpace(D3DXVECTOR2 &direction, int &playAnimation, bool isRoll);
@@ -33,16 +38,20 @@ private:
 	D3DXVECTOR2 focusoffset;
 	D3DXVECTOR2 direction = D3DXVECTOR2(0, 0);
 	D3DXVECTOR2 pastDirection = D3DXVECTOR2(0, 0);
+
 	bool isplayingOtherAnimation = false;
 	bool bIsOverlap = false;
 	bool bIsGetFarDisatance = false;
 	bool isRoll = false;
 	bool isCharge = false;
 	bool bIsHaveArrow = true;
+	bool bIsReTrivingArrow = false;
+	
 	float stopwatch = 0.0f;
 	float stopTime = 0.0f;
 	float presentDistance = 999.9f;
 	float pastFarDistance = 999.9f;
 	int playAnimation = 0;
+
 	vector<float> pastFarDistanceVector;
 };

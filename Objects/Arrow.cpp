@@ -10,7 +10,7 @@ Arrow::Arrow(wstring spriteFile, wstring shaderFile)
 	sprite->Rotation(0, 0, 0);
 
 	stopwatch = new StopWatch();
-	stopwatch->SetTimer(3.0f);
+	stopwatch->SetTimer(1.0f);
 }
 
 Arrow::~Arrow()
@@ -22,6 +22,18 @@ void Arrow::SetPosition(D3DXVECTOR2 pos)
 {
 	position = pos;
 	sprite->Position(pos);
+	stopwatch->ResetTimer();
+	stopwatch->SetTimer(1.0f);
+}
+
+void Arrow::SetBack()
+{
+	if (isGoing)
+	{
+		this->isGoing = false;
+		direction = GetArrowDirectionToPlayer(*pPlayerPosition);
+		Rotation = GetArrowRotationByPoint(*pPlayerPosition, position);
+	}
 }
 
 void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
@@ -30,17 +42,31 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		return;
 	stopwatch->Update();
 	
-	if (!stopwatch->IsOver())
+	if (isGoing)
 	{
-		position += *D3DXVec2Normalize(&direction, &direction);
-		// 플레이어 Or Enemy, 충돌 체크 알고리즘 추가.
-		// 
-		//D3DXVec2Normalize()
+		if (!stopwatch->IsOver())
+		{
+			position += direction * Timer->Elapsed() * 300;
+			// 플레이어 Or Enemy, 충돌 체크 알고리즘 추가.
+			// 
+			//D3DXVec2Normalize()
+			Rotation = GetArrowRotation();
+		}	
+	}
+	else
+	{
+		// 플레이어에게 돌아온 경우 : deactivate 한 후, 플레이어에게 알려야함
+		// 알릴 메소드 만들어야됨.
+		if (player->GetSprite()->OBB(sprite))
+		{
+			isActivate = false;
+		}
+		else
+		{
+			position += direction * Timer->Elapsed() * 300;
+		}
 	}
 
-	
-	
-	Rotation = GetArrowRotation();
 	sprite->Rotation(Rotation);
 	sprite->Position(position);
 	sprite->Update(V, P);
@@ -53,12 +79,63 @@ void Arrow::Render()
 
 	sprite->Render();
 	ImGui::LabelText("Position :", "%.0f, %.0f", position.x, position.y);
+	ImGui::LabelText("Rotation :", "%.0f, %.0f, %.0f", Rotation.x, Rotation.y, Rotation.z);
 	
 }
 
 D3DXVECTOR3 Arrow::GetArrowRotation()
 {
-	return D3DXVECTOR3(0, 0, 0);
+	// S 입력시 / 0, -1
+	if (direction.x == 0 && direction.y < 0)
+	{
+		Rotation = D3DXVECTOR3(0, 0, Math::ToRadian(0));
+	}
+	// D 입력시 / 1, 0
+	else if (direction.x > 0 && direction.y == 0)
+	{
+		Rotation = D3DXVECTOR3(0, 0, Math::ToRadian(90.0f));
+	}
+	// W 입력시 // 0, 1
+	else if (direction.x == 0 && direction.y > 0)
+	{
+		Rotation = D3DXVECTOR3(0, 0, Math::ToRadian(180.0f));
+	}
+	// A 입력시 // -1, 0
+	else if (direction.x < 0 && direction.y == 0)
+	{
+		Rotation = D3DXVECTOR3(0, 0, Math::ToRadian(270.0f));
+	}
+	// 
+	else if (direction.x > 0 && direction.y < 0)
+	{
+		Rotation = D3DXVECTOR3(0, 0, Math::ToRadian(45.0f));
+	}
+	else if (direction.x > 0 && direction.y > 0)
+	{
+		Rotation = D3DXVECTOR3(0, 0, Math::ToRadian(135.0f));
+	}
+	else if (direction.x < 0 && direction.y > 0)
+	{
+		Rotation = D3DXVECTOR3(0, 0, Math::ToRadian(225.0f));
+	}
+	else if (direction.x < 0 && direction.y < 0)
+	{
+		Rotation = D3DXVECTOR3(0, 0, Math::ToRadian(315.0f));
+	}
+
+	return Rotation;
+}
+
+D3DXVECTOR3 Arrow::GetArrowRotationByPoint(D3DXVECTOR2 point1, D3DXVECTOR2 point2)
+{
+	return D3DXVECTOR3(0, 0, atan2(point1.y - point2.y, point1.x - point2.x));
+}
+
+D3DXVECTOR2 Arrow::GetArrowDirectionToPlayer(D3DXVECTOR2 playerPos)
+{
+	D3DXVECTOR2 tempdirection = playerPos - position;
+
+	return *D3DXVec2Normalize(&tempdirection, &tempdirection);
 }
 	
 

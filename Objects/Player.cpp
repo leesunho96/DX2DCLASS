@@ -15,6 +15,9 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	wstring shaderFile = Shaders + L"009_Sprite.fx";
 
 	arrow = new Arrow(spriteFile, shaderFile);
+	arrow->SetPlayer(this);
+	arrow->SetpPlayerPosition(&position);
+
 	Clip* clip;
 	//Idle : 0
 	{
@@ -288,30 +291,72 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 	if (!isCharge)
 	{
-		arrow->SetActivate(false);
-		position += direction * timerelapse * moveSpeed;
-		animation->SetPosition(position);
-		while (collisionsystem->CollisionTest(animation->GetSpriteStatusByRect()))
+		// c버튼 누르지 않고, 화살을 갖고 있는 상태.
+		if (bIsHaveArrow)
 		{
-			position -= pastDirection * timerelapse * moveSpeed;		
-			animation->SetPosition(position);
-			animation->Update(V, P);
+			PlayerMove(position, timerelapse, V, P);
+		}
+		// C버튼을 누르지 않고, 화살을 갖고 있지 않은 상태
+		else
+		{
+			// 화살 회수중. c버튼 누르지 않고, 화살이 돌아오는 중 : 움직일 수 없다.
+			if (bIsReTrivingArrow)
+			{
+				arrow->SetBack();
+				playAnimation = 0;
+			}
+			// 화살 발사중
+			else
+			{
+				PlayerMove(position, timerelapse, V, P);
+			}
 		}
 	}
 	else
 	{
-		arrow->SetActivate(true);
-		arrow->SetPosition(GetArrowPosition());
-		arrow->SetDirection(GetArrowDirection());
-		
-		arrow->Update(V, P);
+		// 화살을 갖고 있지 않은 경우
+		if (!bIsHaveArrow)
+		{
+			// 화살을 회수중인 경우
+			if (!bIsReTrivingArrow)
+			{
+				arrow->SetBack();
+				bIsReTrivingArrow = true;
+			}
+			else
+			{
+				PlayerMove(position, timerelapse, V, P);
+			}
+		}
+		// 화살 발사
+		else
+		{
+			arrow->SetActivate(true);
+			arrow->SetPosition(GetArrowPosition());
+			arrow->SetDirection(GetArrowDirection());
+			playAnimation = 0;
+			bIsHaveArrow = false;
+		}
 	}
 
 
+	arrow->Update(V, P);
 	animation->SetPosition(position);
 	animation->Update(V, P);
 	animation->Play(playAnimation);
 
+}
+
+void Player::PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXMATRIX & V, D3DXMATRIX & P)
+{
+	position += direction * timerelapse * moveSpeed;
+	animation->SetPosition(position);
+	while (collisionsystem->CollisionTest(animation->GetSpriteStatusByRect()))
+	{
+		position -= pastDirection * timerelapse * moveSpeed;
+		animation->SetPosition(position);
+		animation->Update(V, P);
+	}
 }
 
 void Player::Render()
@@ -323,6 +368,13 @@ void Player::Render()
 	animation->Render();
 	arrow->Render();
 }
+
+void Player::GetArrow()
+{
+	this->bIsHaveArrow = true;
+}
+
+
 
 D3DXVECTOR2 Player::GetArrowPosition()
 {

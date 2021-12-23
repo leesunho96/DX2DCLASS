@@ -20,5 +20,5 @@ void StopWatch::Update()
 
 bool StopWatch::IsOver()
 {
-	return false;
+	return isOver;
 }
