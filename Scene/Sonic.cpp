@@ -2,12 +2,12 @@
 #include "Sonic.h"
 #include "Objects/Player.h"
 #include "Viewer/Freedom.h"
+#include "Viewer/Following.h"
 #include "Objects/Marker.h"
 #include "Objects/Line.h"
 #include "Systems/CollisionSystem.h"
 
 vector<Marker*> *markerpointer = nullptr;
-
 
 Sonic::Sonic(SceneValues * values) : Scene(values)
 {
@@ -15,11 +15,12 @@ Sonic::Sonic(SceneValues * values) : Scene(values)
 
 	backGround = new Sprite(Textures + L"Sonic.png", shaderFile);
 	backGround->Position(0, 0);
-
-	((Freedom*)(values->MainCamera))->SetPosition(0, 0);
-
 	player = new Player(D3DXVECTOR2(0, 0), D3DXVECTOR2(2, 2));
-	collisionsystem = new CollisionSystem(values);
+	values->MainCamera = new Following(player);
+	
+	//((Freedom*)(values->MainCamera))->SetPosition(0, 0);
+
+	collisionsystem = new CollisionSystem(values, player);
 }
 
 Sonic::~Sonic()
@@ -32,6 +33,7 @@ D3DXVECTOR2 mpos;
 
 void Sonic::Update()
 {
+	
 	D3DXMATRIX V = values->MainCamera->GetView();
 	D3DXMATRIX P = values->Projection;
 
@@ -45,8 +47,8 @@ void Sonic::Update()
 	collisionsystem->Update(V, P);
 	collisionsystem->CollisionTest(player->GetSprite());
 
-
 	player->Update(V, P);
+
 }
 
 void Sonic::Render()
@@ -56,6 +58,4 @@ void Sonic::Render()
 	collisionsystem->Render();
 	player->Render();
 	ImGui::LabelText("MousePosition", "%.0f , %.0f", mpos.x, mpos.y);
-
-
 }

@@ -46,7 +46,9 @@ void Line::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	vertices[1].Position = D3DXVECTOR3(endPos->Position().x, endPos->Position().y, 0.0f);	
 	//Create Vertex Buffer
 
-	if(!(pastVertices[0].Position == vertices[0].Position && pastVertices[1].Position == vertices[1].Position))
+
+
+	if (!(pastVertices[0].Position == vertices[0].Position && pastVertices[1].Position == vertices[1].Position))
 	{
 		D3D11_BUFFER_DESC desc = { 0 };
 		desc.Usage = D3D11_USAGE_DEFAULT;
@@ -55,16 +57,16 @@ void Line::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 		D3D11_SUBRESOURCE_DATA data = { 0 };
 		data.pSysMem = vertices;
-
+		boundVertexBuffer->Release();
 		HRESULT hr = Device->CreateBuffer(&desc, &data, &boundVertexBuffer);
 		assert(SUCCEEDED(hr));
-		
+
 	}
 	pastVertices[0].Position = vertices[0].Position;
 	pastVertices[0].Position = vertices[1].Position;	  
 
 	lineEquation = GetLineEquastion();
-
+	angle = GetDegree();
 	boundShader->AsMatrix("View")->SetMatrix(V);
 	boundShader->AsMatrix("Projection")->SetMatrix(P);	
 	D3DXMATRIX world;
@@ -82,16 +84,31 @@ void Line::Render()
 	
 	boundShader->Draw(0, bistouch ? 1 : 0, 2);
 	ImGui::LabelText("LineEquation", "%.0f , %.0f, %.0f", lineEquation.x, lineEquation.y, lineEquation.z);
-	
+	ImGui::LabelText("Angle", "%.0f", angle);
 }
 
 bool Line::CollisionTest(Sprite * input)
 {
 	bool result = IsCollide(input);
-	bistouch = result ? true : false;		
-	return false;
+	bistouch = result ? true : false;
+	return bistouch;
 }
 
+float Line::GetDegree()
+{
+	//D3DXVECTOR2 presentDegree = D3DXVECTOR2(lineEquation.x, lineEquation.y);
+	//float resultdegree = -presentDegree.y / presentDegree.x;
+	//D3DXVECTOR2 UP = D3DXVECTOR2(0, 1);
+	//D3DXVECTOR2 Degree = D3DXVECTOR2(1, resultdegree);
+	
+	//return asin((UP.x * Degree.y - UP.y * Degree.x) / D3DXVec2Length(&UP) * D3DXVec2Length(&Degree));	
+
+	float dy = vertices[1].Position.y - vertices[0].Position.y;
+	float dx = vertices[1].Position.x - vertices[0].Position.x;
+
+	float result = atan2(dy, dx) * (180.0 / Math::PI);
+	return result;
+}
 
 bool Line::IsCollide(Sprite * input)
 {

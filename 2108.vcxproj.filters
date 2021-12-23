@@ -2,9 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="Systems\Keyboard.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Renders\Shader.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
@@ -23,15 +20,6 @@
     <ClCompile Include="Utilities\Xml.cpp">
       <Filter>Utilites</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\Time.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Systems\Device.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Bullet.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Renders\Clip.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
@@ -44,9 +32,6 @@
     <ClCompile Include="Renders\Animation.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Player.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Viewer\Camera.cpp">
       <Filter>Viewer</Filter>
     </ClCompile>
@@ -56,9 +41,6 @@
     <ClCompile Include="Viewer\Following.cpp">
       <Filter>Viewer</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\DirectWrite.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Scene\Stage1.cpp">
       <Filter>Scene</Filter>
@@ -66,30 +48,48 @@
     <ClCompile Include="Scene\Stage2.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Fire.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Systems\CMouse.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Sonic.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Marker.cpp">
+    <ClCompile Include="Objects\Background.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Bullet.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Fire.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Line.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Marker.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Player.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CMouse.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
     <ClCompile Include="Systems\CollisionSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Device.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\DirectWrite.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Keyboard.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Time.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Systems\Keyboard.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Renders\Shader.h">
       <Filter>Renders</Filter>
     </ClInclude>
@@ -108,15 +108,6 @@
     <ClInclude Include="Utilities\Xml.h">
       <Filter>Utilites</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\Time.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\Device.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Bullet.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Renders\Clip.h">
       <Filter>Renders</Filter>
     </ClInclude>
@@ -128,9 +119,6 @@
     </ClInclude>
     <ClInclude Include="Renders\Animation.h">
       <Filter>Renders</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Player.h">
-      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Viewer\Camera.h">
       <Filter>Viewer</Filter>
@@ -144,9 +132,6 @@
     <ClInclude Include="Viewer\Following.h">
       <Filter>Viewer</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\DirectWrite.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Scene.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -156,22 +141,43 @@
     <ClInclude Include="Scene\Stage2.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Fire.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\CMouse.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Sonic.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Marker.h">
+    <ClInclude Include="Objects\Background.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Bullet.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Fire.h">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Line.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\Marker.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Player.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CMouse.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
     <ClInclude Include="Systems\CollisionSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Device.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\DirectWrite.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Keyboard.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Time.h">
       <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>

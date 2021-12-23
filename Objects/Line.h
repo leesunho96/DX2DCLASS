@@ -11,6 +11,7 @@ public:
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 	bool CollisionTest(Sprite* input);
+	float GetAngle() {return angle; };
 private:
 	struct BoundVertex
 	{
@@ -33,6 +34,7 @@ private:
 	D3DXVECTOR2 normalVector = D3DXVECTOR2(0, 0);
 	bool bistouch = false;
 	D3DXVECTOR3 lineEquation = D3DXVECTOR3(0, 0, 0);
+	float angle = 0.0f;
 private:
 	struct SpriteStatus
 	{
@@ -43,6 +45,7 @@ private:
 	};
 
 private:
+	float GetDegree();
 	float GetSlope();
 	D3DXVECTOR3 GetLineEquastion();
 	float GetDistanceBetweenLineAndPoint(D3DXVECTOR3 line, D3DXVECTOR2 point);

@@ -2,7 +2,7 @@
 #include "Objects/Player.h"
 
 Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
-	:moveSpeed(200.0f), focusoffset(0, -120)
+	:moveSpeed(200.0f), focusoffset(-400, -300)
 {
 	animation = new Animation;
 
@@ -53,30 +53,54 @@ void Player::Focus(D3DXVECTOR2 * position, D3DXVECTOR2 * size)
 {
 	*position = animation->GetPosition() - focusoffset;
 	(*size) = D3DXVECTOR2(1, 1);
-	
 }
 
 void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	D3DXVECTOR2 position = animation->GetPosition();
-
 	bool bMove = false;
-	if (Key->Press('A'))
+	if (activate)
 	{
-		bMove = true;
-		position.x -= moveSpeed * Timer->Elapsed();
-		animation->SetRotationDegree(0, 180, 0);
+		if (!bOnGround)
+		{
+			position.y += Timer->Elapsed() * gravity;
+			angle = 0.0f;
+			gravity += -500.0f * Timer->Elapsed();
+		}
+		else
+		{
+			if (Key->Down(VK_SPACE))
+			{
+				bOnGround = false;
+				gravity = 500.0f;
+				position.y += 10.0f;
+			}
+		}
+		if (Key->Press('A'))
+		{
+			bMove = true;
+			bToRIght = false;
+			position.x -= moveSpeed * Timer->Elapsed() * cosf(Math::ToRadian(angle));
+			position.y -= moveSpeed * Timer->Elapsed() * sinf(Math::ToRadian(angle));
+			Rotation = D3DXVECTOR3(Rotation.x, 180, Rotation.z);
+
+		}
+		else if (Key->Press('D'))
+		{
+			bMove = true;
+			bToRIght = true;
+			position.x += moveSpeed * Timer->Elapsed() * cosf(Math::ToRadian(angle));
+			position.y += moveSpeed * Timer->Elapsed() * sinf(Math::ToRadian(angle));
+			Rotation = D3DXVECTOR3(Rotation.x, 0, Rotation.z);
+		}
 	}
-	else if (Key->Press('D'))
-	{
-		bMove = true;
-		position.x += moveSpeed * Timer->Elapsed();
-		animation->SetRotationDegree(0, 0, 0);
-	}
+	if (bToRIght)
+		animation->SetRotationDegree(Rotation.x, 0, angle);
+	else
+		animation->SetRotationDegree(Rotation.x, 180, -angle);
 
 	animation->SetPosition(position);
 	animation->Play(bMove ? 1 : 0);
-
 	animation->Update(V, P);
 
 }
@@ -84,7 +108,27 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 void Player::Render()
 {
 	ImGui::SliderFloat("Move Speed", &moveSpeed, 50, 400);
-
+	if (ImGui::Button("ActivatePlayer?"))
+	{
+		activate = activate == true ? false : true;
+	}
 	animation->Render();
 
 }
+
+void Player::SetDegree(float x)
+{
+	if (x > 90.0f)
+	{
+		angle = x - 180.0f;
+	}
+	else if (x < -90.0f)
+	{
+		angle = x + 180.0f;
+	}
+	else
+		angle = x;
+
+	bOnGround = true;
+}
+

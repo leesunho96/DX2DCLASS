@@ -4,9 +4,11 @@
 #include "Objects/Bullet.h"
 #include "Objects/Player.h"
 #include "Viewer/Freedom.h"
+#include "Viewer/Following.h"
 #include "Scene/Scene.h"
 #include "Scene/Stage2.h"
 #include "Scene/Sonic.h"
+
 
 SceneValues* values;
 vector<Scene*> scenes;
@@ -16,8 +18,8 @@ vector<Scene*> scenes;
 void InitScene()
 {
 	values = new SceneValues();
-	values->MainCamera = new Freedom();
-	D3DXMatrixIdentity(&values->Projection);
+	values->MainCamera = new Following();
+	//D3DXMatrixIdentity(&values->Projection);
 
 	//scenes.push_back(new Stage2(values));
 	scenes.push_back(new Sonic(values));
@@ -39,7 +41,6 @@ D3DXMATRIX V, P;
 void Update()
 {
 	//View
-
 	values->MainCamera->Update();
 
 	// OrthoGraphy : Á÷±³

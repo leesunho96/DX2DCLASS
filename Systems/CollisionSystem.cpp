@@ -3,8 +3,9 @@
 #include "Objects/Marker.h"
 #include "Objects/Line.h"
 #include "Scene/Scene.h"
+#include "Objects/Player.h"
 
-CollisionSystem::CollisionSystem(SceneValues * values) : scenevalue(values)
+CollisionSystem::CollisionSystem(SceneValues * values, Player* player) : scenevalue(values), player(player)
 {
 }
 
@@ -59,9 +60,16 @@ void CollisionSystem::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 void CollisionSystem::Render()
 {
-	for (Marker* marker : markers)
+	if (ImGui::Button(bIsRenderMarker ? "Remove Marker" : "Render Marker"))
 	{
-		marker->Render();
+		bIsRenderMarker =  bIsRenderMarker ? false : true;
+	}
+	if (bIsRenderMarker)
+	{
+		for (Marker* marker : markers)
+		{
+			marker->Render();
+		}
 	}
 
 	for (auto marker : lines)
@@ -73,12 +81,32 @@ void CollisionSystem::Render()
 	int LineNum = lines.size();
 	ImGui::LabelText("MarkerNum", "%d", markersize);
 	ImGui::LabelText("LineNum", "%d", LineNum);
+	
 }
 
 void CollisionSystem::CollisionTest(Sprite * sprite)
 {
+	bool isColide = false;
 	for (auto line : lines)
 	{
-		line->CollisionTest(sprite);
+		if (line->CollisionTest(sprite))
+		{
+			player->SetDegree(line->GetAngle());
+			isColide = true;
+		}
 	}
+
+	player->SetBOnGround(isColide);
+}
+
+float CollisionSystem::GetDegree(Sprite* sprite)
+{
+	for (auto line : lines)
+	{
+		if (line->CollisionTest(sprite))
+		{
+			return line->GetAngle();
+		}
+	}
+	return -D3D11_FLOAT32_MAX + 1;
 }
