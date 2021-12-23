@@ -90,6 +90,9 @@
     <ClCompile Include="Objects\Arrow.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Systems\StopWatch.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -188,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="Objects\Arrow.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\StopWatch.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@
 #include "Viewer/IFollowing.h"
 
 class Arrow;
+class StopWatch;
 
 class Player : public IFollowing
 {
@@ -28,6 +29,7 @@ private:
 	float moveSpeed;
 	Animation* animation;
 	Arrow* arrow;
+	StopWatch* Cstopwatch;
 	D3DXVECTOR2 focusoffset;
 	D3DXVECTOR2 direction = D3DXVECTOR2(0, 0);
 	D3DXVECTOR2 pastDirection = D3DXVECTOR2(0, 0);

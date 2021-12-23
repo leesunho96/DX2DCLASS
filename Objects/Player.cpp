@@ -224,8 +224,8 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 		}
 	}
 
+	Cstopwatch = new StopWatch();
 	
-
 	animation->SetPosition(position);
 	animation->SetScale(scale);
 
@@ -302,6 +302,8 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	{
 		arrow->SetActivate(true);
 		arrow->SetPosition(GetArrowPosition());
+		arrow->SetDirection(GetArrowDirection());
+		
 		arrow->Update(V, P);
 	}
 
@@ -321,6 +323,7 @@ void Player::Render()
 	animation->Render();
 	arrow->Render();
 }
+
 D3DXVECTOR2 Player::GetArrowPosition()
 {
 	D3DXVECTOR2 ArrowDirection = GetArrowDirection();

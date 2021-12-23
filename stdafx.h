@@ -39,6 +39,7 @@ using namespace std;
 #include "Systems/Time.h"
 #include "Systems/DirectWrite.h"
 #include "Systems/CMouse.h"
+#include "Systems/StopWatch.h"
 
 #include "Renders/Shader.h"
 #include "Renders/Rect.h"
