@@ -43,7 +43,7 @@ private:
 	bool isCharge = false;
 	bool bIsHaveArrow = true;
 	bool bIsReTrivingArrow = false;
-	
+
 	float stopwatch = 0.0f;
 	float stopTime = 0.0f;
 	float presentDistance = 999.9f;

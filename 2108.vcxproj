@@ -153,9 +153,11 @@
     <ClCompile Include="Objects\Background_Yeti.cpp" />
     <ClCompile Include="Objects\Bullet.cpp" />
     <ClCompile Include="Objects\Fire.cpp" />
+    <ClCompile Include="Objects\Icycle.cpp" />
     <ClCompile Include="Objects\Line.cpp" />
     <ClCompile Include="Objects\Marker.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
+    <ClCompile Include="Objects\Yeti.cpp" />
     <ClCompile Include="Renders\Animation.cpp" />
     <ClCompile Include="Renders\Clip.cpp" />
     <ClCompile Include="Renders\Rect.cpp" />
@@ -189,9 +191,11 @@
     <ClInclude Include="Objects\Background_Yeti.h" />
     <ClInclude Include="Objects\Bullet.h" />
     <ClInclude Include="Objects\Fire.h" />
+    <ClInclude Include="Objects\Icycle.h" />
     <ClInclude Include="Objects\Line.h" />
     <ClInclude Include="Objects\Marker.h" />
     <ClInclude Include="Objects\Player.h" />
+    <ClInclude Include="Objects\Yeti.h" />
     <ClInclude Include="Renders\Animation.h" />
     <ClInclude Include="Renders\Clip.h" />
     <ClInclude Include="Renders\Rect.h" />

@@ -200,7 +200,6 @@ bool CollisionSystem::GetIsOnUpperLine(D3DXVECTOR2 point)
 	if (collisiondata->line.size() == 0)
 		return false;
 
-	//return collisiondata->line[CollideLineIndexVector[0]]->GetDistance(point) > 0 ? true : false;
 	return collisiondata->line[0]->GetDistance(point) > 0 ? true : false;
 }
 

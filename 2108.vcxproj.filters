@@ -93,6 +93,10 @@
     <ClCompile Include="Systems\StopWatch.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Yeti.cpp" />
+    <ClCompile Include="Objects\Icycle.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -194,6 +198,10 @@
     </ClInclude>
     <ClInclude Include="Systems\StopWatch.h">
       <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Yeti.h" />
+    <ClInclude Include="Objects\Icycle.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

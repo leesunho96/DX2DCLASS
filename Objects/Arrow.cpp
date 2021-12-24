@@ -41,7 +41,7 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	if (!isActivate)
 		return;
 	stopwatch->Update();
-	
+
 	if (isGoing)
 	{
 		if (!stopwatch->IsOver())
@@ -51,7 +51,7 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			// 
 			//D3DXVec2Normalize()
 			Rotation = GetArrowRotation();
-		}	
+		}
 	}
 	else
 	{
@@ -81,7 +81,7 @@ void Arrow::Render()
 	sprite->Render();
 	ImGui::LabelText("Position :", "%.0f, %.0f", position.x, position.y);
 	ImGui::LabelText("Rotation :", "%.0f, %.0f, %.0f", Rotation.x, Rotation.y, Rotation.z);
-	
+
 }
 
 D3DXVECTOR3 Arrow::GetArrowRotation()
@@ -139,7 +139,7 @@ D3DXVECTOR2 Arrow::GetArrowDirectionToPlayer(D3DXVECTOR2 playerPos)
 	D3DXVec2Normalize(&direction, &direction);
 
 	return direction;
-	
+
 }
-	
+
 

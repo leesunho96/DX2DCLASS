@@ -228,7 +228,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	}
 
 	Cstopwatch = new StopWatch();
-	
+
 	animation->SetPosition(position);
 	animation->SetScale(scale);
 
@@ -259,7 +259,7 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	D3DXVECTOR2 position = animation->GetPosition();
 	D3DXVECTOR2 pastPosition = position;
-	D3DXVECTOR2 textureSize = animation->TextureSize();	
+	D3DXVECTOR2 textureSize = animation->TextureSize();
 
 	float timerelapse = Timer->Elapsed();
 
@@ -285,7 +285,7 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		if (stopwatch > stopTime)
 		{
 			ResetStopWatch();
-			isRoll = false;		
+			isRoll = false;
 		}
 	}
 
@@ -333,7 +333,7 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		{
 			arrow->SetPosition(GetArrowPosition());
 			arrow->SetDirection(GetArrowDirection());
-			arrow->SetStart();			
+			arrow->SetStart();
 			playAnimation = 0;
 			bIsHaveArrow = false;
 			bIsReTrivingArrow = false;
@@ -389,8 +389,8 @@ D3DXVECTOR2 Player::GetArrowPosition()
 {
 	D3DXVECTOR2 ArrowDirection = GetArrowDirection();
 
-	ArrowDirection.x = ArrowDirection.x == 0 ? 0 :  ArrowDirection.x * 1 / fabs(ArrowDirection.x);
-	ArrowDirection.y = ArrowDirection.y == 0 ? 0 :  ArrowDirection.y * 1 / fabs(ArrowDirection.y);
+	ArrowDirection.x = ArrowDirection.x == 0 ? 0 : ArrowDirection.x * 1 / fabs(ArrowDirection.x);
+	ArrowDirection.y = ArrowDirection.y == 0 ? 0 : ArrowDirection.y * 1 / fabs(ArrowDirection.y);
 
 	D3DXVECTOR2 ArrowPosition = animation->GetPosition();
 	ArrowPosition.x += ArrowDirection.x * ((animation->TextureSize().x + arrow->GetTextureSize().x) * 0.5f) * 3.5f;
@@ -400,7 +400,7 @@ D3DXVECTOR2 Player::GetArrowPosition()
 
 D3DXVECTOR2 Player::GetArrowDirection()
 {
-	return direction == D3DXVECTOR2(0, 0) ? D3DXVECTOR2(0, -1) : direction;	
+	return direction == D3DXVECTOR2(0, 0) ? D3DXVECTOR2(0, -1) : direction;
 }
 
 void Player::ResetStopWatch()
@@ -500,7 +500,7 @@ void Player::SetKeyInputToDirectionVector(unsigned char forwardflag, D3DXVECTOR2
 }
 
 void Player::GetKeyInputByBitFlag(unsigned char &forwardflag)
-{	
+{
 	if (Key->Toggle('C'))
 	{
 		isCharge = true;
