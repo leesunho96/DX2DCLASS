@@ -4,6 +4,7 @@
 #include "Objects/Player.h"
 #include "Objects/Marker.h"
 #include "Objects/Background_Yeti.h"
+#include "Objects/Icycle.h"
 
 #include "Viewer/Following.h"
 #include "Viewer/Freedom.h"
@@ -24,13 +25,16 @@ Stage2::Stage2(SceneValues * values)
 	collisionsystem = new CollisionSystem(values, player);
 	player = new Player(D3DXVECTOR2(0, 0), D3DXVECTOR2(3, 3));
 	collisionsystem->GetCollisionData(bg->GetCollisionData());
+	icycle = new Icycle(1, player);
 }
 
 Stage2::~Stage2()
 {
+	SAFE_DELETE(icycle);
 	SAFE_DELETE(collisionsystem);
 	SAFE_DELETE(player);
 	SAFE_DELETE(bg);
+	
 }
 
 void Stage2::Update()
@@ -41,6 +45,7 @@ void Stage2::Update()
 	bg->Update(V, P);
 	player->Update(V, P);	
 	collisionsystem->Update(V, P);
+	icycle->Update(V, P);
 }
 
 void Stage2::Render()
@@ -48,6 +53,11 @@ void Stage2::Render()
 	bg->Render();
 	collisionsystem->Render();
 	player->Render();
-	
+	icycle->Render();
+	if (ImGui::Button("icycleActivate"))
+	{
+		icycle->SetPosition(D3DXVECTOR2(0, 0));
+		icycle->SetValidate();
+	}
 }
 

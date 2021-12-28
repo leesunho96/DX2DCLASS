@@ -95,3 +95,8 @@ void Yeti::Render()
 {
 	animation->Render();
 }
+
+void Yeti::ApplyDamage(Sprite * sprite)
+{
+}
+

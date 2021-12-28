@@ -15,6 +15,7 @@ public:
 	void PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXMATRIX & V, D3DXMATRIX & P);
 	void GetArrow();
 	void SetPlayerGetArrow();
+	void ApplyDamage();
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 
@@ -43,6 +44,7 @@ private:
 	bool isCharge = false;
 	bool bIsHaveArrow = true;
 	bool bIsReTrivingArrow = false;
+	bool bGetDamege = false;
 
 	float stopwatch = 0.0f;
 	float stopTime = 0.0f;
