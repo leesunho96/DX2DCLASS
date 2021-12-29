@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Systems/Device.h"
-#include "Systems/CollisionSystem.h"
+#include "Physics/CollisionSystem.h"
 
 #include "Objects/Bullet.h"
 #include "Objects/Player.h"
@@ -12,6 +12,7 @@
 SceneValues* values;
 vector<Scene*> scenes;
 CollisionSystem* collisionsystem;
+bool bIsDebugging = true;
 
 void InitScene()
 {
@@ -99,6 +100,10 @@ void Render()
 			scene->Render();
 		}
 	}
+	if (ImGui::Button(bIsDebugging ? "SetDebugMode" : "SetNormalMode"));
+	{
+		bIsDebugging ? false : true;
+	}
 	ImGui::Render();
 
 	DirectWrite::GetDC()->BeginDraw();
@@ -115,19 +120,19 @@ void Render()
 		DirectWrite::RenderText(text, rect);
 
 
-		rect.top += 30;
-		rect.bottom += 30;
-		text = L"Camera Position : " + to_wstring((int)values->MainCamera->GetPosition().x);;
-		text += L" , ";
-		text += to_wstring((int)values->MainCamera->GetPosition().y);
-		DirectWrite::RenderText(text, rect);
+		//rect.top += 30;
+		//rect.bottom += 30;
+		//text = L"Camera Position : " + to_wstring((int)values->MainCamera->GetPosition().x);;
+		//text += L" , ";
+		//text += to_wstring((int)values->MainCamera->GetPosition().y);
+		//DirectWrite::RenderText(text, rect);
 
-		rect.top += 30;
-		rect.bottom += 30;
-		text = L"Mouse Position : " + to_wstring((int)Mouse->Position().x);
-		text += L" , ";
-		text += to_wstring((int)Mouse->Position().y);
-		DirectWrite::RenderText(text, rect);
+		//rect.top += 30;
+		//rect.bottom += 30;
+		//text = L"Mouse Position : " + to_wstring((int)Mouse->Position().x);
+		//text += L" , ";
+		//text += to_wstring((int)Mouse->Position().y);
+		//DirectWrite::RenderText(text, rect);
 	}
 
 	DirectWrite::GetDC()->EndDraw();

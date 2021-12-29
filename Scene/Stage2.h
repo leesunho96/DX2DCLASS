@@ -6,6 +6,9 @@ class Background_Yeti;
 class Player;
 class CollisionSystem;
 class Icycle;
+class SnowBall;
+
+extern bool bIsDebugging;
 
 class Stage2 : public Scene
 {
@@ -21,6 +24,11 @@ private:
 	Player* player;
 	//
 
+	// for debugging
+
 	Icycle* icycle;
+	SnowBall* snowball;
+
+
 	bool check;
 };

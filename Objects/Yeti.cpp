@@ -11,7 +11,18 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 
 	// Idle
 	{
-		//clip->AddFrame(new Sprite)
+		clip = new Clip();
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 302, 702, 370, 767), 999.0f);
+		animation->AddClip(clip);
+	}
+	// Standing (Begin Start)
+	{
+		clip = new Clip();
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 302, 702, 370, 767), 1.0f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 203, 697, 273, 767), 1.0f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 11, 697, 84, 767), 1.0f);
+		animation->AddClip(clip);
+
 	}
 	// Throw Snow Ball To Up
 	{

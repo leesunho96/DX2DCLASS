@@ -78,9 +78,6 @@
     <ClCompile Include="Objects\Marker.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\CollisionSystem.cpp">
-      <Filter>Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\CMouse.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
@@ -97,6 +94,15 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Yeti.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\CollisionSystem.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Gravity.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\SnowBall.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -183,9 +189,6 @@
     <ClInclude Include="Objects\Marker.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\CollisionSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\CMouse.h">
       <Filter>Systems</Filter>
     </ClInclude>
@@ -205,6 +208,15 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Yeti.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CollisionSystem.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Gravity.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\SnowBall.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -229,6 +241,9 @@
     </Filter>
     <Filter Include="Data">
       <UniqueIdentifier>{f1be0a8d-614c-4cbe-b6d8-14bc4b0ff430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{31b967cd-c525-4d2b-b467-ac18a73bdbcf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

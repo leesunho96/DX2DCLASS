@@ -2,6 +2,7 @@
 
 class Player;
 
+
 class Icycle
 {
 public:
@@ -32,12 +33,14 @@ public:
 
 private:
 	Animation* animation;
+	Player* player;
+	Gravity gravity;
+	StopWatch stopwatch;
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;
+	D3DXVECTOR2 speed   = D3DXVECTOR2(0.0f, 200.0f);
 	int iPlayAnimationNum = 0;
 	unsigned char StateInfo = 0;
-	StopWatch stopwatch;
-	Player* player;
 	
 
 

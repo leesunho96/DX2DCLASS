@@ -2,7 +2,8 @@
 #include "Icycle.h"
 #include "Player.h"
 
-Icycle::Icycle(int type, Player* player) : stopwatch(StopWatch()), player(player)
+
+Icycle::Icycle(int type, Player* player) : stopwatch(StopWatch()), player(player), gravity(Gravity())
 {
 	animation = new Animation();
 
@@ -125,10 +126,12 @@ void Icycle::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		return;
 
 	stopwatch.Update();	
+	gravity.Update();
 
 	if (StateInfo == ValidateAndWaitFalling)
 	{
 		ActWhileWaitFalling();
+		
 	}
 	else if (StateInfo == ValidateAndFalling)
 	{
@@ -136,6 +139,7 @@ void Icycle::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	}
 	else if (StateInfo == ValidateAndFall)
 	{
+		gravity.SetInvalid();
 		ActWhileFall();
 	}
 	else if (StateInfo == ValidateAndHole)
@@ -171,7 +175,16 @@ void Icycle::ActWhileFall()
 
 void Icycle::ActWhileFalling()
 {
-	position += (D3DXVECTOR2(0, -100.0f) * Timer->Elapsed());
+	if (!gravity.GetIsValid())
+	{
+		gravity.SetValid();
+		gravity.SetGravity(D3DXVECTOR2(0.0f, -0.0f));
+		gravity.SetVelocity(D3DXVECTOR2(0.0f, -200.0f));
+	}
+
+	gravity.SetVelocity(D3DXVECTOR2(0.0f, -200.0f));
+	position = gravity.GetAdjustPosition(position);
+
 	// 플레이어와 고드름이 충돌하면 그에 따른 판정 필요.
 	// 플레이어의 위치가 고드름보다 아래여야 충돌 판정.
 	if (player->GetSprite()->OBB(animation->GetSprite()))
@@ -200,9 +213,12 @@ void Icycle::ActWhileWaitFalling()
 }
 
 void Icycle::Render()
-{	
+{
 	if (StateInfo == Invalidate)
 		return;
+	
+	float temp = gravity.GetVelocity();
+	ImGui::BulletText("Velocity : %f", &temp);	
 	animation->Render();
 }
 

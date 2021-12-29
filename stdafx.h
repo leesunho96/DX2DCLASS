@@ -51,6 +51,8 @@ using namespace std;
 #include "Utilities/Path.h"
 #include "Utilities/String.h"
 
+#include "Physics/Gravity.h"
+
 
 #define SAFE_RELEASE(p){ if(p){ (p)->Release(); (p) = NULL; } }
 #define SAFE_DELETE(p){ if(p){ delete (p); (p) = NULL; } }

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Objects/Player.h"
 #include "Objects/Arrow.h"
-#include "Systems/CollisionSystem.h"
+#include "Physics/CollisionSystem.h"
 
 
 extern CollisionSystem* collisionsystem;
@@ -403,6 +403,8 @@ void Player::SetPlayerGetArrow()
 
 void Player::ApplyDamage()
 {
+	if (isRoll)
+		return;
 	bGetDamege = true;
 }
 
