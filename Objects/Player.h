@@ -12,7 +12,6 @@ public:
 
 	virtual void Focus(D3DXVECTOR2* position, D3DXVECTOR2* size) override;
 	Sprite* GetSprite() { return animation->GetSprite(); };
-	void PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXMATRIX & V, D3DXMATRIX & P);
 	void GetArrow();
 	void SetPlayerGetArrow();
 	void ApplyDamage();
@@ -20,6 +19,9 @@ public:
 	void Render();
 
 private:
+	void PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXMATRIX & V, D3DXMATRIX & P);
+	void ActWhileNotApplyDamege(D3DXVECTOR2 &position, D3DXMATRIX & V, D3DXMATRIX & P);
+	void ActWhilePlayingOtherAnimation();
 	void ResetStopWatch();
 	void SetAnimationFromDirectionAndSpace(D3DXVECTOR2 &direction, int &playAnimation, bool isRoll);
 	void SetKeyInputToIsRoll(unsigned char forwardflag, bool &isRoll);

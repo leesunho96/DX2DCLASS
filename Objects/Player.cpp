@@ -266,93 +266,101 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	}
 	else
 	{
-
-
-		float timerelapse = Timer->Elapsed();
-
-		// 구르기, 피격 등으로 애니메이션 출력중인 경우
-		if (!isplayingOtherAnimation)
-		{
-			// bitflag 이용.		
-			unsigned char forwardflag = 0;
-			GetKeyInputByBitFlag(forwardflag); // 현재 입력된 키를 확인 한 후, 해당 키에 따라 forwardflag에 비트 삽입
-			SetKeyInputToDirectionVector(forwardflag, direction); // 입력된 비트에 따라 벡터 결정. 
-			SetKeyInputToIsRoll(forwardflag, isRoll); // 현재 스페이스바 키가 입력되었는지 확인, isroll 변수 세팅
-			SetAnimationFromDirectionAndSpace(direction, playAnimation, isRoll); // 현재 방향벡터와 isroll변수로 애니메이션 세팅.
-			D3DXVec2Normalize(&direction, &direction); // 현재 방향 벡터를 정규화.
-			pastDirection = direction == D3DXVECTOR2(0, 0) ? pastDirection : direction;
-		}
-		else
-		{
-			stopwatch += Timer->Elapsed();
-			if (isRoll)
-			{
-
-			}
-			if (stopwatch > stopTime)
-			{
-				ResetStopWatch();
-				isRoll = false;
-			}
-		}
-
-		if (!isCharge)
-		{
-			// c버튼 누르지 않고, 화살을 갖고 있는 상태.
-			if (bIsHaveArrow)
-			{
-				PlayerMove(position, timerelapse, V, P);
-			}
-			// C버튼을 누르지 않고, 화살을 갖고 있지 않은 상태
-			else
-			{
-				// 화살 회수중. c버튼 누르지 않고, 화살이 돌아오는 중 : 움직일 수 없다.
-				if (bIsReTrivingArrow)
-				{
-					arrow->SetBack();
-					playAnimation = 0;
-				}
-				// 화살 발사중
-				else
-				{
-					PlayerMove(position, timerelapse, V, P);
-				}
-			}
-		}
-		else
-		{
-			// 화살을 갖고 있지 않은 경우
-			if (!bIsHaveArrow)
-			{
-				// 화살을 회수중인 경우
-				if (!bIsReTrivingArrow)
-				{
-					arrow->SetBack();
-					bIsReTrivingArrow = true;
-				}
-				else
-				{
-					PlayerMove(position, timerelapse, V, P);
-				}
-			}
-			// 화살 발사
-			else
-			{
-				arrow->SetPosition(GetArrowPosition());
-				arrow->SetDirection(GetArrowDirection());
-				arrow->SetStart();
-				playAnimation = 0;
-				bIsHaveArrow = false;
-				bIsReTrivingArrow = false;
-			}
-		}
-		arrow->Update(V, P);
-
+		ActWhileNotApplyDamege(position, V, P);
 	}
+
 	animation->SetPosition(position);
 	animation->Update(V, P);
 	animation->Play(playAnimation);
 
+}
+
+void Player::ActWhileNotApplyDamege(D3DXVECTOR2 &position, D3DXMATRIX & V, D3DXMATRIX & P)
+{
+	float timerelapse = Timer->Elapsed();
+
+	// 구르기, 피격 등으로 애니메이션 출력중인 경우
+	if (!isplayingOtherAnimation)
+	{
+		// bitflag 이용.		
+		unsigned char forwardflag = 0;
+		GetKeyInputByBitFlag(forwardflag); // 현재 입력된 키를 확인 한 후, 해당 키에 따라 forwardflag에 비트 삽입
+		SetKeyInputToDirectionVector(forwardflag, direction); // 입력된 비트에 따라 벡터 결정. 
+		SetKeyInputToIsRoll(forwardflag, isRoll); // 현재 스페이스바 키가 입력되었는지 확인, isroll 변수 세팅
+		SetAnimationFromDirectionAndSpace(direction, playAnimation, isRoll); // 현재 방향벡터와 isroll변수로 애니메이션 세팅.
+		D3DXVec2Normalize(&direction, &direction); // 현재 방향 벡터를 정규화.
+		pastDirection = direction == D3DXVECTOR2(0, 0) ? pastDirection : direction;
+	}
+	else
+	{
+		ActWhilePlayingOtherAnimation();
+	}
+
+	if (!isCharge)
+	{
+		// c버튼 누르지 않고, 화살을 갖고 있는 상태.
+		if (bIsHaveArrow)
+		{
+			PlayerMove(position, timerelapse, V, P);
+		}
+		// C버튼을 누르지 않고, 화살을 갖고 있지 않은 상태
+		else
+		{
+			// 화살 회수중. c버튼 누르지 않고, 화살이 돌아오는 중 : 움직일 수 없다.
+			if (bIsReTrivingArrow)
+			{
+				arrow->SetBack();
+				playAnimation = 0;
+			}
+			// 화살 발사중
+			else
+			{
+				PlayerMove(position, timerelapse, V, P);
+			}
+		}
+	}
+	else
+	{
+		// 화살을 갖고 있지 않은 경우
+		if (!bIsHaveArrow)
+		{
+			// 화살을 회수중인 경우
+			if (!bIsReTrivingArrow)
+			{
+				arrow->SetBack();
+				bIsReTrivingArrow = true;
+			}
+			else
+			{
+				PlayerMove(position, timerelapse, V, P);
+			}
+		}
+		// 화살 발사
+		else
+		{
+			arrow->SetPosition(GetArrowPosition());
+			arrow->SetDirection(GetArrowDirection());
+			arrow->SetStart();
+			playAnimation = 0;
+			bIsHaveArrow = false;
+			bIsReTrivingArrow = false;
+		}
+	}
+	arrow->Update(V, P);
+}
+
+void Player::ActWhilePlayingOtherAnimation()
+{
+	stopwatch += Timer->Elapsed();
+	if (isRoll)
+	{
+
+	}
+	if (stopwatch > stopTime)
+	{
+		ResetStopWatch();
+		isRoll = false;
+	}
 }
 
 void Player::PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXMATRIX & V, D3DXMATRIX & P)
@@ -391,7 +399,6 @@ void Player::SetPlayerGetArrow()
 	bIsReTrivingArrow = false;
 	isCharge = false;
 	bIsHaveArrow = true;
-
 }
 
 void Player::ApplyDamage()
