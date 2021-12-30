@@ -150,31 +150,31 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	{
 		// Nuckback To UP 11 
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Stop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 195, 53, 205, 63), 0.1f);
 			animation->AddClip(clip);
 		}
 		// Nuckback To Right_UP 12 
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Stop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 194, 89, 206, 96), 0.1f);
 			animation->AddClip(clip);
 		}
 		// Nuckback To Right 13
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Stop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 191, 41, 208, 48), 0.1f);
 			animation->AddClip(clip);
 		}
 		// Nuckback To Right_down 14
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Stop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 194, 103, 207, 111), 0.1f);
 			animation->AddClip(clip);
 		}
 		// Nuckback To Down 15
 		{
-			clip = new Clip(PlayMode::End);
+			clip = new Clip(PlayMode::Stop);
 			clip->AddFrame(new Sprite(spriteFile, shaderFile, 194, 20, 205, 31), 0.1f);
 			animation->AddClip(clip);
 		}
@@ -182,7 +182,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	}
 	// death : 16 // 완성 체크전.
 	{
-		clip = new Clip();
+		clip = new Clip(PlayMode::Stop);
 		clip->AddFrame(new Sprite(spriteFile, shaderFile, 370, 50, 381, 64), 0.1f);
 		clip->AddFrame(new Sprite(spriteFile, shaderFile, 355, 50, 365, 64), 0.1f);
 		clip->AddFrame(new Sprite(spriteFile, shaderFile, 339, 50, 349, 64), 0.1f);
@@ -491,6 +491,8 @@ void Player::ApplyDamage()
 
 void Player::SetNuckBack(D3DXVECTOR2 position)
 {
+	if (isRoll)
+		return;
 	direction = animation->GetPosition() - position;
 	D3DXVec2Normalize(&direction, &direction);
 	bIsNuckBack = true;

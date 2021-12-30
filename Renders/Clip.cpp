@@ -156,10 +156,10 @@ void Clip::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 				case PlayMode::End:
 				{
 
-					if (currentFrame < frames.size() - 1)
+					if (currentFrame < frames.size())
 						currentFrame++;
 
-						//Stop();
+						Stop();
 				}
 				break;
 
@@ -169,6 +169,11 @@ void Clip::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 					currentFrame %= frames.size();
 				}
 				break;
+				case PlayMode::Stop:
+				{
+					if (currentFrame < frames.size() - 1)
+						currentFrame++;
+				}
 			}
 
 			playTime = 0.0f;
@@ -185,7 +190,7 @@ void Clip::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 void Clip::Render()
 {
 	Frame* frame = frames[currentFrame];
-	//frame->Image->Position(position);
+	frame->Image->Position(position);
 	frame->Image->Render();
 }
 

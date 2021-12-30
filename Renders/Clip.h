@@ -2,7 +2,7 @@
 
 enum class PlayMode
 {
-	End = 0, Loop, Reverse
+	End = 0, Loop, Reverse, Stop
 };
 
 struct Frame

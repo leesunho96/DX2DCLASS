@@ -4,7 +4,6 @@
 Animation::Animation() :
 	currentClip(-1), position(0, 0), scale(1, 1), rotation(0, 0, 0)
 {
-
 }
 
 Animation::~Animation()
@@ -122,10 +121,10 @@ void Animation::Update(D3DXMATRIX &V, D3DXMATRIX &P)
 	clips[currentClip]->Rotation(rotation);
 	clips[currentClip]->Update(V, P);
 
-	for (size_t i = 0; i < clips.size(); i++)
+	/*for (size_t i = 0; i < clips.size(); i++)
 	{
 		clips[i]->Update(V, P);
-	}
+	}*/
 }
 
 void Animation::Render()
