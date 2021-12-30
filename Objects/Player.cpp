@@ -151,31 +151,31 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 		// Nuckback To UP 11 
 		{
 			clip = new Clip(PlayMode::End);
-			clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
+			clip->AddFrame(new Sprite(spriteFile, shaderFile, 195, 53, 205, 63), 0.1f);
 			animation->AddClip(clip);
 		}
 		// Nuckback To Right_UP 12 
 		{
 			clip = new Clip(PlayMode::End);
-			clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
+			clip->AddFrame(new Sprite(spriteFile, shaderFile, 194, 89, 206, 96), 0.1f);
 			animation->AddClip(clip);
 		}
 		// Nuckback To Right 13
 		{
 			clip = new Clip(PlayMode::End);
-			clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
+			clip->AddFrame(new Sprite(spriteFile, shaderFile, 191, 41, 208, 48), 0.1f);
 			animation->AddClip(clip);
 		}
 		// Nuckback To Right_down 14
 		{
 			clip = new Clip(PlayMode::End);
-			clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
+			clip->AddFrame(new Sprite(spriteFile, shaderFile, 194, 103, 207, 111), 0.1f);
 			animation->AddClip(clip);
 		}
 		// Nuckback To Down 15
 		{
 			clip = new Clip(PlayMode::End);
-			clip->AddFrame(new Sprite(spriteFile, shaderFile, 0, 600, 32, 640), 0.1f);
+			clip->AddFrame(new Sprite(spriteFile, shaderFile, 194, 20, 205, 31), 0.1f);
 			animation->AddClip(clip);
 		}
 
@@ -260,6 +260,86 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	D3DXVECTOR2 pastPosition = position;
 	D3DXVECTOR2 textureSize = animation->TextureSize();
 
+
+	if (bIsNuckBack)
+	{
+		stopwatch += Timer->Elapsed();
+		if (stopwatch >= stopTime)
+		{
+			ResetStopWatch();
+		}
+		else
+		{
+			position += direction * Timer->Elapsed() * 50.0f;
+			animation->SetPosition(position);
+
+			D3DXVECTOR3 RightRotation = D3DXVECTOR3(0, 0, 0);
+			D3DXVECTOR3 LeftRotation = D3DXVECTOR3(0, 180, 0);
+
+			if (collisionsystem->CollisionTest(animation->GetSprite()))
+			{
+				ApplyDamage();
+			}
+			else
+			{
+				if (direction.x > -0.3f && direction.x < 0.3f)
+				{
+					if (direction.y > 0)
+					{
+						playAnimation = 11;
+						animation->SetRotationDegree(RightRotation);
+					}
+					else
+					{
+						playAnimation = 15;
+						animation->SetRotationDegree(LeftRotation);
+					}
+
+				}
+				else if (direction.x >= 0.3f && direction.x < 0.7f)
+				{
+					if (direction.y > 0)
+					{
+						playAnimation = 12;
+						animation->SetRotationDegree(RightRotation);
+						
+					}
+					else
+					{
+						playAnimation = 14;
+						animation->SetRotationDegree(LeftRotation);
+					}
+
+				}
+				else if (direction.x >= 0.7f)
+				{
+					playAnimation = 13;
+					animation->SetRotationDegree(RightRotation);
+				}
+				else if (direction.x <= -0.3f && direction.x > -0.7f)
+				{
+					if (direction.y > 0)
+					{
+						playAnimation = 12;
+						animation->SetRotationDegree(RightRotation);
+					}
+					else
+					{
+						playAnimation = 14;
+						animation->SetRotationDegree(LeftRotation);
+					}
+				}
+				else if (direction.x <= -0.7)
+				{
+					playAnimation = 13;
+					animation->SetRotationDegree(LeftRotation);
+				}
+
+
+
+			}
+		}
+	}
 	if (bGetDamege)
 	{
 		playAnimation = 16;
@@ -360,6 +440,7 @@ void Player::ActWhilePlayingOtherAnimation()
 	{
 		ResetStopWatch();
 		isRoll = false;
+		bIsNuckBack = false;
 	}
 }
 
@@ -408,7 +489,15 @@ void Player::ApplyDamage()
 	bGetDamege = true;
 }
 
-
+void Player::SetNuckBack(D3DXVECTOR2 position)
+{
+	direction = animation->GetPosition() - position;
+	D3DXVec2Normalize(&direction, &direction);
+	bIsNuckBack = true;
+	ResetStopWatch();
+	stopTime = 1.0f;
+	isplayingOtherAnimation = true;
+}
 
 D3DXVECTOR2 Player::GetArrowPosition()
 {

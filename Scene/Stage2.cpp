@@ -31,7 +31,8 @@ Stage2::Stage2(SceneValues * values)
 	// ForDebugging
 	{
 		icycle = new Icycle(1, player);
-		
+		snowball = new SnowBall();
+		snowball->SetPlayer(player);
 	}
 }
 
@@ -59,6 +60,7 @@ void Stage2::Update()
 	if (bIsDebugging)
 	{
 		icycle->Update(V, P);
+		snowball->Update(V, P);
 	}
 }
 
@@ -79,11 +81,12 @@ void Stage2::Render()
 		icycle->SetPosition(D3DXVECTOR2(0, 0));
 		icycle->SetValidate();
 	}
-	float direction[2];
-	ImGui::SliderFloat2("direction", direction, -1.0f, 1.0f);
+	//float direction[2];
+	//ImGui::SliderFloat2("direction", direction, -1.0f, 1.0f);
 	if (ImGui::Button("SnowballActivate"))
 	{
-		
+		snowball->SetValid();
+		snowball->ResetPosition(D3DXVECTOR2(0, 0));
 	}
 }
 

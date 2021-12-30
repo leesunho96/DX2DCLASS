@@ -122,10 +122,10 @@ void Animation::Update(D3DXMATRIX &V, D3DXMATRIX &P)
 	clips[currentClip]->Rotation(rotation);
 	clips[currentClip]->Update(V, P);
 
-	/*for (size_t i = 0; i < clips.size(); i++)
+	for (size_t i = 0; i < clips.size(); i++)
 	{
 		clips[i]->Update(V, P);
-	}*/
+	}
 }
 
 void Animation::Render()

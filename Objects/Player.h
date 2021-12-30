@@ -15,6 +15,7 @@ public:
 	void GetArrow();
 	void SetPlayerGetArrow();
 	void ApplyDamage();
+	void SetNuckBack(D3DXVECTOR2 position);
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
 	void Render();
 
@@ -39,14 +40,15 @@ private:
 	D3DXVECTOR2 direction = D3DXVECTOR2(0, 0);
 	D3DXVECTOR2 pastDirection = D3DXVECTOR2(0, 0);
 
-	bool isplayingOtherAnimation = false;
-	bool bIsOverlap = false;
 	bool bIsGetFarDisatance = false;
 	bool isRoll = false;
-	bool isCharge = false;
 	bool bIsHaveArrow = true;
 	bool bIsReTrivingArrow = false;
 	bool bGetDamege = false;
+	bool bIsNuckBack = false;
+	bool isplayingOtherAnimation = false;
+	bool bIsOverlap = false;
+	bool isCharge = false;
 
 	float stopwatch = 0.0f;
 	float stopTime = 0.0f;
