@@ -270,74 +270,7 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		}
 		else
 		{
-			position += direction * Timer->Elapsed() * 50.0f;
-			animation->SetPosition(position);
-
-			D3DXVECTOR3 RightRotation = D3DXVECTOR3(0, 0, 0);
-			D3DXVECTOR3 LeftRotation = D3DXVECTOR3(0, 180, 0);
-
-			if (collisionsystem->CollisionTest(animation->GetSprite()))
-			{
-				ApplyDamage();
-			}
-			else
-			{
-				if (direction.x > -0.3f && direction.x < 0.3f)
-				{
-					if (direction.y > 0)
-					{
-						playAnimation = 11;
-						animation->SetRotationDegree(RightRotation);
-					}
-					else
-					{
-						playAnimation = 15;
-						animation->SetRotationDegree(LeftRotation);
-					}
-
-				}
-				else if (direction.x >= 0.3f && direction.x < 0.7f)
-				{
-					if (direction.y > 0)
-					{
-						playAnimation = 12;
-						animation->SetRotationDegree(RightRotation);
-						
-					}
-					else
-					{
-						playAnimation = 14;
-						animation->SetRotationDegree(LeftRotation);
-					}
-
-				}
-				else if (direction.x >= 0.7f)
-				{
-					playAnimation = 13;
-					animation->SetRotationDegree(RightRotation);
-				}
-				else if (direction.x <= -0.3f && direction.x > -0.7f)
-				{
-					if (direction.y > 0)
-					{
-						playAnimation = 12;
-						animation->SetRotationDegree(RightRotation);
-					}
-					else
-					{
-						playAnimation = 14;
-						animation->SetRotationDegree(LeftRotation);
-					}
-				}
-				else if (direction.x <= -0.7)
-				{
-					playAnimation = 13;
-					animation->SetRotationDegree(LeftRotation);
-				}
-
-
-
-			}
+			ActWhileNuckBack(position);
 		}
 	}
 	if (bGetDamege)
@@ -353,6 +286,80 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	animation->Update(V, P);
 	animation->Play(playAnimation);
 
+}
+
+void Player::ActWhileNuckBack(D3DXVECTOR2 &position)
+{
+	position += direction * Timer->Elapsed() * 50.0f;
+	animation->SetPosition(position);
+
+	D3DXVECTOR3 RightRotation = D3DXVECTOR3(0, 0, 0);
+	D3DXVECTOR3 LeftRotation = D3DXVECTOR3(0, 180, 0);
+
+	if (collisionsystem->CollisionTest(animation->GetSprite()))
+	{
+		ApplyDamege(animation->GetSprite());
+	}
+	else
+	{
+		GetAppropriateAnimNumAndRotation(RightRotation, LeftRotation);
+	}
+}
+
+void Player::GetAppropriateAnimNumAndRotation(D3DXVECTOR3 &RightRotation, D3DXVECTOR3 &LeftRotation)
+{
+	if (direction.x > -0.3f && direction.x < 0.3f)
+	{
+		if (direction.y > 0)
+		{
+			playAnimation = 11;
+			animation->SetRotationDegree(RightRotation);
+		}
+		else
+		{
+			playAnimation = 15;
+			animation->SetRotationDegree(LeftRotation);
+		}
+
+	}
+	else if (direction.x >= 0.3f && direction.x < 0.7f)
+	{
+		if (direction.y > 0)
+		{
+			playAnimation = 12;
+			animation->SetRotationDegree(RightRotation);
+
+		}
+		else
+		{
+			playAnimation = 14;
+			animation->SetRotationDegree(LeftRotation);
+		}
+
+	}
+	else if (direction.x >= 0.7f)
+	{
+		playAnimation = 13;
+		animation->SetRotationDegree(RightRotation);
+	}
+	else if (direction.x <= -0.3f && direction.x > -0.7f)
+	{
+		if (direction.y > 0)
+		{
+			playAnimation = 12;
+			animation->SetRotationDegree(RightRotation);
+		}
+		else
+		{
+			playAnimation = 14;
+			animation->SetRotationDegree(LeftRotation);
+		}
+	}
+	else if (direction.x <= -0.7)
+	{
+		playAnimation = 13;
+		animation->SetRotationDegree(LeftRotation);
+	}
 }
 
 void Player::ActWhileNotApplyDamege(D3DXVECTOR2 &position, D3DXMATRIX & V, D3DXMATRIX & P)
@@ -482,7 +489,7 @@ void Player::SetPlayerGetArrow()
 	bIsHaveArrow = true;
 }
 
-void Player::ApplyDamage()
+void Player::ApplyDamege(Sprite* sprite)
 {
 	if (isRoll)
 		return;

@@ -6,9 +6,9 @@ class SnowBall
 {
 public:
 	SnowBall();
-	void InitializeAnimation();
 	SnowBall(Player* player);
 	~SnowBall();
+	void InitializeAnimation();
 	void Update(D3DXMATRIX&V, D3DXMATRIX& P);
 	void Render();
 	void SetValid() { bIsValid = true; };

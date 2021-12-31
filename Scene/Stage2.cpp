@@ -17,13 +17,15 @@
 
 extern CollisionSystem* collisionsystem;
 extern bool bIsDebugging;
-
+//Following* following;
 Stage2::Stage2(SceneValues * values)
 	: Scene(values)
 {
 	wstring shaderFile = Shaders + L"009_Sprite.fx";
 	bg = new Background_Yeti(values);
 	((Freedom*)(values->MainCamera))->SetPosition(0, 0);
+	//following = new Following();
+	
 	collisionsystem = new CollisionSystem(values, player);
 	player = new Player(D3DXVECTOR2(0, 0), D3DXVECTOR2(3, 3));
 	collisionsystem->GetCollisionData(bg->GetCollisionData());

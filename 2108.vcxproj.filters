@@ -219,6 +219,9 @@
     <ClInclude Include="Objects\SnowBall.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">

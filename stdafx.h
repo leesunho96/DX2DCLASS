@@ -64,7 +64,6 @@ const unsigned char PressA       = 1 << 1;	// 00000010  A를 누른 상태
 const unsigned char PressS       = 1 << 2;	// 00000100  S를 누른 상태
 const unsigned char PressD	     = 1 << 3;	// 00001000  D를 누른 상태
 const unsigned char PressSpace   = 1 << 4;	// 00010000  Space를 누른 상태
-//const unsigned char ToggleCharge = 1 << 5;  // 00100000  C 변경 된 경우
 
 extern UINT Width;
 extern UINT Height;

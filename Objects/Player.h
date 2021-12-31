@@ -1,25 +1,28 @@
 #pragma once
 #include "Viewer/IFollowing.h"
-
+#include "Character.h"
 class Arrow;
 class StopWatch;
 
-class Player : public IFollowing
+class Player : public IFollowing, public Character
 {
 public:
 	Player(D3DXVECTOR2 position, D3DXVECTOR2 scale);
 	~Player();
 
 	virtual void Focus(D3DXVECTOR2* position, D3DXVECTOR2* size) override;
-	Sprite* GetSprite() { return animation->GetSprite(); };
+	virtual Sprite* GetSprite() override { return animation->GetSprite(); };
+	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
+	virtual void Render() override;
+	virtual void ApplyDamege(Sprite* sprite) override;
+
 	void GetArrow();
 	void SetPlayerGetArrow();
-	void ApplyDamage();
 	void SetNuckBack(D3DXVECTOR2 position);
-	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
-	void Render();
 
 private:
+	void GetAppropriateAnimNumAndRotation(D3DXVECTOR3 &RightRotation, D3DXVECTOR3 &LeftRotation);
+	void ActWhileNuckBack(D3DXVECTOR2 &position);
 	void PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXMATRIX & V, D3DXMATRIX & P);
 	void ActWhileNotApplyDamege(D3DXVECTOR2 &position, D3DXMATRIX & V, D3DXMATRIX & P);
 	void ActWhilePlayingOtherAnimation();

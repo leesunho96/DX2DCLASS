@@ -188,6 +188,7 @@
     <ClCompile Include="Viewer\Freedom.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Character.h" />
     <ClInclude Include="Data\CollisionData.h" />
     <ClInclude Include="Objects\Arrow.h" />
     <ClInclude Include="Objects\Background_Yeti.h" />

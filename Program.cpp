@@ -100,7 +100,7 @@ void Render()
 			scene->Render();
 		}
 	}
-	if (ImGui::Button(bIsDebugging ? "SetDebugMode" : "SetNormalMode"));
+	if (ImGui::Button(bIsDebugging ? "SetDebugMode" : "SetNormalMode"))
 	{
 		bIsDebugging ? false : true;
 	}

@@ -191,7 +191,7 @@ void Icycle::ActWhileFalling()
 	{
 		if (player->GetSprite()->Position().y < position.y)
 		{
-			player->ApplyDamage();
+			player->ApplyDamege(animation->GetSprite());
 		}
 	}
 	if (stopwatch.IsOver())
