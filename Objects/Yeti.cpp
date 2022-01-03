@@ -1,5 +1,10 @@
 #include "stdafx.h"
 #include "Yeti.h"
+#include "SnowBall.h"
+#include "Icycle.h"
+
+
+extern ActorsData* actorsdata;
 
 Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 {
@@ -162,6 +167,19 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 		animation->AddClip(clip);
 	}
 
+
+	// 메모리 풀 이용하지 않고, 각 클래스 내부에 validate/invalidate 변수 이용하여 객체 생성/소멸 하지 않고 이용
+	for (size_t i = 0; i < 5; i++)
+	{
+		snowballs[i] = new SnowBall();
+		snowballs[i]->SetPlayer(actorsdata->GetPlayerData());
+		icycles[i] = new Icycle(Math::Random(0, 3), actorsdata->GetPlayerData());
+	}
+
+	// 해당 클래스 연결용 데이터 등록
+	actorsdata->SetData(this);
+
+
 	position = D3DXVECTOR2(0, 0);
 	rotation = D3DXVECTOR3(0, 0, 0);
 	scale = D3DXVECTOR2(1, 1);
@@ -172,18 +190,47 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 
 Yeti::~Yeti()
 {
+	for (auto a : snowballs)
+	{
+		SAFE_DELETE(a);
+	}
+
+	for (auto a : icycles)
+	{
+		SAFE_DELETE(a);
+	}
 	SAFE_DELETE(animation);
 }
 
 void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-
-	if (PresentState == Idle)
+	if (PresentState == AICheck)
 	{
-		iPlayAnimationNum = 0;
-	}
-	
 
+	}
+	else
+	{
+		if (PresentState == Idle)
+		{
+			iPlayAnimationNum = 0;
+		}
+		else if (PresentState == Standing)
+		{
+			iPlayAnimationNum = 1;
+		}
+		else if (PresentState == Throwing_SnowBall)
+		{
+
+		}
+		else if (PresentState == Roll)
+		{
+
+		}
+		else if (PresentState == Die)
+		{
+
+		}
+	}
 
 
 	animation->Update(V, P);

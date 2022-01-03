@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Data\ActorsData.cpp" />
     <ClCompile Include="Data\CollisionData.cpp" />
     <ClCompile Include="Objects\Arrow.cpp" />
     <ClCompile Include="Objects\Background_Yeti.cpp" />
@@ -167,7 +168,6 @@
     <ClCompile Include="Renders\Shader.cpp" />
     <ClCompile Include="Renders\Sprite.cpp" />
     <ClCompile Include="Program.cpp" />
-    <ClCompile Include="Scene\Stage1.cpp" />
     <ClCompile Include="Scene\Stage2.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -188,11 +188,12 @@
     <ClCompile Include="Viewer\Freedom.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Character.h" />
+    <ClInclude Include="Data\ActorsData.h" />
     <ClInclude Include="Data\CollisionData.h" />
     <ClInclude Include="Objects\Arrow.h" />
     <ClInclude Include="Objects\Background_Yeti.h" />
     <ClInclude Include="Objects\Bullet.h" />
+    <ClInclude Include="Objects\Character.h" />
     <ClInclude Include="Objects\Fire.h" />
     <ClInclude Include="Objects\Icycle.h" />
     <ClInclude Include="Objects\Line.h" />
@@ -208,7 +209,6 @@
     <ClInclude Include="Renders\Shader.h" />
     <ClInclude Include="Renders\Sprite.h" />
     <ClInclude Include="Scene\Scene.h" />
-    <ClInclude Include="Scene\Stage1.h" />
     <ClInclude Include="Scene\Stage2.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Systems\CMouse.h" />

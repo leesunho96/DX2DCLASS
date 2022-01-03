@@ -1,6 +1,9 @@
 #pragma once
 #include "Character.h"
 
+class SnowBall;
+class Icycle;
+
 class Yeti : public Character
 {
 
@@ -48,6 +51,10 @@ private:
 	
 	
 	int iPlayAnimationNum = 0;
+	int iSnowballTurnNum = 0;
+	int iRollTurnNum = 0;
 
 	Animation* animation;
+	SnowBall* snowballs[5];
+	Icycle* icycles[5];
 };

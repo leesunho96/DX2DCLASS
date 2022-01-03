@@ -5,8 +5,7 @@
 class Background_Yeti;
 class Player;
 class CollisionSystem;
-class Icycle;
-class SnowBall;
+class ActorsData;
 
 extern bool bIsDebugging;
 
@@ -25,10 +24,5 @@ private:
 	//
 
 	// for debugging
-
-	Icycle* icycle;
-	SnowBall* snowball;
-
-
 	bool check;
 };

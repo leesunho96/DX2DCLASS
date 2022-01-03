@@ -60,9 +60,6 @@
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="Program.cpp" />
-    <ClCompile Include="Scene\Stage1.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\Stage2.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -104,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="Objects\SnowBall.cpp">
       <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\ActorsData.cpp">
+      <Filter>Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,9 +171,6 @@
     <ClInclude Include="Scene\Scene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Stage1.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Stage2.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -219,8 +216,11 @@
     <ClInclude Include="Objects\SnowBall.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Character.h">
+    <ClInclude Include="Objects\Character.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ActorsData.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
