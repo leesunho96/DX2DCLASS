@@ -264,6 +264,27 @@ bool Sprite::OBB(Sprite * b)
 	return OBB(this, b);
 }
 
+bool Sprite::OBB(RECT rect)
+{
+	OBBDesc obbA, obbB;
+	////float xScale, yScale;
+
+	//// _11, _22 : xscale, yscale, sprite a의 길이 구함
+	//D3DXVECTOR2 lengthA = D3DXVECTOR2(rect.right - rect.left, rect.bottom - rect.top) * 0.5f;
+
+	//// OBB 생성
+	//CreateOBB(&obbA, D3DXVECTOR2((rect.right - rect.left) / 2, (rect.bottom - rect.top) / 2), a->world, lengthA);
+
+	//// _11, _22 : xscale, yscale, sprite b의 길이 구함
+	//D3DXVECTOR2 lengthB = D3DXVECTOR2(b->world._11, b->world._22) * 0.5f;
+
+	//// obb 생성
+	//CreateOBB(&obbB, b->position, b->world, lengthB);
+
+	// 생성된 obb값으로 check
+	return CheckOBB(obbA, obbB);
+}
+
 bool Sprite::AABB(Sprite * a, D3DXVECTOR2 & position)
 {
 	float xScale = a->scale.x * a->TextureSize().x * 0.5f;

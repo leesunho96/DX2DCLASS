@@ -17,6 +17,7 @@ public:
 	virtual void ApplyDamege(Sprite* sprite) override;
 
 	void GetArrow();
+	Arrow* GetArrowSprite() { return arrow; };
 	void SetPlayerGetArrow();
 	void SetNuckBack(D3DXVECTOR2 position);
 

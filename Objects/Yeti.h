@@ -12,12 +12,18 @@ public:
 	~Yeti();
 
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
+	void ValidateSnowball();
 	virtual void Render() override;	
 	virtual void ApplyDamege(Sprite* sprite) override;
 	virtual Sprite* GetSprite() override;
 
 private:
-
+	unsigned char BehavierTree();
+	int GetDirectionVectorToGeneralIntValues(D3DXVECTOR2 direction);
+	void ResetSnowBallData();
+	void ActionWhileAICheck();
+	D3DXVECTOR3 GetRotationDegreeFromDirectionVector(D3DXVECTOR2 direction);
+	
 public:
 
 private:
@@ -51,10 +57,12 @@ private:
 	
 	
 	int iPlayAnimationNum = 0;
+	int iPresentTurnNum = 0;
 	int iSnowballTurnNum = 0;
 	int iRollTurnNum = 0;
-
+	int iPresentBallNum = 0;
 	Animation* animation;
-	SnowBall* snowballs[5];
+	SnowBall* snowballs[3];
 	Icycle* icycles[5];
+	StopWatch stopwatch;
 };

@@ -6,6 +6,7 @@ class Background_Yeti;
 class Player;
 class CollisionSystem;
 class ActorsData;
+class Yeti;
 
 extern bool bIsDebugging;
 
@@ -21,6 +22,7 @@ public:
 private:
 	Background_Yeti* bg;
 	Player* player;
+	Yeti* yeti;
 	//
 
 	// for debugging

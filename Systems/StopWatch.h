@@ -11,6 +11,7 @@ public:
 
 	void Update();
 	bool IsOver();
+	bool IsOver(float inputtime);
 private:
 	float max_Time = 0.0f;
 	float present_Time = 0.0f;

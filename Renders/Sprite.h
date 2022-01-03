@@ -49,6 +49,7 @@ public:
 	bool AABB(Sprite* b);
 
 	bool OBB(Sprite* b);
+	bool OBB(RECT rect);
 	
 	static bool AABB(Sprite* a, D3DXVECTOR2& position);
 	static bool AABB(Sprite* a, Sprite* b);

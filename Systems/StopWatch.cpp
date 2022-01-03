@@ -22,3 +22,8 @@ bool StopWatch::IsOver()
 {
 	return isOver;
 }
+
+bool StopWatch::IsOver(float inputtime)
+{
+	return present_Time >= inputtime ? true : false;
+}

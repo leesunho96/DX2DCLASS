@@ -2,11 +2,18 @@
 #include "Yeti.h"
 #include "SnowBall.h"
 #include "Icycle.h"
+#include "Player.h"
+#include "Arrow.h"
 
+#define DIRECTION_UP 0
+#define DIRECTION_RIGHTUP 1
+#define DIRECTION_RIGHT 2
+#define DIRECTION_RIGHTDOWN 3
+#define DIRECTION_DOWN 4
 
 extern ActorsData* actorsdata;
 
-Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale)
+Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), position(position)
 {
 	wstring TextureFile = Textures + L"TianSouls/yeti.png";
 	wstring ShaderFile = Shaders + L"009_Sprite.fx";
@@ -180,10 +187,11 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	actorsdata->SetData(this);
 
 
-	position = D3DXVECTOR2(0, 0);
+
 	rotation = D3DXVECTOR3(0, 0, 0);
 	scale = D3DXVECTOR2(1, 1);
 	presentDirection = D3DXVECTOR2(0, 0);
+	animation->SetPosition(position);
 	animation->Play(0);
 	
 }
@@ -204,9 +212,10 @@ Yeti::~Yeti()
 
 void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
+	int iLocalpresentdirection;
 	if (PresentState == AICheck)
 	{
-
+		ActionWhileAICheck();
 	}
 	else
 	{
@@ -220,6 +229,21 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		}
 		else if (PresentState == Throwing_SnowBall)
 		{
+			if (stopwatch.IsOver())
+			{
+				ResetSnowBallData();
+			}
+			if (stopwatch.IsOver(iPresentBallNum * 0.5f))
+			{
+				ValidateSnowball();
+			}
+
+			// animationplaynum / rotation 값 설정 위한 메소드
+			iLocalpresentdirection = GetDirectionVectorToGeneralIntValues(presentDirection);
+			rotation = GetRotationDegreeFromDirectionVector(presentDirection);
+
+
+
 
 		}
 		else if (PresentState == Roll)
@@ -233,10 +257,102 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	}
 
 
+	stopwatch.Update();
 	animation->Update(V, P);
 	animation->SetPosition(position);
-	animation->SetRotation(rotation);
+	animation->SetRotationDegree(rotation);
 	animation->Play(iPlayAnimationNum);
+}
+
+void Yeti::ValidateSnowball()
+{
+	snowballs[iPresentBallNum]->SetValid();
+	snowballs[iPresentBallNum]->ResetPosition(animation->GetSprite()->Position() + presentDirection * 50.0f);
+	snowballs[iPresentBallNum]->SetDirection(presentDirection);
+	iPresentBallNum++;
+}
+
+D3DXVECTOR3 Yeti::GetRotationDegreeFromDirectionVector(D3DXVECTOR2 direction)
+{
+	D3DXVECTOR3 result;
+	if (direction.x >= -0.3f && direction.x <= 1.0f)
+	{
+		result = D3DXVECTOR3(0, 0, 0);
+	}
+	else if (direction.x >= -1.0f && direction.x < -0.3f)
+	{
+		result = D3DXVECTOR3(0, 180, 0);
+	}
+	return result;
+}
+
+int Yeti::GetDirectionVectorToGeneralIntValues(D3DXVECTOR2 direction)
+{
+	// TO UP
+	if (direction.x >= -0.3f && direction.x <= 0.3f
+		&& presentDirection.y > 0)
+	{
+		return DIRECTION_UP;
+	}
+	// TO Down
+	else if (direction.x >= -0.3f && direction.x <= 0.3f
+		&& presentDirection.y < 0)
+	{
+		return DIRECTION_DOWN;
+	}
+	// TO RIght_Up
+	else if (direction.x > 0.3f && direction.x < 0.7f
+		&& presentDirection.y > 0)
+	{
+		return DIRECTION_RIGHTUP;
+	}
+	// TO Right_Down
+	else if (direction.x > 0.3f && direction.x < 0.7f
+		&& presentDirection.y < 0)
+	{
+		return DIRECTION_RIGHTDOWN;
+	}
+	// TO Right
+	else if (direction.x >= 0.7f && direction.x <= 1.0f)
+	{
+		return DIRECTION_RIGHT;
+	}
+	// TO Left_Up
+	else if (direction.x < -0.3f && direction.x < -0.7f &&
+		presentDirection.y > 0)
+	{
+		return DIRECTION_RIGHTUP;
+	}
+	// TO Left_Down
+	else if (direction.x < -0.3f && direction.x < -0.7f &&
+		presentDirection.y < 0)
+	{
+		return DIRECTION_RIGHTDOWN;
+	}
+	// To Left
+	else if (direction.x <= -0.7f && direction.x >= -1.0f)
+	{
+		return DIRECTION_RIGHT;
+	}
+}
+
+void Yeti::ResetSnowBallData()
+{
+	PresentState = AICheck;
+	for (auto a : snowballs)
+	{
+		a->SetInvalid();
+	}
+	iPresentBallNum = 0;
+}
+
+void Yeti::ActionWhileAICheck()
+{
+	PresentState = BehavierTree();
+	D3DXVECTOR2 tempVec(actorsdata->GetPlayerData()->GetSprite()->Position() - this->animation->GetSprite()->Position());
+	D3DXVec2Normalize(&presentDirection, &tempVec);
+	stopwatch.ResetTimer();
+	stopwatch.SetTimer(1.5f);
 }
 
 void Yeti::Render()
@@ -249,8 +365,50 @@ Sprite * Yeti::GetSprite()
 	return animation->GetSprite();
 }
 
+unsigned char Yeti::BehavierTree()
+{
+	unsigned char result;
+
+	// first node => 최초 실행시
+	if (iPresentTurnNum == 0)
+	{
+		result = Throwing_SnowBall;
+		iSnowballTurnNum++;
+		iPresentTurnNum++;
+	}
+	// 두번째 노드. 현재 구르기/눈덩이 던지기 횟수 이용해서 다음 행동 산출.
+	else
+	{
+		//int maxprecentage = iPresentTurnNum;
+		//int randompercentage = Math::Random(0, maxprecentage);
+		//
+		//if (iRollTurnNum > randompercentage)
+		//{
+		//	result = Throwing_SnowBall;
+		//}
+		//else
+		//{
+		//	result = Roll;
+		//}
+		result = Throwing_SnowBall;
+	}
+	return result;
+}
+
 void Yeti::ApplyDamege(Sprite * sprite)
 {
+	if (PresentState == Idle)
+	{
+		PresentState = Standing;
+		return;
+	}
+	if (PresentState = Roll)
+		return;
+	Arrow* arrowsprite = actorsdata->GetPlayerData()->GetArrowSprite();
 
+	if (arrowsprite->GetSprite()->OBB(this->animation->GetSprite()))
+	{
+		PresentState = Die;
+	}
 }
 

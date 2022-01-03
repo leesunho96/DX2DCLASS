@@ -16,6 +16,10 @@ public:
 
 	Player* GetPlayerData() { return player; };
 	Yeti* GetYetiData() { return yeti; };
+
+	void Clear() { player = nullptr; yeti = nullptr; };
+	void Clear(Yeti* yeti) { yeti = nullptr; };
+	void Clear(Player* player) { player = nullptr; };
 private:
 
 	Player* player;

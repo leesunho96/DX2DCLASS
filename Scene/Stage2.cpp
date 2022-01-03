@@ -2,6 +2,7 @@
 #include "Stage2.h"
 
 #include "Objects/Player.h"
+#include "Objects/Yeti.h"
 #include "Objects/Marker.h"
 #include "Objects/Background_Yeti.h"
 
@@ -31,18 +32,20 @@ Stage2::Stage2(SceneValues * values)
 	
 	collisionsystem = new CollisionSystem(values, player);
 	player = new Player(D3DXVECTOR2(0, 0), D3DXVECTOR2(3, 3));
-	collisionsystem->GetCollisionData(bg->GetCollisionData());
 	actorsdata = new ActorsData(player);
+	yeti = new Yeti(D3DXVECTOR2(0, 200), D3DXVECTOR2(0, 0));
+	actorsdata->SetData(yeti);
 
+	collisionsystem->GetCollisionData(bg->GetCollisionData());
 }
 
 Stage2::~Stage2()
 {
-
+	actorsdata->Clear();
 	SAFE_DELETE(collisionsystem);
+	SAFE_DELETE(yeti);
 	SAFE_DELETE(player);
-	SAFE_DELETE(bg);
-	
+	SAFE_DELETE(bg);	
 }
 
 void Stage2::Update()
@@ -51,10 +54,9 @@ void Stage2::Update()
 	D3DXMATRIX P = values->Projection;
 
 	bg->Update(V, P);
+	yeti->Update(V, P);
 	player->Update(V, P);	
 	collisionsystem->Update(V, P);
-
-
 }
 
 void Stage2::Render()
@@ -62,6 +64,6 @@ void Stage2::Render()
 	bg->Render();
 	collisionsystem->Render();
 	player->Render();
-
+	yeti->Render();
 }
 

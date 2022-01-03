@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Arrow.h"
 #include "Player.h"
+#include "Yeti.h"
+
+extern ActorsData* actorsdata;
 
 Arrow::Arrow(wstring spriteFile, wstring shaderFile)
 {
@@ -42,6 +45,10 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		return;
 	stopwatch->Update();
 
+	if (actorsdata->GetYetiData()->GetSprite()->OBB(sprite))
+	{
+		actorsdata->GetYetiData()->ApplyDamege(sprite);
+	}
 	if (isGoing)
 	{
 		if (!stopwatch->IsOver())
