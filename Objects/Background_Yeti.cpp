@@ -5,7 +5,7 @@
 #include "Scene/Scene.h"
 #include "Physics/CollisionSystem.h"
 #include "Systems/CMouse.h"
-#include "Systems/LineDesc.h"
+#include "Data/LineDesc.h"
 #include "Data/CollisionData.h"
 
 

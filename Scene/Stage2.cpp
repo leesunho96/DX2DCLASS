@@ -10,8 +10,8 @@
 #include "Viewer/Freedom.h"
 
 #include "Physics/CollisionSystem.h"
-#include "Systems/LineDesc.h"
 
+#include "Data/LineDesc.h"
 #include "Data/CollisionData.h"
 
 

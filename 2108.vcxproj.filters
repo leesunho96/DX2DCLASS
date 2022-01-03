@@ -105,6 +105,9 @@
     <ClCompile Include="Data\ActorsData.cpp">
       <Filter>Data</Filter>
     </ClCompile>
+    <ClCompile Include="Data\Collision.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -189,9 +192,6 @@
     <ClInclude Include="Systems\CMouse.h">
       <Filter>Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Systems\LineDesc.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Data\CollisionData.h">
       <Filter>Data</Filter>
     </ClInclude>
@@ -220,6 +220,12 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Data\ActorsData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Collision.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\LineDesc.h">
       <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>

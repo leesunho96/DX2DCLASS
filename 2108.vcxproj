@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Data\ActorsData.cpp" />
+    <ClCompile Include="Data\Collision.cpp" />
     <ClCompile Include="Data\CollisionData.cpp" />
     <ClCompile Include="Objects\Arrow.cpp" />
     <ClCompile Include="Objects\Background_Yeti.cpp" />
@@ -189,7 +190,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data\ActorsData.h" />
+    <ClInclude Include="Data\Collision.h" />
     <ClInclude Include="Data\CollisionData.h" />
+    <ClInclude Include="Data\LineDesc.h" />
     <ClInclude Include="Objects\Arrow.h" />
     <ClInclude Include="Objects\Background_Yeti.h" />
     <ClInclude Include="Objects\Bullet.h" />
@@ -215,7 +218,6 @@
     <ClInclude Include="Systems\Device.h" />
     <ClInclude Include="Systems\DirectWrite.h" />
     <ClInclude Include="Systems\Keyboard.h" />
-    <ClInclude Include="Systems\LineDesc.h" />
     <ClInclude Include="Systems\Time.h" />
     <ClInclude Include="Systems\StopWatch.h" />
     <ClInclude Include="Utilities\BinaryFile.h" />

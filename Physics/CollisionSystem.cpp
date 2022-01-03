@@ -4,8 +4,10 @@
 #include "Objects/Line.h"
 #include "Objects/Player.h"
 #include "Scene/Scene.h"
-#include "Systems/LineDesc.h"
+
+#include "Data/LineDesc.h"
 #include "Data/CollisionData.h"
+
 
 CollisionSystem::CollisionSystem(SceneValues * values, Player* player) : scenevalue(values), player(player)
 {
