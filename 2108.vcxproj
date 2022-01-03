@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="Objects\Bullet.cpp" />
     <ClCompile Include="Objects\Fire.cpp" />
+    <ClCompile Include="Objects\Marker.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Renders\Animation.cpp" />
     <ClCompile Include="Renders\Clip.cpp" />
@@ -157,11 +158,13 @@
     <ClCompile Include="Renders\Shader.cpp" />
     <ClCompile Include="Renders\Sprite.cpp" />
     <ClCompile Include="Program.cpp" />
+    <ClCompile Include="Scene\Sonic.cpp" />
     <ClCompile Include="Scene\Stage1.cpp" />
     <ClCompile Include="Scene\Stage2.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Systems\CMouse.cpp" />
     <ClCompile Include="Systems\Device.cpp" />
     <ClCompile Include="Systems\DirectWrite.cpp" />
     <ClCompile Include="Systems\Keyboard.cpp" />
@@ -178,6 +181,7 @@
   <ItemGroup>
     <ClInclude Include="Objects\Bullet.h" />
     <ClInclude Include="Objects\Fire.h" />
+    <ClInclude Include="Objects\Marker.h" />
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Renders\Animation.h" />
     <ClInclude Include="Renders\Clip.h" />
@@ -185,9 +189,11 @@
     <ClInclude Include="Renders\Shader.h" />
     <ClInclude Include="Renders\Sprite.h" />
     <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="Scene\Sonic.h" />
     <ClInclude Include="Scene\Stage1.h" />
     <ClInclude Include="Scene\Stage2.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Systems\CMouse.h" />
     <ClInclude Include="Systems\Device.h" />
     <ClInclude Include="Systems\DirectWrite.h" />
     <ClInclude Include="Systems\Keyboard.h" />

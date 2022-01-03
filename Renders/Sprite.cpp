@@ -24,7 +24,7 @@ void Sprite::Initialize(wstring spriteFile, wstring shaderFile, float startX, fl
 {
 	textureFile = spriteFile;
 
-	bDrawBound = false;
+	bDrawBound = true;
 	shader = new Shader(shaderFile);
 	boundShader = new Shader(Shaders + L"014_Bounding.fx");
 
@@ -147,6 +147,7 @@ void Sprite::Render()
 void Sprite::CreateBound()
 {
 	BoundVertex vertices[5];
+
 	vertices[0].Position = D3DXVECTOR3(-0.5f, -0.5f, 0.0f);
 	vertices[1].Position = D3DXVECTOR3(-0.5f, +0.5f, 0.0f);
 	vertices[2].Position = D3DXVECTOR3(+0.5f, +0.5f, 0.0f);
@@ -186,8 +187,9 @@ void Sprite::Scale(float x, float y)
 void Sprite::Scale(D3DXVECTOR2 & vec)
 {
 	scale = vec;
-
 }
+
+
 
 void Sprite::Rotation(float x, float y, float z)
 {
@@ -309,10 +311,13 @@ bool Sprite::OBB(Sprite * a, Sprite * b)
 
 	// _11, _22 : xscale, yscale, sprite a의 길이 구함
 	D3DXVECTOR2 lengthA = D3DXVECTOR2(a->world._11, a->world._22) * 0.5f;
+
 	// OBB 생성
 	CreateOBB(&obbA, a->position, a->world, lengthA);
+
 	// _11, _22 : xscale, yscale, sprite b의 길이 구함
 	D3DXVECTOR2 lengthB = D3DXVECTOR2(b->world._11, b->world._22) * 0.5f;
+
 	// obb 생성
 	CreateOBB(&obbB, b->position, b->world, lengthB);
 
@@ -335,7 +340,9 @@ void Sprite::CreateOBB(OUT OBBDesc * out, D3DXVECTOR2 & position, D3DXMATRIX & w
 	// directon을 정규화. => seperate axis
 	D3DXVec2Normalize(&out->Direction[0], &out->Direction[0]);
 	D3DXVec2Normalize(&out->Direction[1], &out->Direction[1]);
+
 }
+
 // seperate axis에 두 벡터를 내적한 값의 절대값을 합한 값을 반환.
 float Sprite::SeperateAxis(D3DXVECTOR2 seperate, D3DXVECTOR2 & e1, D3DXVECTOR2 & e2)
 {
@@ -391,6 +398,7 @@ bool Sprite::CheckOBB(OBBDesc & obbA, OBBDesc & obbB)
 
 	return true;	
 }
+
 //-----------------------------------------------------------------------------
 //Sprites
 //-----------------------------------------------------------------------------

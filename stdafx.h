@@ -41,6 +41,7 @@ using namespace std;
 #include "Systems/Keyboard.h"
 #include "Systems/Time.h"
 #include "Systems/DirectWrite.h"
+#include "Systems/CMouse.h"
 
 #include "Renders/Shader.h"
 #include "Renders/Rect.h"
@@ -76,3 +77,4 @@ extern ID3D11RenderTargetView* RTV;
 
 extern Keyboard* Key;
 extern Time* Timer;
+extern CMouse* Mouse;
