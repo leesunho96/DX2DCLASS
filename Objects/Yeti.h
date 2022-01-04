@@ -22,6 +22,7 @@ private:
 	int GetDirectionVectorToGeneralIntValues(D3DXVECTOR2 direction);
 	void ResetSnowBallData();
 	void ActionWhileAICheck();
+	void GetPresentDirectionToPlayer();
 	D3DXVECTOR3 GetRotationDegreeFromDirectionVector(D3DXVECTOR2 direction);
 	
 public:

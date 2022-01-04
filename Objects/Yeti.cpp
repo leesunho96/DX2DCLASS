@@ -13,7 +13,7 @@
 
 extern ActorsData* actorsdata;
 
-Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), position(position)
+Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), position(position), scale(scale)
 {
 	wstring TextureFile = Textures + L"TianSouls/yeti.png";
 	wstring ShaderFile = Shaders + L"009_Sprite.fx";
@@ -176,11 +176,16 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), pos
 
 
 	// 메모리 풀 이용하지 않고, 각 클래스 내부에 validate/invalidate 변수 이용하여 객체 생성/소멸 하지 않고 이용
+
+
 	for (size_t i = 0; i < 5; i++)
+	{
+		icycles[i] = new Icycle(Math::Random(0, 3), actorsdata->GetPlayerData());
+	}
+	for (size_t i = 0; i < 3; i++)
 	{
 		snowballs[i] = new SnowBall();
 		snowballs[i]->SetPlayer(actorsdata->GetPlayerData());
-		icycles[i] = new Icycle(Math::Random(0, 3), actorsdata->GetPlayerData());
 	}
 
 	// 해당 클래스 연결용 데이터 등록
@@ -191,6 +196,7 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), pos
 	rotation = D3DXVECTOR3(0, 0, 0);
 	scale = D3DXVECTOR2(1, 1);
 	presentDirection = D3DXVECTOR2(0, 0);
+	animation->SetScale(scale);
 	animation->SetPosition(position);
 	animation->Play(0);
 	
@@ -236,6 +242,7 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		}
 		else if (PresentState == Throwing_SnowBall)
 		{
+			GetPresentDirectionToPlayer();
 			if (stopwatch.IsOver())
 			{
 				ResetSnowBallData();
@@ -249,6 +256,7 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			// animationplaynum / rotation 값 설정 위한 메소드
 			iLocalpresentdirection = GetDirectionVectorToGeneralIntValues(presentDirection);
 			rotation = GetRotationDegreeFromDirectionVector(presentDirection);
+			iPlayAnimationNum = GetDirectionVectorToGeneralIntValues(presentDirection) + 2;
 		}
 		else if (PresentState == Roll)
 		{
@@ -277,10 +285,11 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		a->Update(V, P);
 	}
 
-	animation->Play(iPlayAnimationNum);
-	animation->Update(V, P);
 	animation->SetPosition(position);
 	animation->SetRotationDegree(rotation);
+	animation->SetScale(scale);
+	animation->Play(iPlayAnimationNum);
+	animation->Update(V, P);
 }
 
 void Yeti::ValidateSnowball()
@@ -337,13 +346,13 @@ int Yeti::GetDirectionVectorToGeneralIntValues(D3DXVECTOR2 direction)
 		return DIRECTION_RIGHT;
 	}
 	// TO Left_Up
-	else if (direction.x < -0.3f && direction.x < -0.7f &&
+	else if (direction.x < -0.3f && direction.x > -0.7f &&
 		presentDirection.y > 0)
 	{
 		return DIRECTION_RIGHTUP;
 	}
 	// TO Left_Down
-	else if (direction.x < -0.3f && direction.x < -0.7f &&
+	else if (direction.x < -0.3f && direction.x > -0.7f &&
 		presentDirection.y < 0)
 	{
 		return DIRECTION_RIGHTDOWN;
@@ -353,6 +362,8 @@ int Yeti::GetDirectionVectorToGeneralIntValues(D3DXVECTOR2 direction)
 	{
 		return DIRECTION_RIGHT;
 	}
+	else
+		return 0;
 }
 
 void Yeti::ResetSnowBallData()
@@ -367,15 +378,27 @@ void Yeti::ResetSnowBallData()
 void Yeti::ActionWhileAICheck()
 {
 	PresentState = BehavierTree();
-	D3DXVECTOR2 tempVec(actorsdata->GetPlayerData()->GetSprite()->Position() - this->animation->GetSprite()->Position());
-	D3DXVec2Normalize(&presentDirection, &tempVec);
+	GetPresentDirectionToPlayer();
 	stopwatch.ResetTimer();
 	stopwatch.SetTimer(1.5f);
+}
+
+void Yeti::GetPresentDirectionToPlayer()
+{
+	D3DXVECTOR2 tempVec(actorsdata->GetPlayerData()->GetSprite()->Position() - this->animation->GetSprite()->Position());
+	D3DXVec2Normalize(&presentDirection, &tempVec);
 }
 
 void Yeti::Render()
 {
 	animation->Render();
+	if (ImGui::Button("ResetYeti"))
+	{
+		PresentState = Idle;
+		bIsGetArrowPos = false;
+	}
+	ImGui::LabelText("presentState :", "%d", PresentState);
+	ImGui::LabelText("activatesnowball :", "%d", iPresentBallNum);
 	for (auto a : snowballs)
 	{
 		a->Render();
@@ -384,13 +407,6 @@ void Yeti::Render()
 	{
 		a->Render();
 	}
-	if (ImGui::Button("ResetYeti"))
-	{
-		PresentState = Idle;
-		bIsGetArrowPos = false;
-	}
-	ImGui::LabelText("presentState :", "%d", PresentState);
-	ImGui::LabelText("activatesnowball :", "%d", iPresentBallNum);
 }
 
 Sprite * Yeti::GetSprite()

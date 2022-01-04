@@ -107,8 +107,7 @@ Icycle::Icycle(int type, Player* player) : stopwatch(StopWatch()), player(player
 	clip = new Clip(PlayMode::Loop);
 	clip->AddFrame(new Sprite(TextureFile, ShaderFile, 230, 969, 250, 983), 1.0f);
 	animation->AddClip(clip);
-	StateInfo = Invalidate;
-
+	
 	animation->SetPosition(0, 0);
 	animation->SetRotation(0, 0, 0);
 	animation->SetScale(1, 1);

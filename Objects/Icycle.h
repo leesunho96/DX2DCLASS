@@ -40,7 +40,6 @@ private:
 	D3DXVECTOR2 scale;
 	D3DXVECTOR2 speed   = D3DXVECTOR2(0.0f, 200.0f);
 	int iPlayAnimationNum = 0;
-	unsigned char StateInfo = 0;
 	
 
 
@@ -51,4 +50,5 @@ private:
 	const static unsigned char ValidateAndFall        = 1 << 2;  // 활성화 되었으며, 떨어져 있는 상태
 	const static unsigned char ValidateAndHole        = 1 << 3;  // 활성화 되었으며, 현재 사라지기전 구멍 남아있는 상태.
 
+	unsigned char StateInfo = Invalidate;
 };
