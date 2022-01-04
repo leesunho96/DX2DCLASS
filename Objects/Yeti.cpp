@@ -30,9 +30,9 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), pos
 	// Standing (Begin Start) 1
 	{
 		clip = new Clip(PlayMode::End);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 302, 702, 370, 767), 1.0f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 203, 697, 273, 767), 1.0f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 11, 697, 84, 767), 1.0f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 203, 697, 273, 767), 0.5f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 302, 702, 370, 767), 0.5f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 11, 697, 84, 767)  , 0.5f);
 		animation->AddClip(clip);
 	}
 	// Throw Snow Ball To Up 2
@@ -169,8 +169,8 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), pos
 	{
 		clip = new Clip(PlayMode::Stop);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 389, 707, 475, 765), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 495, 718, 561, 954), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 591, 718, 656, 954), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 495, 718, 561, 765), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 591, 718, 656, 765), 0.1f);
 		animation->AddClip(clip);
 	}
 
@@ -213,6 +213,7 @@ Yeti::~Yeti()
 void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	int iLocalpresentdirection;
+
 	if (PresentState == AICheck)
 	{
 		ActionWhileAICheck();
@@ -226,12 +227,19 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		else if (PresentState == Standing)
 		{
 			iPlayAnimationNum = 1;
+			if (stopwatch.IsOver())
+			{
+				stopwatch.ResetTimer();
+				stopwatch.SetTimer(1.2f);
+				PresentState = AICheck;
+			}
 		}
 		else if (PresentState == Throwing_SnowBall)
 		{
 			if (stopwatch.IsOver())
 			{
 				ResetSnowBallData();
+				PresentState = AICheck;
 			}
 			if (stopwatch.IsOver(iPresentBallNum * 0.5f))
 			{
@@ -241,10 +249,6 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			// animationplaynum / rotation 값 설정 위한 메소드
 			iLocalpresentdirection = GetDirectionVectorToGeneralIntValues(presentDirection);
 			rotation = GetRotationDegreeFromDirectionVector(presentDirection);
-
-
-
-
 		}
 		else if (PresentState == Roll)
 		{
@@ -252,16 +256,31 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		}
 		else if (PresentState == Die)
 		{
-
+			if (!bIsGetArrowPos)
+			{
+				D3DXVECTOR2 arrowposition = actorsdata->GetPlayerData()->GetArrowSprite()->GetPosition() - animation->GetPosition();
+				D3DXVec2Normalize(&arrowposition, &arrowposition);
+				iPlayAnimationNum = GetDirectionVectorToGeneralIntValues(arrowposition) + 12;
+				rotation = GetRotationDegreeFromDirectionVector(arrowposition);
+				bIsGetArrowPos = true;
+			}
 		}
 	}
-
-
 	stopwatch.Update();
+
+	for (auto a : snowballs)
+	{
+		a->Update(V, P);
+	}
+	for (auto a : icycles)
+	{
+		a->Update(V, P);
+	}
+
+	animation->Play(iPlayAnimationNum);
 	animation->Update(V, P);
 	animation->SetPosition(position);
 	animation->SetRotationDegree(rotation);
-	animation->Play(iPlayAnimationNum);
 }
 
 void Yeti::ValidateSnowball()
@@ -337,8 +356,7 @@ int Yeti::GetDirectionVectorToGeneralIntValues(D3DXVECTOR2 direction)
 }
 
 void Yeti::ResetSnowBallData()
-{
-	PresentState = AICheck;
+{	
 	for (auto a : snowballs)
 	{
 		a->SetInvalid();
@@ -358,6 +376,21 @@ void Yeti::ActionWhileAICheck()
 void Yeti::Render()
 {
 	animation->Render();
+	for (auto a : snowballs)
+	{
+		a->Render();
+	}
+	for (auto a : icycles)
+	{
+		a->Render();
+	}
+	if (ImGui::Button("ResetYeti"))
+	{
+		PresentState = Idle;
+		bIsGetArrowPos = false;
+	}
+	ImGui::LabelText("presentState :", "%d", PresentState);
+	ImGui::LabelText("activatesnowball :", "%d", iPresentBallNum);
 }
 
 Sprite * Yeti::GetSprite()
@@ -400,9 +433,13 @@ void Yeti::ApplyDamege(Sprite * sprite)
 	if (PresentState == Idle)
 	{
 		PresentState = Standing;
+		stopwatch.ResetTimer();
+		stopwatch.SetTimer(1.2f);
 		return;
 	}
-	if (PresentState = Roll)
+	if (PresentState == Standing)
+		return;
+	if (PresentState == Roll)
 		return;
 	Arrow* arrowsprite = actorsdata->GetPlayerData()->GetArrowSprite();
 

@@ -37,6 +37,7 @@ Stage2::Stage2(SceneValues * values)
 	actorsdata->SetData(yeti);
 
 	collisionsystem->GetCollisionData(bg->GetCollisionData());
+
 }
 
 Stage2::~Stage2()
@@ -63,7 +64,7 @@ void Stage2::Render()
 {
 	bg->Render();
 	collisionsystem->Render();
-	player->Render();
 	yeti->Render();
+	player->Render();
 }
 

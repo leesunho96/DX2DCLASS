@@ -34,6 +34,7 @@ private:
 
 	bool bIsAttacked = false;
 	bool bIsPlayingOtherAnimation = false;
+	bool bIsGetArrowPos = false;
 
 
 	const static unsigned char Idle = 0;

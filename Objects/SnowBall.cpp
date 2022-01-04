@@ -19,21 +19,21 @@ void SnowBall::InitializeAnimation()
 	// GoToTop
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 0, 0, 48, 48), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 48, 0, 96, 48), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 96, 0, 144, 48), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 144, 0, 192, 48), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 192, 0, 240, 48), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 240, 0, 288, 48), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 0, 48, 48, 96), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 48, 48, 96, 96), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 96, 48, 144, 96), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 0  , 0 , 48, 48), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 48 , 0 , 96, 48), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 96 , 0 , 144, 48), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 144, 0 , 192, 48), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 192, 0 , 240, 48), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 240, 0 , 288, 48), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 0  , 48, 48, 96), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 48 , 48, 96, 96), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 96 , 48, 144, 96), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 144, 48, 192, 96), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 192, 48, 240, 96), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 240, 48, 288, 96), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 0, 96, 48, 144), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 48, 96, 96, 144), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 96, 96, 144, 144), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 0  , 96, 48, 144), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 48 , 96, 96, 144), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 96 , 96, 144, 144), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 144, 96, 192, 144), 0.1f);
 		animation->AddClip(clip);
 	}
@@ -51,6 +51,7 @@ SnowBall::SnowBall(Player * player) : player(player)
 
 SnowBall::~SnowBall()
 {
+	SAFE_DELETE(animation);
 }
 
 void SnowBall::Update(D3DXMATRIX & V, D3DXMATRIX & P)
@@ -64,7 +65,7 @@ void SnowBall::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		ResetStopwatch();
 	}
 	stopwatch.Update();
-	position += direction * 200.0f * Timer->Elapsed();
+	position += direction * 400.0f * Timer->Elapsed();
 
 
 
@@ -86,6 +87,7 @@ void SnowBall::Render()
 	if (!bIsValid)
 		return;
 	animation->Render();
+	ImGui::LabelText("SnowBallPosition :", "%.0f, %.0f", position.x, position.y);
 }
 
 void SnowBall::ResetPosition(D3DXVECTOR2 pos)

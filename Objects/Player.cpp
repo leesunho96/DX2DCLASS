@@ -474,6 +474,8 @@ void Player::Render()
 	if (ImGui::Button("ResetPlayer"))
 	{
 		bGetDamege = false;
+		position = D3DXVECTOR2(0, 0);
+		animation->SetPosition(position);
 	}
 }
 

@@ -45,10 +45,6 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		return;
 	stopwatch->Update();
 
-	if (actorsdata->GetYetiData()->GetSprite()->OBB(sprite))
-	{
-		actorsdata->GetYetiData()->ApplyDamege(sprite);
-	}
 	if (isGoing)
 	{
 		if (!stopwatch->IsOver())
@@ -58,6 +54,10 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			// 
 			//D3DXVec2Normalize()
 			Rotation = GetArrowRotation();
+		}
+		if (actorsdata->GetYetiData()->GetSprite()->OBB(sprite))
+		{
+			actorsdata->GetYetiData()->ApplyDamege(sprite);
 		}
 	}
 	else
@@ -72,6 +72,10 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		else
 		{
 			position += direction * Timer->Elapsed() * 300;
+			if (actorsdata->GetYetiData()->GetSprite()->OBB(sprite))
+			{
+				actorsdata->GetYetiData()->ApplyDamege(sprite);
+			}
 		}
 	}
 
@@ -86,8 +90,8 @@ void Arrow::Render()
 		return;
 
 	sprite->Render();
-	ImGui::LabelText("Position :", "%.0f, %.0f", position.x, position.y);
-	ImGui::LabelText("Rotation :", "%.0f, %.0f, %.0f", Rotation.x, Rotation.y, Rotation.z);
+	//ImGui::LabelText("Position :", "%.0f, %.0f", position.x, position.y);
+	//ImGui::LabelText("Rotation :", "%.0f, %.0f, %.0f", Rotation.x, Rotation.y, Rotation.z);
 
 }
 

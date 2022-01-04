@@ -92,18 +92,18 @@ void Render()
 	D3DXCOLOR bgColor = D3DXCOLOR(0, 0, 0, 0);
 	DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	{
-		ImGui::SliderFloat2("Horizental", (float*)&horizental, -1000, 1000);
-		ImGui::SliderFloat2("Vertical", (float*)&vertical, -1000, 1000);
+		//ImGui::SliderFloat2("Horizental", (float*)&horizental, -1000, 1000);
+		//ImGui::SliderFloat2("Vertical", (float*)&vertical, -1000, 1000);
 
 		for (Scene* scene : scenes)
 		{
 			scene->Render();
 		}
 	}
-	if (ImGui::Button(bIsDebugging ? "SetDebugMode" : "SetNormalMode"))
-	{
-		bIsDebugging ? false : true;
-	}
+	//if (ImGui::Button(bIsDebugging ? "SetDebugMode" : "SetNormalMode"))
+	//{
+	//	bIsDebugging ? false : true;
+	//}
 	ImGui::Render();
 
 	DirectWrite::GetDC()->BeginDraw();
