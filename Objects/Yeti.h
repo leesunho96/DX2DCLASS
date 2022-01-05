@@ -12,12 +12,15 @@ public:
 	~Yeti();
 
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
-	void ActBeforeAICheck();
 	virtual void Render() override;	
 	virtual void ApplyDamege(Sprite* sprite) override;
 	virtual Sprite* GetSprite() override;
 
 private:
+	void ActionWhileDead();
+	void SetDirectionRotationAnimationNum(int &iLocalpresentdirection, int i);
+	void ActivateIcycles();
+	void ActBeforeAICheck();
 	// 행동 반환.
 	unsigned char BehavierTree();
 	// 방향벡터를 일반화된 int 값으로 변환. => 8방향으로 변환, 좌우 degree는 GetRotationDegreeFromDirectionVector() 에서.
@@ -46,12 +49,12 @@ private:
 	bool bIsGetArrowPos = false;
 
 
-	const static unsigned char Idle = 0;
-	const static unsigned char Standing = 1 << 1;
-	const static unsigned char Throwing_SnowBall = 1 << 2;
-	const static unsigned char Roll = 1 << 3;
-	const static unsigned char Die = 1 << 4;
-	const static unsigned char AICheck = 1 << 5;
+	//const static unsigned char Idle = 0;
+	//const static unsigned char Standing = 1 << 1;
+	//const static unsigned char Throwing_SnowBall = 1 << 2;
+	//const static unsigned char Roll = 1 << 3;
+	//const static unsigned char Die = 1 << 4;
+	//const static unsigned char AICheck = 1 << 5;
 	// char : 8비트
 	// 00000000 : Idle
 	// 00000001 : Standing
@@ -62,7 +65,7 @@ private:
 	// 00100000 : 
 	// 01000000 :
 	// 10000000 : 
-	unsigned char PresentState = Idle;
+	unsigned char PresentState = 0;// Idle;
 		
 	
 	
