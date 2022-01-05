@@ -474,6 +474,12 @@ void Player::Render()
 	if (ImGui::Button("ResetPlayer"))
 	{
 		bGetDamege = false;
+		position = D3DXVECTOR2(0, 0);
+		animation->SetPosition(position);
+	}
+	if (ImGui::Button(bIsInvincible ? "SetNormalMode" : "SetInvincibleMode"))
+	{
+		bIsInvincible = bIsInvincible ? false : true;
 	}
 }
 
@@ -493,12 +499,18 @@ void Player::ApplyDamege(Sprite* sprite)
 {
 	if (isRoll)
 		return;
+	if (bIsInvincible)
+		return;
 	bGetDamege = true;
 }
 
 void Player::SetNuckBack(D3DXVECTOR2 position)
 {
+	if (bIsInvincible)
+		return;
 	if (isRoll)
+		return;
+	if (bGetDamege)
 		return;
 	direction = animation->GetPosition() - position;
 	D3DXVec2Normalize(&direction, &direction);

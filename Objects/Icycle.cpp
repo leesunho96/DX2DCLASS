@@ -107,12 +107,11 @@ Icycle::Icycle(int type, Player* player) : stopwatch(StopWatch()), player(player
 	clip = new Clip(PlayMode::Loop);
 	clip->AddFrame(new Sprite(TextureFile, ShaderFile, 230, 969, 250, 983), 1.0f);
 	animation->AddClip(clip);
-
-
+	
 	animation->SetPosition(0, 0);
 	animation->SetRotation(0, 0, 0);
 	animation->SetScale(1, 1);
-	ResetStopWatch(1.0f);
+	ResetStopWatch(0.3f);
 }
 
 Icycle::~Icycle()
@@ -157,7 +156,7 @@ void Icycle::ActWhileHole()
 	if (stopwatch.IsOver())
 	{
 		StateInfo = Invalidate;
-		ResetStopWatch(1.0f);
+		ResetStopWatch(0.3f);
 	}
 	iPlayAnimationNum = 3;
 }
@@ -167,7 +166,7 @@ void Icycle::ActWhileFall()
 	if (stopwatch.IsOver())
 	{
 		StateInfo = ValidateAndHole;
-		ResetStopWatch(1.0f);
+		ResetStopWatch(0.3f);
 	}
 
 	iPlayAnimationNum = 2;
@@ -182,7 +181,7 @@ void Icycle::ActWhileFalling()
 		gravity.SetVelocity(D3DXVECTOR2(0.0f, -200.0f));
 	}
 
-	gravity.SetVelocity(D3DXVECTOR2(0.0f, -200.0f));
+	gravity.SetVelocity(D3DXVECTOR2(0.0f, -400.0f));
 	position = gravity.GetAdjustPosition(position);
 
 	// 플레이어와 고드름이 충돌하면 그에 따른 판정 필요.
@@ -197,7 +196,7 @@ void Icycle::ActWhileFalling()
 	if (stopwatch.IsOver())
 	{
 		StateInfo = ValidateAndFall;
-		ResetStopWatch(1.0f);
+		ResetStopWatch(0.3f);
 	}
 	iPlayAnimationNum = 1;
 }
@@ -207,7 +206,7 @@ void Icycle::ActWhileWaitFalling()
 	if (stopwatch.IsOver())
 	{
 		StateInfo = ValidateAndFalling;
-		ResetStopWatch(1.0f);
+		ResetStopWatch(1.2f);
 	}
 	iPlayAnimationNum = 0;
 }
@@ -235,6 +234,9 @@ void Icycle::SetInvalidate()
 
 void Icycle::SetValidate()
 {
-	StateInfo = ValidateAndWaitFalling;
-	ResetStopWatch(1.0f);
+	if (StateInfo == Invalidate)
+	{
+		StateInfo = ValidateAndWaitFalling;
+		ResetStopWatch(0.3f);
+	}
 }

@@ -53,6 +53,7 @@ private:
 	bool isplayingOtherAnimation = false;
 	bool bIsOverlap = false;
 	bool isCharge = false;
+	bool bIsInvincible = false;
 
 	float stopwatch = 0.0f;
 	float stopTime = 0.0f;

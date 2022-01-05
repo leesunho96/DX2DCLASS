@@ -238,7 +238,7 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), po
 	presentDirection = D3DXVECTOR2(0, 0);
 	animation->SetScale(scale);
 	animation->SetPosition(position);
-	animation->Play(0);
+	animation->Play(0);	
 }
 
 Yeti::~Yeti()
@@ -267,7 +267,7 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			ActionWhileAICheck();
 		}
 		if (!stopwatch.IsOver(0.8f))
-		{
+		{						
 			SetDirectionRotationAnimationNum(iLocalpresentdirection, StandAnimationStart);
 		}
 	}
@@ -396,7 +396,7 @@ void Yeti::ValidateSnowball()
 
 D3DXVECTOR3 Yeti::GetRotationDegreeFromDirectionVector(D3DXVECTOR2 direction)
 {
-	D3DXVECTOR3 result;
+	D3DXVECTOR3 result;	
 	return result = IsActorsToRight(direction) ? D3DXVECTOR3(0, 0, 0) : D3DXVECTOR3(0, 180, 0);
 }
 
@@ -469,7 +469,7 @@ int Yeti::GetDirectionVectorToGeneralIntValues(D3DXVECTOR2 direction)
 }
 
 void Yeti::ResetSnowBallData()
-{
+{	
 	for (auto a : snowballs)
 	{
 		a->SetInvalid();
