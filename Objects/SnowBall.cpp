@@ -65,7 +65,7 @@ void SnowBall::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		ResetStopwatch();
 	}
 	stopwatch.Update();
-	position += direction * 400.0f * Timer->Elapsed();
+	position += direction * 500.0f * Timer->Elapsed();
 
 
 

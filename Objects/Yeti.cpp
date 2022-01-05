@@ -13,7 +13,7 @@
 
 extern ActorsData* actorsdata;
 
-Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), position(position), scale(scale)
+Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), position(position), scale(scale)
 {
 	wstring TextureFile = Textures + L"TianSouls/yeti.png";
 	wstring ShaderFile = Shaders + L"009_Sprite.fx";
@@ -32,13 +32,13 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), pos
 		clip = new Clip(PlayMode::End);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 203, 697, 273, 767), 0.5f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 302, 702, 370, 767), 0.5f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 11, 697, 84, 767)  , 0.5f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 11, 697, 84, 767), 0.5f);
 		animation->AddClip(clip);
 	}
 	// Throw Snow Ball To Up 2
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 4  , 223, 91 , 287), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 4, 223, 91, 287), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 100, 221, 187, 287), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 196, 221, 281, 287), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 306, 200, 366, 287), 0.1f);
@@ -49,7 +49,7 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), pos
 	// Throw Snow Ball To RightUp 3
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 26 , 320, 86 , 382), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 26, 320, 86, 382), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 123, 320, 181, 382), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 219, 320, 278, 382), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 312, 294, 365, 382), 0.1f);
@@ -61,10 +61,10 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), pos
 	// Throw Snow Ball To Right 4 
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 28 , 30, 80 , 93), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 28, 30, 80, 93), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 123, 30, 175, 93), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 220, 30, 271, 93), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 312, 3 , 360, 93), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 312, 3, 360, 93), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 413, 21, 465, 93), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 510, 30, 560, 93), 0.1f);
 		animation->AddClip(clip);
@@ -72,7 +72,7 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), pos
 	// Throw Snow Ball To RightDown 5 
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 16 , 415, 83 , 480), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 16, 415, 83, 480), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 113, 415, 178, 480), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 210, 415, 274, 480), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 310, 387, 362, 480), 0.1f);
@@ -83,7 +83,7 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), pos
 	// Throw Snow Ball To Down 6
 	{
 		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 3  , 222, 90 , 288), 0.1f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 3, 222, 90, 288), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 100, 222, 187, 288), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 197, 222, 281, 288), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 307, 201, 364, 288), 0.1f);
@@ -146,7 +146,7 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), pos
 		clip = new Clip(PlayMode::Stop);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 412, 801, 470, 861), 0.1f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 496, 793, 560, 850), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 805, 656, 850), 0.1f);		
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 805, 656, 850), 0.1f);
 		animation->AddClip(clip);
 	}
 	// Die While See Right 14
@@ -173,11 +173,39 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), pos
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 591, 718, 656, 765), 0.1f);
 		animation->AddClip(clip);
 	}
+	// Stand To Up 17
+	{
+		clip = new Clip(PlayMode::Loop);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 4, 223, 91, 287), 0.1f);
+		animation->AddClip(clip);
+	}
+	// Stand To Right_UP 18
+	{
+		clip = new Clip(PlayMode::Loop);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 26, 320, 86, 382), 0.1f);
+		animation->AddClip(clip);
+	}
+	// Stand To Right 19
+	{
+		clip = new Clip(PlayMode::Loop);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 28, 30, 80, 93), 0.1f);
+		animation->AddClip(clip);
+	}
+	// Stand To Rigt_Down 20
+	{
+		clip = new Clip(PlayMode::Loop);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 16, 415, 83, 480), 0.1f);
+		animation->AddClip(clip);
+	}
+	//Stand To Down 21
+	{
+		clip = new Clip(PlayMode::Loop);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 3, 222, 90, 288), 0.1f);
+		animation->AddClip(clip);
+	}
 
 
 	// 메모리 풀 이용하지 않고, 각 클래스 내부에 validate/invalidate 변수 이용하여 객체 생성/소멸 하지 않고 이용
-
-
 	for (size_t i = 0; i < 5; i++)
 	{
 		icycles[i] = new Icycle(Math::Random(0, 3), actorsdata->GetPlayerData());
@@ -190,9 +218,6 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale): stopwatch(StopWatch()), pos
 
 	// 해당 클래스 연결용 데이터 등록
 	actorsdata->SetData(this);
-
-
-
 	rotation = D3DXVECTOR3(0, 0, 0);
 	scale = D3DXVECTOR2(1, 1);
 	presentDirection = D3DXVECTOR2(0, 0);
@@ -218,11 +243,21 @@ Yeti::~Yeti()
 
 void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-	int iLocalpresentdirection;
+	static int iLocalpresentdirection;
 
 	if (PresentState == AICheck)
 	{
-		ActionWhileAICheck();
+		if (stopwatch.IsOver())
+		{
+			ActionWhileAICheck();
+		}
+		if (!stopwatch.IsOver(0.8f))
+		{			
+			iPlayAnimationNum = 20;
+			iLocalpresentdirection = GetDirectionVectorToGeneralIntValues(presentDirection);
+			rotation = GetRotationDegreeFromDirectionVector(presentDirection);
+			iPlayAnimationNum = GetDirectionVectorToGeneralIntValues(presentDirection) + 17;
+		}
 	}
 	else
 	{
@@ -235,9 +270,7 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			iPlayAnimationNum = 1;
 			if (stopwatch.IsOver())
 			{
-				stopwatch.ResetTimer();
-				stopwatch.SetTimer(1.2f);
-				PresentState = AICheck;
+				ActBeforeAICheck();
 			}
 		}
 		else if (PresentState == Throwing_SnowBall)
@@ -246,9 +279,9 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			if (stopwatch.IsOver())
 			{
 				ResetSnowBallData();
-				PresentState = AICheck;
+				ActBeforeAICheck();
 			}
-			if (stopwatch.IsOver(iPresentBallNum * 0.5f))
+			if (stopwatch.IsOver(iPresentBallNum * 0.6f))
 			{
 				ValidateSnowball();
 			}
@@ -260,7 +293,10 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		}
 		else if (PresentState == Roll)
 		{
-
+			if (stopwatch.IsOver())
+			{
+				ActBeforeAICheck();
+			}
 		}
 		else if (PresentState == Die)
 		{
@@ -292,6 +328,13 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	animation->Update(V, P);
 }
 
+void Yeti::ActBeforeAICheck()
+{
+	stopwatch.ResetTimer();
+	stopwatch.SetTimer(1.2f);
+	PresentState = AICheck;
+}
+
 void Yeti::ValidateSnowball()
 {
 	snowballs[iPresentBallNum]->SetValid();
@@ -318,25 +361,25 @@ int Yeti::GetDirectionVectorToGeneralIntValues(D3DXVECTOR2 direction)
 {
 	// TO UP
 	if (direction.x >= -0.3f && direction.x <= 0.3f
-		&& presentDirection.y > 0)
+		&& direction.y > 0)
 	{
 		return DIRECTION_UP;
 	}
 	// TO Down
 	else if (direction.x >= -0.3f && direction.x <= 0.3f
-		&& presentDirection.y < 0)
+		&& direction.y < 0)
 	{
 		return DIRECTION_DOWN;
 	}
 	// TO RIght_Up
 	else if (direction.x > 0.3f && direction.x < 0.7f
-		&& presentDirection.y > 0)
+		&& direction.y > 0)
 	{
 		return DIRECTION_RIGHTUP;
 	}
 	// TO Right_Down
 	else if (direction.x > 0.3f && direction.x < 0.7f
-		&& presentDirection.y < 0)
+		&& direction.y < 0)
 	{
 		return DIRECTION_RIGHTDOWN;
 	}
@@ -347,13 +390,13 @@ int Yeti::GetDirectionVectorToGeneralIntValues(D3DXVECTOR2 direction)
 	}
 	// TO Left_Up
 	else if (direction.x < -0.3f && direction.x > -0.7f &&
-		presentDirection.y > 0)
+		direction.y > 0)
 	{
 		return DIRECTION_RIGHTUP;
 	}
 	// TO Left_Down
 	else if (direction.x < -0.3f && direction.x > -0.7f &&
-		presentDirection.y < 0)
+		direction.y < 0)
 	{
 		return DIRECTION_RIGHTDOWN;
 	}
@@ -380,7 +423,7 @@ void Yeti::ActionWhileAICheck()
 	PresentState = BehavierTree();
 	GetPresentDirectionToPlayer();
 	stopwatch.ResetTimer();
-	stopwatch.SetTimer(1.5f);
+	stopwatch.SetTimer(1.8f);
 }
 
 void Yeti::GetPresentDirectionToPlayer()

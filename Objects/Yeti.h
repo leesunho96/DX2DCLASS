@@ -12,18 +12,26 @@ public:
 	~Yeti();
 
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
-	void ValidateSnowball();
+	void ActBeforeAICheck();
 	virtual void Render() override;	
 	virtual void ApplyDamege(Sprite* sprite) override;
 	virtual Sprite* GetSprite() override;
 
 private:
+	// 행동 반환.
 	unsigned char BehavierTree();
+	// 방향벡터를 일반화된 int 값으로 변환. => 8방향으로 변환, 좌우 degree는 GetRotationDegreeFromDirectionVector() 에서.
 	int GetDirectionVectorToGeneralIntValues(D3DXVECTOR2 direction);
-	void ResetSnowBallData();
-	void ActionWhileAICheck();
-	void GetPresentDirectionToPlayer();
+	// 현재 방향벡터를 입력받으면 그에 따른 좌/우 degree 값 반환.
 	D3DXVECTOR3 GetRotationDegreeFromDirectionVector(D3DXVECTOR2 direction);
+	// 눈덩이 활성화 메소드.
+	void ValidateSnowball();
+	// 눈덩이 객체들 초기화.
+	void ResetSnowBallData();
+	// AI 실행시 일어나는 메소드
+	void ActionWhileAICheck();
+	// 현재 플레이어 방향으로의 벡터 구하는 메소드
+	void GetPresentDirectionToPlayer();
 	
 public:
 
@@ -63,6 +71,7 @@ private:
 	int iSnowballTurnNum = 0;
 	int iRollTurnNum = 0;
 	int iPresentBallNum = 0;
+
 	Animation* animation;
 	SnowBall* snowballs[3];
 	Icycle* icycles[5];
