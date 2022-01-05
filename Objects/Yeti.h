@@ -17,6 +17,7 @@ public:
 	virtual Sprite* GetSprite() override;
 
 private:
+	bool IsActorsToRight(D3DXVECTOR2 &direction);
 	void ActionWhileDead();
 	void SetDirectionRotationAnimationNum(int &iLocalpresentdirection, int i);
 	void ActivateIcycles();
@@ -27,6 +28,7 @@ private:
 	int GetDirectionVectorToGeneralIntValues(D3DXVECTOR2 direction);
 	// 현재 방향벡터를 입력받으면 그에 따른 좌/우 degree 값 반환.
 	D3DXVECTOR3 GetRotationDegreeFromDirectionVector(D3DXVECTOR2 direction);
+
 	// 눈덩이 활성화 메소드.
 	void ValidateSnowball();
 	// 눈덩이 객체들 초기화.

@@ -206,7 +206,7 @@ void Icycle::ActWhileWaitFalling()
 	if (stopwatch.IsOver())
 	{
 		StateInfo = ValidateAndFalling;
-		ResetStopWatch(0.3f);
+		ResetStopWatch(1.2f);
 	}
 	iPlayAnimationNum = 0;
 }
@@ -234,6 +234,9 @@ void Icycle::SetInvalidate()
 
 void Icycle::SetValidate()
 {
-	StateInfo = ValidateAndWaitFalling;
-	ResetStopWatch(0.3f);
+	if (StateInfo == Invalidate)
+	{
+		StateInfo = ValidateAndWaitFalling;
+		ResetStopWatch(0.3f);
+	}
 }

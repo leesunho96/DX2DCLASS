@@ -18,13 +18,14 @@
 #define Die                 1 << 4 
 #define AICheck             1 << 5 
 
-#define IdleAnimationStart 0
-#define StandingAnimationStart 1
-#define ThrowingBallAnimationStart 2
-#define RollAnimationStart 7
-#define DieAnimationStart 12
-#define StandAnimationStart 17
+#define IdleAnimationStart          0
+#define StandingAnimationStart      1
+#define ThrowingBallAnimationStart  2
+#define RollAnimationStart          7
+#define DieAnimationStart           12
+#define StandAnimationStart         17
 
+#define SPEED 700
 extern ActorsData* actorsdata;
 
 Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), position(position), scale(scale)
@@ -237,8 +238,7 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), po
 	presentDirection = D3DXVECTOR2(0, 0);
 	animation->SetScale(scale);
 	animation->SetPosition(position);
-	animation->Play(0);
-	
+	animation->Play(0);	
 }
 
 Yeti::~Yeti()
@@ -313,9 +313,13 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			}
 			else
 			{
-
+				position += presentDirection * SPEED * Timer->Elapsed();
+				if (actorsdata->GetPlayerData()->GetSprite()->OBB(animation->GetSprite()))
+				{
+					actorsdata->GetPlayerData()->ApplyDamege(animation->GetSprite());
+				}
 			}
-
+			SetDirectionRotationAnimationNum(iLocalpresentdirection, RollAnimationStart);
 		}
 		else if (PresentState == Die)
 		{
@@ -364,7 +368,14 @@ void Yeti::ActivateIcycles()
 	for (size_t i = 0; i < 5; i++)
 	{
 		icycles[i]->SetValidate();
-		icycles[i]->SetPosition(this->position + D3DXVECTOR2(0, 100) + D3DXVECTOR2(-200, -200) + (i * D3DXVECTOR2(100, 100)));
+		if (IsActorsToRight(presentDirection))
+		{
+			icycles[i]->SetPosition(this->position + D3DXVECTOR2(0, 100) + D3DXVECTOR2(-200, -200) + (i * D3DXVECTOR2(100, 100)));
+		}
+		else
+		{
+			icycles[i]->SetPosition(this->position + D3DXVECTOR2(0, 100) + D3DXVECTOR2(200, -200) + (i * D3DXVECTOR2(100, 100)));
+		}
 	}
 }
 
@@ -385,14 +396,22 @@ void Yeti::ValidateSnowball()
 
 D3DXVECTOR3 Yeti::GetRotationDegreeFromDirectionVector(D3DXVECTOR2 direction)
 {
-	D3DXVECTOR3 result;
-	if (direction.x >= -0.3f && direction.x <= 1.0f)
+	D3DXVECTOR3 result;	
+	return result = IsActorsToRight(direction) ? D3DXVECTOR3(0, 0, 0) : D3DXVECTOR3(0, 180, 0);
+}
+
+bool Yeti::IsActorsToRight(D3DXVECTOR2 &direction)
+{
+	bool result;
+	if (direction.x >= 0 && direction.x <= 1.0f)
 	{
-		result = D3DXVECTOR3(0, 0, 0);
+		//result = D3DXVECTOR3(0, 0, 0);
+		result = true;
 	}
-	else if (direction.x >= -1.0f && direction.x < -0.3f)
+	else if (direction.x >= -1.0f && direction.x < 0)
 	{
-		result = D3DXVECTOR3(0, 180, 0);
+		result = false;
+		//result = D3DXVECTOR3(0, 180, 0);
 	}
 	return result;
 }

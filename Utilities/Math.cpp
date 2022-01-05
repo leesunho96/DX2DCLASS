@@ -32,6 +32,7 @@ float Math::ToDegree(float radian)
 // 입력값에 순서는 없다.
 float Math::Random(float r1, float r2)
 {
+	srand(time(NULL));
 	// random : r1과 r2사이의 랜덤값 생성을 위해 랜덤값 구하기. RAND_MAX로 나누었기 때문에 1보다 작을것이다.
 	float random = ((float)rand()) / (float)RAND_MAX;
 	// r2와 r1의 차이값 구하기. 추후 random과 곱하여 r1 과 더한 후 반환
