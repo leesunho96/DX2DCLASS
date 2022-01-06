@@ -60,9 +60,6 @@
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="Program.cpp" />
-    <ClCompile Include="Scene\Stage2.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\Fire.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -90,9 +87,6 @@
     <ClCompile Include="Objects\Icycle.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Yeti.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Physics\CollisionSystem.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
@@ -107,6 +101,12 @@
     </ClCompile>
     <ClCompile Include="Data\Collision.cpp">
       <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Stage2.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Yeti.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
