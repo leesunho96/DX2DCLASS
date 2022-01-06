@@ -44,12 +44,12 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), po
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 302, 702, 370, 767), 999.0f);
 		animation->AddClip(clip);
 	}
-	// Standing (Begin Start) 1
+	// Standing (Begin Start) 
 	{
 		clip = new Clip(PlayMode::End);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 203, 697, 273, 767), 0.5f);
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 302, 702, 370, 767), 0.5f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 11, 697, 84, 767), 0.5f);
+		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 11, 697, 84, 767)  , 0.5f);
 		animation->AddClip(clip);
 	}
 	// Throw Snow Ball To Up 2
@@ -282,7 +282,7 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		}
 		else if (PresentState == Standing)
 		{
-			iPlayAnimationNum = StandAnimationStart;
+			iPlayAnimationNum = StandingAnimationStart;
 			if (stopwatch.IsOver())
 			{
 				ActBeforeAICheck();
