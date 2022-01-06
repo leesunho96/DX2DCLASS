@@ -11,7 +11,7 @@ Arrow::Arrow(wstring spriteFile, wstring shaderFile)
 	sprite->SetAbsoluteScale((float)10, (float)30);
 	sprite->Position(0, 0);
 	sprite->Rotation(0, 0, 0);
-
+	sprite->DrawBound(true);
 	stopwatch = new StopWatch();
 	stopwatch->SetTimer(1.0f);
 }
@@ -54,10 +54,10 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			// 
 			//D3DXVec2Normalize()
 			Rotation = GetArrowRotation();
-		}
-		if (actorsdata->GetYetiData()->GetSprite()->OBB(sprite))
-		{
-			actorsdata->GetYetiData()->ApplyDamege(sprite);
+			if (actorsdata->GetYetiData()->GetSprite()->OBB(sprite))
+			{
+				AttackToEnemy();
+			}
 		}
 	}
 	else
@@ -74,14 +74,26 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			position += direction * Timer->Elapsed() * 300;
 			if (actorsdata->GetYetiData()->GetSprite()->OBB(sprite))
 			{
-				actorsdata->GetYetiData()->ApplyDamege(sprite);
+				AttackToEnemy();
 			}
 		}
 	}
-
 	sprite->Rotation(Rotation);
 	sprite->Position(position);
 	sprite->Update(V, P);
+}
+
+void Arrow::AttackToEnemy()
+{
+	if (actorsdata->GetYetiData()->IsAttackable())
+	{
+		actorsdata->GetYetiData()->ApplyDamege(sprite);
+	}
+	else
+	{
+		direction = GetReflectionVector(direction, GetWhichSideIsCollideWighEnemy(actorsdata->GetYetiData()->GetSprite()));
+		position += direction * 10;
+	}
 }
 
 void Arrow::Render()
@@ -90,9 +102,6 @@ void Arrow::Render()
 		return;
 
 	sprite->Render();
-	//ImGui::LabelText("Position :", "%.0f, %.0f", position.x, position.y);
-	//ImGui::LabelText("Rotation :", "%.0f, %.0f, %.0f", Rotation.x, Rotation.y, Rotation.z);
-
 }
 
 D3DXVECTOR3 Arrow::GetArrowRotation()
@@ -154,3 +163,106 @@ D3DXVECTOR2 Arrow::GetArrowDirectionToPlayer(D3DXVECTOR2 playerPos)
 }
 
 
+D3DXVECTOR2 Arrow::GetReflectionVector(D3DXVECTOR2 velocity, int itype)
+{
+	D3DXVECTOR2 v2n;
+
+	switch (itype)
+	{
+	case 0:
+		v2n = D3DXVECTOR2(0, 1);
+		break;
+	case 1:
+		v2n = D3DXVECTOR2(0, -1);
+		break;
+	case 2:
+		v2n = D3DXVECTOR2(1, 0);
+		break;
+	case 3:
+		v2n = D3DXVECTOR2(-1, 0);
+		break;
+	}
+
+	return velocity + 2 * v2n *(D3DXVec2Dot(&(-velocity), &v2n));
+}
+
+int	Arrow::GetWhichSideIsCollideWighEnemy(Sprite* enemy)
+{
+	int result;
+	RECT intersectRECT;
+	RECT ArrowRECT;
+	RECT enemyRECT;
+
+	ArrowRECT.top    = sprite->Position().y - sprite->TextureSize().y * 0.5f;
+	ArrowRECT.bottom = sprite->Position().y + sprite->TextureSize().y * 0.5f;
+	ArrowRECT.left   = sprite->Position().x - sprite->TextureSize().x * 0.5f;
+	ArrowRECT.right  = sprite->Position().x + sprite->TextureSize().x * 0.5f;
+
+	enemyRECT.top = actorsdata->GetYetiData()->GetSprite()->Position().y - 
+		actorsdata->GetYetiData()->GetSprite()->TextureSize().y * 0.5f;
+	enemyRECT.bottom = actorsdata->GetYetiData()->GetSprite()->Position().y +
+		actorsdata->GetYetiData()->GetSprite()->TextureSize().y * 0.5f;	
+	enemyRECT.left = actorsdata->GetYetiData()->GetSprite()->Position().x -
+		actorsdata->GetYetiData()->GetSprite()->TextureSize().x * 0.5f;
+	enemyRECT.right = actorsdata->GetYetiData()->GetSprite()->Position().x +
+		actorsdata->GetYetiData()->GetSprite()->TextureSize().x * 0.5f;
+
+	IntersectRect(&intersectRECT, &ArrowRECT, &enemyRECT);
+
+	// 교차하는 사각형의 길이가 가로보다 세로가 길다 => 좌/우
+	if (abs(intersectRECT.bottom - intersectRECT.top) > abs(intersectRECT.right - intersectRECT.left))
+	{
+		// 가로가 세로보다 길고, enemy의 x좌표가 arrow의 x좌표보다 클 경우 : 화살이 enemy의 좌측으로 충돌
+		if (enemy->Position().x > sprite->Position().x)
+		{
+			result = 2;
+		}
+		// 우측으로 충돌
+		else
+		{
+			result = 3;
+		}
+	}
+	// 교차하는 사각형의 길이가 가로보다 세로가 짧거나 같다 => 상/하
+	else
+	{
+		if (enemy->Position().y > sprite->Position().y)
+		{
+			result = 0;
+		}
+		else
+		{
+			result = 1;
+		}
+	}
+	return result;
+}
+
+
+//int	Arrow::GetWhichSideIsCollideWighEnemy(Sprite* enemy)
+//{
+//	int result;
+//
+//	D3DXVECTOR2 topPos;
+//	topPos.x = sprite->Position().x + sprite->TextureSize().x * 0.5f * direction.x;
+//	topPos.y = sprite->Position().y + sprite->TextureSize().y * 0.5f * direction.y;
+//
+//	RECT enemyRECT;
+//	enemyRECT.top = actorsdata->GetYetiData()->GetSprite()->Position().y - 
+//		actorsdata->GetYetiData()->GetSprite()->TextureSize().y * 0.5f;
+//	enemyRECT.bottom = actorsdata->GetYetiData()->GetSprite()->Position().y +
+//		actorsdata->GetYetiData()->GetSprite()->TextureSize().y * 0.5f;	
+//	enemyRECT.left = actorsdata->GetYetiData()->GetSprite()->Position().x -
+//		actorsdata->GetYetiData()->GetSprite()->TextureSize().x * 0.5f;
+//	enemyRECT.right = actorsdata->GetYetiData()->GetSprite()->Position().x +
+//		actorsdata->GetYetiData()->GetSprite()->TextureSize().x * 0.5f;
+//
+//	float adjustValue = 10.0f;
+//	if (topPos.x < enemyRECT.left + adjustValue && (topPos.y < enemyRECT.bottom + adjustValue))
+//	{
+//		// 왼쪽으로 충돌
+//	}
+//
+//
+//	return result;
+//}

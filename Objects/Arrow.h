@@ -22,6 +22,7 @@ public:
 	void SetpPlayerPosition(D3DXVECTOR2* pPos) { this->pPlayerPosition = pPos; };
 
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
+	void AttackToEnemy();
 	void Render();
 
 
@@ -41,4 +42,10 @@ private:
 	D3DXVECTOR3 GetArrowRotation();
 	D3DXVECTOR3 GetArrowRotationByPoint(D3DXVECTOR2 point1, D3DXVECTOR2 point2);
 	D3DXVECTOR2 GetArrowDirectionToPlayer(D3DXVECTOR2 playerPos);
+
+	// itype : 0 => 하단, 1=> 상단, 2=>좌측, 3=> 우측
+	D3DXVECTOR2 GetReflectionVector(D3DXVECTOR2 velocity, int itype);
+	// return : 0 => 하단, 1=> 상단, 2=>좌측, 3=> 우측
+	int	GetWhichSideIsCollideWighEnemy(Sprite* enemy);
+
 };

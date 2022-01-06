@@ -87,8 +87,6 @@ bool CollisionSystem::CollisionTest(RECT spritestatus)
 		index++;
 	}
 	return isColide;
-
-	return false;
 }
 
 float CollisionSystem::GetDegree(Sprite* sprite)

@@ -15,6 +15,8 @@ public:
 	virtual void Render() override;	
 	virtual void ApplyDamege(Sprite* sprite) override;
 	virtual Sprite* GetSprite() override;
+	bool IsAttackable();
+
 
 private:
 	bool IsActorsToRight(D3DXVECTOR2 &direction);
@@ -37,7 +39,7 @@ private:
 	void ActionWhileAICheck();
 	// 현재 플레이어 방향으로의 벡터 구하는 메소드
 	void GetPresentDirectionToPlayer();
-	
+	void PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXVECTOR2 direction, float Speed, D3DXMATRIX & V, D3DXMATRIX & P);
 public:
 
 private:

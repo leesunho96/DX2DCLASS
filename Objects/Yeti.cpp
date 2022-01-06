@@ -4,7 +4,9 @@
 #include "Icycle.h"
 #include "Player.h"
 #include "Arrow.h"
+#include "Physics/CollisionSystem.h"
 
+extern CollisionSystem* collisionsystem;
 #define DIRECTION_UP        0
 #define DIRECTION_RIGHTUP   1
 #define DIRECTION_RIGHT     2
@@ -238,6 +240,7 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), po
 	presentDirection = D3DXVECTOR2(0, 0);
 	animation->SetScale(scale);
 	animation->SetPosition(position);
+	animation->DrawBound(true);
 	animation->Play(0);	
 }
 
@@ -310,10 +313,11 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			if (stopwatch.IsOver(0.7f))
 			{
 				ActivateIcycles();
+				PlayerMove(position, Timer->Elapsed(), D3DXVECTOR2(1 - presentDirection.x, 1 - presentDirection.y), 100, V, P);				
 			}
 			else
 			{
-				position += presentDirection * SPEED * Timer->Elapsed();
+				PlayerMove(position, Timer->Elapsed(), presentDirection, SPEED , V, P);
 				if (actorsdata->GetPlayerData()->GetSprite()->OBB(animation->GetSprite()))
 				{
 					actorsdata->GetPlayerData()->ApplyDamege(animation->GetSprite());
@@ -368,13 +372,16 @@ void Yeti::ActivateIcycles()
 	for (size_t i = 0; i < 5; i++)
 	{
 		icycles[i]->SetValidate();
-		if (IsActorsToRight(presentDirection))
+		if (!icycles[i]->GetValidate())
 		{
-			icycles[i]->SetPosition(this->position + D3DXVECTOR2(0, 100) + D3DXVECTOR2(-200, -200) + (i * D3DXVECTOR2(100, 100)));
-		}
-		else
-		{
-			icycles[i]->SetPosition(this->position + D3DXVECTOR2(0, 100) + D3DXVECTOR2(200, -200) + (i * D3DXVECTOR2(100, 100)));
+			if (IsActorsToRight(presentDirection))
+			{
+				icycles[i]->SetPosition(this->position + D3DXVECTOR2(0, 100) + D3DXVECTOR2(-100, -100) + (i * D3DXVECTOR2(100, 100)));
+			}
+			else
+			{
+				icycles[i]->SetPosition(this->position + D3DXVECTOR2(0, 100) + D3DXVECTOR2(100, -100) + (i * D3DXVECTOR2(100, 100)));
+			}
 		}
 	}
 }
@@ -516,6 +523,11 @@ Sprite * Yeti::GetSprite()
 	return animation->GetSprite();
 }
 
+bool Yeti::IsAttackable()
+{
+	return PresentState == Idle || PresentState == Throwing_SnowBall || PresentState == AICheck ? true : false;
+}
+
 unsigned char Yeti::BehavierTree()
 {
 	unsigned char result;
@@ -570,3 +582,14 @@ void Yeti::ApplyDamege(Sprite * sprite)
 	}
 }
 
+void Yeti::PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXVECTOR2 direction, float Speed, D3DXMATRIX & V, D3DXMATRIX & P)
+{
+	position += direction * timerelapse * Speed;
+	animation->SetPosition(position);
+	while (collisionsystem->CollisionTest(animation->GetSpriteStatusByRect()))
+	{
+		position -= -direction * timerelapse * Speed;
+		animation->SetPosition(position);
+		animation->Update(V, P);
+	}
+}

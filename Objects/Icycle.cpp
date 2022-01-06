@@ -237,6 +237,6 @@ void Icycle::SetValidate()
 	if (StateInfo == Invalidate)
 	{
 		StateInfo = ValidateAndWaitFalling;
-		ResetStopWatch(0.3f);
+		ResetStopWatch(1.0f);
 	}
 }
