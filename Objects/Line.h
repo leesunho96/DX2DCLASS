@@ -74,6 +74,4 @@ private:
 	bool IsLinePointInSpriteHeight(SpriteStatus spritestatus);
 
 	bool IsInArea(SpriteStatus input);
-
-
 };

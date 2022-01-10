@@ -16,7 +16,7 @@ public:
 
 	void SetInvalidate();
 	void SetValidate();
-	bool GetValidate() { return StateInfo == Invalidate ? true : false; };
+	bool GetValidate() { return StateInfo == Invalidate ? false : true; };
 	
 
 private:

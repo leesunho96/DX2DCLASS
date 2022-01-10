@@ -19,7 +19,7 @@ public:
 	bool CollisionTest(Sprite* sprite);
 	bool CollisionTest(RECT spritestatus);
 	float GetDegree(Sprite* sprite);
-
+	D3DXVECTOR2 GetGoBackVector(Sprite* sprite);
 
 	// 해당 충돌 시스템을 위한 선/좌표 입력 메소드.
 	void PushMarkerByCode(D3DXVECTOR2 Point);
@@ -27,7 +27,7 @@ public:
 	void PushLineByCode(vector<Line*> line);
 	void GetCollisionData(CollisionData* data);
 	//void PushCollisionSettingByDesc(LineDesc& desc); // 라인과 마커 별개로 인식.
-
+	void GetInArea(Sprite* sprite);
 	// 기존에 입력된 충돌 좌표/선 초기화 메소드
 	void ClearMarkersAndLines();
 
@@ -37,6 +37,8 @@ public:
 	bool GetIsOnUpperLine(D3DXVECTOR2 point);
 
 private:
+	vector<bool>& GetDistanceBetweenLineAndZeroPosition(vector<Line*> lines);
+private:
 	D3DXVECTOR2 mpos;
 	//vector<Marker*> markers;
 	//vector<Line*> lines;
@@ -44,6 +46,7 @@ private:
 	Player* player;
 	vector<int> CollideLineIndexVector;
 	bool bIsRenderMarker = true;
+	vector<bool> bDistanceIsPositive;
 private:
 	CollisionData* collisiondata;
 };

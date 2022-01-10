@@ -457,7 +457,11 @@ void Player::PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXMATRIX & V
 	animation->SetPosition(position);
 	while (collisionsystem->CollisionTest(animation->GetSpriteStatusByRect()))
 	{
-		position -= pastDirection * timerelapse * moveSpeed;
+		D3DXVECTOR2 temp(animation->GetPosition());
+		temp = -temp;
+		D3DXVec2Normalize(&temp, &temp);
+
+		position += temp;//pastDirection * timerelapse * moveSpeed;
 		animation->SetPosition(position);
 		animation->Update(V, P);
 	}

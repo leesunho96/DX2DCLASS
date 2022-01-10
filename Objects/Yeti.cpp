@@ -37,22 +37,22 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), po
 
 	animation = new Animation();
 	Clip* clip;
-
-	// Idle 0
 	{
-		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 302, 702, 370, 767), 999.0f);
-		animation->AddClip(clip);
-	}
+		// Idle 0
+		{
+			clip = new Clip(PlayMode::Loop);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 302, 702, 370, 767), 999.0f);
+			animation->AddClip(clip);
+		}
 
-	// Standing (Begin Start) 
-	{
-		clip = new Clip(PlayMode::End);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 203, 697, 273, 767), 0.5f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 302, 702, 370, 767), 0.5f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 11, 697, 84, 767)  , 0.5f);
-		animation->AddClip(clip);
-	}
+		// Standing (Begin Start) 
+		{
+			clip = new Clip(PlayMode::End);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 203, 697, 273, 767), 0.5f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 302, 702, 370, 767), 0.5f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 11, 697, 84, 767), 0.5f);
+			animation->AddClip(clip);
+		}}
 	// Throw Snow Ball To Up 2
 	{
 		clip = new Clip(PlayMode::Loop);
@@ -109,87 +109,90 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), po
 		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 494, 222, 562, 288), 0.1f);
 		animation->AddClip(clip);
 	}
+	{
+		// Roll To Up 7
+		{
+			clip = new Clip(PlayMode::Loop);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 128, 655, 190), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 688, 128, 750, 190), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 784, 128, 846, 190), 0.1f);
+			animation->AddClip(clip);
+		}
+		// Roll To RightUp 8 
+		{
+			clip = new Clip(PlayMode::Loop);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 320, 655, 381), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 688, 320, 750, 381), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 784, 320, 846, 381), 0.1f);
+			animation->AddClip(clip);
+		}
+		// Roll To Right 9
+		{
+			clip = new Clip(PlayMode::Loop);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 32, 655, 94), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 688, 32, 750, 94), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 784, 32, 846, 94), 0.1f);
+			animation->AddClip(clip);
+		}
+		// Roll To RightDown 10
+		{
+			clip = new Clip(PlayMode::Loop);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 415, 655, 478), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 688, 415, 750, 478), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 784, 415, 846, 478), 0.1f);
+			animation->AddClip(clip);
+		}
+		// Roll To Down 11
+		{
+			clip = new Clip(PlayMode::Loop);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 223, 655, 286), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 688, 223, 750, 286), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 784, 223, 846, 286), 0.1f);
+			animation->AddClip(clip);
+		}
+	}
+	{
+		// Die While See Up 12
+		{
+			clip = new Clip(PlayMode::Stop);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 391, 604, 473, 670), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 496, 613, 557, 670), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 595, 634, 652, 670), 0.1f);
+			animation->AddClip(clip);
+		}
+		// Die While See RightUp 13
+		{
+			clip = new Clip(PlayMode::Stop);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 412, 801, 470, 861), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 496, 793, 560, 850), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 805, 656, 850), 0.1f);
+			animation->AddClip(clip);
+		}
+		// Die While See Right 14
+		{
+			clip = new Clip(PlayMode::Stop);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 412, 515, 463, 574), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 493, 521, 570, 574), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 589, 543, 668, 574), 0.1f);
+			animation->AddClip(clip);
+		}
+		// Die While See RightDown 15
+		{
+			clip = new Clip(PlayMode::Stop);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 404, 898, 467, 954), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 499, 905, 565, 954), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 594, 909, 660, 954), 0.1f);
+			animation->AddClip(clip);
+		}
+		// Die While See Down 16
 
-	// Roll To Up 7
-	{
-		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 128, 655, 190), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 688, 128, 750, 190), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 784, 128, 846, 190), 0.1f);
-		animation->AddClip(clip);
-	}
-	// Roll To RightUp 8 
-	{
-		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 320, 655, 381), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 688, 320, 750, 381), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 784, 320, 846, 381), 0.1f);
-		animation->AddClip(clip);
-	}
-	// Roll To Right 9
-	{
-		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 32, 655, 94), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 688, 32, 750, 94), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 784, 32, 846, 94), 0.1f);
-		animation->AddClip(clip);
-	}
-	// Roll To RightDown 10
-	{
-		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 415, 655, 478), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 688, 415, 750, 478), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 784, 415, 846, 478), 0.1f);
-		animation->AddClip(clip);
-	}
-	// Roll To Down 11
-	{
-		clip = new Clip(PlayMode::Loop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 223, 655, 286), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 688, 223, 750, 286), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 784, 223, 846, 286), 0.1f);
-		animation->AddClip(clip);
-	}
-
-	// Die While See Up 12
-	{
-		clip = new Clip(PlayMode::Stop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 391, 604, 473, 670), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 496, 613, 557, 670), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 595, 634, 652, 670), 0.1f);
-		animation->AddClip(clip);
-	}
-	// Die While See RightUp 13
-	{
-		clip = new Clip(PlayMode::Stop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 412, 801, 470, 861), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 496, 793, 560, 850), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 593, 805, 656, 850), 0.1f);
-		animation->AddClip(clip);
-	}
-	// Die While See Right 14
-	{
-		clip = new Clip(PlayMode::Stop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 412, 515, 463, 574), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 493, 521, 570, 574), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 589, 543, 668, 574), 0.1f);
-		animation->AddClip(clip);
-	}
-	// Die While See RightDown 15
-	{
-		clip = new Clip(PlayMode::Stop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 404, 898, 467, 954), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 499, 905, 565, 954), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 594, 909, 660, 954), 0.1f);
-		animation->AddClip(clip);
-	}
-	// Die While See Down 16
-	{
-		clip = new Clip(PlayMode::Stop);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 389, 707, 475, 765), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 495, 718, 561, 765), 0.1f);
-		clip->AddFrame(new Sprite(TextureFile, ShaderFile, 591, 718, 656, 765), 0.1f);
-		animation->AddClip(clip);
+		{
+			clip = new Clip(PlayMode::Stop);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 389, 707, 475, 765), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 495, 718, 561, 765), 0.1f);
+			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 591, 718, 656, 765), 0.1f);
+			animation->AddClip(clip);
+		}
 	}
 	// Stand To Up 17
 	{
@@ -222,18 +225,18 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), po
 		animation->AddClip(clip);
 	}
 
-
-	// 메모리 풀 이용하지 않고, 각 클래스 내부에 validate/invalidate 변수 이용하여 객체 생성/소멸 하지 않고 이용
-	for (size_t i = 0; i < 5; i++)
 	{
-		icycles[i] = new Icycle(Math::Random(0, 3), actorsdata->GetPlayerData());
+		// 메모리 풀 이용하지 않고, 각 클래스 내부에 validate/invalidate 변수 이용하여 객체 생성/소멸 하지 않고 이용
+		for (size_t i = 0; i < 5; i++)
+		{
+			icycles[i] = new Icycle(Math::Random(0, 3), actorsdata->GetPlayerData());
+		}
+		for (size_t i = 0; i < 3; i++)
+		{
+			snowballs[i] = new SnowBall();
+			snowballs[i]->SetPlayer(actorsdata->GetPlayerData());
+		}
 	}
-	for (size_t i = 0; i < 3; i++)
-	{
-		snowballs[i] = new SnowBall();
-		snowballs[i]->SetPlayer(actorsdata->GetPlayerData());
-	}
-
 	// 해당 클래스 연결용 데이터 등록
 	actorsdata->SetData(this);
 	rotation = D3DXVECTOR3(0, 0, 0);
@@ -245,6 +248,111 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), po
 	animation->Play(0);	
 }
 
+void Yeti::SetHitboxPosition(RECT & rect, int iPlayAnimation)
+{
+//#define IdleAnimationStart          0
+//#define StandingAnimationStart      1
+//#define ThrowingBallAnimationStart  2
+//#define RollAnimationStart          7
+//#define DieAnimationStart           12
+//#define StandAnimationStart         17
+	function<void(RECT&)> a = [&rect](RECT& rect) 
+	{
+		rect.top = 0;
+		rect.bottom = 0;
+		rect.right = 0;
+		rect.left = 0; 
+	};
+
+	switch (iPlayAnimation)
+	{
+		case StandAnimationStart:
+		rect.top = position.y - animation->TextureSize().y * 0.5f;
+		rect.bottom = position.y - animation->GetScale().y * 8.0f;
+		rect.left = position.x - animation->GetScale().x * 15.0f;
+		rect.right = position.x + animation->GetScale().x * 15.0f;
+		break;
+	case StandAnimationStart + 1:
+		if (IsActorsToRight(presentDirection))
+		{
+			rect.top = position.y - animation->TextureSize().y * 0.5f;
+			rect.bottom = position.y - animation->GetScale().y * 8.0f;
+			rect.left = position.x - animation->TextureSize().x * 0.5f;
+			rect.right = position.x + animation->GetScale().x * 8.0f;
+		}
+		else
+		{
+			rect.top = position.y - animation->TextureSize().y * 0.5f;
+			rect.bottom = position.y - animation->GetScale().y * 8.0f;
+			rect.left = position.x - animation->GetScale().x * 8.0f;// animation->TextureSize().x * 0.5f;
+			rect.right = position.x + animation->TextureSize().x * 0.5f; //animation->GetScale().x * 8.0f;
+		}
+		break;
+	case StandAnimationStart + 2:
+		if (IsActorsToRight(presentDirection))
+		{
+			rect.top    = position.y - animation->TextureSize().y * 0.5f;
+			rect.bottom = position.y;
+			rect.left   = position.x - animation->TextureSize().x * 0.5f;
+			rect.right  = position.x - animation->TextureSize().x * 0.5f + animation->GetScale().x * 10.0f;
+		}
+		else
+		{
+			rect.top    = position.y - animation->TextureSize().y * 0.5f;
+			rect.bottom = position.y;
+			rect.left   = position.x + animation->TextureSize().x * 0.5f - animation->GetScale().x * 10.0f;
+			rect.right  = position.x + animation->TextureSize().x * 0.5f;// +animation->GetScale().x * 10.0f;
+		}
+		break;
+	case StandingAnimationStart:
+		rect.top = position.y - animation->TextureSize().y * 0.5f;
+		rect.bottom = position.y - animation->GetScale().y * 8.0f;
+		rect.left = position.x - animation->GetScale().x * 15.0f;
+		rect.right = position.x + animation->GetScale().x * 15.0f;
+		break;
+	case ThrowingBallAnimationStart:
+		rect.top = position.y - animation->TextureSize().y * 0.5f;
+		rect.bottom = position.y - animation->GetScale().y * 8.0f;
+		rect.left = position.x - animation->GetScale().x * 15.0f;
+		rect.right = position.x + animation->GetScale().x * 15.0f;
+		break;
+	case ThrowingBallAnimationStart + 1:
+		if (IsActorsToRight(presentDirection))
+		{
+			rect.top = position.y - animation->TextureSize().y * 0.5f;
+			rect.bottom = position.y - animation->GetScale().y * 8.0f;
+			rect.left = position.x - animation->TextureSize().x * 0.5f;
+			rect.right = position.x + animation->GetScale().x * 8.0f;
+		}
+		else
+		{
+			rect.top = position.y - animation->TextureSize().y * 0.5f;
+			rect.bottom = position.y - animation->GetScale().y * 8.0f;
+			rect.left = position.x - animation->GetScale().x * 8.0f;// animation->TextureSize().x * 0.5f;
+			rect.right = position.x + animation->TextureSize().x * 0.5f; //animation->GetScale().x * 8.0f;
+		}
+		break;
+	case ThrowingBallAnimationStart + 2:
+		if (IsActorsToRight(presentDirection))
+		{
+			rect.top = position.y - animation->TextureSize().y * 0.5f;
+			rect.bottom = position.y;
+			rect.left = position.x - animation->TextureSize().x * 0.5f;
+			rect.right = position.x - animation->TextureSize().x * 0.5f + animation->GetScale().x * 10.0f;
+		}
+		else
+		{
+			rect.top = position.y - animation->TextureSize().y * 0.5f;
+			rect.bottom = position.y;
+			rect.left = position.x + animation->TextureSize().x * 0.5f - animation->GetScale().x * 10.0f;
+			rect.right = position.x + animation->TextureSize().x * 0.5f;// +animation->GetScale().x * 10.0f;
+		}
+		break;
+	default:
+		a(rect);
+		break;
+	}
+}
 Yeti::~Yeti()
 {
 	for (auto a : snowballs)
@@ -260,7 +368,7 @@ Yeti::~Yeti()
 }
 
 void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
-{
+{	
 	position = animation->GetPosition();
 	static int iLocalpresentdirection;
 
@@ -372,16 +480,16 @@ void Yeti::ActivateIcycles()
 {
 	for (size_t i = 0; i < 5; i++)
 	{
-		icycles[i]->SetValidate();
-		if (!icycles[i]->GetValidate())
+		if (!(icycles[i]->GetValidate()))
 		{
+			icycles[i]->SetValidate();
 			if (IsActorsToRight(presentDirection))
 			{
-				icycles[i]->SetPosition(this->position + D3DXVECTOR2(0, 100) + D3DXVECTOR2(-100, -100) + (i * D3DXVECTOR2(100, 100)));
+				icycles[i]->SetPosition(this->position + D3DXVECTOR2(0, 100) + D3DXVECTOR2(-100, -100) + ((float)i * D3DXVECTOR2(100, 100)));
 			}
 			else
 			{
-				icycles[i]->SetPosition(this->position + D3DXVECTOR2(0, 100) + D3DXVECTOR2(100, -100) + (i * D3DXVECTOR2(100, 100)));
+				icycles[i]->SetPosition(this->position + D3DXVECTOR2(0, 100) + D3DXVECTOR2(100, -100) + ((float)i * D3DXVECTOR2(100, 100)));
 			}
 		}
 	}
@@ -526,7 +634,23 @@ Sprite * Yeti::GetSprite()
 
 bool Yeti::IsAttackable()
 {
-	return PresentState == Idle || PresentState == Throwing_SnowBall || PresentState == AICheck ? true : false;
+	if (PresentState == Idle)
+		return true;
+	if (PresentState == Throwing_SnowBall || PresentState == AICheck ? true : false)
+	{
+		Arrow* arrowsprite = actorsdata->GetPlayerData()->GetArrowSprite();
+
+		D3DXVECTOR2 tippos = arrowsprite->GetTipPosistion();
+		SetHitboxPosition(hitbox, iPlayAnimationNum);
+
+		RECT temp;
+		temp.top = tippos.y;
+		temp.bottom = tippos.y;
+		temp.top = tippos.x;
+		temp.bottom = tippos.x;
+		return IntersectRect(&temp, &temp, &hitbox) ? true : false;		
+	}
+	return false;
 }
 
 unsigned char Yeti::BehavierTree()
@@ -577,6 +701,17 @@ void Yeti::ApplyDamege(Sprite * sprite)
 		return;
 	Arrow* arrowsprite = actorsdata->GetPlayerData()->GetArrowSprite();
 
+	D3DXVECTOR2 tippos = arrowsprite->GetTipPosistion();
+	SetHitboxPosition(hitbox, iPlayAnimationNum);
+
+	RECT temp;
+	temp.top = tippos.y;
+	temp.bottom = tippos.y;
+	temp.top = tippos.x;
+	temp.bottom = tippos.x;
+	if (IntersectRect(&temp, &temp, &hitbox))
+	{
+	}
 	if (arrowsprite->GetSprite()->OBB(this->animation->GetSprite()))
 	{
 		PresentState = Die;
@@ -589,8 +724,14 @@ void Yeti::PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXVECTOR2 dire
 	animation->SetPosition(position);
 	while (collisionsystem->CollisionTest(animation->GetSpriteStatusByRect()))
 	{
-		position -= -direction * timerelapse * Speed;
+		D3DXVECTOR2 temp(animation->GetPosition());
+		temp = -temp;
+		D3DXVec2Normalize(&temp, &temp);
+
+		position += temp;
+		//position -= -direction * timerelapse * Speed;
 		animation->SetPosition(position);
 		animation->Update(V, P);
 	}
 }
+

@@ -10,6 +10,7 @@ public:
 	~Arrow();
 	void SetPosition(D3DXVECTOR2 pos);
 	D3DXVECTOR2 GetPosition() { return position; };
+	D3DXVECTOR2 GetTipPosistion();
 	Sprite* GetSprite() { return sprite; };
 	D3DXVECTOR2 GetTextureSize() { return sprite->TextureSize(); };
 
@@ -36,6 +37,7 @@ private:
 	D3DXVECTOR2* pPlayerPosition = nullptr;
 	bool isActivate = false;
 	bool isGoing = true;
+
 
 private:
 	void SetActivate(bool input) { isActivate = input; };

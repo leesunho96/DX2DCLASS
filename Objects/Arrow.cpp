@@ -29,6 +29,13 @@ void Arrow::SetPosition(D3DXVECTOR2 pos)
 	stopwatch->SetTimer(1.0f);
 }
 
+D3DXVECTOR2 Arrow::GetTipPosistion()
+{
+	D3DXVECTOR2 result = position;
+	result += D3DXVECTOR2(cosf(Rotation.z), cosf(Rotation.z)) * sprite->TextureSize().y * 0.5f;
+	return result;
+}
+
 void Arrow::SetBack()
 {
 	if (isGoing)
@@ -58,6 +65,11 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			{
 				AttackToEnemy();
 			}
+			if (player->GetSprite()->OBB(sprite))
+			{
+				isActivate = false;
+				player->SetPlayerGetArrow();
+			}
 		}
 	}
 	else
@@ -77,6 +89,7 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 				AttackToEnemy();
 			}
 		}
+		
 	}
 	sprite->Rotation(Rotation);
 	sprite->Position(position);
@@ -237,32 +250,3 @@ int	Arrow::GetWhichSideIsCollideWighEnemy(Sprite* enemy)
 	}
 	return result;
 }
-
-
-//int	Arrow::GetWhichSideIsCollideWighEnemy(Sprite* enemy)
-//{
-//	int result;
-//
-//	D3DXVECTOR2 topPos;
-//	topPos.x = sprite->Position().x + sprite->TextureSize().x * 0.5f * direction.x;
-//	topPos.y = sprite->Position().y + sprite->TextureSize().y * 0.5f * direction.y;
-//
-//	RECT enemyRECT;
-//	enemyRECT.top = actorsdata->GetYetiData()->GetSprite()->Position().y - 
-//		actorsdata->GetYetiData()->GetSprite()->TextureSize().y * 0.5f;
-//	enemyRECT.bottom = actorsdata->GetYetiData()->GetSprite()->Position().y +
-//		actorsdata->GetYetiData()->GetSprite()->TextureSize().y * 0.5f;	
-//	enemyRECT.left = actorsdata->GetYetiData()->GetSprite()->Position().x -
-//		actorsdata->GetYetiData()->GetSprite()->TextureSize().x * 0.5f;
-//	enemyRECT.right = actorsdata->GetYetiData()->GetSprite()->Position().x +
-//		actorsdata->GetYetiData()->GetSprite()->TextureSize().x * 0.5f;
-//
-//	float adjustValue = 10.0f;
-//	if (topPos.x < enemyRECT.left + adjustValue && (topPos.y < enemyRECT.bottom + adjustValue))
-//	{
-//		// 왼쪽으로 충돌
-//	}
-//
-//
-//	return result;
-//}

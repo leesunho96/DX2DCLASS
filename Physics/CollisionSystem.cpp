@@ -111,6 +111,21 @@ float CollisionSystem::GetDegree(Sprite* sprite)
 	return -D3D11_FLOAT32_MAX + 1;
 }
 
+D3DXVECTOR2 CollisionSystem::GetGoBackVector(Sprite * sprite)
+{
+	D3DXVECTOR2 result(0.0f, 0.0f);
+
+	for (auto a : collisiondata->line)
+	{
+		if (a->CollisionTest(sprite))
+		{
+			float slope = a->GetAngle();
+
+		}
+	}
+	return result;
+}
+
 void CollisionSystem::PushMarkerByCode(D3DXVECTOR2 Point)
 {
 	collisiondata->marker.push_back(new Marker(Shaders + L"009_Sprite.fx", Point));
@@ -135,13 +150,12 @@ void CollisionSystem::PushLineByCode(vector<Line*> line)
 void CollisionSystem::GetCollisionData(CollisionData * data)
 {
 	collisiondata = data;
-	//for (auto a : data->line)
-	//{
-	//	collisiondata->line.push_back(a);
-	//	collisiondata->marker.push_back(a->GetMarker().first);
-	//	collisiondata->marker.push_back(a->GetMarker().second);
-	//}
-	
+	GetDistanceBetweenLineAndZeroPosition(data->line);
+}
+
+void CollisionSystem::GetInArea(Sprite * sprite)
+{
+
 }
 
 //void CollisionSystem::PushCollisionSettingByDesc(LineDesc & desc)
@@ -186,7 +200,6 @@ vector<float> CollisionSystem::GetDistance(Sprite * input)
 			result.push_back(abs(a->GetDistance(input)));
 		}
 	}
-
 	return result;
 }
 
@@ -201,5 +214,21 @@ bool CollisionSystem::GetIsOnUpperLine(D3DXVECTOR2 point)
 		return false;
 
 	return collisiondata->line[0]->GetDistance(point) > 0 ? true : false;
+}
+
+vector<bool>& CollisionSystem::GetDistanceBetweenLineAndZeroPosition(vector<Line*> lines)
+{
+	for (auto a : collisiondata->line)
+	{
+		if (a->GetDistance(D3DXVECTOR2(0, 0)) > 0)
+		{
+			bDistanceIsPositive.push_back(true);
+		}
+		else
+		{
+			bDistanceIsPositive.push_back(false);
+		}
+	}
+	return bDistanceIsPositive;
 }
 

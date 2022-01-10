@@ -129,8 +129,7 @@ void Icycle::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 	if (StateInfo == ValidateAndWaitFalling)
 	{
-		ActWhileWaitFalling();
-		
+		ActWhileWaitFalling();		
 	}
 	else if (StateInfo == ValidateAndFalling)
 	{
@@ -206,7 +205,7 @@ void Icycle::ActWhileWaitFalling()
 	if (stopwatch.IsOver())
 	{
 		StateInfo = ValidateAndFalling;
-		ResetStopWatch(1.2f);
+		ResetStopWatch(0.6f);
 	}
 	iPlayAnimationNum = 0;
 }
@@ -237,6 +236,6 @@ void Icycle::SetValidate()
 	if (StateInfo == Invalidate)
 	{
 		StateInfo = ValidateAndWaitFalling;
-		ResetStopWatch(1.0f);
+		ResetStopWatch(1.2f);
 	}
 }

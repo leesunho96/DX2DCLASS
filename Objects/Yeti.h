@@ -40,6 +40,7 @@ private:
 	// 현재 플레이어 방향으로의 벡터 구하는 메소드
 	void GetPresentDirectionToPlayer();
 	void PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXVECTOR2 direction, float Speed, D3DXMATRIX & V, D3DXMATRIX & P);
+	void SetHitboxPosition(RECT& rect, int iPlayAnimation);
 public:
 
 private:
@@ -47,6 +48,7 @@ private:
 	D3DXVECTOR2 scale;
 	D3DXVECTOR3 rotation;
 	D3DXVECTOR2 presentDirection;
+	RECT hitbox;
 
 	bool bIsAttacked = false;
 	bool bIsPlayingOtherAnimation = false;
