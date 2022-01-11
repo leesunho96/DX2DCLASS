@@ -95,7 +95,7 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			}
 		}
 
-		
+
 	}
 	sprite->Rotation(Rotation);
 	sprite->Position(position);
@@ -214,15 +214,15 @@ int	Arrow::GetWhichSideIsCollideWighEnemy(Sprite* enemy)
 	RECT ArrowRECT;
 	RECT enemyRECT;
 
-	ArrowRECT.top    = sprite->Position().y - sprite->TextureSize().y * 0.5f;
-	ArrowRECT.bottom = sprite->Position().y + sprite->TextureSize().y * 0.5f;
-	ArrowRECT.left   = sprite->Position().x - sprite->TextureSize().x * 0.5f;
-	ArrowRECT.right  = sprite->Position().x + sprite->TextureSize().x * 0.5f;
+	ArrowRECT.top    = GetTipPosistion().y - 1; //sprite->Position().y - sprite->TextureSize().y * 0.5f;
+	ArrowRECT.bottom = GetTipPosistion().y + 1;//sprite->Position().y + sprite->TextureSize().y * 0.5f;
+	ArrowRECT.left   = GetTipPosistion().x - 1; //sprite->Position().x - sprite->TextureSize().x * 0.5f;
+	ArrowRECT.right  = GetTipPosistion().x + 1;//sprite->Position().x + sprite->TextureSize().x * 0.5f;
 
-	enemyRECT.top = actorsdata->GetYetiData()->GetSprite()->Position().y - 
+	enemyRECT.top = actorsdata->GetYetiData()->GetSprite()->Position().y -
 		actorsdata->GetYetiData()->GetSprite()->TextureSize().y * 0.5f;
 	enemyRECT.bottom = actorsdata->GetYetiData()->GetSprite()->Position().y +
-		actorsdata->GetYetiData()->GetSprite()->TextureSize().y * 0.5f;	
+		actorsdata->GetYetiData()->GetSprite()->TextureSize().y * 0.5f;
 	enemyRECT.left = actorsdata->GetYetiData()->GetSprite()->Position().x -
 		actorsdata->GetYetiData()->GetSprite()->TextureSize().x * 0.5f;
 	enemyRECT.right = actorsdata->GetYetiData()->GetSprite()->Position().x +
