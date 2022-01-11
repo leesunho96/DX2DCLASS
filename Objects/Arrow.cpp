@@ -43,6 +43,7 @@ void Arrow::SetBack()
 		this->isGoing = false;
 		direction = GetArrowDirectionToPlayer(player->GetSprite()->Position());
 		Rotation = GetArrowRotationByPoint(player->GetSprite()->Position(), position);
+		stopwatch->SetTimer(1.0f);
 	}
 }
 
@@ -74,6 +75,10 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	}
 	else
 	{
+		if (stopwatch->IsOver())
+		{
+			isGoing = true;
+		}
 		// 플레이어에게 돌아온 경우 : deactivate 한 후, 플레이어에게 알려야함
 		// 알릴 메소드 만들어야됨.
 		if (player->GetSprite()->OBB(sprite))
@@ -89,6 +94,7 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 				AttackToEnemy();
 			}
 		}
+
 		
 	}
 	sprite->Rotation(Rotation);
@@ -114,6 +120,8 @@ void Arrow::Render()
 	if (!isActivate)
 		return;
 
+	D3DXVECTOR2 tippos = GetTipPosistion();
+	ImGui::LabelText("TipPos : ", "%.0f, %.0f", tippos.x, tippos.y);
 	sprite->Render();
 }
 

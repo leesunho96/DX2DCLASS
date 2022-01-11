@@ -266,26 +266,26 @@ void Yeti::SetHitboxPosition(RECT & rect, int iPlayAnimation)
 
 	switch (iPlayAnimation)
 	{
-		case StandAnimationStart:
+	case StandAnimationStart:
 		rect.top = position.y - animation->TextureSize().y * 0.5f;
-		rect.bottom = position.y - animation->GetScale().y * 8.0f;
-		rect.left = position.x - animation->GetScale().x * 15.0f;
-		rect.right = position.x + animation->GetScale().x * 15.0f;
+		rect.bottom = position.y;
+		rect.left = position.x - animation->TextureSize().x * 0.5f;
+		rect.right = position.x + animation->TextureSize().x * 0.5f;
 		break;
 	case StandAnimationStart + 1:
 		if (IsActorsToRight(presentDirection))
 		{
 			rect.top = position.y - animation->TextureSize().y * 0.5f;
-			rect.bottom = position.y - animation->GetScale().y * 8.0f;
+			rect.bottom = position.y;
 			rect.left = position.x - animation->TextureSize().x * 0.5f;
-			rect.right = position.x + animation->GetScale().x * 8.0f;
+			rect.right = position.x;
 		}
 		else
 		{
 			rect.top = position.y - animation->TextureSize().y * 0.5f;
-			rect.bottom = position.y - animation->GetScale().y * 8.0f;
-			rect.left = position.x - animation->GetScale().x * 8.0f;// animation->TextureSize().x * 0.5f;
-			rect.right = position.x + animation->TextureSize().x * 0.5f; //animation->GetScale().x * 8.0f;
+			rect.bottom = position.y ;
+			rect.left = position.x;
+			rect.right = position.x + animation->TextureSize().x * 0.5f;
 		}
 		break;
 	case StandAnimationStart + 2:
@@ -294,19 +294,19 @@ void Yeti::SetHitboxPosition(RECT & rect, int iPlayAnimation)
 			rect.top    = position.y - animation->TextureSize().y * 0.5f;
 			rect.bottom = position.y;
 			rect.left   = position.x - animation->TextureSize().x * 0.5f;
-			rect.right  = position.x - animation->TextureSize().x * 0.5f + animation->GetScale().x * 10.0f;
+			rect.right  = position.x;
 		}
 		else
 		{
 			rect.top    = position.y - animation->TextureSize().y * 0.5f;
 			rect.bottom = position.y;
-			rect.left   = position.x + animation->TextureSize().x * 0.5f - animation->GetScale().x * 10.0f;
-			rect.right  = position.x + animation->TextureSize().x * 0.5f;// +animation->GetScale().x * 10.0f;
+			rect.left   = position.x;
+			rect.right  = position.x + animation->TextureSize().x * 0.5f;
 		}
 		break;
 	case StandingAnimationStart:
 		rect.top = position.y - animation->TextureSize().y * 0.5f;
-		rect.bottom = position.y - animation->GetScale().y * 8.0f;
+		rect.bottom = position.y;
 		rect.left = position.x - animation->GetScale().x * 15.0f;
 		rect.right = position.x + animation->GetScale().x * 15.0f;
 		break;
@@ -320,16 +320,16 @@ void Yeti::SetHitboxPosition(RECT & rect, int iPlayAnimation)
 		if (IsActorsToRight(presentDirection))
 		{
 			rect.top = position.y - animation->TextureSize().y * 0.5f;
-			rect.bottom = position.y - animation->GetScale().y * 8.0f;
+			rect.bottom = position.y;
 			rect.left = position.x - animation->TextureSize().x * 0.5f;
-			rect.right = position.x + animation->GetScale().x * 8.0f;
+			rect.right = position.x;
 		}
 		else
 		{
 			rect.top = position.y - animation->TextureSize().y * 0.5f;
-			rect.bottom = position.y - animation->GetScale().y * 8.0f;
-			rect.left = position.x - animation->GetScale().x * 8.0f;// animation->TextureSize().x * 0.5f;
-			rect.right = position.x + animation->TextureSize().x * 0.5f; //animation->GetScale().x * 8.0f;
+			rect.bottom = position.y;
+			rect.left = position.x;
+			rect.right = position.x + animation->TextureSize().x * 0.5f;
 		}
 		break;
 	case ThrowingBallAnimationStart + 2:
@@ -338,14 +338,14 @@ void Yeti::SetHitboxPosition(RECT & rect, int iPlayAnimation)
 			rect.top = position.y - animation->TextureSize().y * 0.5f;
 			rect.bottom = position.y;
 			rect.left = position.x - animation->TextureSize().x * 0.5f;
-			rect.right = position.x - animation->TextureSize().x * 0.5f + animation->GetScale().x * 10.0f;
+			rect.right = position.x;
 		}
 		else
 		{
 			rect.top = position.y - animation->TextureSize().y * 0.5f;
 			rect.bottom = position.y;
-			rect.left = position.x + animation->TextureSize().x * 0.5f - animation->GetScale().x * 10.0f;
-			rect.right = position.x + animation->TextureSize().x * 0.5f;// +animation->GetScale().x * 10.0f;
+			rect.left = position.x + animation->TextureSize().x * 0.5f;
+			rect.right = position.x;
 		}
 		break;
 	default:
@@ -636,7 +636,7 @@ bool Yeti::IsAttackable()
 {
 	if (PresentState == Idle)
 		return true;
-	if (PresentState == Throwing_SnowBall || PresentState == AICheck ? true : false)
+	if (PresentState == Throwing_SnowBall || PresentState == AICheck)
 	{
 		Arrow* arrowsprite = actorsdata->GetPlayerData()->GetArrowSprite();
 
@@ -645,10 +645,10 @@ bool Yeti::IsAttackable()
 
 		RECT temp;
 		temp.top = tippos.y;
-		temp.bottom = tippos.y;
-		temp.top = tippos.x;
-		temp.bottom = tippos.x;
-		return IntersectRect(&temp, &temp, &hitbox) ? true : false;		
+		temp.bottom = tippos.y + 1.0f;
+		temp.right = tippos.x + 1.0f;
+		temp.left = tippos.x;
+		return IntersectRect(&temp, &temp, &hitbox);		
 	}
 	return false;
 }
@@ -699,23 +699,26 @@ void Yeti::ApplyDamege(Sprite * sprite)
 		return;
 	if (PresentState == Roll)
 		return;
-	Arrow* arrowsprite = actorsdata->GetPlayerData()->GetArrowSprite();
+	PresentState = Die;
+	//Arrow* arrowsprite = actorsdata->GetPlayerData()->GetArrowSprite();
 
-	D3DXVECTOR2 tippos = arrowsprite->GetTipPosistion();
-	SetHitboxPosition(hitbox, iPlayAnimationNum);
+	//D3DXVECTOR2 tippos = arrowsprite->GetTipPosistion();
+	//SetHitboxPosition(hitbox, iPlayAnimationNum);
 
-	RECT temp;
-	temp.top = tippos.y;
-	temp.bottom = tippos.y;
-	temp.top = tippos.x;
-	temp.bottom = tippos.x;
-	if (IntersectRect(&temp, &temp, &hitbox))
-	{
-	}
-	if (arrowsprite->GetSprite()->OBB(this->animation->GetSprite()))
-	{
-		PresentState = Die;
-	}
+	//RECT temp;
+	//temp.top = tippos.y;
+	//temp.bottom = tippos.y;
+	//temp.top = tippos.x;
+	//temp.bottom = tippos.x;
+
+	//if (IntersectRect(&temp, &temp, &hitbox))
+	//{
+	//	PresentState = Die;
+	//}
+	////if (arrowsprite->GetSprite()->OBB(this->animation->GetSprite()))
+	////{
+	////	PresentState = Die;
+	////}
 }
 
 void Yeti::PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXVECTOR2 direction, float Speed, D3DXMATRIX & V, D3DXMATRIX & P)
