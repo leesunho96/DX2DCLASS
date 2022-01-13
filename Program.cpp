@@ -5,6 +5,7 @@
 #include "Objects/Bullet.h"
 #include "Objects/Player.h"
 #include "Viewer/Freedom.h"
+#include "Viewer/Following.h"
 #include "Scene/Scene.h"
 #include "Scene/Stage2.h"
 

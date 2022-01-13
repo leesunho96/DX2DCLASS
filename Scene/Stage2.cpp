@@ -18,23 +18,29 @@
 
 extern CollisionSystem* collisionsystem;
 extern bool bIsDebugging;
-//Following* following;
+Following* following;
 
 ActorsData* actorsdata;
 
 Stage2::Stage2(SceneValues * values)
 	: Scene(values)
 {
+	float scale = 1.5f;
 	wstring shaderFile = Shaders + L"009_Sprite.fx";
-	bg = new Background_Yeti(values);
-	((Freedom*)(values->MainCamera))->SetPosition(0, 0);
-	//following = new Following();
-
+	//((Freedom*)(values->MainCamera))->SetPosition(0, 0);
+	bg = new Background_Yeti(values, scale);
 	collisionsystem = new CollisionSystem(values, player);
 	player = new Player(D3DXVECTOR2(0, 0), D3DXVECTOR2(3, 3));
 	actorsdata = new ActorsData(player);
 	yeti = new Yeti(D3DXVECTOR2(0, 200), D3DXVECTOR2(2, 2));
 	actorsdata->SetData(yeti);
+	following = new Following(player);
+	values->MainCamera = following;
+	RECT cameraBoundery = { -(Width * 0.5f) * scale, //left
+		(Height * 0.5f) * scale,  // top
+		(Width * 0.5f) * scale, // right
+		-(Height * 0.5f) * scale }; // bottom
+	((Following*)(values->MainCamera))->SetLimit(cameraBoundery, player->GetOffset());
 
 	collisionsystem->GetCollisionData(bg->GetCollisionData());
 
@@ -51,9 +57,10 @@ Stage2::~Stage2()
 
 void Stage2::Update()
 {
-	D3DXMATRIX V = values->MainCamera->GetView();
-	D3DXMATRIX P = values->Projection;
+	D3DXMATRIX V = following->GetView();
+	D3DXMATRIX P;// = values->Projection;
 
+	D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width, 0, (float)Height, -1, 1);
 	bg->Update(V, P);
 	yeti->Update(V, P);
 	player->Update(V, P);

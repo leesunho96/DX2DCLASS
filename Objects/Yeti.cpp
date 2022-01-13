@@ -634,8 +634,10 @@ Sprite * Yeti::GetSprite()
 
 bool Yeti::IsAttackable()
 {
-	if (PresentState == Idle)
-		return true;
+	//if (PresentState == Idle)
+	//{		
+	//	return true;
+	//}
 	if (PresentState == Throwing_SnowBall || PresentState == AICheck)
 	{
 		Arrow* arrowsprite = actorsdata->GetPlayerData()->GetArrowSprite();
@@ -650,6 +652,7 @@ bool Yeti::IsAttackable()
 		temp.left = tippos.x;
 		return IntersectRect(&temp, &temp, &hitbox);		
 	}
+	
 	return false;
 }
 

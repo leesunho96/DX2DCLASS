@@ -12,10 +12,13 @@ public:
 	~Yeti();
 
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
-	virtual void Render() override;	
+	virtual void Render() override;
 	virtual void ApplyDamege(Sprite* sprite) override;
 	virtual Sprite* GetSprite() override;
+	virtual D3DXVECTOR2 GetOffset() override { return D3DXVECTOR2(0, 0); };
+
 	bool IsAttackable();
+	bool IsIdle() { return PresentState == (unsigned char)0; }
 
 
 private:

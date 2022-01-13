@@ -15,10 +15,12 @@ public:
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
 	virtual void Render() override;
 	virtual void ApplyDamege(Sprite* sprite) override;
+	virtual D3DXVECTOR2 GetOffset() override { return focusoffset; }; ;
 
 	void GetArrow();
 	Arrow* GetArrowSprite() { return arrow; };
 	void SetPlayerGetArrow();
+	void SetPlayerCantGetArrow();
 	void SetNuckBack(D3DXVECTOR2 position);
 
 private:

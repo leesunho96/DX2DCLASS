@@ -7,7 +7,7 @@
 extern CollisionSystem* collisionsystem;
 
 Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
-	:moveSpeed(200.0f), focusoffset(0, -120)
+	:moveSpeed(200.0f), focusoffset(0, 0)
 {
 	animation = new Animation;
 
@@ -497,6 +497,11 @@ void Player::SetPlayerGetArrow()
 	bIsReTrivingArrow = false;
 	isCharge = false;
 	bIsHaveArrow = true;
+}
+
+void Player::SetPlayerCantGetArrow()
+{
+	bIsReTrivingArrow = false;
 }
 
 void Player::ApplyDamege(Sprite* sprite)

@@ -41,10 +41,16 @@ void Arrow::SetBack()
 	if (isGoing)
 	{
 		this->isGoing = false;
-		direction = GetArrowDirectionToPlayer(player->GetSprite()->Position());
-		Rotation = GetArrowRotationByPoint(player->GetSprite()->Position(), position);
-		stopwatch->SetTimer(1.0f);
+		SetArrowGoesToPlayer();
 	}
+	
+}
+
+void Arrow::SetArrowGoesToPlayer()
+{
+	direction = GetArrowDirectionToPlayer(player->GetSprite()->Position());
+	Rotation = GetArrowRotationByPoint(player->GetSprite()->Position(), position);
+	stopwatch->SetTimer(2.0f);
 }
 
 void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
@@ -77,7 +83,7 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	{
 		if (stopwatch->IsOver())
 		{
-			isGoing = true;
+			SetArrowGoesToPlayer();
 		}
 		// 플레이어에게 돌아온 경우 : deactivate 한 후, 플레이어에게 알려야함
 		// 알릴 메소드 만들어야됨.
@@ -94,7 +100,7 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 				AttackToEnemy();
 			}
 		}
-
+		
 
 	}
 	sprite->Rotation(Rotation);
@@ -110,8 +116,12 @@ void Arrow::AttackToEnemy()
 	}
 	else
 	{
+		if (actorsdata->GetYetiData()->IsIdle())
+		{
+			actorsdata->GetYetiData()->ApplyDamege(sprite);
+		}
 		direction = GetReflectionVector(direction, GetWhichSideIsCollideWighEnemy(actorsdata->GetYetiData()->GetSprite()));
-		position += direction * 10;
+		position += direction * 30.0f;
 	}
 }
 
@@ -214,10 +224,10 @@ int	Arrow::GetWhichSideIsCollideWighEnemy(Sprite* enemy)
 	RECT ArrowRECT;
 	RECT enemyRECT;
 
-	ArrowRECT.top    = GetTipPosistion().y - 1; //sprite->Position().y - sprite->TextureSize().y * 0.5f;
-	ArrowRECT.bottom = GetTipPosistion().y + 1;//sprite->Position().y + sprite->TextureSize().y * 0.5f;
-	ArrowRECT.left   = GetTipPosistion().x - 1; //sprite->Position().x - sprite->TextureSize().x * 0.5f;
-	ArrowRECT.right  = GetTipPosistion().x + 1;//sprite->Position().x + sprite->TextureSize().x * 0.5f;
+	ArrowRECT.top    = GetTipPosistion().y - 10; //sprite->Position().y - sprite->TextureSize().y * 0.5f;
+	ArrowRECT.bottom = GetTipPosistion().y + 10;//sprite->Position().y + sprite->TextureSize().y * 0.5f;
+	ArrowRECT.left   = GetTipPosistion().x - 10; //sprite->Position().x - sprite->TextureSize().x * 0.5f;
+	ArrowRECT.right  = GetTipPosistion().x + 10;//sprite->Position().x + sprite->TextureSize().x * 0.5f;
 
 	enemyRECT.top = actorsdata->GetYetiData()->GetSprite()->Position().y -
 		actorsdata->GetYetiData()->GetSprite()->TextureSize().y * 0.5f;

@@ -15,7 +15,9 @@ public:
 	D3DXVECTOR2 GetTextureSize() { return sprite->TextureSize(); };
 
 	void SetStart() { this->isGoing = true; SetActivate(true); };
-	void SetBack();// { this->isGoing = false; };
+	void SetBack();
+	void SetArrowGoesToPlayer();
+	// { this->isGoing = false; };
 	void SetRotation(D3DXVECTOR3 vec) { this->Rotation = vec; };
 	void SetDirection(D3DXVECTOR2 vec) { this->direction = vec; };
 	void SetTimer(float time) { stopwatch->SetTimer(time); };

@@ -10,7 +10,7 @@ class CollisionData;
 class Background_Yeti
 {
 public:
-	Background_Yeti(SceneValues* scenevalues);
+	Background_Yeti(SceneValues* scenevalues, float Scale);
 	~Background_Yeti();
 
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
