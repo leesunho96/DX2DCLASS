@@ -108,6 +108,9 @@
     <ClCompile Include="Objects\Yeti.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="UI\UI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -228,6 +231,9 @@
     <ClInclude Include="Data\LineDesc.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="UI\UI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">
@@ -253,6 +259,9 @@
     </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{31b967cd-c525-4d2b-b467-ac18a73bdbcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{57803d4e-4921-4c3b-ab96-235c287ca257}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

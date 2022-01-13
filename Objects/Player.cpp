@@ -18,6 +18,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	arrow->SetPlayer(this);
 	arrow->SetpPlayerPosition(&position);
 
+
 	Clip* clip;
 	//Idle : 0
 	{
@@ -282,6 +283,7 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		ActWhileNotApplyDamege(position, V, P);
 	}
 
+
 	animation->SetPosition(position);
 	animation->Update(V, P);
 	animation->Play(playAnimation);
@@ -475,6 +477,8 @@ void Player::Render()
 
 	animation->Render();
 	arrow->Render();
+
+
 	if (ImGui::Button("ResetPlayer"))
 	{
 		bGetDamege = false;

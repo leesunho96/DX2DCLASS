@@ -41,7 +41,9 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), po
 		// Idle 0
 		{
 			clip = new Clip(PlayMode::Loop);
+			
 			clip->AddFrame(new Sprite(TextureFile, ShaderFile, 302, 702, 370, 767), 999.0f);
+			//clip->AddFrame(new Sprite(TextureFile, Shaders + L"010_AlphaBlend.fx", 302, 702, 370, 767), 999.0f);
 			animation->AddClip(clip);
 		}
 

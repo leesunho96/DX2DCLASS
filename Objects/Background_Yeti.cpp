@@ -13,6 +13,8 @@ Background_Yeti::Background_Yeti(SceneValues* scenevalues, float Scale)
 {
 	mapSprite = new Sprite(Textures + L"/TianSouls/yeti_map.png", Shaders + L"009_Sprite.fx",
 		1704, 983, 2036, 1349);
+	//mapSprite = new Sprite(Textures + L"/TianSouls/yeti_map.png", Shaders + L"010_AlphaBlend.fx",
+	//	1704, 983, 2036, 1349);
 	mapSprite->SetAbsoluteScale((float)Width * Scale, (float)Height * Scale);
 
 	mapSprite->Position(0, 0);

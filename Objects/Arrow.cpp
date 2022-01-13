@@ -8,6 +8,7 @@ extern ActorsData* actorsdata;
 Arrow::Arrow(wstring spriteFile, wstring shaderFile)
 {
 	sprite = new Sprite(spriteFile, shaderFile, 428, 9, 435, 24);
+	//sprite = new Sprite(spriteFile, Shaders + L"010_AlphaBlend.fx", 428, 9, 435, 24);
 	sprite->SetAbsoluteScale((float)10, (float)30);
 	sprite->Position(0, 0);
 	sprite->Rotation(0, 0, 0);

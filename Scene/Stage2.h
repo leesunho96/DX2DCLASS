@@ -7,7 +7,7 @@ class Player;
 class CollisionSystem;
 class ActorsData;
 class Yeti;
-
+class UI;
 extern bool bIsDebugging;
 
 class Stage2 : public Scene
@@ -24,7 +24,7 @@ private:
 	Player* player;
 	Yeti* yeti;
 	//
-
+	UI* ui;
 	// for debugging
 	bool check;
 };

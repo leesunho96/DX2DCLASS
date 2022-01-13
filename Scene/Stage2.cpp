@@ -15,6 +15,7 @@
 #include "Data/LineDesc.h"
 #include "Data/CollisionData.h"
 
+#include "UI/UI.h"
 
 extern CollisionSystem* collisionsystem;
 extern bool bIsDebugging;
@@ -43,7 +44,7 @@ Stage2::Stage2(SceneValues * values)
 	((Following*)(values->MainCamera))->SetLimit(cameraBoundery, player->GetOffset());
 
 	collisionsystem->GetCollisionData(bg->GetCollisionData());
-
+	ui = new UI(player, following);
 }
 
 Stage2::~Stage2()
@@ -65,6 +66,7 @@ void Stage2::Update()
 	yeti->Update(V, P);
 	player->Update(V, P);
 	collisionsystem->Update(V, P);
+	ui->Update(V, P);
 }
 
 void Stage2::Render()
@@ -73,5 +75,6 @@ void Stage2::Render()
 	collisionsystem->Render();
 	player->Render();
 	yeti->Render();
+	ui->Render();
 }
 

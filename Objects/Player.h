@@ -16,6 +16,7 @@ public:
 	virtual void Render() override;
 	virtual void ApplyDamege(Sprite* sprite) override;
 	virtual D3DXVECTOR2 GetOffset() override { return focusoffset; }; ;
+	bool GetPlayerIsDied() { return bGetDamege; };
 
 	void GetArrow();
 	Arrow* GetArrowSprite() { return arrow; };
@@ -40,6 +41,7 @@ private:
 private:
 	float moveSpeed;
 	Animation* animation;
+	Sprite* DiedImage;
 	Arrow* arrow;
 	StopWatch* Cstopwatch;
 	D3DXVECTOR2 focusoffset;
