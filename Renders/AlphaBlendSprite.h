@@ -20,11 +20,15 @@ public:
 	void SetInvalidate() { bIsValidate = false; };
 	void SetIsChangeable(bool input) { bIsChangeableAlphaValues = input; };
 	void SetSpeed(float input) { Speed = input; };
+	void SetFadeOut();
+	void SetFadeIn();
+	void SetNormalMode();
 private:
 	bool bIsValidate = false;
 	bool bIsChangeableAlphaValues = false;
 	float alphaValues = 0.0f;
 	float Speed = 1.0f;
+	unsigned char FadeStyle = 0;
 private:
 
 };

@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "AlphaBlendSprite.h"
 
-
+#define fadeout 0
+#define fadein 1
+#define normalmode 2
 //-----------------------------------------------------------------------------
 //AlphaBlendSprite
 //-----------------------------------------------------------------------------
@@ -10,8 +12,6 @@ AlphaBlendSprite::AlphaBlendSprite(wstring textureFile, wstring shaderFile) : Sp
 {
 	Initialize(textureFile, shaderFile, 0, 0, 0, 0);	
 }
-
-
 
 AlphaBlendSprite::AlphaBlendSprite(wstring textureFile, wstring shaderFile, float endX, float endY) :
 	Sprite(textureFile, shaderFile, endX, endY)
@@ -32,6 +32,23 @@ AlphaBlendSprite::~AlphaBlendSprite()
 void AlphaBlendSprite::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	D3DXMATRIX temp;
+
+	switch (FadeStyle)
+	{
+	case fadeout:
+	{break; }
+	case fadein:
+	{
+
+		break; 
+	}
+	case normalmode:
+	{
+		break; 
+	}
+	}
+
+
 	if (!bIsValidate)
 	{
 		alphaValues = !bIsChangeableAlphaValues ? alphaValues : 0.0f;
@@ -48,6 +65,10 @@ void AlphaBlendSprite::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		{
 			alphaValues = 0.9f;
 		}
+		if (alphaValues < 0)
+		{
+			alphaValues = 0.0f;
+		}
 	}
 	temp._11 = alphaValues;
 	shader->AsMatrix("fAlphaBlendValues")->SetMatrix(temp);
@@ -60,5 +81,21 @@ void AlphaBlendSprite::Render()
 		return;
 
 	__super::Render();
+}
+
+void AlphaBlendSprite::SetFadeOut()
+{
+	FadeStyle = 0;
+}
+
+void AlphaBlendSprite::SetFadeIn()
+{
+	FadeStyle = 1;
+
+}
+
+void AlphaBlendSprite::SetNormalMode()
+{
+	FadeStyle = 2;
 }
 

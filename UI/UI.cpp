@@ -5,6 +5,7 @@
 #include "Renders/AlphaBlendSprite.h"
 
 #define YouDiedImage 0
+#define YetiIntroImage 1
 
 UI::UI(Player * player, Camera* camera) : target(player), camera(camera)
 {
@@ -20,6 +21,21 @@ UI::UI(Player * player, Camera* camera) : target(player), camera(camera)
 		((AlphaBlendSprite*)sprite)->SetSpeed(0.3f);
 		((AlphaBlendSprite*)sprite)->SetIsChangeable(true);
 	}	
+	vSprites.push_back(sprite);
+
+
+	{
+		sprite = new AlphaBlendSprite(Textures + L"TianSouls/NamesSprite.png", Shaders + L"010_AlphaBlend.fx",
+			0, 630, 179, 675);
+		sprite->Scale(1, 1);
+		sprite->SetAbsoluteScale(50, 10);
+		sprite->Position(0, 0);
+		sprite->Rotation(0, 0, 0);
+		sprite->SetAbsoluteScale(Width, Height);
+		((AlphaBlendSprite*)sprite)->SetAlphaValues(0.9f);
+		((AlphaBlendSprite*)sprite)->SetSpeed(-0.5f);
+		((AlphaBlendSprite*)sprite)->SetIsChangeable(true);
+	}
 	vSprites.push_back(sprite);
 }
 
@@ -41,6 +57,8 @@ void UI::Update(D3DXMATRIX V, D3DXMATRIX & P)
 	{
 		((AlphaBlendSprite*)vSprites[YouDiedImage])->SetInvalidate();
 	}
+	((AlphaBlendSprite*)vSprites[YetiIntroImage])->SetValidate();
+	vSprites[YetiIntroImage]->Position(target->GetSprite()->Position());
 	for (auto a : vSprites)
 	{
 		a->Update(V, P);
@@ -73,4 +91,5 @@ void UI::Render()
 	}	
 
 	DirectWrite::GetDC()->EndDraw();
+	vSprites[YetiIntroImage]->Render();
 }
