@@ -373,7 +373,14 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {	
 	position = animation->GetPosition();
 	static int iLocalpresentdirection;
-
+	//if (actorsdata->GetPlayerData()->GetPlayerIsDied())
+	//{
+	//	position = animation->GetPosition();
+	//	rotation = D3DXVECTOR3(0, 0, 0);
+	//	iPlayAnimationNum = 0;
+	//	SetPositionRotationScalePlayAnimationUpdate(V, P);
+	//	return;
+	//}
 	if (PresentState == AICheck)
 	{
 		if (stopwatch.IsOver())
@@ -452,6 +459,11 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		a->Update(V, P);
 	}
 
+	SetPositionRotationScalePlayAnimationUpdate(V, P);
+}
+
+void Yeti::SetPositionRotationScalePlayAnimationUpdate(D3DXMATRIX & V, D3DXMATRIX & P)
+{
 	animation->SetPosition(position);
 	animation->SetRotationDegree(rotation);
 	animation->SetScale(scale);

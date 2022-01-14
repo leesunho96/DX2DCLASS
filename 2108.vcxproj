@@ -163,6 +163,7 @@
     <ClCompile Include="Objects\Yeti.cpp" />
     <ClCompile Include="Physics\CollisionSystem.cpp" />
     <ClCompile Include="Physics\Gravity.cpp" />
+    <ClCompile Include="Renders\AlphaBlendSprite.cpp" />
     <ClCompile Include="Renders\Animation.cpp" />
     <ClCompile Include="Renders\Clip.cpp" />
     <ClCompile Include="Renders\Rect.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="Objects\Yeti.h" />
     <ClInclude Include="Physics\CollisionSystem.h" />
     <ClInclude Include="Physics\Gravity.h" />
+    <ClInclude Include="Renders\AlphaBlendSprite.h" />
     <ClInclude Include="Renders\Animation.h" />
     <ClInclude Include="Renders\Clip.h" />
     <ClInclude Include="Renders\Rect.h" />

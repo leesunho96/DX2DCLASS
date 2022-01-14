@@ -261,6 +261,13 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	D3DXVECTOR2 pastPosition = position;
 	D3DXVECTOR2 textureSize = animation->TextureSize();
 
+	if (bGetDamege)
+	{
+		if (Key->Down(VK_RETURN))
+		{
+			ResetPlayer(position);
+		}
+	}
 
 	if (bIsNuckBack)
 	{
@@ -290,6 +297,38 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 }
 
+
+void Player::Render()
+{
+	D3DXVECTOR2 position = animation->GetPosition();
+	ImGui::SliderFloat("Move Speed", &moveSpeed, 50, 400);
+	ImGui::LabelText("Position :", "%.0f, %.0f", position.x, position.y);
+
+	animation->Render();
+	arrow->Render();
+
+
+	if (ImGui::Button("ResetPlayer"))
+	{
+		bGetDamege = false;
+		position = D3DXVECTOR2(0, 0);
+		animation->SetPosition(position);
+	}
+	if (ImGui::Button(bIsInvincible ? "SetNormalMode" : "SetInvincibleMode"))
+	{
+		bIsInvincible = bIsInvincible ? false : true;
+	}
+}
+
+void Player::ResetPlayer(D3DXVECTOR2 &position)
+{
+	bGetDamege = false;
+	animation->SetPosition(D3DXVECTOR2(0, 0));
+	position = D3DXVECTOR2(0, 0);
+	isRoll = false;
+	bIsNuckBack = false;
+	isplayingOtherAnimation = false;
+}
 void Player::ActWhileNuckBack(D3DXVECTOR2 &position)
 {
 	position += direction * Timer->Elapsed() * 50.0f;
@@ -463,33 +502,12 @@ void Player::PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXMATRIX & V
 		temp = -temp;
 		D3DXVec2Normalize(&temp, &temp);
 
-		position += temp;//pastDirection * timerelapse * moveSpeed;
+		position += temp;
 		animation->SetPosition(position);
 		animation->Update(V, P);
 	}
 }
 
-void Player::Render()
-{
-	D3DXVECTOR2 position = animation->GetPosition();
-	ImGui::SliderFloat("Move Speed", &moveSpeed, 50, 400);
-	ImGui::LabelText("Position :", "%.0f, %.0f", position.x, position.y);
-
-	animation->Render();
-	arrow->Render();
-
-
-	if (ImGui::Button("ResetPlayer"))
-	{
-		bGetDamege = false;
-		position = D3DXVECTOR2(0, 0);
-		animation->SetPosition(position);
-	}
-	if (ImGui::Button(bIsInvincible ? "SetNormalMode" : "SetInvincibleMode"))
-	{
-		bIsInvincible = bIsInvincible ? false : true;
-	}
-}
 
 void Player::GetArrow()
 {
@@ -513,6 +531,8 @@ void Player::ApplyDamege(Sprite* sprite)
 	if (isRoll)
 		return;
 	if (bIsInvincible)
+		return;
+	if (bGetDamege)
 		return;
 	bGetDamege = true;
 }

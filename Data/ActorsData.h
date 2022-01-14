@@ -1,6 +1,7 @@
 #pragma once
 class Player;
 class Yeti;
+class Character;
 
 class ActorsData
 {
@@ -13,9 +14,12 @@ public:
 
 	void SetData(Player* player) { this->player = player; };
 	void SetData(Yeti* yeti) { this->yeti = yeti; };
+	void SetEnemyData(Character* character) { this->enemy = character; };
+
 
 	Player* GetPlayerData() { return player; };
 	Yeti* GetYetiData() { return yeti; };
+	Character* GetEnemyData() { return enemy; };
 
 	void Clear() { player = nullptr; yeti = nullptr; };
 	void Clear(Yeti* yeti) { yeti = nullptr; };
@@ -24,5 +28,6 @@ private:
 
 	Player* player;
 	Yeti* yeti;
+	Character* enemy;
 };
 

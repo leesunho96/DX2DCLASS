@@ -139,7 +139,7 @@ void DirectWrite::CreateBackBuffer()
 	deviceContext->SetTarget(bitmap);
 
 	// brush 설정.
-	hr = deviceContext->CreateSolidColorBrush(D2D1::ColorF(0, 1, 1), &brush);
+	hr = deviceContext->CreateSolidColorBrush(D2D1::ColorF(1, 1, 1), &brush);
 	assert(SUCCEEDED(hr));
 
 	// textformat 생성

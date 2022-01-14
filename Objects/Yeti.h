@@ -12,6 +12,7 @@ public:
 	~Yeti();
 
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
+	void SetPositionRotationScalePlayAnimationUpdate(D3DXMATRIX & V, D3DXMATRIX & P);
 	virtual void Render() override;
 	virtual void ApplyDamege(Sprite* sprite) override;
 	virtual Sprite* GetSprite() override;

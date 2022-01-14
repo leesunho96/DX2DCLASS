@@ -2,3 +2,4 @@
 #include "ActorsData.h"
 #include "Objects/Player.h"
 #include "Objects/Yeti.h"
+#include "Objects/Character.h"

@@ -9,7 +9,7 @@ public:
 	virtual ~Sprite();
 
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P);
-	void Render();
+	virtual void Render();
 
 	void DrawBound(bool val) { bDrawBound = val; }
 	void DrawCollision(bool val) { bDrawCollision = val; }
@@ -59,7 +59,7 @@ public:
 	// 충돌 구현 위한 bound
 	// 충돌은 각 스프라이트에서 일어나야 함. 스프라이트 크기 변경시 충돌 반경도 변해야 함.
 
-private:
+protected:
 	struct OBBDesc
 	{
 		D3DXVECTOR2 Position;
@@ -70,16 +70,16 @@ private:
 	static void CreateOBB(OUT OBBDesc* out, D3DXVECTOR2& position, D3DXMATRIX& world, D3DXVECTOR2& length);
 	static float SeperateAxis(D3DXVECTOR2 seperate, D3DXVECTOR2& e1, D3DXVECTOR2& e2);
 	static bool CheckOBB(OBBDesc& obbA, OBBDesc& obbB);
-private:
+protected:
 	void CreateBound();
 
 
-private:
+protected:
 	void Initialize(wstring spriteFile, wstring shaderFile, float startX, float startY, float endX, float endY);
 	//void UpdateWorld();
 
 
-private:
+protected:
 	wstring textureFile;
 
 	Shader* shader;
@@ -98,7 +98,7 @@ private:
 	D3DXMATRIX world;
 	ID3D11ShaderResourceView* srv;
 
-private:
+protected:
 	struct Vertex
 	{
 		D3DXVECTOR3 Position;
@@ -116,14 +116,14 @@ private:
 
 class Sprites
 {
-private:
+protected:
 	friend class Sprite;
 
-private:
+protected:
 	static ID3D11ShaderResourceView* Load(wstring file);
 	static void Remove(wstring file);
 
-private:
+protected:
 	struct SpriteDesc
 	{
 		UINT RefCount = 0;

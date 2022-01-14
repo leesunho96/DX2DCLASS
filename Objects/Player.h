@@ -13,6 +13,7 @@ public:
 	virtual void Focus(D3DXVECTOR2* position, D3DXVECTOR2* size) override;
 	virtual Sprite* GetSprite() override { return animation->GetSprite(); };
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
+	void ResetPlayer(D3DXVECTOR2 &position);
 	virtual void Render() override;
 	virtual void ApplyDamege(Sprite* sprite) override;
 	virtual D3DXVECTOR2 GetOffset() override { return focusoffset; }; ;
