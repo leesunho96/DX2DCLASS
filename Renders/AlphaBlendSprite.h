@@ -1,7 +1,8 @@
 #pragma once
 #include "Sprite.h"
 
-class StopSatch;
+class StopWatch;
+
 class AlphaBlendSprite : public Sprite
 {
 public:
@@ -29,6 +30,8 @@ private:
 	float alphaValues = 0.0f;
 	float Speed = 1.0f;
 	unsigned char FadeStyle = 0;
+
+	StopWatch stopwatch;
 private:
 
 };

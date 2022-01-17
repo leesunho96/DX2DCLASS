@@ -9,7 +9,7 @@
 
 UI::UI(Player * player, Camera* camera) : target(player), camera(camera)
 {
-	Sprite* sprite;
+	AlphaBlendSprite* sprite;
 	// YouDied SPrite
 	{
 		sprite = new AlphaBlendSprite(Textures + L"TianSouls/YouDIedSPrite.png", Shaders + L"010_AlphaBlend.fx");
@@ -20,23 +20,26 @@ UI::UI(Player * player, Camera* camera) : target(player), camera(camera)
 		sprite->SetAbsoluteScale(Width, Height);
 		((AlphaBlendSprite*)sprite)->SetSpeed(0.3f);
 		((AlphaBlendSprite*)sprite)->SetIsChangeable(true);
+		((AlphaBlendSprite*)sprite)->SetFadeIn();
+		vSprites.push_back(sprite);
 	}	
-	vSprites.push_back(sprite);
 
 
 	{
 		sprite = new AlphaBlendSprite(Textures + L"TianSouls/NamesSprite.png", Shaders + L"010_AlphaBlend.fx",
 			0, 630, 179, 675);
 		sprite->Scale(1, 1);
-		sprite->SetAbsoluteScale(50, 10);
+		sprite->SetAbsoluteScale(200, 40);
 		sprite->Position(0, 0);
 		sprite->Rotation(0, 0, 0);
-		sprite->SetAbsoluteScale(Width, Height);
-		((AlphaBlendSprite*)sprite)->SetAlphaValues(0.9f);
-		((AlphaBlendSprite*)sprite)->SetSpeed(-0.5f);
+		//sprite->SetAbsoluteScale(Width, Height);
+		((AlphaBlendSprite*)sprite)->SetSpeed(0.3f);
 		((AlphaBlendSprite*)sprite)->SetIsChangeable(true);
+		((AlphaBlendSprite*)sprite)->SetAlphaValues(0.9f);
+	//	((AlphaBlendSprite*)sprite)->SetNormalMode();
+		((AlphaBlendSprite*)sprite)->SetFadeOut();
+		vSprites.push_back(sprite);
 	}
-	vSprites.push_back(sprite);
 }
 
 UI::~UI()
@@ -57,8 +60,18 @@ void UI::Update(D3DXMATRIX V, D3DXMATRIX & P)
 	{
 		((AlphaBlendSprite*)vSprites[YouDiedImage])->SetInvalidate();
 	}
-	((AlphaBlendSprite*)vSprites[YetiIntroImage])->SetValidate();
-	vSprites[YetiIntroImage]->Position(target->GetSprite()->Position());
+
+	// intro MEssage
+	{
+		if (!introtemp)
+		{
+			((AlphaBlendSprite*)vSprites[YetiIntroImage])->SetValidate();
+			introtemp = true;
+		}
+		((AlphaBlendSprite*)vSprites[YetiIntroImage])->Position(
+			camera->GetPosition() + D3DXVECTOR2(Width * 0.5f, Height * 0.5f) - D3DXVECTOR2(0, 100));
+	}
+
 	for (auto a : vSprites)
 	{
 		a->Update(V, P);
@@ -88,8 +101,8 @@ void UI::Render()
 	
 			DirectWrite::RenderText(text, rect);
 		}
+		DirectWrite::GetDC()->EndDraw();
 	}	
 
-	DirectWrite::GetDC()->EndDraw();
 	vSprites[YetiIntroImage]->Render();
 }

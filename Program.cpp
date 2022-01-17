@@ -8,13 +8,13 @@
 #include "Viewer/Following.h"
 #include "Scene/Scene.h"
 #include "Scene/Stage2.h"
-
+#include <thread>
 
 SceneValues* values;
 vector<Scene*> scenes;
 CollisionSystem* collisionsystem;
 bool bIsDebugging = true;
-
+vector<Scene*> loadingScene;
 void InitScene()
 {
 	values = new SceneValues();

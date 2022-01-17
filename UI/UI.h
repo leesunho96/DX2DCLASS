@@ -2,6 +2,7 @@
 
 class Player;
 class Camera;
+class AlphaBlendSprite;
 
 class UI
 {
@@ -16,6 +17,7 @@ public:
 private:
 	Player* target;
 	Camera* camera;
-	vector<Sprite*> vSprites;
+	vector<AlphaBlendSprite*> vSprites;
+	bool introtemp = false;
 
 };
