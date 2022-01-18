@@ -16,6 +16,7 @@ void Camera::Update()
 {
 	// 실제로 화면이 x축으로  + 이동시 보이는건 -로 보임 => -position 입력
 	D3DXMatrixTranslation(&view, -position.x, -position.y, 0.0f);
+
 }
 
 void Camera::Render()
