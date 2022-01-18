@@ -114,6 +114,12 @@
     <ClCompile Include="Renders\AlphaBlendSprite.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\LoadingScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneControl.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -239,6 +245,12 @@
     </ClInclude>
     <ClInclude Include="Renders\AlphaBlendSprite.h">
       <Filter>Renders</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\LoadingScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneControl.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -8,21 +8,28 @@
 #include "Viewer/Following.h"
 #include "Scene/Scene.h"
 #include "Scene/Stage2.h"
+#include "Scene/LoadingScene.h"
 #include <thread>
 
 SceneValues* values;
 vector<Scene*> scenes;
 CollisionSystem* collisionsystem;
 bool bIsDebugging = true;
+bool bIsLoadingFinish = false;
 vector<Scene*> loadingScene;
+vector<Scene*> waitingScene;
+thread* t1;
+
+
 void InitScene()
 {
 	values = new SceneValues();
 	values->MainCamera = new Freedom();
 	D3DXMatrixIdentity(&values->Projection);
-
-	//scenes.push_back(new Stage2(values));
-	scenes.push_back(new Stage2(values));
+		
+	scenes.push_back(new LoadingScene(values));;
+	t1 = new thread([]() { loadingScene.push_back(new Stage2(values)); bIsLoadingFinish = true; });
+	
 }
 
 void DestroyScene()
@@ -60,25 +67,23 @@ void Update()
 		*/
 
 
-		//	D3DXMatrixOrthoOffCenterLH(&values->Projection, 
-		//	0, (float)Width, 
-		//	0, (float)Height,
-		//	-1, 1 // z축
-		//);
-
 		D3DXMatrixOrthoOffCenterLH(&values->Projection, 
 			-(float)Width * 0.5f, (float)Width * 0.5f, 
 			-(float)Height * 0.5f, (float)Height * 0.5f,
 			-1, 1 // z축
 		);
 
-	//D3DXMatrixOrthoOffCenterLH(&values->Projection,
-	//	horizental.x, horizental.y,
-	//	vertical.x, vertical.y,
-	//	-1, 1 // z축
-	//);
-
-
+	//if (bIsLoadingFinish && Key->Down(VK_END))
+	//{
+	//	bIsLoadingFinish = false;
+	//	for (auto scene : scenes)
+	//	{
+	//		waitingScene.push_back(scene);
+	//	}
+	//	scenes.clear();
+	//	scenes.push_back(loadingScene[0]);
+	//	loadingScene.clear();
+	//}
 
 	// 원근 투영
 	//D3DXMatrixPerspectiveOffCenterLH(&values->Projection, 0, (float)Width, 0, (float)Height, -1, 1);
@@ -86,6 +91,7 @@ void Update()
 	{
 		scene->Update();
 	}
+	
 }
 
 void Render()
@@ -93,21 +99,15 @@ void Render()
 	D3DXCOLOR bgColor = D3DXCOLOR(0, 0, 0, 0);
 	DeviceContext->ClearRenderTargetView(RTV, (float*)bgColor);
 	{
-		//ImGui::SliderFloat2("Horizental", (float*)&horizental, -1000, 1000);
-		//ImGui::SliderFloat2("Vertical", (float*)&vertical, -1000, 1000);
-
 		for (Scene* scene : scenes)
 		{
 			scene->Render();
 		}
 	}
-	//if (ImGui::Button(bIsDebugging ? "SetDebugMode" : "SetNormalMode"))
-	//{
-	//	bIsDebugging ? false : true;
-	//}
 	ImGui::Render();
 
 	DirectWrite::GetDC()->BeginDraw();
+	DirectWrite::SetColor(D2D1::ColorF(0, 0, 0));
 	{
 		wstring text;
 
@@ -120,22 +120,27 @@ void Render()
 
 		DirectWrite::RenderText(text, rect);
 
-
-		//rect.top += 30;
-		//rect.bottom += 30;
-		//text = L"Camera Position : " + to_wstring((int)values->MainCamera->GetPosition().x);;
-		//text += L" , ";
-		//text += to_wstring((int)values->MainCamera->GetPosition().y);
-		//DirectWrite::RenderText(text, rect);
-
-		//rect.top += 30;
-		//rect.bottom += 30;
-		//text = L"Mouse Position : " + to_wstring((int)Mouse->Position().x);
-		//text += L" , ";
-		//text += to_wstring((int)Mouse->Position().y);
-		//DirectWrite::RenderText(text, rect);
 	}
-
 	DirectWrite::GetDC()->EndDraw();
 	SwapChain->Present(0, 0);
+
+	//if (bIsLoadingFinish && Key->Down(VK_END))
+	//{
+	//	bIsLoadingFinish = false;
+	//	for (auto scene : scenes)
+	//	{
+	//		waitingScene.push_back(scene);
+	//	}
+	//	scenes.clear();
+	//	scenes.push_back(loadingScene[0]);
+	//	loadingScene.clear();
+	//}
+
+	if (t1->joinable())
+	{
+		t1->join();
+		scenes.at(0) = loadingScene.at(0);
+	}
+
+
 }

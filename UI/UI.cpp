@@ -89,6 +89,7 @@ void UI::Render()
 			== ((AlphaBlendSprite*)vSprites[YouDiedImage])->GetPresentAlphaValues()))
 			return;
 		DirectWrite::GetDC()->BeginDraw();
+		DirectWrite::Get()->SetColor(D2D1::ColorF(1, 1, 0));
 		{
 			wstring text;
 	

@@ -12,6 +12,9 @@ IDXGISurface* DirectWrite::surface = NULL;
 ID2D1SolidColorBrush* DirectWrite::brush = NULL;
 IDWriteTextFormat* DirectWrite::format = NULL;
 
+
+D2D1::ColorF DirectWrite::color = D2D1::ColorF(0, 0, 0);
+
 // 객체 생성 메소드. 일반적으로 프로그램 실행시 초기화 할 떄 호출 될 것. 이미 호출 된 경우 재호출을 방지 하기 위해 assert 로 체크
 void DirectWrite::Create()
 {
@@ -139,7 +142,7 @@ void DirectWrite::CreateBackBuffer()
 	deviceContext->SetTarget(bitmap);
 
 	// brush 설정.
-	hr = deviceContext->CreateSolidColorBrush(D2D1::ColorF(1, 1, 1), &brush);
+	hr = deviceContext->CreateSolidColorBrush(color, &brush);
 	assert(SUCCEEDED(hr));
 
 	// textformat 생성
@@ -164,6 +167,11 @@ void DirectWrite::DeleteBackBuffer()
 
 void DirectWrite::RenderText(wstring & text, RECT & rect)
 {
+	HRESULT hr;
+	hr = deviceContext->CreateSolidColorBrush(color, &brush);
+
+	assert(SUCCEEDED(hr));
+
 	D2D1_RECT_F temp;
 	temp.left = (float)rect.left;
 	temp.top = (float)rect.top;

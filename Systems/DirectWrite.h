@@ -23,6 +23,8 @@ public:
 	// 실제 텍스트를 출력 할 때 사용하는 메소드이다.
 	static void RenderText(wstring& text, RECT& rect);
 
+	static void SetColor(D2D1::ColorF color) { DirectWrite::color = color; };
+
 private:
 	// 해당 클래스의 싱글톤 패턴 이용시 사용 될 공용 객체 저장을 위한 포인터
 	static DirectWrite* instance;
@@ -43,6 +45,7 @@ private:
 	static ID2D1Bitmap1* bitmap;
 	static IDXGISurface* surface;
 
+	static D2D1::ColorF color;
 
 	static ID2D1SolidColorBrush* brush;
 	static IDWriteTextFormat* format;

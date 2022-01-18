@@ -60,8 +60,9 @@ void Stage2::Update()
 {
 	D3DXMATRIX V = following->GetView();
 	D3DXMATRIX P;// = values->Projection;
-
 	D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width, 0, (float)Height, -1, 1);
+
+
 	bg->Update(V, P);
 	yeti->Update(V, P);
 	player->Update(V, P);

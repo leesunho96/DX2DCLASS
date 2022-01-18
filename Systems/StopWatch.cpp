@@ -13,7 +13,8 @@ void StopWatch::Update()
 {
 	if (isOver)
 		return;
-	present_Time += Timer->Elapsed();
+	if(Timer->Elapsed() < 10.0f)
+		present_Time += Timer->Elapsed();
 	if (present_Time >= max_Time)
 		isOver = true;
 }
