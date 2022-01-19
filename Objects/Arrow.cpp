@@ -101,8 +101,6 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 				AttackToEnemy();
 			}
 		}
-		
-
 	}
 	sprite->Rotation(Rotation);
 	sprite->Position(position);

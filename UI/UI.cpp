@@ -34,7 +34,7 @@ UI::UI(Player * player, Camera* camera) : target(player), camera(camera)
 		sprite->Rotation(0, 0, 0);
 		//sprite->SetAbsoluteScale(Width, Height);
 		((AlphaBlendSprite*)sprite)->SetSpeed(0.3f);
-		((AlphaBlendSprite*)sprite)->SetIsChangeable(true);
+		//((AlphaBlendSprite*)sprite)->SetIsChangeable(true);
 		((AlphaBlendSprite*)sprite)->SetAlphaValues(0.9f);
 	//	((AlphaBlendSprite*)sprite)->SetNormalMode();
 		((AlphaBlendSprite*)sprite)->SetFadeOut();

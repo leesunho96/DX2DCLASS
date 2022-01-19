@@ -98,8 +98,6 @@ void AlphaBlendSprite::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 void AlphaBlendSprite::Render()
 {
-	//if (!stopwatch.IsOver())
-	//	return;
 	if (!bIsValidate)
 		return;
 

@@ -4,7 +4,7 @@
 #include "Objects/Player.h"
 #include "Objects/Yeti.h"
 #include "Objects/Marker.h"
-#include "Objects/Background_Yeti.h"
+#include "Maps/Background_Yeti.h"
 
 
 #include "Viewer/Following.h"
@@ -18,9 +18,7 @@
 #include "UI/UI.h"
 
 extern CollisionSystem* collisionsystem;
-extern bool bIsDebugging;
 Following* following;
-
 ActorsData* actorsdata;
 
 Stage2::Stage2(SceneValues * values)
@@ -28,7 +26,6 @@ Stage2::Stage2(SceneValues * values)
 {
 	float scale = 1.5f;
 	wstring shaderFile = Shaders + L"009_Sprite.fx";
-	//((Freedom*)(values->MainCamera))->SetPosition(0, 0);
 	bg = new Background_Yeti(values, scale);
 	collisionsystem = new CollisionSystem(values, player);
 	player = new Player(D3DXVECTOR2(0, 0), D3DXVECTOR2(3, 3));
@@ -36,12 +33,11 @@ Stage2::Stage2(SceneValues * values)
 	yeti = new Yeti(D3DXVECTOR2(0, 200), D3DXVECTOR2(2, 2));
 	actorsdata->SetData(yeti);
 	following = new Following(player);
-	//values->MainCamera = following;
 	RECT cameraBoundery = { -(Width * 0.5f) * scale, //left
 		(Height * 0.5f) * scale,  // top
 		(Width * 0.5f) * scale, // right
 		-(Height * 0.5f) * scale }; // bottom
-	(following)->SetLimit(cameraBoundery, player->GetOffset());
+	following->SetLimit(cameraBoundery, player->GetOffset());
 	collisionsystem->GetCollisionData(bg->GetCollisionData());
 	ui = new UI(player, following);
 }

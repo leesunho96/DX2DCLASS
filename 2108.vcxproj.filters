@@ -29,9 +29,6 @@
     <ClCompile Include="Systems\Device.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Bullet.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Renders\Clip.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
@@ -60,12 +57,6 @@
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="Program.cpp" />
-    <ClCompile Include="Objects\Fire.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Background_Yeti.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\Line.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -120,6 +111,15 @@
     <ClCompile Include="Scene\SceneControl.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Maps\Background_Yeti.cpp">
+      <Filter>Maps</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Goliath.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Maps\Background_Goliath.cpp">
+      <Filter>Maps</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -149,9 +149,6 @@
     </ClInclude>
     <ClInclude Include="Systems\Device.h">
       <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Bullet.h">
-      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Renders\Clip.h">
       <Filter>Renders</Filter>
@@ -188,12 +185,6 @@
     </ClInclude>
     <ClInclude Include="Scene\Stage2.h">
       <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Fire.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Background_Yeti.h">
-      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Line.h">
       <Filter>Objects</Filter>
@@ -252,6 +243,15 @@
     <ClInclude Include="Scene\SceneControl.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Maps\Background_Yeti.h">
+      <Filter>Maps</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Goliath.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Maps\Background_Goliath.h">
+      <Filter>Maps</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">
@@ -280,6 +280,9 @@
     </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{57803d4e-4921-4c3b-ab96-235c287ca257}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Maps">
+      <UniqueIdentifier>{cc7467e8-0a80-462f-b2db-ac978138531f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

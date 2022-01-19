@@ -35,8 +35,7 @@ Background_Yeti::Background_Yeti(SceneValues* scenevalues, float Scale)
 		vector<Line*> lines;
 
 		for (UINT i = 0; i < markers.size() - 1; i++)
-		{
-			
+		{			
 			lines.push_back(new Line(markers[i], markers[i + 1]));
 		}		
 		lines.push_back(new Line(markers[0], markers[markers.size() - 1]));
