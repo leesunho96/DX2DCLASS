@@ -183,4 +183,9 @@
       <UniqueIdentifier>{2eac4a32-43cc-4827-9178-932e2ffea3ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="marker.txt">
+      <Filter>Scene</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

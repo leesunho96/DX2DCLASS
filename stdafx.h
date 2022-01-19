@@ -52,6 +52,8 @@ using namespace std;
 #include "Utilities/Math.h"
 #include "Utilities/Path.h"
 #include "Utilities/String.h"
+#include "Utilities/Xml.h"
+#include "Utilities/BinaryFile.h"
 
 
 #define SAFE_RELEASE(p){ if(p){ (p)->Release(); (p) = NULL; } }

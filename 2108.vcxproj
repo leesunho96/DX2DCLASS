@@ -208,6 +208,9 @@
     <ClInclude Include="Viewer\Freedom.h" />
     <ClInclude Include="Viewer\IFollowing.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="marker.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

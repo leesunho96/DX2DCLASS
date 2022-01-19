@@ -20,6 +20,58 @@ void InitScene()
 
 	//scenes.push_back(new Stage2(values));
 	scenes.push_back(new Sonic(values));
+
+	//xml은 document 시작
+	//Xml::XMLDocument* document = new Xml::XMLDocument();
+	//Xml::XMLDeclaration* decl = document->NewDeclaration();
+	//document->LinkEndChild(decl);
+
+	//Xml::XMLElement* root = document->NewElement("Materials");
+	//root->SetAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+	//root->SetAttribute("xmlns:xsd", "http://www.w3.org/2001/XMLSchema");
+	//document->LinkEndChild(root);
+	//// matarial 부터 시작
+	//Xml::XMLElement* node = document->NewElement("Material");
+	//root->LinkEndChild(node);
+	////linkEndchild : 현재 노드 마지막에 연결
+
+
+
+	//Xml::XMLElement* element = NULL;
+
+	//element = document->NewElement("Name");
+	//element->SetText("Seoul Game Acamedy");
+	//node->LinkEndChild(element);
+
+	//element = document->NewElement("Number");
+	//element->SetText(10);
+	//node->LinkEndChild(element);
+
+	//element = document->NewElement("Average");
+	//element->SetText(10.02f);
+	//node->LinkEndChild(element);
+
+	//document->SaveFile("test.xml");
+	//SAFE_DELETE(document);
+
+
+	//Xml::XMLDocument* document = new Xml::XMLDocument();
+	//Xml::XMLError error = document->LoadFile("test.xml");
+	//assert(error == Xml::XML_SUCCESS);
+
+	//Xml::XMLElement* root = document->FirstChildElement();
+	//Xml::XMLElement* material = root->FirstChildElement();
+
+	//Xml::XMLElement* element = material->FirstChildElement();
+	//string name = element->GetText();
+
+	//element = element->NextSiblingElement();
+	//int number = element->IntText();
+
+	//element = element->NextSiblingElement();
+	//float average = element->FloatText();
+
+	//SAFE_DELETE(document);
 }
 
 void DestroyScene()
