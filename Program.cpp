@@ -26,10 +26,10 @@ void InitScene()
 	values = new SceneValues();
 	values->MainCamera = new Freedom();
 	D3DXMatrixIdentity(&values->Projection);
-		
+
 	scenes.push_back(new LoadingScene(values));;
-	t1 = new thread([]() { loadingScene.push_back(new Stage2(values)); bIsLoadingFinish = true; });
-	
+	t1 = new thread([&]() { loadingScene.push_back(new Stage2(values)); });
+
 }
 
 void DestroyScene()
@@ -49,6 +49,15 @@ void Update()
 {
 	//View
 
+	if (bIsLoadingFinish && Key->Down(VK_RETURN))
+	{
+		waitingScene.push_back(scenes[0]);
+		scenes[0] = loadingScene[0];
+		((Stage2*)scenes[0])->ChangeCamera();
+		loadingScene.clear();
+		bIsLoadingFinish = false;
+	}
+
 	values->MainCamera->Update();
 
 	// OrthoGraphy : 직교
@@ -67,23 +76,13 @@ void Update()
 		*/
 
 
-		D3DXMatrixOrthoOffCenterLH(&values->Projection, 
-			-(float)Width * 0.5f, (float)Width * 0.5f, 
-			-(float)Height * 0.5f, (float)Height * 0.5f,
-			-1, 1 // z축
-		);
+	D3DXMatrixOrthoOffCenterLH(&values->Projection,
+		0, (float)Width ,
+		0, (float)Height ,
+		-1, 1 // z축
+	);
 
-	//if (bIsLoadingFinish && Key->Down(VK_END))
-	//{
-	//	bIsLoadingFinish = false;
-	//	for (auto scene : scenes)
-	//	{
-	//		waitingScene.push_back(scene);
-	//	}
-	//	scenes.clear();
-	//	scenes.push_back(loadingScene[0]);
-	//	loadingScene.clear();
-	//}
+
 
 	// 원근 투영
 	//D3DXMatrixPerspectiveOffCenterLH(&values->Projection, 0, (float)Width, 0, (float)Height, -1, 1);
@@ -91,7 +90,7 @@ void Update()
 	{
 		scene->Update();
 	}
-	
+
 }
 
 void Render()
@@ -139,7 +138,8 @@ void Render()
 	if (t1->joinable())
 	{
 		t1->join();
-		scenes.at(0) = loadingScene.at(0);
+//		scenes.at(0) = loadingScene.at(0);
+		bIsLoadingFinish = true;
 	}
 
 

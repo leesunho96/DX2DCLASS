@@ -18,6 +18,8 @@ public:
 
 	void Update() override;
 	void Render() override;
+
+	void ChangeCamera();
 	
 private:
 	Background_Yeti* bg;

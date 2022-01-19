@@ -23,7 +23,7 @@ void LoadingScene::Update()
 	D3DXMATRIX V = values->MainCamera->GetView();
 	D3DXMATRIX P;// = values->Projection;
 
-	D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width, 0, (float)Height, -1, 1);
+	D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width,0,  (float)Height, -1, 1);
 	sprite->Update(V, P);
 }
 
@@ -40,7 +40,7 @@ void LoadingScene::Render()
 		rect.top = 500;
 		rect.right = 600;
 		rect.bottom = 520;
-		text = bIsLoadingFinish ? L"Loading......" : L"Press Enter To Start";
+		text = !bIsLoadingFinish ? L"Loading......" : L"Press Enter To Start";
 
 		DirectWrite::RenderText(text, rect);
 

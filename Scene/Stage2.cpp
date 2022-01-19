@@ -36,13 +36,12 @@ Stage2::Stage2(SceneValues * values)
 	yeti = new Yeti(D3DXVECTOR2(0, 200), D3DXVECTOR2(2, 2));
 	actorsdata->SetData(yeti);
 	following = new Following(player);
-	values->MainCamera = following;
+	//values->MainCamera = following;
 	RECT cameraBoundery = { -(Width * 0.5f) * scale, //left
 		(Height * 0.5f) * scale,  // top
 		(Width * 0.5f) * scale, // right
 		-(Height * 0.5f) * scale }; // bottom
-	((Following*)(values->MainCamera))->SetLimit(cameraBoundery, player->GetOffset());
-
+	(following)->SetLimit(cameraBoundery, player->GetOffset());
 	collisionsystem->GetCollisionData(bg->GetCollisionData());
 	ui = new UI(player, following);
 }
@@ -77,5 +76,10 @@ void Stage2::Render()
 	player->Render();
 	yeti->Render();
 	ui->Render();
+}
+
+void Stage2::ChangeCamera()
+{
+	values->MainCamera = following;
 }
 
