@@ -1,9 +1,6 @@
 #pragma once
 #include "Character.h"
 
-class SnowBall;
-class Icycle;
-
 class Yeti : public Character
 {
 
@@ -12,7 +9,6 @@ public:
 	~Yeti();
 
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
-	void SetPositionRotationScalePlayAnimationUpdate(D3DXMATRIX & V, D3DXMATRIX & P);
 	virtual void Render() override;
 	virtual void ApplyDamege(Sprite* sprite) override;
 	virtual Sprite* GetSprite() override;
@@ -23,6 +19,7 @@ public:
 
 
 private:
+	void SetPositionRotationScalePlayAnimationUpdate(D3DXMATRIX & V, D3DXMATRIX & P);
 	bool IsActorsToRight(D3DXVECTOR2 &direction);
 	void ActionWhileDead();
 	void SetDirectionRotationAnimationNum(int &iLocalpresentdirection, int i);
@@ -76,9 +73,9 @@ private:
 	// 01000000 :
 	// 10000000 : 
 	unsigned char PresentState = 0;// Idle;
-		
-	
-	
+
+
+
 	int iPlayAnimationNum = 0;
 	int iPresentTurnNum = 0;
 	int iSnowballTurnNum = 0;
@@ -86,7 +83,6 @@ private:
 	int iPresentBallNum = 0;
 
 	Animation* animation;
-	SnowBall* snowballs[3];
-	Icycle* icycles[5];
+
 	StopWatch stopwatch;
 };

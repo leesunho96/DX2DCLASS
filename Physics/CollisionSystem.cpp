@@ -2,7 +2,7 @@
 #include "CollisionSystem.h"
 #include "Objects/Marker.h"
 #include "Objects/Line.h"
-#include "Objects/Player.h"
+#include "Characters/Player.h"
 #include "Scene/Scene.h"
 
 #include "Data/LineDesc.h"

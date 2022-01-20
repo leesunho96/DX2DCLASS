@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Icycle.h"
-#include "Player.h"
+#include "Characters/Player.h"
 
 
 Icycle::Icycle(int type, Player* player) : stopwatch(StopWatch()), player(player), gravity(Gravity())

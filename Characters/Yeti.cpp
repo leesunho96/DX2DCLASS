@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "Yeti.h"
-#include "SnowBall.h"
-#include "Icycle.h"
+#include "Objects/SnowBall.h"
+#include "Objects/Icycle.h"
 #include "Player.h"
-#include "Arrow.h"
+#include "Objects/Arrow.h"
 #include "Physics/CollisionSystem.h"
 
 extern CollisionSystem* collisionsystem;

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "SnowBall.h"
-#include "Player.h"
+#include "Characters/Player.h"
 
 SnowBall::SnowBall() : animation(new Animation()), position(D3DXVECTOR2(0.0f, 0.0f)), rotation(D3DXVECTOR3(0, 0, 0)),
 scale(D3DXVECTOR2(1.0f, 1.0f)), direction(D3DXVECTOR2(-1, 0)), stopwatch(StopWatch()), bIsValid(false)

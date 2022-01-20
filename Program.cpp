@@ -3,7 +3,7 @@
 #include "Physics/CollisionSystem.h"
 
 
-#include "Objects/Player.h"
+#include "Characters/Player.h"
 #include "Viewer/Freedom.h"
 #include "Viewer/Following.h"
 #include "Scene/Scene.h"
@@ -96,5 +96,5 @@ void Render()
 	}
 	DirectWrite::GetDC()->EndDraw();
 	SwapChain->Present(0, 0);
-	scenes->CheckIsLoadedMap();
+	//scenes->CheckIsLoadedMap();
 }

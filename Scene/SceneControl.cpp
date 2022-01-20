@@ -2,35 +2,41 @@
 #include "SceneControl.h"
 #include "Scene.h"
 #include "Scene/LoadingScene.h"
+#include "Scene/Stage1.h"
 #include "Scene/Stage2.h"
 #include "Viewer/Camera.h"
 #include "Viewer/Following.h"
 
 #define LOADINGSCENE 0
 #define YETISCENE 1
+#define GOLIATHSCENE 2
 bool bIsLoadingFinish = false;
 
 SceneControl::SceneControl(SceneValues* value) : Scene(value)
 {
-	iRenderScene = LOADINGSCENE;
-	for (size_t i = 0; i < 5; i++)
-	{
-		isLoading.push_back(false);
-	}
+	iRenderScene = GOLIATHSCENE;
+	//for (size_t i = 0; i < 5; i++)
+	//{
+	//	isLoading.push_back(false);
+	//}
 	this->values = value;
-	scenes.push_back(new LoadingScene(value));	
-	threads.push_back(nullptr);
-	threads.push_back
-	(
-		new thread
-		(
-			[&]()
-			{
-				scenes.push_back(new Stage2(value));		
-				isLoading[YETISCENE] = true;
-			}
-		)
-	);
+	//scenes.push_back(new LoadingScene(value));	
+	//threads.push_back(nullptr);
+	scenes.push_back(nullptr);
+	scenes.push_back(nullptr);
+	scenes.push_back(new Stage1(value));
+	((Stage1*)scenes[GOLIATHSCENE])->ChangeCamera();
+	//threads.push_back
+	//(
+	//	new thread
+	//	(
+	//		[&]()
+	//		{
+	//			scenes.push_back(new Stage2(value));		
+	//			isLoading[YETISCENE] = true;
+	//		}
+	//	)
+	//);
 }
 
 SceneControl::~SceneControl()
@@ -43,12 +49,12 @@ SceneControl::~SceneControl()
 
 void SceneControl::Update()
 {	
-	if (isLoading[YETISCENE] && Key->Down(VK_RETURN))
-	{
-		GoesToMap(YETISCENE);
-		((Stage2*)scenes[YETISCENE])->ChangeCamera();
-		isLoading[YETISCENE] = false;
-	}
+	//if (isLoading[YETISCENE] && Key->Down(VK_RETURN))
+	//{
+	//	GoesToMap(YETISCENE);
+	//	((Stage2*)scenes[YETISCENE])->ChangeCamera();
+	//	isLoading[YETISCENE] = false;
+	//}
 	scenes[iRenderScene]->Update();
 }
 

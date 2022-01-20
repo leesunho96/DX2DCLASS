@@ -148,6 +148,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Characters\Goliath.cpp" />
+    <ClCompile Include="Characters\Player.cpp" />
+    <ClCompile Include="Characters\Yeti.cpp" />
     <ClCompile Include="Data\ActorsData.cpp" />
     <ClCompile Include="Data\Collision.cpp" />
     <ClCompile Include="Data\CollisionData.cpp" />
@@ -157,9 +160,7 @@
     <ClCompile Include="Objects\Icycle.cpp" />
     <ClCompile Include="Objects\Line.cpp" />
     <ClCompile Include="Objects\Marker.cpp" />
-    <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\SnowBall.cpp" />
-    <ClCompile Include="Objects\Yeti.cpp" />
     <ClCompile Include="Physics\CollisionSystem.cpp" />
     <ClCompile Include="Physics\Gravity.cpp" />
     <ClCompile Include="Renders\AlphaBlendSprite.cpp" />
@@ -169,7 +170,7 @@
     <ClCompile Include="Renders\Shader.cpp" />
     <ClCompile Include="Renders\Sprite.cpp" />
     <ClCompile Include="Program.cpp" />
-    <ClCompile Include="Scene\Goliath.cpp" />
+    <ClCompile Include="Scene\Stage1.cpp" />
     <ClCompile Include="Scene\LoadingScene.cpp" />
     <ClCompile Include="Scene\SceneControl.cpp" />
     <ClCompile Include="Scene\Stage2.cpp" />
@@ -193,6 +194,10 @@
     <ClCompile Include="Viewer\Freedom.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Characters\Character.h" />
+    <ClInclude Include="Characters\Goliath.h" />
+    <ClInclude Include="Characters\Player.h" />
+    <ClInclude Include="Characters\Yeti.h" />
     <ClInclude Include="Data\ActorsData.h" />
     <ClInclude Include="Data\Collision.h" />
     <ClInclude Include="Data\CollisionData.h" />
@@ -200,13 +205,10 @@
     <ClInclude Include="Maps\Background_Yeti.h" />
     <ClInclude Include="Maps\Background_Goliath.h" />
     <ClInclude Include="Objects\Arrow.h" />
-    <ClInclude Include="Objects\Character.h" />
     <ClInclude Include="Objects\Icycle.h" />
     <ClInclude Include="Objects\Line.h" />
     <ClInclude Include="Objects\Marker.h" />
-    <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\SnowBall.h" />
-    <ClInclude Include="Objects\Yeti.h" />
     <ClInclude Include="Physics\CollisionSystem.h" />
     <ClInclude Include="Physics\Gravity.h" />
     <ClInclude Include="Renders\AlphaBlendSprite.h" />
@@ -215,7 +217,7 @@
     <ClInclude Include="Renders\Rect.h" />
     <ClInclude Include="Renders\Shader.h" />
     <ClInclude Include="Renders\Sprite.h" />
-    <ClInclude Include="Scene\Goliath.h" />
+    <ClInclude Include="Scene\Stage1.h" />
     <ClInclude Include="Scene\LoadingScene.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneControl.h" />

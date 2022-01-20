@@ -41,9 +41,6 @@
     <ClCompile Include="Renders\Animation.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Player.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Viewer\Camera.cpp">
       <Filter>Viewer</Filter>
     </ClCompile>
@@ -96,9 +93,6 @@
     <ClCompile Include="Scene\Stage2.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Yeti.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="UI\UI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -114,11 +108,20 @@
     <ClCompile Include="Maps\Background_Yeti.cpp">
       <Filter>Maps</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Goliath.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Maps\Background_Goliath.cpp">
       <Filter>Maps</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Stage1.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\Goliath.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\Player.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\Yeti.cpp">
+      <Filter>Characters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,9 +165,6 @@
     <ClInclude Include="Renders\Animation.h">
       <Filter>Renders</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Player.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Viewer\Camera.h">
       <Filter>Viewer</Filter>
     </ClInclude>
@@ -207,9 +207,6 @@
     <ClInclude Include="Objects\Icycle.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Yeti.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Physics\CollisionSystem.h">
       <Filter>Physics</Filter>
     </ClInclude>
@@ -217,9 +214,6 @@
       <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="Objects\SnowBall.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Character.h">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Data\ActorsData.h">
@@ -246,11 +240,23 @@
     <ClInclude Include="Maps\Background_Yeti.h">
       <Filter>Maps</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Goliath.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Maps\Background_Goliath.h">
       <Filter>Maps</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Stage1.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\Character.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\Goliath.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\Player.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\Yeti.h">
+      <Filter>Characters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +289,9 @@
     </Filter>
     <Filter Include="Maps">
       <UniqueIdentifier>{cc7467e8-0a80-462f-b2db-ac978138531f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Characters">
+      <UniqueIdentifier>{53b59101-a7b5-480e-a4f9-bcf68307138d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

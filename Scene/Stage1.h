@@ -6,16 +6,14 @@
 class Player;
 class CollisionSystem;
 class ActorsData;
-class Yeti;
 class UI;
-class Background_Goliath
-extern bool bIsDebugging;
+class Background_Goliath;
 
-class Goliath : public Scene
+class Stage1 : public Scene
 {
 public:
-	Goliath(SceneValues* values);
-	~Goliath();
+	Stage1(SceneValues* values);
+	~Stage1();
 
 	void Update() override;
 	void Render() override;
@@ -25,7 +23,7 @@ public:
 private:
 	Background_Goliath* bg;
 	Player* player;
-	Yeti* yeti;
+	Stage1* goliath;
 	//
 	UI* ui;
 	// for debugging

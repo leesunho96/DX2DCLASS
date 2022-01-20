@@ -19,10 +19,10 @@ Background_Goliath::Background_Goliath(SceneValues * scenevalues, float Scale)
 
 	{	
 		vector<Marker*> markers;
-		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), D3DXVECTOR2(0, 0)) * Scale));
-		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), D3DXVECTOR2(Width, 0)) * Scale));
-		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), D3DXVECTOR2(Width, -Height)) * Scale));
-		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), D3DXVECTOR2(0, -Height)) * Scale));
+		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), (D3DXVECTOR2(0,     0))      - D3DXVECTOR2(0, Height)  )* Scale));
+		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), (D3DXVECTOR2(Width, 0))      - D3DXVECTOR2(0, Height)  )* Scale));
+		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), (D3DXVECTOR2(Width, Height - 210)) - D3DXVECTOR2(0, Height)  )* Scale));
+		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), (D3DXVECTOR2(0,     Height - 210)) - D3DXVECTOR2(0, Height)  )* Scale));
 
 		vector<Line*> lines;
 

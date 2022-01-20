@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "UI/UI.h"
-#include "Objects/Player.h"
+#include "Characters/Player.h"
 #include "Viewer/Camera.h"
 #include "Renders/AlphaBlendSprite.h"
 

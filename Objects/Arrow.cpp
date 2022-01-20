@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Arrow.h"
-#include "Player.h"
-#include "Yeti.h"
+#include "Characters/Player.h"
+#include "Characters/Yeti.h"
 
 extern ActorsData* actorsdata;
 
