@@ -18,7 +18,7 @@
 
 
 extern CollisionSystem* collisionsystem;
-extern Following* following;
+
 extern ActorsData* actorsdata;
 
 Stage1::Stage1(SceneValues * values) 
@@ -29,8 +29,8 @@ Stage1::Stage1(SceneValues * values)
 	bg = new Background_Goliath(values, scale);
 	collisionsystem = new CollisionSystem(values, player);
 
-	player = new Player(D3DXVECTOR2(0, 0), D3DXVECTOR2(3, 3));
-	actorsdata = new ActorsData(player);
+	player = actorsdata->GetPlayerData();
+	//actorsdata = new ActorsData(player);
 	//goliath = new Yeti(D3DXVECTOR2(0, 200), D3DXVECTOR2(2, 2));
 	//actorsdata->SetData(goliath);
 	following = new Following(player);
@@ -39,7 +39,6 @@ Stage1::Stage1(SceneValues * values)
 		(Width * 0.5f) * scale, // right
 		-(Height * 0.5f) * scale }; // bottom
 	following->SetLimit(cameraBoundery, player->GetOffset());
-	collisionsystem->GetCollisionData(bg->GetCollisionData());
 	ui = new UI(player, following);
 
 }
@@ -79,4 +78,6 @@ void Stage1::Render()
 void Stage1::ChangeCamera()
 {
 	values->MainCamera = following;
+	collisionsystem->GetCollisionData(bg->GetCollisionData());
+	player->ResetPlayer(D3DXVECTOR2(0, 0));
 }

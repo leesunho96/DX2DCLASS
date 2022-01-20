@@ -23,7 +23,7 @@ public:
 private:
 	vector<Scene*> scenes;
 	vector<thread*> threads;
-	vector<bool> isLoading;
+	//vector<bool> isLoading;
 
 	int iRenderScene = 0;
 };

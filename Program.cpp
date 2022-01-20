@@ -11,6 +11,7 @@
 #include "Scene/LoadingScene.h"
 #include "Scene/SceneControl.h"
 
+ActorsData* actorsdata;
 
 SceneValues* values;
 //vector<Scene*> scenes;
@@ -96,5 +97,5 @@ void Render()
 	}
 	DirectWrite::GetDC()->EndDraw();
 	SwapChain->Present(0, 0);
-	//scenes->CheckIsLoadedMap();
+	scenes->CheckIsLoadedMap();
 }

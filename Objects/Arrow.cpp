@@ -19,7 +19,7 @@ Arrow::Arrow(wstring spriteFile, wstring shaderFile)
 
 Arrow::~Arrow()
 {
-	SAFE_DELETE(stopwatch);
+	//SAFE_DELETE(stopwatch);
 }
 
 void Arrow::SetPosition(D3DXVECTOR2 pos)
@@ -69,7 +69,7 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			// 
 			//D3DXVec2Normalize()
 			Rotation = GetArrowRotation();
-			if (actorsdata->GetYetiData()->GetSprite()->OBB(sprite))
+			if (actorsdata->GetEnemyData()->GetSprite()->OBB(sprite))
 			{
 				AttackToEnemy();
 			}
@@ -96,7 +96,7 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		else
 		{
 			position += direction * Timer->Elapsed() * 300;
-			if (actorsdata->GetYetiData()->GetSprite()->OBB(sprite))
+			if (actorsdata->GetEnemyData()->GetSprite()->OBB(sprite))
 			{
 				AttackToEnemy();
 			}
@@ -109,17 +109,17 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 void Arrow::AttackToEnemy()
 {
-	if (actorsdata->GetYetiData()->IsAttackable())
+	if (actorsdata->GetEnemyData()->IsAttackable())
 	{
-		actorsdata->GetYetiData()->ApplyDamege(sprite);
+		actorsdata->GetEnemyData()->ApplyDamege(sprite);
 	}
 	else
 	{
-		if (actorsdata->GetYetiData()->IsIdle())
+		if (actorsdata->GetEnemyData()->IsIdle())
 		{
-			actorsdata->GetYetiData()->ApplyDamege(sprite);
+			actorsdata->GetEnemyData()->ApplyDamege(sprite);
 		}
-		direction = GetReflectionVector(direction, GetWhichSideIsCollideWighEnemy(actorsdata->GetYetiData()->GetSprite()));
+		direction = GetReflectionVector(direction, GetWhichSideIsCollideWighEnemy(actorsdata->GetEnemyData()->GetSprite()));
 		position += direction * 30.0f;
 	}
 }
@@ -228,14 +228,14 @@ int	Arrow::GetWhichSideIsCollideWighEnemy(Sprite* enemy)
 	ArrowRECT.left   = GetTipPosistion().x - 10; //sprite->Position().x - sprite->TextureSize().x * 0.5f;
 	ArrowRECT.right  = GetTipPosistion().x + 10;//sprite->Position().x + sprite->TextureSize().x * 0.5f;
 
-	enemyRECT.top = actorsdata->GetYetiData()->GetSprite()->Position().y -
-		actorsdata->GetYetiData()->GetSprite()->TextureSize().y * 0.5f;
-	enemyRECT.bottom = actorsdata->GetYetiData()->GetSprite()->Position().y +
-		actorsdata->GetYetiData()->GetSprite()->TextureSize().y * 0.5f;
-	enemyRECT.left = actorsdata->GetYetiData()->GetSprite()->Position().x -
-		actorsdata->GetYetiData()->GetSprite()->TextureSize().x * 0.5f;
-	enemyRECT.right = actorsdata->GetYetiData()->GetSprite()->Position().x +
-		actorsdata->GetYetiData()->GetSprite()->TextureSize().x * 0.5f;
+	enemyRECT.top = actorsdata->GetEnemyData()->GetSprite()->Position().y -
+		actorsdata->GetEnemyData()->GetSprite()->TextureSize().y * 0.5f;
+	enemyRECT.bottom = actorsdata->GetEnemyData()->GetSprite()->Position().y +
+		actorsdata->GetEnemyData()->GetSprite()->TextureSize().y * 0.5f;
+	enemyRECT.left = actorsdata->GetEnemyData()->GetSprite()->Position().x -
+		actorsdata->GetEnemyData()->GetSprite()->TextureSize().x * 0.5f;
+	enemyRECT.right = actorsdata->GetEnemyData()->GetSprite()->Position().x +
+		actorsdata->GetEnemyData()->GetSprite()->TextureSize().x * 0.5f;
 
 	IntersectRect(&intersectRECT, &ArrowRECT, &enemyRECT);
 

@@ -24,7 +24,7 @@ UI::UI(Player * player, Camera* camera) : target(player), camera(camera)
 		vSprites.push_back(sprite);
 	}	
 
-
+	// Yeti
 	{
 		sprite = new AlphaBlendSprite(Textures + L"TianSouls/NamesSprite.png", Shaders + L"010_AlphaBlend.fx",
 			0, 630, 179, 675);

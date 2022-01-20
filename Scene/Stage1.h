@@ -8,6 +8,7 @@ class CollisionSystem;
 class ActorsData;
 class UI;
 class Background_Goliath;
+class Following;
 
 class Stage1 : public Scene
 {
@@ -26,6 +27,7 @@ private:
 	Stage1* goliath;
 	//
 	UI* ui;
+	Following* following;
 	// for debugging
 	bool check;
 };

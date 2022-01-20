@@ -238,7 +238,7 @@ Player::Player(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 
 Player::~Player()
 {
-	SAFE_DELETE(arrow);
+	//SAFE_DELETE(arrow);
 	SAFE_DELETE(animation);
 }
 

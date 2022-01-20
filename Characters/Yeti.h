@@ -17,8 +17,8 @@ public:
 	virtual Sprite* GetSprite() override;
 	virtual D3DXVECTOR2 GetOffset() override { return D3DXVECTOR2(0, 0); };
 
-	bool IsAttackable();
-	bool IsIdle() { return PresentState == (unsigned char)0; }
+	virtual bool IsAttackable() override;
+	virtual bool IsIdle() override { return PresentState == (unsigned char)0; }
 
 
 private:

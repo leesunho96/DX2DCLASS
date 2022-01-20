@@ -3,7 +3,7 @@
 #include "Renders/Sprite.h"
 
 
-extern bool bIsLoadingFinish;
+extern unsigned char bIsLoadingFinish;
 LoadingScene::LoadingScene(SceneValues * values) : Scene(values)
 {
 	sprite = new Sprite(Textures + L"TianSouls/TitanSoulsMainSprite.png", Shaders + L"009_Sprite.fx");
@@ -34,16 +34,22 @@ void LoadingScene::Render()
 	DirectWrite::SetColor(D2D1::ColorF(1, 1, 1));
 	{
 		wstring text;
-
 		RECT rect;
 		rect.left = 330;
 		rect.top = 500;
 		rect.right = 600;
 		rect.bottom = 520;
-		text = !bIsLoadingFinish ? L"Loading......" : L"Press Enter To Start";
-
+		text = bIsLoadingFinish == LOADNOTHING ? L"Loading......" : L"Press Enter To Start";
 		DirectWrite::RenderText(text, rect);
 
+		text.clear();
+		rect.left = 330;
+		rect.top = 520;
+		rect.right = 600;
+		rect.bottom = 540;
+		int percentage = 0;
+		percentage = bIsLoadingFinish & LOADYETIMAP ? percentage + 50 : percentage;
+		percentage = bIsLoadingFinish & LOADGOLIATH ? percentage + 50 : percentage;
 	}
 	DirectWrite::GetDC()->EndDraw();
 

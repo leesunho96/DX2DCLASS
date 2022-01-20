@@ -62,6 +62,10 @@ using namespace std;
 #define SAFE_DELETE(p){ if(p){ delete (p); (p) = NULL; } }
 #define SAFE_DELETE_ARRAY(p){ if(p){ delete [] (p); (p) = NULL; } }
 
+#define LOADNOTHING 0
+#define LOADYETIMAP 1 << 0
+#define LOADGOLIATH 1 << 1
+
 const unsigned char PressNothing = 0 << 0;	// 00000001  W를 누른 상태
 const unsigned char PressW       = 1 << 0;	// 00000001  W를 누른 상태
 const unsigned char PressA       = 1 << 1;	// 00000010  A를 누른 상태
