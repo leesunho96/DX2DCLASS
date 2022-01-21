@@ -58,9 +58,9 @@ using namespace std;
 
 #include "Data/ActorsData.h"
 
-#define SAFE_RELEASE(p){ if(p){ (p)->Release(); (p) = NULL; } }
-#define SAFE_DELETE(p){ if(p){ delete (p); (p) = NULL; } }
-#define SAFE_DELETE_ARRAY(p){ if(p){ delete [] (p); (p) = NULL; } }
+#define SAFE_RELEASE(p){ if(p){ (p)->Release(); (p) = nullptr; } }
+#define SAFE_DELETE(p){ if(p){ delete (p); (p) = nullptr; } }
+#define SAFE_DELETE_ARRAY(p){ if(p){ delete [] (p); (p) = nullptr; } }
 
 #define LOADNOTHING 0
 #define LOADYETIMAP 1 << 0

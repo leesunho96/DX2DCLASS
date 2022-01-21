@@ -81,7 +81,7 @@ void Render()
 	ImGui::Render();
 
 	DirectWrite::GetDC()->BeginDraw();
-	DirectWrite::SetColor(D2D1::ColorF(0, 0, 0));
+	DirectWrite::SetColor(D2D1::ColorF(0, 1, 1));
 	{
 		wstring text;
 

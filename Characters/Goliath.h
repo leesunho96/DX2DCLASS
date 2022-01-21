@@ -26,7 +26,10 @@ private:
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;
 	D3DXVECTOR3 rotation;
-	Animation* animation;
+	Animation* head;
+	Sprite* body;
 
-	StopWatch stopwatch;
+	vector<Animation*> arms;
+
+	StopWatch stopwatch[2];
 };

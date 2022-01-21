@@ -18,7 +18,6 @@
 
 
 extern CollisionSystem* collisionsystem;
-
 extern ActorsData* actorsdata;
 
 Stage1::Stage1(SceneValues * values) 
@@ -28,11 +27,7 @@ Stage1::Stage1(SceneValues * values)
 	wstring shaderFile = Shaders + L"009_Sprite.fx";
 	bg = new Background_Goliath(values, scale);
 	collisionsystem = new CollisionSystem(values, player);
-
 	player = actorsdata->GetPlayerData();
-	//actorsdata = new ActorsData(player);
-	//goliath = new Yeti(D3DXVECTOR2(0, 200), D3DXVECTOR2(2, 2));
-	//actorsdata->SetData(goliath);
 	following = new Following(player);
 	RECT cameraBoundery = { -(Width * 0.5f) * scale, //left
 		(Height * 0.5f) * scale,  // top
@@ -44,12 +39,10 @@ Stage1::Stage1(SceneValues * values)
 }
 
 Stage1::~Stage1()
-{
-	actorsdata->Clear();
+{	
 	SAFE_DELETE(collisionsystem);
-	//SAFE_DELETE(goliath);
-	SAFE_DELETE(player);
 	SAFE_DELETE(bg);
+	SAFE_DELETE(ui);
 }
 
 void Stage1::Update()

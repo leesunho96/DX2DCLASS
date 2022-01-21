@@ -39,17 +39,19 @@ void LoadingScene::Render()
 		rect.top = 500;
 		rect.right = 600;
 		rect.bottom = 520;
-		text = bIsLoadingFinish == LOADNOTHING ? L"Loading......" : L"Press Enter To Start";
+		text = !(bIsLoadingFinish & LOADYETIMAP && bIsLoadingFinish & LOADGOLIATH) ? L"Loading......" : L"Press Enter To Start";
 		DirectWrite::RenderText(text, rect);
 
 		text.clear();
-		rect.left = 330;
+		rect.left = 395;
 		rect.top = 520;
 		rect.right = 600;
 		rect.bottom = 540;
 		int percentage = 0;
 		percentage = bIsLoadingFinish & LOADYETIMAP ? percentage + 50 : percentage;
 		percentage = bIsLoadingFinish & LOADGOLIATH ? percentage + 50 : percentage;
+		text = std::to_wstring(percentage) + L"%";
+		DirectWrite::RenderText(text, rect);
 	}
 	DirectWrite::GetDC()->EndDraw();
 

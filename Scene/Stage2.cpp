@@ -30,7 +30,7 @@ Stage2::Stage2(SceneValues * values)
 	collisionsystem = new CollisionSystem(values, player);
 	//player = new Player(D3DXVECTOR2(0, 0), D3DXVECTOR2(3, 3));
 	player = actorsdata->GetPlayerData();
-	actorsdata->SetData(player);
+	//actorsdata->SetData(player);
 	yeti = new Yeti(D3DXVECTOR2(0, 200), D3DXVECTOR2(2, 2));
 	actorsdata->SetData(yeti);
 	following = new Following(player);
@@ -44,10 +44,12 @@ Stage2::Stage2(SceneValues * values)
 
 Stage2::~Stage2()
 {	
+	
 	SAFE_DELETE(collisionsystem);
-	SAFE_DELETE(yeti);
+	//SAFE_DELETE(yeti);
 	//SAFE_DELETE(player);
 	SAFE_DELETE(bg);
+	SAFE_DELETE(ui);
 }
 
 void Stage2::Update()

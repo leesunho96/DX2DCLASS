@@ -38,7 +38,7 @@ Background_Goliath::Background_Goliath(SceneValues * scenevalues, float Scale)
 Background_Goliath::~Background_Goliath()
 {
 	SAFE_DELETE(mapSprite);
-	SAFE_DELETE(collisiondata);
+	//SAFE_DELETE(collisiondata);
 }
 
 void Background_Goliath::Update(D3DXMATRIX & V, D3DXMATRIX & P)

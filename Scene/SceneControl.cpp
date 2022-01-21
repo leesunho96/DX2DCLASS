@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <mutex>
 #include "SceneControl.h"
 #include "Scene.h"
 #include "Scene/LoadingScene.h"
@@ -8,6 +9,7 @@
 #include "Viewer/Camera.h"
 #include "Viewer/Following.h"
 #include "Characters/Player.h"
+
 
 #define LOADINGSCENE 0
 #define YETISCENE 1
@@ -20,6 +22,7 @@
 
 unsigned char bIsLoadingFinish = LOADNOTHING;
 extern ActorsData* actorsdata;
+mutex m1;
 
 SceneControl::SceneControl(SceneValues* value) : Scene(value)
 {
@@ -32,18 +35,21 @@ SceneControl::SceneControl(SceneValues* value) : Scene(value)
 	scenes.push_back(nullptr);
 	threads.push_back(nullptr);
 
-	//((Stage1*)scenes[GOLIATHSCENE])->ChangeCamera();
 	threads.push_back
 	(
 		new thread
 		(
 			[&]()
 			{
-				scenes[YETISCENE] = new Stage2(value);		
+				//scenes[YETISCENE] = new Stage2(value);		
+				m1.lock();
 				bIsLoadingFinish |= LOADYETIMAP;
+				m1.unlock();
+				return;
 			}
 		)
 	);
+	
 	threads.push_back
 	(
 		new thread
@@ -51,10 +57,14 @@ SceneControl::SceneControl(SceneValues* value) : Scene(value)
 			[&]()
 			{
 				scenes[GOLIATHSCENE] = new Stage1(value);
+				m1.lock();
 				bIsLoadingFinish |= LOADGOLIATH;
+				m1.unlock();
+				return;
 			}
 		)
 	);
+	
 }
 
 SceneControl::~SceneControl()
@@ -86,14 +96,40 @@ void SceneControl::Render()
 
 void SceneControl::CheckIsLoadedMap()
 {
+	//if (threads[GOLIATHSCENE] != nullptr)
+	//{
+	//	if (!(threads[GOLIATHSCENE]->joinable()))
+	//	{
+	//		threads[GOLIATHSCENE]->join();
+	//		SAFE_DELETE(threads[GOLIATHSCENE]);
+	//	}
+	//	return;
+	//}
+
+	//if (threads[YETISCENE] != nullptr)
+	//{
+	//	if (!(threads[YETISCENE]->joinable()))
+	//	{
+	//		threads[YETISCENE]->join();
+	//		SAFE_DELETE(threads[YETISCENE]);
+	//	}
+	//	return;
+	//}
+
+
 	if (threads[YETISCENE]->joinable())
 	{
 		threads[YETISCENE]->join();
+		return;
 	}
+
+
 	if (threads[GOLIATHSCENE]->joinable())
 	{
 		threads[GOLIATHSCENE]->join();
+		return;
 	}
+
 }
 
 void SceneControl::GoesToMap(int MapNum)
