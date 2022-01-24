@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Materials xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <Material>
-        <Name>ABC</Name>
-        <Number>10</Number>
-        <Average>10.02</Average>
-    </Material>
-</Materials>

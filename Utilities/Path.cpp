@@ -173,7 +173,7 @@ wstring Path::GetFileNameWithoutExtension(wstring path)
 const WCHAR* Path::ImageFilter = L"Image\0*.png;*.bmp;*.jpg";
 const WCHAR* Path::BinModelFilter = L"Binary Model\0*.model";
 const WCHAR* Path::FbxModelFilter = L"Fbx Model\0*.fbx;*.obj\0";
-const WCHAR* Path::ShaderFilter = L"HLSL file\0*.hlsl";
+const WCHAR* Path::ShaderFilter = L"HLSL file\0*.hlsl; *.fx";
 
 // 경로로 주어진 파일을 불러오는 메소드.
 void Path::OpenFileDialog(wstring file, const WCHAR* filter, wstring folder, function<void(wstring)> func, HWND hwnd)
@@ -186,6 +186,7 @@ void Path::OpenFileDialog(wstring file, const WCHAR* filter, wstring folder, fun
 	String::Replace(&tempFolder, L"/", L"\\");
 
 
+	// 파일 탐색기 불러오는 클래스
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(OPENFILENAME));
 	ofn.lStructSize = sizeof(OPENFILENAME);
@@ -221,33 +222,33 @@ void Path::SaveFileDialog(wstring file, const WCHAR* filter, wstring folder, fun
 	/*
 		OPENFILENAME : 파일 열기 공통 대화상자의 초기값을 지정.
 
-typedef struct tagOFN {
-  DWORD         lStructSize;
-  HWND          hwndOwner;
-  HINSTANCE     hInstance;
-  LPCTSTR       lpstrFilter;
-  LPTSTR        lpstrCustomFilter;
-  DWORD         nMaxCustFilter;
-  DWORD         nFilterIndex;
-  LPTSTR        lpstrFile;
-  DWORD         nMaxFile;
-  LPTSTR        lpstrFileTitle;
-  DWORD         nMaxFileTitle;
-  LPCTSTR       lpstrInitialDir;
-  LPCTSTR       lpstrTitle;
-  DWORD         Flags;
-  WORD          nFileOffset;
-  WORD          nFileExtension;
-  LPCTSTR       lpstrDefExt;
-  LPARAM        lCustData;
-  LPOFNHOOKPROC lpfnHook;
-  LPCTSTR       lpTemplateName;
-#if (_WIN32_WINNT >= 0x0500)
-  void *        pvReserved;
-  DWORD         dwReserved;
-  DWORD         FlagsEx;
-#endif // (_WIN32_WINNT >= 0x0500)
-} OPENFILENAME, *LPOPENFILENAME; 과 같은 형태로 선언.
+		typedef struct tagOFN {
+		  DWORD         lStructSize;
+		  HWND          hwndOwner;
+		  HINSTANCE     hInstance;
+		  LPCTSTR       lpstrFilter;
+		  LPTSTR        lpstrCustomFilter;
+		  DWORD         nMaxCustFilter;
+		  DWORD         nFilterIndex;
+		  LPTSTR        lpstrFile;
+		  DWORD         nMaxFile;
+		  LPTSTR        lpstrFileTitle;
+		  DWORD         nMaxFileTitle;
+		  LPCTSTR       lpstrInitialDir;
+		  LPCTSTR       lpstrTitle;
+		  DWORD         Flags;
+		  WORD          nFileOffset;
+		  WORD          nFileExtension;
+		  LPCTSTR       lpstrDefExt;
+		  LPARAM        lCustData;
+		  LPOFNHOOKPROC lpfnHook;
+		  LPCTSTR       lpTemplateName;
+		#if (_WIN32_WINNT >= 0x0500)
+		  void *        pvReserved;
+		  DWORD         dwReserved;
+		  DWORD         FlagsEx;
+		#endif // (_WIN32_WINNT >= 0x0500)
+		} OPENFILENAME, *LPOPENFILENAME; 과 같은 형태로 선언.
 
 
 	*/

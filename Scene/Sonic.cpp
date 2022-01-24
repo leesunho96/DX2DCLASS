@@ -52,113 +52,37 @@ void Sonic::Update()
 }
 
 void Sonic::Render()
-{
-	// 기본 파일 입출력
-	//if (ImGui::Button("Save Text"))
-	//{
-	//	FILE* fp = fopen("marker.txt", "w");
-	//	fprintf(fp, "%d\n", markers.size());
-	//	for (UINT i = 0; i < markers.size(); i++)
-	//	{
-	//		fprintf(fp, "%d, %f, %f\n", i, markers[i]->Position().x, markers[i]->Position().y);
-	//	}
-	//	fclose(fp);
-	//}
-
-	//if (ImGui::Button("Load Text"))
-	//{
-	//	if (Path::ExistFile("marker.txt"))
-	//	{
-	//		float start = Timer->Running();
-
-	//		for (Marker* marker : markers)
-	//		{
-	//			SAFE_DELETE(marker);
-	//		}
-	//		markers.clear();
-	//		
-	//		FILE* fp = fopen("marker.txt", "r");
-
-	//		UINT count;
-
-	//		fscanf(fp, "%d", &count);
-
-	//		for (size_t i = 0; i < count; i++)
-	//		{
-	//			UINT number;
-	//			D3DXVECTOR2 position;
-	//			fscanf(fp, "%d, %f, %f", &number, &position.x, &position.y);
-	//			markers.push_back(new Marker(Shaders + L"009_Sprite.fx", position));
-	//		}
-	//	}
-	//}
-
-
-	//if (ImGui::Button("Reset"))
-	//{
-	//	if (Path::ExistFile("marker.txt"))
-	//	{
-	//		remove("marker.txt");
-	//	}
-	//	for (auto a : markers)
-	//	{
-	//		SAFE_DELETE(a);
-	//	}
-	//	markers.clear();
-	//}
-
-
-
+{	
 	//Binary
 
 	if (ImGui::Button("Save Binary"))
 	{
-		BinaryWriter* w = new BinaryWriter();
-		w->Open(L"marker.bin");
+		function<void(wstring)> f = bind(&Sonic::SaveComplete, this, placeholders::_1);
 
-		vector<D3DXVECTOR2> v(markers.size());
-		for (auto marker : markers)
-		{
-			v.push_back(marker->Position());
-		}
-
-		w->UInt(v.size());
-		w->Byte(&v[0], sizeof(D3DXVECTOR2) * v.size());
-		w->Close();
-		SAFE_DELETE(w);
+		// L"" : 초기 디폴트 저장 파일 이름
+		// L"Binary===" : 필터 이름
+		// 
+		Path::SaveFileDialog(L"SaveFile", L"Binary\0*.bin",L".", f, Hwnd);
 	}
 
 	if (ImGui::Button("Load Binary"))
 	{
-		if (Path::ExistFile("marker.bin"))
-		{
-			float start = Timer->Running();
+		function<void(wstring)> f = bind(&Sonic::OpenComplete, this, placeholders::_1);
 
-			for (auto a : markers)
-			{
-				SAFE_DELETE(a);
-			}
-			markers.clear();
+		// L"" : 초기 디폴트 저장 파일 이름
+		// L"Binary===" : 필터 이름
+		// 
+		Path::SaveFileDialog(L"SaveFile", L"Binary\0*.bin", L".", f, Hwnd);
+	}
 
-			BinaryReader* r = new BinaryReader();
-			r->Open(L"marker.bin");
+	if (ImGui::Button("Delete Save FILE"))
+	{
+		function<void(wstring)> f = bind(&Sonic::DeleteComplete, this, placeholders::_1);
 
-			UINT count = r->UInt();
-
-			vector<D3DXVECTOR2> v;
-			v.assign(count, D3DXVECTOR2());
-
-			void* ptr = (void*)&(v[0]);
-			r->Byte(&ptr, sizeof(D3DXVECTOR2) * count);
-
-
-			for (UINT i = 0; i < count; i++)
-			{
-				markers.push_back(new Marker(Shaders + L"009_Sprite.fx", v[i]));
-			}
-
-			r->Close();
-		}
+		// L"" : 초기 디폴트 저장 파일 이름
+		// L"Binary===" : 필터 이름
+		// 
+		Path::SaveFileDialog(L"SaveFile", L"Binary\0*.bin", L".", f, Hwnd);
 	}
 
 	backGround->Render();
@@ -169,4 +93,68 @@ void Sonic::Render()
 	}
 
 	ImGui::LabelText("MousePosition", "%.0f , %.0f", mpos.x, mpos.y);
+}
+
+void Sonic::SaveComplete(wstring name)
+{
+	BinaryWriter* w = new BinaryWriter();
+	w->Open(name);
+
+	vector<D3DXVECTOR2> v(markers.size());
+	for (auto marker : markers)
+	{
+		v.push_back(marker->Position());
+	}
+
+	w->UInt(v.size());
+	w->Byte(&v[0], sizeof(D3DXVECTOR2) * v.size());
+	w->Close();
+	SAFE_DELETE(w);
+
+}
+
+void Sonic::OpenComplete(wstring name)
+{
+
+	for (auto a : markers)
+	{
+		SAFE_DELETE(a);
+	}
+	markers.clear();
+
+	BinaryReader* r = new BinaryReader();
+	r->Open(name);
+
+	UINT count = r->UInt();
+
+	vector<D3DXVECTOR2> v;
+	v.assign(count, D3DXVECTOR2());
+
+	void* ptr = (void*)&(v[0]);
+	r->Byte(&ptr, sizeof(D3DXVECTOR2) * count);
+
+
+	for (UINT i = 0; i < count; i++)
+	{
+		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", v[i]));
+	}
+
+	r->Close();
+
+
+}
+
+void Sonic::DeleteComplete(wstring name)
+{
+	for (auto a : markers)
+	{
+		SAFE_DELETE(a);
+	}
+	markers.clear();
+	if (Path::ExistFile(name))
+	{
+		//remove("marker.bin");
+		
+		//remove(temp);
+	}
 }

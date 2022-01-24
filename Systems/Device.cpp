@@ -102,6 +102,8 @@ void InitWindow(HINSTANCE hInstance, int ShowWnd)
 
 void InitDirect3D(HINSTANCE hInstance)
 {
+
+	
 	//Create Device and DeviceContext, SwapChain
 	{
 		DXGI_MODE_DESC bufferDesc;
