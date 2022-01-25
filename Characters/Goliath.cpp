@@ -10,13 +10,13 @@
 #define Die 1
 
 
-Goliath::Goliath(D3DXVECTOR2 position, D3DXVECTOR2 scale)
+Goliath::Goliath(D3DXVECTOR2 position, D3DXVECTOR2 scale) : scale(scale), position(position)
 {
 	wstring texture = Textures + L"/TianSouls/gol_lath.png";
 	wstring shader = Shaders + L"/009_Sprite.fx";
 
 	Clip* clip;
-
+	head = new Animation();
 	// Head Animation
 	{
 		// Normal
@@ -28,7 +28,7 @@ Goliath::Goliath(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 
 		// Die.
 		{
-			clip = new Clip(PlayMode::Stop);
+			clip = new Clip(PlayMode::End);
 			clip->AddFrame(new Sprite(texture, shader, 8, 15, 57, 64), 0.3f);
 			clip->AddFrame(new Sprite(texture, shader, 70, 15, 120, 64), 0.3f);
 			clip->AddFrame(new Sprite(texture, shader, 135, 15, 185, 64), 0.3f);
@@ -43,13 +43,13 @@ Goliath::Goliath(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	}	
 
 	{
-		shoulders[0] = new Shoulder(ShoulderType::Left, position - D3DXVECTOR2(-body->TextureSize().x * 0.25f, body->TextureSize().y * 0.25f);
-		shoulders[1] = new Shoulder(ShoulderType::Right, position - D3DXVECTOR2(body->TextureSize().x * 0.25f, body->TextureSize().y * 0.25f);
+		shoulders[0] = new Shoulder(ShoulderType::Left, position + D3DXVECTOR2(-body->TextureSize().x * 0.5f, body->TextureSize().y * 0.35f), scale);
+		shoulders[1] = new Shoulder(ShoulderType::Right, position + D3DXVECTOR2(body->TextureSize().x * 0.5f, body->TextureSize().y * 0.35f), scale);
 	}
 
 	{
-		goliathArms[0] = new Goliath_Arm(ArmType::Left, D3DXVECTOR2(-100, 0));
-		goliathArms[1] = new Goliath_Arm(ArmType::Left, D3DXVECTOR2(100, 0));
+		goliathArms[0] = new Goliath_Arm(ArmType::Left,  position + D3DXVECTOR2(-body->TextureSize().x, -body->TextureSize().y) * 0.75f, scale);
+		goliathArms[1] = new Goliath_Arm(ArmType::Right, position + D3DXVECTOR2( body->TextureSize().x, -body->TextureSize().y) * 0.75f, scale);
 	}
 
 	updateSprites.push_back(bind(&Goliath::UpdateArms, this, placeholders::_1, placeholders::_2));
@@ -76,7 +76,6 @@ Goliath::~Goliath()
 
 void Goliath::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
-
 	// body, arm, shoulder, head update
 	for (auto UpdateSprite : updateSprites)
 	{
@@ -86,6 +85,12 @@ void Goliath::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 void Goliath::Render()
 {
+	body->Render();
+	shoulders[0]->Render();
+	shoulders[1]->Render();
+	head->Render();
+	goliathArms[0]->Render();
+	goliathArms[1]->Render();
 }
 
 void Goliath::ApplyDamege(Sprite * sprite)
@@ -117,11 +122,11 @@ void Goliath::UpdateArms(D3DXMATRIX & V, D3DXMATRIX & P)
 
 void Goliath::UpdateHead(D3DXMATRIX & V, D3DXMATRIX & P)
 {
+	head->Play(IDLE);
 	head->SetPosition(position + D3DXVECTOR2(0, body->TextureSize().y * 0.5f));
 	head->SetRotationDegree(rotation);
 	head->SetScale(scale);
 	head->Update(V, P);
-	head->Play(IDLE);
 }
 
 void Goliath::UpdateBody(D3DXMATRIX & V, D3DXMATRIX & P)

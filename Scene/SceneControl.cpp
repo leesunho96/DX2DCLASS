@@ -65,7 +65,7 @@ SceneControl::SceneControl(SceneValues* value) : Scene(value)
 		(
 			[&]()
 			{
-				scenes[YETISCENE] = new Stage2(value);		
+			//	scenes[YETISCENE] = new Stage2(value);		
 				m1.lock();
 				bIsLoadingFinish |= LOADYETIMAP;
 				m1.unlock();

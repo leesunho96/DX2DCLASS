@@ -10,7 +10,7 @@ enum class ArmType
 class Goliath_Arm
 {
 public:
-	Goliath_Arm(ArmType armtype,D3DXVECTOR2 position);
+	Goliath_Arm(ArmType armtype,D3DXVECTOR2 position, D3DXVECTOR2 scale);
 	~Goliath_Arm();
 
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);

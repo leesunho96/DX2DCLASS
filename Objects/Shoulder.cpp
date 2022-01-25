@@ -4,7 +4,8 @@
 
 
 
-Shoulder::Shoulder(ShoulderType shouldertype, D3DXVECTOR2 position) : stopwatch(StopWatch()), position(position), shouldertype(shouldertype)
+Shoulder::Shoulder(ShoulderType shouldertype, D3DXVECTOR2 position, D3DXVECTOR2 scale) 
+	: stopwatch(StopWatch()), position(position), shouldertype(shouldertype), scale(scale), rotation(D3DXVECTOR3(0, 0, 0))
 {
 	wstring texture = Textures + L"/TianSouls/gol_lath.png";
 	wstring shader = Shaders + L"/009_Sprite.fx";
@@ -26,6 +27,7 @@ Shoulder::~Shoulder()
 
 void Shoulder::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
+
 	shoulder->Position(position);
 	shoulder->Scale(scale);
 	shoulder->RotationDegree(rotation);

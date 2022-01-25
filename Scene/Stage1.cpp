@@ -2,7 +2,7 @@
 #include "Stage1.h"
 
 #include "Characters/Player.h"
-#include "Characters/Yeti.h"
+#include "Characters/Goliath.h"
 #include "Objects/Marker.h"
 #include "Maps/Background_Goliath.h"
 
@@ -35,7 +35,8 @@ Stage1::Stage1(SceneValues * values)
 		-(Height * 0.5f) * scale }; // bottom
 	following->SetLimit(cameraBoundery, player->GetOffset());
 	ui = new UI(player, following);
-
+	goliath = new Goliath(D3DXVECTOR2(0, 150), D3DXVECTOR2(1.5, 1.5));
+	actorsdata->SetData(goliath);
 }
 
 Stage1::~Stage1()
@@ -43,6 +44,7 @@ Stage1::~Stage1()
 	SAFE_DELETE(collisionsystem);
 	SAFE_DELETE(bg);
 	SAFE_DELETE(ui);
+	SAFE_DELETE(goliath);
 }
 
 void Stage1::Update()
@@ -53,8 +55,8 @@ void Stage1::Update()
 
 
 	bg->Update(V, P);
-	//goliath->Update(V, P);
 	player->Update(V, P);
+	goliath->Update(V, P);
 	collisionsystem->Update(V, P);
 	ui->Update(V, P);
 }
@@ -64,7 +66,7 @@ void Stage1::Render()
 	bg->Render();
 	collisionsystem->Render();
 	player->Render();
-	//goliath->Render();
+	goliath->Render();
 	ui->Render();
 }
 

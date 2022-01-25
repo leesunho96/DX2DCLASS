@@ -9,7 +9,7 @@ enum class ShoulderType
 class Shoulder
 {
 public:
-	Shoulder(ShoulderType shouldertype, D3DXVECTOR2 position);
+	Shoulder(ShoulderType shouldertype, D3DXVECTOR2 position, D3DXVECTOR2 scale);
 	~Shoulder();
 
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);

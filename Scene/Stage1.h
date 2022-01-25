@@ -9,6 +9,7 @@ class ActorsData;
 class UI;
 class Background_Goliath;
 class Following;
+class Goliath;
 
 class Stage1 : public Scene
 {
@@ -24,7 +25,7 @@ public:
 private:
 	Background_Goliath* bg;
 	Player* player;
-	Stage1* goliath;
+	Goliath* goliath;
 	//
 	UI* ui;
 	Following* following;

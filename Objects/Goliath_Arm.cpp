@@ -10,11 +10,11 @@
 #define ATTACKTIME 0.6f
 extern ActorsData* actorsdata;
 
-Goliath_Arm::Goliath_Arm(ArmType armtype, D3DXVECTOR2 position) : armtype(armtype), position(position), stopwatch(StopWatch()), rotation(D3DXVECTOR3(0, 0, 0)), scale(D3DXVECTOR2(1, 1))
+Goliath_Arm::Goliath_Arm(ArmType armtype, D3DXVECTOR2 position, D3DXVECTOR2 scale) : armtype(armtype), position(position), stopwatch(StopWatch()), scale(scale)
 {
 	wstring texture = Textures + L"/TianSouls/gol_lath.png";
 	wstring shader = Shaders + L"/009_Sprite.fx";
-
+	animation = new Animation();
 	Clip* clip;
 	{
 		// arm Idle
@@ -49,7 +49,7 @@ Goliath_Arm::Goliath_Arm(ArmType armtype, D3DXVECTOR2 position) : armtype(armtyp
 	actions.push_back(bind(&Goliath_Arm::ActionWhileChangeDegree, this));
 	actions.push_back(bind(&Goliath_Arm::ActionWhileAttack, this));
 	actions.push_back(bind(&Goliath_Arm::ActionWhileGoesToIdle, this));
-	
+	bIsActivate = false;
 }
 
 Goliath_Arm::~Goliath_Arm()
@@ -77,12 +77,12 @@ void Goliath_Arm::Render()
 
 void Goliath_Arm::InitializeScaleRotationPositionPlayAnimNum(D3DXMATRIX & V, D3DXMATRIX & P)
 {
+	animation->Play(iPlayAnimatnion);
 	animation->SetPosition(position);
-	animation->SetRotation(rotation);
+	animation->SetRotationDegree(rotation);
 	animation->SetScale(scale);
 	animation->Update(V, P);
-	animation->Play(iPlayAnimatnion);
-
+}
 void Goliath_Arm::SetActivate()
 {
 	bIsActivate = true;
