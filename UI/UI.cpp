@@ -7,6 +7,8 @@
 #define YouDiedImage 0
 #define YetiIntroImage 1
 
+
+extern int iRenderScene;
 UI::UI(Player * player, Camera* camera) : target(player), camera(camera)
 {
 	AlphaBlendSprite* sprite;
@@ -30,6 +32,23 @@ UI::UI(Player * player, Camera* camera) : target(player), camera(camera)
 			0, 630, 179, 675);
 		sprite->Scale(1, 1);
 		sprite->SetAbsoluteScale(200, 40);
+		sprite->Position(0, 0);
+		sprite->Rotation(0, 0, 0);
+		//sprite->SetAbsoluteScale(Width, Height);
+		((AlphaBlendSprite*)sprite)->SetSpeed(0.3f);
+		//((AlphaBlendSprite*)sprite)->SetIsChangeable(true);
+		((AlphaBlendSprite*)sprite)->SetAlphaValues(0.9f);
+		//	((AlphaBlendSprite*)sprite)->SetNormalMode();
+		((AlphaBlendSprite*)sprite)->SetFadeOut();
+		vSprites.push_back(sprite);
+	}
+
+	// Goliath
+	{
+		sprite = new AlphaBlendSprite(Textures + L"TianSouls/NamesSprite.png", Shaders + L"010_AlphaBlend.fx",
+			0, 140, 325, 195);
+		sprite->Scale(1, 1);
+		sprite->SetAbsoluteScale(400, 40);
 		sprite->Position(0, 0);
 		sprite->Rotation(0, 0, 0);
 		//sprite->SetAbsoluteScale(Width, Height);
@@ -60,15 +79,15 @@ void UI::Update(D3DXMATRIX V, D3DXMATRIX & P)
 	{
 		((AlphaBlendSprite*)vSprites[YouDiedImage])->SetInvalidate();
 	}
-
+	//int introNum;
 	// intro MEssage
 	{
-		if (!introtemp)
+		if (!introtemp[iRenderScene])
 		{
-			((AlphaBlendSprite*)vSprites[YetiIntroImage])->SetValidate();
-			introtemp = true;
+			((AlphaBlendSprite*)vSprites[iRenderScene])->SetValidate();
+			introtemp[iRenderScene] = true;
 		}
-		((AlphaBlendSprite*)vSprites[YetiIntroImage])->Position(
+		((AlphaBlendSprite*)vSprites[iRenderScene])->Position(
 			camera->GetPosition() + D3DXVECTOR2(Width * 0.5f, Height * 0.5f) - D3DXVECTOR2(0, 100));
 	}
 

@@ -1,8 +1,14 @@
 #include "stdafx.h"
 #include "Goliath.h"
+#include "Objects/Goliath_Arm.h"
+#include "Objects/Shoulder.h"
 
 #define LEFTARM 0
 #define RIGHTARM 1
+
+#define IDLE 0
+#define Die 1
+
 
 Goliath::Goliath(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 {
@@ -35,55 +41,47 @@ Goliath::Goliath(D3DXVECTOR2 position, D3DXVECTOR2 scale)
 	{
 		body = new Sprite(texture, shader, 4, 122, 87, 224);
 	}	
-	// arms aniamtion
-	{
-		// arm Idle
-		{
-			clip = new Clip(PlayMode::Stop);
-			clip->AddFrame(new Sprite(texture, shader, 390, 270, 440, 305), 0.3f);
-		}
 
-		for (auto a : arms)
-		{
-			a->AddClip(clip);
-		}
-		// arm Change Degree
-		{
-			clip = new Clip(PlayMode::Stop);
-			clip->AddFrame(new Sprite(texture, shader, 390, 270, 440, 305), 0.3f);
-			clip->AddFrame(new Sprite(texture, shader, 455, 265, 495, 305), 0.3f);
-			clip->AddFrame(new Sprite(texture, shader, 260, 270, 300, 310), 0.3f);
-		}
-		for (auto a : arms)
-		{
-			a->AddClip(clip);
-		}
-		// arm Attack
-		{
-			clip = new Clip(PlayMode::Stop);
-			clip->AddFrame(new Sprite(texture, shader, 330, 260, 375, 295), 0.3f);
-			clip->AddFrame(new Sprite(texture, shader, 260, 270, 300, 310), 0.3f);
-		}
-		for (auto a : arms)
-		{
-			a->AddClip(clip);
-		}
+	{
+		shoulders[0] = new Shoulder(ShoulderType::Left, position - D3DXVECTOR2(-body->TextureSize().x * 0.25f, body->TextureSize().y * 0.25f);
+		shoulders[1] = new Shoulder(ShoulderType::Right, position - D3DXVECTOR2(body->TextureSize().x * 0.25f, body->TextureSize().y * 0.25f);
 	}
+
+	{
+		goliathArms[0] = new Goliath_Arm(ArmType::Left, D3DXVECTOR2(-100, 0));
+		goliathArms[1] = new Goliath_Arm(ArmType::Left, D3DXVECTOR2(100, 0));
+	}
+
+	updateSprites.push_back(bind(&Goliath::UpdateArms, this, placeholders::_1, placeholders::_2));
+	updateSprites.push_back(bind(&Goliath::UpdateBody, this, placeholders::_1, placeholders::_2));
+	updateSprites.push_back(bind(&Goliath::UpdateHead, this, placeholders::_1, placeholders::_2));
+	updateSprites.push_back(bind(&Goliath::UpdateShoulders, this, placeholders::_1, placeholders::_2));
 
 }
 
 Goliath::~Goliath()
 {
-	for (auto arm : arms)
+	for (auto arm : goliathArms)
 	{
 		SAFE_DELETE(arm);
 	}
+	for (auto a : shoulders)
+	{
+		SAFE_DELETE(a);
+	}
 	SAFE_DELETE(body);
 	SAFE_DELETE(head);
+
 }
 
 void Goliath::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
+
+	// body, arm, shoulder, head update
+	for (auto UpdateSprite : updateSprites)
+	{
+		UpdateSprite(V, P);
+	}
 }
 
 void Goliath::Render()
@@ -108,3 +106,37 @@ bool Goliath::IsIdle()
 {
 	return false;
 }
+
+void Goliath::UpdateArms(D3DXMATRIX & V, D3DXMATRIX & P)
+{
+	for (auto arm : goliathArms)
+	{
+		arm->Update(V, P);
+	}
+}
+
+void Goliath::UpdateHead(D3DXMATRIX & V, D3DXMATRIX & P)
+{
+	head->SetPosition(position + D3DXVECTOR2(0, body->TextureSize().y * 0.5f));
+	head->SetRotationDegree(rotation);
+	head->SetScale(scale);
+	head->Update(V, P);
+	head->Play(IDLE);
+}
+
+void Goliath::UpdateBody(D3DXMATRIX & V, D3DXMATRIX & P)
+{
+	body->Position(position);
+	body->Scale(scale);
+	body->RotationDegree(rotation);
+	body->Update(V, P);
+}
+
+void Goliath::UpdateShoulders(D3DXMATRIX & V, D3DXMATRIX & P)
+{
+	for (auto shoulder : shoulders)
+	{
+		shoulder->Update(V, P);
+	}
+}
+

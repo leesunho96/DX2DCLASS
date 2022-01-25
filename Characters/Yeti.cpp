@@ -462,6 +462,25 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	SetPositionRotationScalePlayAnimationUpdate(V, P);
 }
 
+void Yeti::Render()
+{
+	animation->Render();
+	if (ImGui::Button("ResetYeti"))
+	{
+		PresentState = Idle;
+		bIsGetArrowPos = false;
+	}
+	ImGui::LabelText("presentState :", "%d", PresentState);
+	ImGui::LabelText("activatesnowball :", "%d", iPresentBallNum);
+	for (auto a : snowballs)
+	{
+		a->Render();
+	}
+	for (auto a : icycles)
+	{
+		a->Render();
+	}
+}
 void Yeti::SetPositionRotationScalePlayAnimationUpdate(D3DXMATRIX & V, D3DXMATRIX & P)
 {
 	animation->SetPosition(position);
@@ -621,25 +640,6 @@ void Yeti::GetPresentDirectionToPlayer()
 	D3DXVec2Normalize(&presentDirection, &tempVec);
 }
 
-void Yeti::Render()
-{
-	animation->Render();
-	if (ImGui::Button("ResetYeti"))
-	{
-		PresentState = Idle;
-		bIsGetArrowPos = false;
-	}
-	ImGui::LabelText("presentState :", "%d", PresentState);
-	ImGui::LabelText("activatesnowball :", "%d", iPresentBallNum);
-	for (auto a : snowballs)
-	{
-		a->Render();
-	}
-	for (auto a : icycles)
-	{
-		a->Render();
-	}
-}
 
 Sprite * Yeti::GetSprite()
 {

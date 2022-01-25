@@ -1,6 +1,8 @@
 #pragma once
 #include "Character.h"
 
+class Goliath_Arm;
+class Shoulder;
 class Goliath : public Character
 {
 
@@ -19,6 +21,10 @@ public:
 
 
 private:
+	void UpdateArms(D3DXMATRIX& V, D3DXMATRIX& P);
+	void UpdateHead(D3DXMATRIX& V, D3DXMATRIX& P);
+	void UpdateBody(D3DXMATRIX& V, D3DXMATRIX& P);
+	void UpdateShoulders(D3DXMATRIX& V, D3DXMATRIX& P);
 
 public:
 
@@ -26,10 +32,13 @@ private:
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;
 	D3DXVECTOR3 rotation;
+
 	Animation* head;
 	Sprite* body;
-
-	vector<Animation*> arms;
+	Shoulder* shoulders[2];
+	Goliath_Arm* goliathArms[2];
+	
+	vector<function<void(D3DXMATRIX& V, D3DXMATRIX& P)>> updateSprites;
 
 	StopWatch stopwatch[2];
 };

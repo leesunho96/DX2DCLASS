@@ -1,14 +1,19 @@
 #pragma once
 #include "Sprite.h"
 
+enum class FadeType
+{
+	normal = 0, fadein, fadeout
+};
+
 class StopWatch;
 
 class AlphaBlendSprite : public Sprite
 {
 public:
-	AlphaBlendSprite(wstring textureFile, wstring shaderFile);
-	AlphaBlendSprite(wstring texturefile, wstring shaderFile, float endX, float endY);
-	AlphaBlendSprite(wstring textureFile, wstring shaderFile, float startX, float startY, float endX, float endY);
+	AlphaBlendSprite(wstring textureFile, wstring shaderFile, FadeType fadetype = FadeType::normal);
+	AlphaBlendSprite(wstring texturefile, wstring shaderFile, float endX, float endY, FadeType fadetype = FadeType::normal);
+	AlphaBlendSprite(wstring textureFile, wstring shaderFile, float startX, float startY, float endX, float endY, FadeType fadetype = FadeType::normal);
 	virtual ~AlphaBlendSprite();
 
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
@@ -24,6 +29,7 @@ public:
 	void SetFadeOut();
 	void SetFadeIn();
 	void SetNormalMode();
+	void SetFadeStyle(FadeType fadetype);
 private:
 	bool bIsValidate = false;
 	bool bIsChangeableAlphaValues = false;
@@ -36,23 +42,3 @@ private:
 
 };
 
-///////////////////////////////////////////////////////////////////////////////
-
-//class AlphaBlendSprites
-//{
-//private:
-//	friend class AlphaBlendSprite;
-//
-//private:
-//	static ID3D11ShaderResourceView* Load(wstring file);
-//	static void Remove(wstring file);
-//
-//private:
-//	struct SpriteDesc
-//	{
-//		UINT RefCount = 0;
-//		ID3D11ShaderResourceView* SRV = NULL;
-//	};
-//
-//	static map<wstring, SpriteDesc> spriteMap;
-//};

@@ -7,7 +7,7 @@
 #include <functional>
 #include <time.h>
 #include <thread>
-
+#include <process.h>
 using namespace std;
 
 #include <d3d11.h>

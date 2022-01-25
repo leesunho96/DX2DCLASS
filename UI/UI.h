@@ -18,6 +18,6 @@ private:
 	Player* target;
 	Camera* camera;
 	vector<AlphaBlendSprite*> vSprites;
-	bool introtemp = false;
+	bool introtemp[3] = { false , false, false };
 
 };

@@ -17,7 +17,8 @@ public:
 	void GoesToMap(int MapNum);
 
 private:
-
+	unsigned int __stdcall LoadYeti(void* args);
+	unsigned int __stdcall LoadGoliath(void* args);
 public:
 
 private:
@@ -25,5 +26,5 @@ private:
 	vector<thread*> threads;
 	//vector<bool> isLoading;
 
-	int iRenderScene = 0;
+	
 };

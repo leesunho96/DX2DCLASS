@@ -3,6 +3,7 @@
 #include "Characters/Player.h"
 #include "Characters/Yeti.h"
 
+#define SPEED 1000
 extern ActorsData* actorsdata;
 
 Arrow::Arrow(wstring spriteFile, wstring shaderFile)
@@ -14,7 +15,7 @@ Arrow::Arrow(wstring spriteFile, wstring shaderFile)
 	sprite->Rotation(0, 0, 0);
 	sprite->DrawBound(true);
 	stopwatch = new StopWatch();
-	stopwatch->SetTimer(1.0f);
+	stopwatch->SetTimer(0.5f);
 }
 
 Arrow::~Arrow()
@@ -64,19 +65,22 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	{
 		if (!stopwatch->IsOver())
 		{
-			position += direction * Timer->Elapsed() * 300;
+			position += direction * Timer->Elapsed() * SPEED;
 			// 플레이어 Or Enemy, 충돌 체크 알고리즘 추가.
 			// 
 			//D3DXVec2Normalize()
 			Rotation = GetArrowRotation();
-			if (actorsdata->GetEnemyData()->GetSprite()->OBB(sprite))
+			if (actorsdata->GetEnemyData() != nullptr)
 			{
-				AttackToEnemy();
-			}
-			if (player->GetSprite()->OBB(sprite))
-			{
-				isActivate = false;
-				player->SetPlayerGetArrow();
+				if (actorsdata->GetEnemyData()->GetSprite()->OBB(sprite))
+				{
+					AttackToEnemy();
+				}
+				if (player->GetSprite()->OBB(sprite))
+				{
+					isActivate = false;
+					player->SetPlayerGetArrow();
+				}
 			}
 		}
 	}
@@ -88,6 +92,7 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		}
 		// 플레이어에게 돌아온 경우 : deactivate 한 후, 플레이어에게 알려야함
 		// 알릴 메소드 만들어야됨.
+
 		if (player->GetSprite()->OBB(sprite))
 		{
 			isActivate = false;
@@ -95,10 +100,13 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		}
 		else
 		{
-			position += direction * Timer->Elapsed() * 300;
-			if (actorsdata->GetEnemyData()->GetSprite()->OBB(sprite))
+			position += direction * Timer->Elapsed() * SPEED;
+			if (actorsdata->GetEnemyData() != nullptr)
 			{
-				AttackToEnemy();
+				if (actorsdata->GetEnemyData()->GetSprite()->OBB(sprite))
+				{
+					AttackToEnemy();
+				}
 			}
 		}
 	}

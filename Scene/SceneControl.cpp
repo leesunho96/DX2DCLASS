@@ -23,6 +23,30 @@
 unsigned char bIsLoadingFinish = LOADNOTHING;
 extern ActorsData* actorsdata;
 mutex m1;
+unsigned int ID_Yeti;
+unsigned int ID_Goliath;
+HANDLE handle_Yeti;	
+HANDLE handle_Goliath;
+int iRenderScene = 0;
+
+unsigned int __stdcall SceneControl::LoadYeti(void* args)
+{
+	scenes[GOLIATHSCENE] = new Stage2((SceneValues*)args);
+	m1.lock();
+	bIsLoadingFinish |= LOADYETIMAP;
+	m1.unlock();
+	return 0;
+}
+
+unsigned int __stdcall SceneControl::LoadGoliath(void* args)
+{
+	scenes[GOLIATHSCENE] = new Stage1((SceneValues*) args);
+	m1.lock();
+	bIsLoadingFinish |= LOADGOLIATH;
+	m1.unlock();
+	return 0;
+}
+
 
 SceneControl::SceneControl(SceneValues* value) : Scene(value)
 {
@@ -41,7 +65,7 @@ SceneControl::SceneControl(SceneValues* value) : Scene(value)
 		(
 			[&]()
 			{
-				//scenes[YETISCENE] = new Stage2(value);		
+				scenes[YETISCENE] = new Stage2(value);		
 				m1.lock();
 				bIsLoadingFinish |= LOADYETIMAP;
 				m1.unlock();
@@ -65,6 +89,15 @@ SceneControl::SceneControl(SceneValues* value) : Scene(value)
 		)
 	);
 	
+	//void (SceneControl::*loadyeti)(void* args);
+	//void (SceneControl::*loadgoliath)(void* args);
+
+	//loadyeti = this->LoadYeti;
+	//loadgoliath = this->LoadGoliath;
+
+
+	//handle_Yeti    = (HANDLE)_beginthreadex(NULL, 0, (unsigned int(__stdcall *)(void*))loadyeti,    (void*)&values, 0, &ID_Yeti);
+	//handle_Goliath = (HANDLE)_beginthreadex(NULL, 0, (unsigned int(__stdcall *)(void*))loadgoliath, (void*)&values, 0, &ID_Goliath);
 }
 
 SceneControl::~SceneControl()
@@ -85,6 +118,8 @@ void SceneControl::Update()
 	{
 		GoesToMap(GOLIATHSCENE);
 		((Stage2*)scenes[GOLIATHSCENE])->ChangeCamera();		
+		//GoesToMap(YETISCENE);
+		//((Stage2*)scenes[YETISCENE])->ChangeCamera();
 	}
 	scenes[iRenderScene]->Update();
 }
@@ -117,6 +152,12 @@ void SceneControl::CheckIsLoadedMap()
 	//}
 
 
+	if (threads[GOLIATHSCENE]->joinable())
+	{
+		threads[GOLIATHSCENE]->join();
+		return;
+	}
+
 	if (threads[YETISCENE]->joinable())
 	{
 		threads[YETISCENE]->join();
@@ -124,11 +165,7 @@ void SceneControl::CheckIsLoadedMap()
 	}
 
 
-	if (threads[GOLIATHSCENE]->joinable())
-	{
-		threads[GOLIATHSCENE]->join();
-		return;
-	}
+	
 
 }
 

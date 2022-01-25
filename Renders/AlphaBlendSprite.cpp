@@ -2,34 +2,35 @@
 #include "AlphaBlendSprite.h"
 #include "Systems/StopWatch.h"
 
-#define fadeout 0
-#define fadein 1
-#define normalmode 2
+#define FADEOUT 0
+#define FADEIN 1
+#define NORMALMODE 2
 //-----------------------------------------------------------------------------
 //AlphaBlendSprite
 //-----------------------------------------------------------------------------
 
-AlphaBlendSprite::AlphaBlendSprite(wstring textureFile, wstring shaderFile) : Sprite(textureFile, shaderFile), stopwatch(StopWatch())
+AlphaBlendSprite::AlphaBlendSprite(wstring textureFile, wstring shaderFile, FadeType fadetype) : Sprite(textureFile, shaderFile), stopwatch(StopWatch())
 {
-	Initialize(textureFile, shaderFile, 0, 0, 0, 0);	
-	FadeStyle = normalmode;
+	Initialize(textureFile, shaderFile, 0, 0, 0, 0);
 	stopwatch.RetAndSetTimer(5.0f);
+	SetFadeStyle(fadetype);
 }
 
-AlphaBlendSprite::AlphaBlendSprite(wstring textureFile, wstring shaderFile, float endX, float endY) :
+AlphaBlendSprite::AlphaBlendSprite(wstring textureFile, wstring shaderFile, float endX, float endY, FadeType fadetype) :
 	Sprite(textureFile, shaderFile, endX, endY), stopwatch(StopWatch())
 {
 	Initialize(textureFile, shaderFile, 0, 0, endX, endY);
-	FadeStyle = normalmode;
+
 	stopwatch.RetAndSetTimer(5.0f);
+	SetFadeStyle(fadetype);
 }
 
-AlphaBlendSprite::AlphaBlendSprite(wstring textureFile, wstring shaderFile, float startX, float startY, float endX, float endY)
+AlphaBlendSprite::AlphaBlendSprite(wstring textureFile, wstring shaderFile, float startX, float startY, float endX, float endY, FadeType fadetype)
 	: Sprite(textureFile, shaderFile, startX, startY, endX, endY), stopwatch(StopWatch())
 {	
 	Initialize(textureFile, shaderFile, startX, startY, endX, endY);	
-	FadeStyle = normalmode;
 	stopwatch.RetAndSetTimer(5.0f);
+	SetFadeStyle(fadetype);
 }
 
 AlphaBlendSprite::~AlphaBlendSprite()
@@ -47,11 +48,11 @@ void AlphaBlendSprite::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 	if (!bIsValidate)
 	{
-		if (FadeStyle == fadeout)
+		if (FadeStyle == FADEOUT)
 		{
 			alphaValues = GetMaxAlphaValues();
 		}
-		else if (FadeStyle == fadein)
+		else if (FadeStyle == FADEIN)
 		{
 			alphaValues = 0.0f;
 		}		
@@ -59,7 +60,7 @@ void AlphaBlendSprite::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	}
 	switch (FadeStyle)
 	{
-	case fadeout:
+	case FADEOUT:
 	{
 		if (alphaValues > 0.0f)
 		{
@@ -73,7 +74,7 @@ void AlphaBlendSprite::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	
 		break; 
 	}
-	case fadein:
+	case FADEIN:
 	{
 		if (alphaValues < 0.9f)
 		{
@@ -86,7 +87,7 @@ void AlphaBlendSprite::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	
 		break; 
 	}
-	case normalmode:
+	case NORMALMODE:
 	{
 		break; 
 	}
@@ -106,18 +107,37 @@ void AlphaBlendSprite::Render()
 
 void AlphaBlendSprite::SetFadeOut()
 {
-	FadeStyle = fadeout;
+	FadeStyle = FADEOUT;
 	alphaValues = 0.9f;
 }
 
 void AlphaBlendSprite::SetFadeIn()
 {
-	FadeStyle = fadein;
+	FadeStyle = FADEIN;
 	alphaValues = 0.0f;
 }
 
 void AlphaBlendSprite::SetNormalMode()
 {
-	FadeStyle = normalmode;
+	FadeStyle = NORMALMODE;
+}
+
+void AlphaBlendSprite::SetFadeStyle(FadeType fadetype)
+{
+	switch (fadetype)
+	{
+	case FadeType::normal:
+		SetNormalMode();
+		break;
+	case FadeType::fadein:
+		SetFadeIn();
+		break;
+	case FadeType::fadeout:
+		SetFadeOut();
+		break;
+	default:
+		break;
+	}
+
 }
 
