@@ -11,7 +11,7 @@ public:
 	~Player();
 
 	virtual void Focus(D3DXVECTOR2* position, D3DXVECTOR2* size) override;
-	virtual Sprite* GetSprite() override { return animation->GetSprite(); };
+	//virtual vector<Sprite*> GetSprite() override { };
 	virtual void Update(D3DXMATRIX& V, D3DXMATRIX& P) override;
 	virtual void Render() override;
 	virtual void ApplyDamege(Sprite* sprite) override;
@@ -43,6 +43,7 @@ private:
 	D3DXVECTOR2 GetArrowDirection();
 
 private:
+	
 	float moveSpeed;
 	Animation* animation;
 	Sprite* DiedImage;

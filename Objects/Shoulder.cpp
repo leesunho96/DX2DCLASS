@@ -13,11 +13,14 @@ Shoulder::Shoulder(ShoulderType shouldertype, D3DXVECTOR2 position, D3DXVECTOR2 
 	{
 	case ShoulderType::Left:
 		shoulder = new Sprite(texture, shader, 151, 102, 185, 141);
+		direction = D3DXVECTOR2(-1, 0);
 		break;
 	case ShoulderType::Right:
 		shoulder = new Sprite(texture, shader, 198, 102, 234, 141);
+		direction = D3DXVECTOR2(1, 0);
 		break;
 	}
+	stopwatch.RetAndSetTimer(1.0f);
 }
 
 Shoulder::~Shoulder()
@@ -27,7 +30,20 @@ Shoulder::~Shoulder()
 
 void Shoulder::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
+	if (bIsActivate)
+	{
+		if (!stopwatch.IsOver())
+		{
+			position += direction * Timer->Elapsed() * 10.0f;
+		}
+		else
+		{
+			direction = direction == D3DXVECTOR2(1, 0) ? D3DXVECTOR2(-1, 0) : D3DXVECTOR2(1, 0);
+			stopwatch.RetAndSetTimer(1.0f);
+		}
 
+		stopwatch.Update();
+	}
 	shoulder->Position(position);
 	shoulder->Scale(scale);
 	shoulder->RotationDegree(rotation);

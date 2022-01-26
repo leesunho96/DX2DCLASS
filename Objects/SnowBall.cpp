@@ -70,7 +70,7 @@ void SnowBall::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 
 
 
-	if (player->GetSprite()->OBB(animation->GetSprite()))
+	if (player->GetSprite()[0]->OBB(animation->GetSprite()))
 	{
 		player->SetNuckBack(position);
 		ResetStopwatch();

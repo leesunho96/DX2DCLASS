@@ -155,13 +155,13 @@ void SceneControl::CheckIsLoadedMap()
 	if (threads[GOLIATHSCENE]->joinable())
 	{
 		threads[GOLIATHSCENE]->join();
-		return;
+		//return;
 	}
 
 	if (threads[YETISCENE]->joinable())
 	{
 		threads[YETISCENE]->join();
-		return;
+		//return;
 	}
 
 

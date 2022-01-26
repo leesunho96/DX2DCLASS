@@ -29,7 +29,7 @@ Stage2::Stage2(SceneValues * values)
 	bg = new Background_Yeti(values, scale);
 	collisionsystem = new CollisionSystem(values, player);
 	//player = new Player(D3DXVECTOR2(0, 0), D3DXVECTOR2(3, 3));
-	player = actorsdata->GetPlayerData();
+	player = (Player*)actorsdata->GetPlayerData();
 	//actorsdata->SetData(player);
 	yeti = new Yeti(D3DXVECTOR2(0, 200), D3DXVECTOR2(2, 2));
 	actorsdata->SetData(yeti);

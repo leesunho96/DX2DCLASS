@@ -16,7 +16,7 @@ public:
 	void SetData(Player* player) { this->player = player; };
 	void SetData(Yeti* yeti) { this->yeti = yeti;};
 	void SetData(Goliath* goliath) { this->goliath = goliath;};
-	void SetEnemy(int val) { enemy = val == 1 ? (Character*)yeti : (Character*)yeti; };
+	void SetEnemy(int val) { enemy = val == 1 ? (Character*)yeti : (Character*)goliath; };
 
 	void SetEnemyData(Character* character) { this->enemy = character; };
 

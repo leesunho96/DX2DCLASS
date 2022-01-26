@@ -4,6 +4,7 @@
 #include "Characters/Yeti.h"
 
 #define SPEED 1000
+#define SPRITEBODY 0
 extern ActorsData* actorsdata;
 
 Arrow::Arrow(wstring spriteFile, wstring shaderFile)
@@ -50,8 +51,8 @@ void Arrow::SetBack()
 
 void Arrow::SetArrowGoesToPlayer()
 {
-	direction = GetArrowDirectionToPlayer(player->GetSprite()->Position());
-	Rotation = GetArrowRotationByPoint(player->GetSprite()->Position(), position);
+	direction = GetArrowDirectionToPlayer(player->GetSprite()[0]->Position());
+	Rotation = GetArrowRotationByPoint(player->GetSprite()[0]->Position(), position);
 	stopwatch->SetTimer(2.0f);
 }
 
@@ -65,23 +66,7 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	{
 		if (!stopwatch->IsOver())
 		{
-			position += direction * Timer->Elapsed() * SPEED;
-			// 플레이어 Or Enemy, 충돌 체크 알고리즘 추가.
-			// 
-			//D3DXVec2Normalize()
-			Rotation = GetArrowRotation();
-			if (actorsdata->GetEnemyData() != nullptr)
-			{
-				if (actorsdata->GetEnemyData()->GetSprite()->OBB(sprite))
-				{
-					AttackToEnemy();
-				}
-				if (player->GetSprite()->OBB(sprite))
-				{
-					isActivate = false;
-					player->SetPlayerGetArrow();
-				}
-			}
+			ArrowMove();
 		}
 	}
 	else
@@ -93,21 +78,14 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		// 플레이어에게 돌아온 경우 : deactivate 한 후, 플레이어에게 알려야함
 		// 알릴 메소드 만들어야됨.
 
-		if (player->GetSprite()->OBB(sprite))
+		if (player->GetSprite()[0]->OBB(sprite))
 		{
 			isActivate = false;
 			player->SetPlayerGetArrow();
 		}
 		else
 		{
-			position += direction * Timer->Elapsed() * SPEED;
-			if (actorsdata->GetEnemyData() != nullptr)
-			{
-				if (actorsdata->GetEnemyData()->GetSprite()->OBB(sprite))
-				{
-					AttackToEnemy();
-				}
-			}
+			ArrowMove();
 		}
 	}
 	sprite->Rotation(Rotation);
@@ -115,19 +93,52 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	sprite->Update(V, P);
 }
 
-void Arrow::AttackToEnemy()
+void Arrow::ArrowMove()
 {
-	if (actorsdata->GetEnemyData()->IsAttackable())
+	position += direction * Timer->Elapsed() * SPEED;
+	// 플레이어 Or Enemy, 충돌 체크 알고리즘 추가.
+	// 
+	//D3DXVec2Normalize()
+	Rotation = GetArrowRotation();
+	if (actorsdata->GetEnemyData() != nullptr)
 	{
-		actorsdata->GetEnemyData()->ApplyDamege(sprite);
+		//if (actorsdata->GetEnemyData()->GetSprite()[SPRITEBODY]->OBB(sprite))
+		for (auto sprite : actorsdata->GetEnemyData()->GetSprite())
+		{
+			if (sprite->OBB(this->sprite))
+			{
+				AttackToEnemy(sprite);
+			}
+		}
+		if (player->GetSprite()[SPRITEBODY]->OBB(sprite))
+		{
+			isActivate = false;
+			player->SetPlayerGetArrow();
+		}
 	}
-	else
+}
+
+void Arrow::AttackToEnemy(Sprite* input)
+{
+	if (input == actorsdata->GetEnemyData()->GetSprite()[SPRITEBODY])
 	{
-		if (actorsdata->GetEnemyData()->IsIdle())
+		if (actorsdata->GetEnemyData()->IsAttackable())
 		{
 			actorsdata->GetEnemyData()->ApplyDamege(sprite);
 		}
-		direction = GetReflectionVector(direction, GetWhichSideIsCollideWighEnemy(actorsdata->GetEnemyData()->GetSprite()));
+		else
+		{
+			if (actorsdata->GetEnemyData()->IsIdle())
+			{
+				actorsdata->GetEnemyData()->ApplyDamege(sprite);
+			}
+			direction = GetReflectionVector(direction, GetWhichSideIsCollideWighEnemy(input));
+			position += direction * 30.0f;
+		}
+	}
+	else
+	{
+		direction = GetReflectionVector(direction, GetWhichSideIsCollideWighEnemy(input));
 		position += direction * 30.0f;
 	}
 }
@@ -236,41 +247,50 @@ int	Arrow::GetWhichSideIsCollideWighEnemy(Sprite* enemy)
 	ArrowRECT.left   = GetTipPosistion().x - 10; //sprite->Position().x - sprite->TextureSize().x * 0.5f;
 	ArrowRECT.right  = GetTipPosistion().x + 10;//sprite->Position().x + sprite->TextureSize().x * 0.5f;
 
-	enemyRECT.top = actorsdata->GetEnemyData()->GetSprite()->Position().y -
-		actorsdata->GetEnemyData()->GetSprite()->TextureSize().y * 0.5f;
-	enemyRECT.bottom = actorsdata->GetEnemyData()->GetSprite()->Position().y +
-		actorsdata->GetEnemyData()->GetSprite()->TextureSize().y * 0.5f;
-	enemyRECT.left = actorsdata->GetEnemyData()->GetSprite()->Position().x -
-		actorsdata->GetEnemyData()->GetSprite()->TextureSize().x * 0.5f;
-	enemyRECT.right = actorsdata->GetEnemyData()->GetSprite()->Position().x +
-		actorsdata->GetEnemyData()->GetSprite()->TextureSize().x * 0.5f;
 
-	IntersectRect(&intersectRECT, &ArrowRECT, &enemyRECT);
 
-	// 교차하는 사각형의 길이가 가로보다 세로가 길다 => 좌/우
-	if (abs(intersectRECT.bottom - intersectRECT.top) > abs(intersectRECT.right - intersectRECT.left))
+	for (auto sprite : actorsdata->GetEnemyData()->GetSprite())
 	{
-		// 가로가 세로보다 길고, enemy의 x좌표가 arrow의 x좌표보다 클 경우 : 화살이 enemy의 좌측으로 충돌
-		if (enemy->Position().x > sprite->Position().x)
+		if (!sprite->OBB(this->sprite))
+			continue;
+
+
+		enemyRECT.top = sprite->Position().y -
+			sprite->TextureSize().y * 0.5f;
+		enemyRECT.bottom = sprite->Position().y +
+			sprite->TextureSize().y * 0.5f;
+		enemyRECT.left = sprite->Position().x -
+			sprite->TextureSize().x * 0.5f;
+		enemyRECT.right = sprite->Position().x +
+			sprite->TextureSize().x * 0.5f;
+
+		IntersectRect(&intersectRECT, &ArrowRECT, &enemyRECT);
+
+		// 교차하는 사각형의 길이가 가로보다 세로가 길다 => 좌/우
+		if (abs(intersectRECT.bottom - intersectRECT.top) > abs(intersectRECT.right - intersectRECT.left))
 		{
-			result = 2;
+			// 가로가 세로보다 길고, enemy의 x좌표가 arrow의 x좌표보다 클 경우 : 화살이 enemy의 좌측으로 충돌
+			if (enemy->Position().x > sprite->Position().x)
+			{
+				result = 2;
+			}
+			// 우측으로 충돌
+			else
+			{
+				result = 3;
+			}
 		}
-		// 우측으로 충돌
+		// 교차하는 사각형의 길이가 가로보다 세로가 짧거나 같다 => 상/하
 		else
 		{
-			result = 3;
-		}
-	}
-	// 교차하는 사각형의 길이가 가로보다 세로가 짧거나 같다 => 상/하
-	else
-	{
-		if (enemy->Position().y > sprite->Position().y)
-		{
-			result = 0;
-		}
-		else
-		{
-			result = 1;
+			if (enemy->Position().y > sprite->Position().y)
+			{
+				result = 0;
+			}
+			else
+			{
+				result = 1;
+			}
 		}
 	}
 	return result;

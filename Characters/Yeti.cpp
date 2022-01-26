@@ -231,12 +231,12 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), po
 		// 메모리 풀 이용하지 않고, 각 클래스 내부에 validate/invalidate 변수 이용하여 객체 생성/소멸 하지 않고 이용
 		for (size_t i = 0; i < 5; i++)
 		{
-			icycles[i] = new Icycle(Math::Random(0, 3), actorsdata->GetPlayerData());
+			icycles[i] = new Icycle(Math::Random(0, 3), (Player*)actorsdata->GetPlayerData());
 		}
 		for (size_t i = 0; i < 3; i++)
 		{
 			snowballs[i] = new SnowBall();
-			snowballs[i]->SetPlayer(actorsdata->GetPlayerData());
+			snowballs[i]->SetPlayer((Player*)actorsdata->GetPlayerData());
 		}
 	}
 	// 해당 클래스 연결용 데이터 등록
@@ -381,6 +381,11 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	//	SetPositionRotationScalePlayAnimationUpdate(V, P);
 	//	return;
 	//}
+
+
+	sprites.clear();
+	sprites.push_back(animation->GetSprite());
+
 	if (PresentState == AICheck)
 	{
 		if (stopwatch.IsOver())
@@ -436,9 +441,13 @@ void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			else
 			{
 				PlayerMove(position, Timer->Elapsed(), presentDirection, SPEED , V, P);
-				if (actorsdata->GetPlayerData()->GetSprite()->OBB(animation->GetSprite()))
+				//if (actorsdata->GetPlayerData()->GetSprite()->OBB(animation->GetSprite()))
+				for (auto a : ((Player*)(actorsdata->GetPlayerData()))->GetSprite())
 				{
-					actorsdata->GetPlayerData()->ApplyDamege(animation->GetSprite());
+					if (a->OBB(animation->GetSprite()))
+					{
+						((Player*)(actorsdata->GetPlayerData()))->ApplyDamege(animation->GetSprite());
+					}
 				}
 			}
 			SetDirectionRotationAnimationNum(iLocalpresentdirection, RollAnimationStart);
@@ -494,7 +503,7 @@ void Yeti::ActionWhileDead()
 {
 	if (!bIsGetArrowPos)
 	{
-		D3DXVECTOR2 arrowposition = actorsdata->GetPlayerData()->GetArrowSprite()->GetPosition() - animation->GetPosition();
+		D3DXVECTOR2 arrowposition = ((Player*)(actorsdata->GetPlayerData()))->GetArrowSprite()->GetPosition() - animation->GetPosition();
 		D3DXVec2Normalize(&arrowposition, &arrowposition);
 		iPlayAnimationNum = GetDirectionVectorToGeneralIntValues(arrowposition) + DieAnimationStart;
 		rotation = GetRotationDegreeFromDirectionVector(arrowposition);
@@ -636,15 +645,15 @@ void Yeti::ActionWhileAICheck()
 
 void Yeti::GetPresentDirectionToPlayer()
 {
-	D3DXVECTOR2 tempVec(actorsdata->GetPlayerData()->GetSprite()->Position() - this->animation->GetSprite()->Position());
+	D3DXVECTOR2 tempVec(((Player*)actorsdata->GetPlayerData())->GetSprite()[0]->Position() - this->animation->GetSprite()->Position());
 	D3DXVec2Normalize(&presentDirection, &tempVec);
 }
 
 
-Sprite * Yeti::GetSprite()
-{
-	return animation->GetSprite();
-}
+//Sprite * Yeti::GetSprite()
+//{
+//	return animation->GetSprite();
+//}
 
 bool Yeti::IsAttackable()
 {
@@ -654,7 +663,7 @@ bool Yeti::IsAttackable()
 	//}
 	if (PresentState == Throwing_SnowBall || PresentState == AICheck)
 	{
-		Arrow* arrowsprite = actorsdata->GetPlayerData()->GetArrowSprite();
+		Arrow* arrowsprite =((Player*) actorsdata->GetPlayerData())->GetArrowSprite();
 
 		D3DXVECTOR2 tippos = arrowsprite->GetTipPosistion();
 		SetHitboxPosition(hitbox, iPlayAnimationNum);

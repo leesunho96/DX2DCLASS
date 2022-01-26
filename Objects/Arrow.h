@@ -25,7 +25,8 @@ public:
 	void SetpPlayerPosition(D3DXVECTOR2* pPos) { this->pPlayerPosition = pPos; };
 
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
-	void AttackToEnemy();
+	void ArrowMove();
+	void AttackToEnemy(Sprite* input);
 	void Render();
 
 

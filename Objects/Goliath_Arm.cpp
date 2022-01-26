@@ -44,12 +44,14 @@ Goliath_Arm::Goliath_Arm(ArmType armtype, D3DXVECTOR2 position, D3DXVECTOR2 scal
 	rotation = armtype == ArmType::Left ? D3DXVECTOR3(0, 0, 0) : D3DXVECTOR3(0, 180, 0);
 	scale = D3DXVECTOR2(1, 1);
 	iPlayAnimatnion = IDLE;
+	animation->Play(IDLE);
 
 	actions.push_back(bind(&Goliath_Arm::ActionWhileIdle, this));
 	actions.push_back(bind(&Goliath_Arm::ActionWhileChangeDegree, this));
 	actions.push_back(bind(&Goliath_Arm::ActionWhileAttack, this));
 	actions.push_back(bind(&Goliath_Arm::ActionWhileGoesToIdle, this));
 	bIsActivate = false;
+	animation->DrawBound(true);
 }
 
 Goliath_Arm::~Goliath_Arm()

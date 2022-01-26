@@ -27,16 +27,19 @@ Stage1::Stage1(SceneValues * values)
 	wstring shaderFile = Shaders + L"009_Sprite.fx";
 	bg = new Background_Goliath(values, scale);
 	collisionsystem = new CollisionSystem(values, player);
-	player = actorsdata->GetPlayerData();
+	player = (Player*)actorsdata->GetPlayerData();
 	following = new Following(player);
 	RECT cameraBoundery = { -(Width * 0.5f) * scale, //left
 		(Height * 0.5f) * scale,  // top
 		(Width * 0.5f) * scale, // right
 		-(Height * 0.5f) * scale }; // bottom
-	following->SetLimit(cameraBoundery, player->GetOffset());
-	ui = new UI(player, following);
+	D3DXVECTOR2 offset = player->GetOffset();
+
+	following->SetLimit(cameraBoundery, 
+		offset);
 	goliath = new Goliath(D3DXVECTOR2(0, 150), D3DXVECTOR2(1.5, 1.5));
 	actorsdata->SetData(goliath);
+	ui = new UI(player, following);
 }
 
 Stage1::~Stage1()
@@ -54,9 +57,9 @@ void Stage1::Update()
 	D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width, 0, (float)Height, -1, 1);
 
 
-	bg->Update(V, P);
-	player->Update(V, P);
 	goliath->Update(V, P);
+	player->Update(V, P);
+	bg->Update(V, P);
 	collisionsystem->Update(V, P);
 	ui->Update(V, P);
 }

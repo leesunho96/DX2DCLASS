@@ -185,9 +185,9 @@ void Icycle::ActWhileFalling()
 
 	// 플레이어와 고드름이 충돌하면 그에 따른 판정 필요.
 	// 플레이어의 위치가 고드름보다 아래여야 충돌 판정.
-	if (player->GetSprite()->OBB(animation->GetSprite()))
+	if (player->GetSprite()[0]->OBB(animation->GetSprite()))
 	{
-		if (player->GetSprite()->Position().y < position.y)
+		if (player->GetSprite()[0]->Position().y < position.y)
 		{
 			player->ApplyDamege(animation->GetSprite());
 		}

@@ -261,6 +261,9 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	D3DXVECTOR2 pastPosition = position;
 	D3DXVECTOR2 textureSize = animation->TextureSize();
 
+	sprites.clear();
+	sprites.push_back(animation->GetSprite());
+	
 	if (bGetDamege)
 	{
 		if (Key->Down(VK_RETURN))
@@ -294,7 +297,6 @@ void Player::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	animation->SetPosition(position);
 	animation->Update(V, P);
 	animation->Play(playAnimation);
-
 }
 
 
