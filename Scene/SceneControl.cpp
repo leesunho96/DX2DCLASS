@@ -110,10 +110,6 @@ SceneControl::~SceneControl()
 
 void SceneControl::Update()
 {	
-	if (actorsdata != nullptr)
-	{
-		actorsdata->SetEnemy(iRenderScene);
-	}
 	if (bIsLoadingFinish & LOADYETIMAP && Key->Down(VK_RETURN))
 	{
 		GoesToMap(GOLIATHSCENE);
@@ -172,4 +168,8 @@ void SceneControl::CheckIsLoadedMap()
 void SceneControl::GoesToMap(int MapNum)
 {
 	iRenderScene = MapNum;
+	if (actorsdata != nullptr)
+	{
+		actorsdata->SetEnemy(iRenderScene);
+	}
 }

@@ -30,9 +30,11 @@ private:
 	void BehaviorTree();
 public:
 private:
+	const D3DXVECTOR2 basePosition;
 	bool bIsActivate = false;
 	int iPlayAnimatnion;
 	ArmType armtype;
+	RECT availableBoundery;
 	Animation* animation;
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;

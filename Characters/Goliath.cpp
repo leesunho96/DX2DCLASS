@@ -105,6 +105,15 @@ void Goliath::Render()
 	head->Render();
 	goliathArms[0]->Render();
 	goliathArms[1]->Render();
+
+	if (ImGui::Button("ResetGoliath"))
+	{
+		this->PresentState = IDLE;
+		for (auto a : shoulders)
+		{
+			a->SetDeactivate();
+		}
+	}
 }
 
 void Goliath::ApplyDamege(Sprite * sprite)
@@ -116,6 +125,10 @@ void Goliath::ApplyDamege(Sprite * sprite)
 		for (auto shoulder : shoulders)
 		{
 			shoulder->SetActivate();
+		}
+		for (auto arm : goliathArms)
+		{
+			arm->SetActivate();
 		}
 		break;
 	case ACTIVATE:

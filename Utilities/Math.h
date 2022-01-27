@@ -13,4 +13,6 @@ public:
 	static float Random(float r1, float r2);
 
 	static float Clamp(float value, float min, float max);
+
+	static float D3DXVEC2GetDistance(D3DXVECTOR2 pos1, D3DXVECTOR2 pos2);
 };

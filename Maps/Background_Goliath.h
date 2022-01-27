@@ -20,6 +20,7 @@ public:
 private:
 public:
 private:
+	
 	Sprite* mapSprite;
 	CollisionData* collisiondata;
 };

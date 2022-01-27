@@ -58,6 +58,11 @@ float Math::Clamp(float value, float min, float max)
 	return value;
 }
 
+float Math::D3DXVEC2GetDistance(D3DXVECTOR2 pos1, D3DXVECTOR2 pos2)
+{
+	return abs(sqrt((pow((pos1.x - pos2.x), 2) + pow((pos1.y - pos2.y), 2))));
+}
+
 // 위의 Random의 오버로딩 버전. int형을 입력/반환 값으로 갖는다.
 int Math::Random(int r1, int r2)
 {

@@ -155,7 +155,6 @@ void Clip::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 			{
 				case PlayMode::End:
 				{
-
 					if (currentFrame < frames.size() - 1)
 						currentFrame++;
 					else
@@ -176,6 +175,7 @@ void Clip::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 					if (currentFrame < frames.size() - 1)
 						currentFrame++;
 				}
+				break;
 			}
 
 			playTime = 0.0f;
