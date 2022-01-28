@@ -213,6 +213,7 @@
     <ClInclude Include="Objects\Marker.h" />
     <ClInclude Include="Objects\Shoulder.h" />
     <ClInclude Include="Objects\SnowBall.h" />
+    <ClInclude Include="Physics\CollisionDesc.h" />
     <ClInclude Include="Physics\CollisionSystem.h" />
     <ClInclude Include="Physics\Gravity.h" />
     <ClInclude Include="Renders\AlphaBlendSprite.h" />

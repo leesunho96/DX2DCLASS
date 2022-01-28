@@ -270,6 +270,9 @@
     <ClInclude Include="Objects\Shoulder.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\CollisionDesc.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Systems">

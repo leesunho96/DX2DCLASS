@@ -18,7 +18,8 @@ public:
 	void Render();
 
 	Sprite* GetSprite() { return animation->GetSprite(); };
-	
+	unsigned char GetPresentState() { return PresentState; };
+	void SetOppositeArm(Goliath_Arm* oppositeArm) { this->oppositeArm = oppositeArm; };
 	void SetActivate();
 private:
 
@@ -28,6 +29,8 @@ private:
 	void ActionWhilePlayingOtherAnimation();
 	void ActionWhileGoesToIdle();
 	void BehaviorTree();
+
+	void SetPresentState(unsigned char input);
 public:
 private:
 	const D3DXVECTOR2 basePosition;
@@ -41,6 +44,7 @@ private:
 	D3DXVECTOR3 rotation;
 	D3DXVECTOR2 targetPosition;
 	vector <function<void(void)>> actions;
+	Goliath_Arm* oppositeArm;
 	StopWatch stopwatch;
 	unsigned char PresentState = 0;
 	

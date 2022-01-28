@@ -5,7 +5,7 @@ class Line;
 class Marker;
 class Player;
 class CollisionData;
-
+class CollisionDesc;
 
 
 class CollisionSystem
@@ -21,6 +21,7 @@ public:
 	float GetDegree(Sprite* sprite);
 	D3DXVECTOR2 GetGoBackVector(Sprite* sprite);
 
+	void SetCollisionDesc(CollisionDesc& collisiondesc);
 	// 해당 충돌 시스템을 위한 선/좌표 입력 메소드.
 	void PushMarkerByCode(D3DXVECTOR2 Point);
 	void PushLineByCode(Line* line);
@@ -39,6 +40,7 @@ public:
 private:
 	vector<bool>& GetDistanceBetweenLineAndZeroPosition(vector<Line*> lines);
 private:
+	void Update();
 	D3DXVECTOR2 mpos;
 	//vector<Marker*> markers;
 	//vector<Line*> lines;
@@ -47,6 +49,8 @@ private:
 	vector<int> CollideLineIndexVector;
 	bool bIsRenderMarker = true;
 	vector<bool> bDistanceIsPositive;
+	vector<CollisionDesc> collisionDesc;
+
 private:
 	CollisionData* collisiondata;
 };

@@ -60,6 +60,8 @@ Goliath::Goliath(D3DXVECTOR2 position, D3DXVECTOR2 scale) : scale(scale), positi
 	{
 		goliathArms[0] = new Goliath_Arm(ArmType::Left,  position + D3DXVECTOR2(-body->TextureSize().x, -body->TextureSize().y) * 0.75f, scale);
 		goliathArms[1] = new Goliath_Arm(ArmType::Right, position + D3DXVECTOR2( body->TextureSize().x, -body->TextureSize().y) * 0.75f, scale);
+		goliathArms[0]->SetOppositeArm(goliathArms[1]);
+		goliathArms[1]->SetOppositeArm(goliathArms[0]);
 	}
 
 	updateSprites.push_back(bind(&Goliath::UpdateBody, this, placeholders::_1, placeholders::_2));
@@ -88,7 +90,7 @@ Goliath::~Goliath()
 }
 
 void Goliath::Update(D3DXMATRIX & V, D3DXMATRIX & P)
-{
+{	
 	sprites.clear();
 	// body, arm, shoulder, head update
 	for (auto UpdateSprite : updateSprites)

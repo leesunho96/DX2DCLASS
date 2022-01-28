@@ -20,6 +20,7 @@
 extern CollisionSystem* collisionsystem;
 extern ActorsData* actorsdata;
 
+
 Stage1::Stage1(SceneValues * values) 
 	: Scene(values)
 {
@@ -37,7 +38,7 @@ Stage1::Stage1(SceneValues * values)
 
 	following->SetLimit(cameraBoundery, 
 		offset);
-	goliath = new Goliath(D3DXVECTOR2(0, 150), D3DXVECTOR2(1.5, 1.5));
+	goliath = new Goliath(D3DXVECTOR2(0, 150), D3DXVECTOR2(2, 2));
 	actorsdata->SetData(goliath);
 	ui = new UI(player, following);
 }
@@ -62,6 +63,7 @@ void Stage1::Update()
 	bg->Update(V, P);
 	collisionsystem->Update(V, P);
 	ui->Update(V, P);
+	
 }
 
 void Stage1::Render()

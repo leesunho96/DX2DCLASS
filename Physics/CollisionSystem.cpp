@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CollisionSystem.h"
+#include "CollisionDesc.h"
 #include "Objects/Marker.h"
 #include "Objects/Line.h"
 #include "Characters/Player.h"
@@ -19,6 +20,7 @@ CollisionSystem::~CollisionSystem()
 
 void CollisionSystem::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 {
+	Update();
 	for (Marker* marker : collisiondata->marker)
 	{
 		marker->Update(V, P);
@@ -57,6 +59,7 @@ void CollisionSystem::Render()
 
 bool CollisionSystem::CollisionTest(Sprite * sprite)
 {
+
 	CollideLineIndexVector.clear();
 	bool isColide = false;
 	int index = 0;
@@ -124,6 +127,44 @@ D3DXVECTOR2 CollisionSystem::GetGoBackVector(Sprite * sprite)
 		}
 	}
 	return result;
+}
+
+void CollisionSystem::SetCollisionDesc(CollisionDesc & collisiondesc)
+{
+	this->collisionDesc.push_back(collisiondesc);
+}
+
+void CollisionSystem::Update()
+{
+
+	if (collisionDesc.size() == 0 || collisionDesc.size() == 1)
+	{
+		return;
+	}
+	for (size_t i = 0; i < collisionDesc.size() - 1; i++)
+	{
+		for (size_t j = i + 1; j < collisionDesc.size(); j++)
+		{
+			if (collisionDesc[i].collisionLayer == collisionDesc[j].collisionLayer)
+			{
+				if (collisionDesc[i].GetSprite()->OBB(collisionDesc[j].GetSprite()))
+				{
+					while (collisionDesc[i].GetSprite()->OBB(collisionDesc[j].GetSprite()))
+					{
+						D3DXVECTOR2 directionVector = collisionDesc[i].GetPosition() - collisionDesc[j].GetPosition();
+						D3DXVec2Normalize(&directionVector, &directionVector);
+						if (collisionDesc[i].GetPosition() == collisionDesc[j].GetPosition())
+						{
+							directionVector = D3DXVECTOR2(1, 0);
+						}
+						collisionDesc[i].AdjustPosition(collisionDesc[i].GetPosition() + directionVector * 0.5f);
+						collisionDesc[j].AdjustPosition(collisionDesc[j].GetPosition() - directionVector * 0.5f);
+					}
+				}
+			}
+		}
+	}
+	collisionDesc.clear();
 }
 
 void CollisionSystem::PushMarkerByCode(D3DXVECTOR2 Point)
