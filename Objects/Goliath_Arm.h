@@ -21,6 +21,7 @@ public:
 	unsigned char GetPresentState() { return PresentState; };
 	void SetOppositeArm(Goliath_Arm* oppositeArm) { this->oppositeArm = oppositeArm; };
 	void SetActivate();
+	void SetInvalidate();
 private:
 
 	void ActionWhileIdle();

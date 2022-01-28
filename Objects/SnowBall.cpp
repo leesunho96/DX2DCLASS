@@ -66,10 +66,6 @@ void SnowBall::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	}
 	stopwatch.Update();
 	position += direction * 500.0f * Timer->Elapsed();
-
-
-
-
 	if (player->GetSprite()[0]->OBB(animation->GetSprite()))
 	{
 		player->SetNuckBack(position);

@@ -99,7 +99,7 @@ void Goliath_Arm::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	InitializeScaleRotationPositionPlayAnimNum(V, P);
 
 	CollisionDesc collisiondesc;
-	collisiondesc.InitializeCollisionDesc(animation, false, 0);
+	collisiondesc.InitializeCollisionDesc(animation, false, true, 0);
 	collisionsystem->SetCollisionDesc(collisiondesc);
 }
 

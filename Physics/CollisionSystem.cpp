@@ -134,13 +134,18 @@ void CollisionSystem::SetCollisionDesc(CollisionDesc & collisiondesc)
 	this->collisionDesc.push_back(collisiondesc);
 }
 
+
+// 충돌을 적용할 객체들은 해당 객체에서 collisionDesc 생성 이후, Update시마다 CollisionDesc::SetCollisionDesc() 호출하여 업데이트.
 void CollisionSystem::Update()
 {
 
-	if (collisionDesc.size() == 0 || collisionDesc.size() == 1)
-	{
-		return;
-	}
+	//for (auto desc : )
+	//{
+
+	//}
+
+
+
 	for (size_t i = 0; i < collisionDesc.size() - 1; i++)
 	{
 		for (size_t j = i + 1; j < collisionDesc.size(); j++)

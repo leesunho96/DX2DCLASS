@@ -7,30 +7,40 @@ enum class SpriteType
 	Sprite = 0, Clip, Animation
 };
 
+
+
+/*
+	
+
+
+*/
 class CollisionDesc
 {
 public:
 
-	void InitializeCollisionDesc(Sprite* sprite, bool isAttackable, int collisionLayer)	
+	void InitializeCollisionDesc(Sprite* sprite, bool isAttackable, bool isMoveable, int collisionLayer)
 	{
 		this->spritetype = SpriteType::Sprite;
 		this->sprite = sprite;
 		this->isAttackable = isAttackable;
 		this->collisionLayer = collisionLayer;
+		this->isMoveable = isMoveable;
 	}
-	void InitializeCollisionDesc(Clip* clip	, bool isAttackable, int collisionLayer)
+	void InitializeCollisionDesc(Clip* clip	, bool isAttackable, bool isMoveable, int collisionLayer)
 	{
 		this->spritetype = SpriteType::Clip;
 		this->clip = clip;
 		this->isAttackable = isAttackable;
 		this->collisionLayer = collisionLayer;
+		this->isMoveable = isMoveable;
 	}
-	void InitializeCollisionDesc(Animation* animation, bool isAttackable, int collisionLayer)
+	void InitializeCollisionDesc(Animation* animation, bool isAttackable, bool isMoveable, int collisionLayer)
 	{
 		this->spritetype = SpriteType::Animation;
 		this->animation = animation;
 		this->isAttackable = isAttackable;
 		this->collisionLayer = collisionLayer;
+		this->isMoveable = isMoveable;
 	}
 
 	Sprite* GetSprite()
@@ -89,6 +99,7 @@ public:
 
 	SpriteType spritetype;
 	bool isAttackable;
+	bool isMoveable;
 	int collisionLayer;
 	Sprite* sprite;
 	Clip* clip;
