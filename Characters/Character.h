@@ -14,6 +14,7 @@ public:
 	virtual D3DXVECTOR2 GetOffset() = 0;
 	virtual bool IsAttackable() = 0;
 	virtual bool IsIdle() = 0;
+	virtual bool IsDead() = 0;
 protected:
 	vector<Sprite*> sprites;
 };

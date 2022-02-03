@@ -19,7 +19,7 @@ public:
 
 	virtual bool IsAttackable() override;
 	virtual bool IsIdle() override { return PresentState == (unsigned char)0; }
-
+	virtual bool IsDead() override;
 
 private:
 	void SetPositionRotationScalePlayAnimationUpdate(D3DXMATRIX & V, D3DXMATRIX & P);

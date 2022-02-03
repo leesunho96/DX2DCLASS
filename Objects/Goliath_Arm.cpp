@@ -97,7 +97,11 @@ void Goliath_Arm::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 	stopwatch.Update();
 	actions[PresentState]();
 	InitializeScaleRotationPositionPlayAnimNum(V, P);
+	SetCollisionDesc();
+}
 
+void Goliath_Arm::SetCollisionDesc()
+{
 	CollisionDesc collisiondesc;
 	collisiondesc.InitializeCollisionDesc(animation, false, true, 0);
 	collisionsystem->SetCollisionDesc(collisiondesc);
@@ -122,6 +126,12 @@ void Goliath_Arm::SetActivate()
 {
 	bIsActivate = true;
 	BehaviorTree();
+}
+
+void Goliath_Arm::SetInvalidate()
+{
+	bIsActivate = false;
+
 }
 
 void Goliath_Arm::ActionWhileIdle()

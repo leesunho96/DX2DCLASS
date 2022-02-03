@@ -18,6 +18,7 @@ public:
 
 	virtual bool IsAttackable() override;
 	virtual bool IsIdle() override;
+	virtual bool IsDead() override;
 
 
 private:

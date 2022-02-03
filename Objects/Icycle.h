@@ -23,6 +23,7 @@ private:
 
 	void ActWhileHole();
 	void ActWhileFall();
+	void SetCollisionDesc();
 	void ActWhileFalling();
 	void ActWhileWaitFalling();
 

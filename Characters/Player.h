@@ -18,7 +18,7 @@ public:
 	virtual D3DXVECTOR2 GetOffset() override { return focusoffset; }; ;
 	virtual bool IsAttackable() { return !isRoll; };
 	virtual bool IsIdle() { return playAnimation == 0; };
-	
+	virtual bool IsDead() { return bGetDamege; };
 	
 	bool GetPlayerIsDied() { return bGetDamege; };
 	void ResetPlayer(D3DXVECTOR2 &position);

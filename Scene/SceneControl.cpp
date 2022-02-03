@@ -28,25 +28,26 @@ unsigned int ID_Goliath;
 HANDLE handle_Yeti;	
 HANDLE handle_Goliath;
 int iRenderScene = 0;
+int iPresentAvailableStage = 0;
 
-unsigned int __stdcall SceneControl::LoadYeti(void* args)
-{
-	scenes[GOLIATHSCENE] = new Stage2((SceneValues*)args);
-	m1.lock();
-	bIsLoadingFinish |= LOADYETIMAP;
-	m1.unlock();
-	return 0;
-}
-
-unsigned int __stdcall SceneControl::LoadGoliath(void* args)
-{
-	scenes[GOLIATHSCENE] = new Stage1((SceneValues*) args);
-	m1.lock();
-	bIsLoadingFinish |= LOADGOLIATH;
-	m1.unlock();
-	return 0;
-}
-
+//unsigned int __stdcall SceneControl::LoadYeti(void* args)
+//{
+//	scenes[GOLIATHSCENE] = new Stage2((SceneValues*)args);
+//	m1.lock();
+//	bIsLoadingFinish |= LOADYETIMAP;
+//	m1.unlock();
+//	return 0;
+//}
+//
+//unsigned int __stdcall SceneControl::LoadGoliath(void* args)
+//{
+//	scenes[GOLIATHSCENE] = new Stage1((SceneValues*) args);
+//	m1.lock();
+//	bIsLoadingFinish |= LOADGOLIATH;
+//	m1.unlock();
+//	return 0;
+//}
+int getAbit(char x, int n) { return (x & (1 << n)) >> n; }
 
 SceneControl::SceneControl(SceneValues* value) : Scene(value)
 {
@@ -65,7 +66,7 @@ SceneControl::SceneControl(SceneValues* value) : Scene(value)
 		(
 			[&]()
 			{
-			//	scenes[YETISCENE] = new Stage2(value);		
+				scenes[YETISCENE] = new Stage2(value);		
 				m1.lock();
 				bIsLoadingFinish |= LOADYETIMAP;
 				m1.unlock();
@@ -109,60 +110,68 @@ SceneControl::~SceneControl()
 }
 
 void SceneControl::Update()
-{	
-	if (bIsLoadingFinish & LOADYETIMAP && Key->Down(VK_RETURN))
-	{
-		GoesToMap(GOLIATHSCENE);
-		((Stage2*)scenes[GOLIATHSCENE])->ChangeCamera();		
-		//GoesToMap(YETISCENE);
-		//((Stage2*)scenes[YETISCENE])->ChangeCamera();
-	}
+{
+	ChangeStage();
 	scenes[iRenderScene]->Update();
 }
+
 
 void SceneControl::Render()
 {
 	scenes[iRenderScene]->Render();
 }
 
+void SceneControl::ChangeStage()
+{
+	// bisloadingfinish가 0이 아닌 경우 무조건 로딩 완료일것.
+	if (Key->Down(VK_RETURN) && bIsLoadingFinish != 0)
+	{
+		switch (iPresentAvailableStage)
+		{
+		case 0:
+			GoesToMap(GOLIATHSCENE);
+			((Stage2*)scenes[GOLIATHSCENE])->ChangeCamera();
+			break;
+		case 1:
+			GoesToMap(YETISCENE);
+			((Stage2*)scenes[YETISCENE])->ChangeCamera();
+		case 2:
+		default:
+			break;
+		}
+	}
+}
+
 void SceneControl::CheckIsLoadedMap()
 {
-	//if (threads[GOLIATHSCENE] != nullptr)
-	//{
-	//	if (!(threads[GOLIATHSCENE]->joinable()))
-	//	{
-	//		threads[GOLIATHSCENE]->join();
-	//		SAFE_DELETE(threads[GOLIATHSCENE]);
-	//	}
-	//	return;
-	//}
-
-	//if (threads[YETISCENE] != nullptr)
-	//{
-	//	if (!(threads[YETISCENE]->joinable()))
-	//	{
-	//		threads[YETISCENE]->join();
-	//		SAFE_DELETE(threads[YETISCENE]);
-	//	}
-	//	return;
-	//}
-
-
 	if (threads[GOLIATHSCENE]->joinable())
 	{
 		threads[GOLIATHSCENE]->join();
-		//return;
+		//SAFE_DELETE(threads[GOLIATHSCENE]);
+		return;
 	}
-
 	if (threads[YETISCENE]->joinable())
 	{
 		threads[YETISCENE]->join();
-		//return;
+		//SAFE_DELETE(threads[YETISCENE]);
+		return;
 	}
 
 
-	
+	//if (getAbit(bIsLoadingFinish, 1) && (threads[GOLIATHSCENE] != nullptr))
+	//{
+	//	threads[GOLIATHSCENE]->join();
+	//	SAFE_DELETE(threads[GOLIATHSCENE]);
+	//	return;
+	//}
 
+	//if (getAbit(bIsLoadingFinish, 0) && (threads[YETISCENE] != nullptr))
+	//{
+	//	threads[YETISCENE]->join();
+	//	SAFE_DELETE(threads[YETISCENE]);
+	//	return;
+	//}
+	
 }
 
 void SceneControl::GoesToMap(int MapNum)

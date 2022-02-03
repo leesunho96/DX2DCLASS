@@ -10,6 +10,8 @@
 #define ACTIVATE 1
 #define Die 2
 
+extern int iPresentAvailableStage;
+
 
 Goliath::Goliath(D3DXVECTOR2 position, D3DXVECTOR2 scale) : scale(scale), position(position), PresentState(IDLE)
 {
@@ -116,6 +118,11 @@ void Goliath::Render()
 			a->SetDeactivate();
 		}
 	}
+
+	if (PresentState == Die)
+	{
+
+	}
 }
 
 void Goliath::ApplyDamege(Sprite * sprite)
@@ -139,6 +146,11 @@ void Goliath::ApplyDamege(Sprite * sprite)
 		{
 			shoulder->SetDeactivate();
 		}
+		for (auto arm : goliathArms)
+		{
+			arm->SetInvalidate();
+		}
+		iPresentAvailableStage = 1;
 		break;
 	case Die:
 		break;
@@ -158,6 +170,11 @@ bool Goliath::IsAttackable()
 bool Goliath::IsIdle()
 {
 	return PresentState == IDLE;
+}
+
+bool Goliath::IsDead()
+{
+	return PresentState == Die ? true : false;
 }
 
 void Goliath::UpdateArms(D3DXMATRIX & V, D3DXMATRIX & P)

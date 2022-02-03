@@ -679,6 +679,11 @@ bool Yeti::IsAttackable()
 	return false;
 }
 
+bool Yeti::IsDead()
+{
+	return PresentState == Die ? true : false;
+}
+
 unsigned char Yeti::BehavierTree()
 {
 	unsigned char result;

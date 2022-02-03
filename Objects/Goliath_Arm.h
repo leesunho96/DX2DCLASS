@@ -14,6 +14,7 @@ public:
 	~Goliath_Arm();
 
 	void Update(D3DXMATRIX& V, D3DXMATRIX& P);
+	void SetCollisionDesc();
 	void InitializeScaleRotationPositionPlayAnimNum(D3DXMATRIX & V, D3DXMATRIX & P);
 	void Render();
 

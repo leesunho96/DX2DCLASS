@@ -1,8 +1,15 @@
 #pragma once
-class Player;
-class Yeti;
-class Character;
-class Goliath;
+
+#include "stdafx.h"
+//#include "ActorsData.h"
+#include "Characters/Character.h"
+#include "Characters/Player.h"
+#include "Characters/Yeti.h"
+#include "Characters/Goliath.h"
+//class Player;
+//class Yeti;
+//class Character;
+//class Goliath;
 
 class ActorsData
 {
@@ -20,6 +27,7 @@ public:
 
 	void SetEnemyData(Character* character) { this->enemy = character; };
 
+	bool isEnemyDead() { return enemy != nullptr ? enemy->IsDead() : false; };
 
 	Player* GetPlayerData() { return player; };
 	Yeti* GetYetiData() { return yeti; };

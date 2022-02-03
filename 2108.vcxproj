@@ -151,7 +151,6 @@
     <ClCompile Include="Characters\Goliath.cpp" />
     <ClCompile Include="Characters\Player.cpp" />
     <ClCompile Include="Characters\Yeti.cpp" />
-    <ClCompile Include="Data\ActorsData.cpp" />
     <ClCompile Include="Data\Collision.cpp" />
     <ClCompile Include="Data\CollisionData.cpp" />
     <ClCompile Include="Maps\Background_Yeti.cpp" />

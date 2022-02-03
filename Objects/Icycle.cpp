@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "Icycle.h"
 #include "Characters/Player.h"
+#include "Physics/CollisionDesc.h"
+#include "Physics/CollisionSystem.h"
 
+extern CollisionSystem* collisionsystem;
 
 Icycle::Icycle(int type, Player* player) : stopwatch(StopWatch()), player(player), gravity(Gravity())
 {
@@ -157,6 +160,7 @@ void Icycle::ActWhileHole()
 		StateInfo = Invalidate;
 		ResetStopWatch(0.3f);
 	}
+	SetCollisionDesc();
 	iPlayAnimationNum = 3;
 }
 
@@ -168,7 +172,15 @@ void Icycle::ActWhileFall()
 		ResetStopWatch(0.3f);
 	}
 
+	SetCollisionDesc();
 	iPlayAnimationNum = 2;
+}
+
+void Icycle::SetCollisionDesc()
+{
+	CollisionDesc collisiondesc;
+	collisiondesc.InitializeCollisionDesc(animation, false, false, 0);
+	collisionsystem->SetCollisionDesc(collisiondesc);
 }
 
 void Icycle::ActWhileFalling()

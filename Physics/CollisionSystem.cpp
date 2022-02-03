@@ -139,6 +139,9 @@ void CollisionSystem::SetCollisionDesc(CollisionDesc & collisiondesc)
 void CollisionSystem::Update()
 {
 
+
+	if (collisionDesc.size() == 0 || collisionDesc.size() == 1)
+		return;
 	//for (auto desc : )
 	//{
 
@@ -162,8 +165,10 @@ void CollisionSystem::Update()
 						{
 							directionVector = D3DXVECTOR2(1, 0);
 						}
-						collisionDesc[i].AdjustPosition(collisionDesc[i].GetPosition() + directionVector * 0.5f);
-						collisionDesc[j].AdjustPosition(collisionDesc[j].GetPosition() - directionVector * 0.5f);
+						float iAlpha = collisionDesc[i].isMoveable ? 0.5f : 0.0f;
+						float jAlpha = collisionDesc[j].isMoveable ? 0.5f : 0.0f;
+						collisionDesc[i].AdjustPosition(collisionDesc[i].GetPosition() + directionVector * iAlpha);
+						collisionDesc[j].AdjustPosition(collisionDesc[j].GetPosition() - directionVector * jAlpha);
 					}
 				}
 			}

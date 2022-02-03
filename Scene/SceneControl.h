@@ -10,6 +10,7 @@ public:
 	~SceneControl();
 
 	void Update();
+	void ChangeStage();
 	void Render();
 	void CheckIsLoadedMap();
 

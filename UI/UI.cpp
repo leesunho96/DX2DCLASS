@@ -1,14 +1,19 @@
 #include "stdafx.h"
 #include "UI/UI.h"
+#include "Data/ActorsData.h"
 #include "Characters/Player.h"
+#include "Characters/Goliath.h"
+#include "Characters/Yeti.h"
 #include "Viewer/Camera.h"
 #include "Renders/AlphaBlendSprite.h"
 
 #define YouDiedImage 0
 #define YetiIntroImage 1
 
-
+extern ActorsData* actorsdata;
 extern int iRenderScene;
+
+
 UI::UI(Player * player, Camera* camera) : target(player), camera(camera)
 {
 	AlphaBlendSprite* sprite;
@@ -34,11 +39,8 @@ UI::UI(Player * player, Camera* camera) : target(player), camera(camera)
 		sprite->SetAbsoluteScale(200, 40);
 		sprite->Position(0, 0);
 		sprite->Rotation(0, 0, 0);
-		//sprite->SetAbsoluteScale(Width, Height);
 		((AlphaBlendSprite*)sprite)->SetSpeed(0.3f);
-		//((AlphaBlendSprite*)sprite)->SetIsChangeable(true);
 		((AlphaBlendSprite*)sprite)->SetAlphaValues(0.9f);
-		//	((AlphaBlendSprite*)sprite)->SetNormalMode();
 		((AlphaBlendSprite*)sprite)->SetFadeOut();
 		vSprites.push_back(sprite);
 	}
@@ -48,14 +50,11 @@ UI::UI(Player * player, Camera* camera) : target(player), camera(camera)
 		sprite = new AlphaBlendSprite(Textures + L"TianSouls/NamesSprite.png", Shaders + L"010_AlphaBlend.fx",
 			0, 140, 325, 195);
 		sprite->Scale(1, 1);
-		sprite->SetAbsoluteScale(400, 40);
+		sprite->SetAbsoluteScale(200, 40);
 		sprite->Position(0, 0);
 		sprite->Rotation(0, 0, 0);
-		//sprite->SetAbsoluteScale(Width, Height);
 		((AlphaBlendSprite*)sprite)->SetSpeed(0.3f);
-		//((AlphaBlendSprite*)sprite)->SetIsChangeable(true);
 		((AlphaBlendSprite*)sprite)->SetAlphaValues(0.9f);
-	//	((AlphaBlendSprite*)sprite)->SetNormalMode();
 		((AlphaBlendSprite*)sprite)->SetFadeOut();
 		vSprites.push_back(sprite);
 	}
@@ -80,6 +79,7 @@ void UI::Update(D3DXMATRIX V, D3DXMATRIX & P)
 		((AlphaBlendSprite*)vSprites[YouDiedImage])->SetInvalidate();
 	}
 	//int introNum;
+
 	// intro MEssage
 	{
 		if (!introtemp[iRenderScene])
@@ -107,6 +107,7 @@ void UI::Render()
 		if (!(((AlphaBlendSprite*)vSprites[YouDiedImage])->GetMaxAlphaValues() 
 			== ((AlphaBlendSprite*)vSprites[YouDiedImage])->GetPresentAlphaValues()))
 			return;
+
 		DirectWrite::GetDC()->BeginDraw();
 		DirectWrite::Get()->SetColor(D2D1::ColorF(1, 1, 0));
 		{
@@ -122,7 +123,28 @@ void UI::Render()
 			DirectWrite::RenderText(text, rect);
 		}
 		DirectWrite::GetDC()->EndDraw();
-	}	
+	}
 
+	if (actorsdata->isEnemyDead())
+	{
+		DirectWrite::GetDC()->BeginDraw();
+		DirectWrite::Get()->SetColor(D2D1::ColorF(1, 1, 0));
+		{
+			wstring text;
+
+			RECT rect;
+			rect.left = Width * 0.40;
+			rect.top = Height * 0.75;
+			rect.right = Width;
+			rect.bottom = Height;
+
+			text = actorsdata->GetEnemyData() == actorsdata->GetGoliathData()
+				?
+				L"Press Enter To Play Next Boss" : L"THANKS FOR PLAYING";
+
+			DirectWrite::RenderText(text, rect);
+		}
+		DirectWrite::GetDC()->EndDraw();
+	}
 	vSprites[YetiIntroImage]->Render();
 }

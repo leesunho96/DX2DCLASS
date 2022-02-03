@@ -84,9 +84,6 @@
     <ClCompile Include="Objects\SnowBall.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Data\ActorsData.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
     <ClCompile Include="Data\Collision.cpp">
       <Filter>Data</Filter>
     </ClCompile>
