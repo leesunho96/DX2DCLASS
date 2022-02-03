@@ -248,50 +248,43 @@ int	Arrow::GetWhichSideIsCollideWighEnemy(Sprite* enemy)
 	ArrowRECT.right  = GetTipPosistion().x + 10;//sprite->Position().x + sprite->TextureSize().x * 0.5f;
 
 
+	enemyRECT.top = enemy->Position().y -
+		enemy->TextureSize().y * 0.5f;
+	enemyRECT.bottom = enemy->Position().y +
+		enemy->TextureSize().y * 0.5f;
+	enemyRECT.left = enemy->Position().x -
+		enemy->TextureSize().x * 0.5f;
+	enemyRECT.right = enemy->Position().x +
+		enemy->TextureSize().x * 0.5f;
 
-	for (auto sprite : actorsdata->GetEnemyData()->GetSprite())
+	IntersectRect(&intersectRECT, &ArrowRECT, &enemyRECT);
+
+	// 교차하는 사각형의 길이가 가로보다 세로가 길다 => 좌/우
+	if (abs(intersectRECT.bottom - intersectRECT.top) > abs(intersectRECT.right - intersectRECT.left))
 	{
-		if (!sprite->OBB(this->sprite))
-			continue;
-
-
-		enemyRECT.top = sprite->Position().y -
-			sprite->TextureSize().y * 0.5f;
-		enemyRECT.bottom = sprite->Position().y +
-			sprite->TextureSize().y * 0.5f;
-		enemyRECT.left = sprite->Position().x -
-			sprite->TextureSize().x * 0.5f;
-		enemyRECT.right = sprite->Position().x +
-			sprite->TextureSize().x * 0.5f;
-
-		IntersectRect(&intersectRECT, &ArrowRECT, &enemyRECT);
-
-		// 교차하는 사각형의 길이가 가로보다 세로가 길다 => 좌/우
-		if (abs(intersectRECT.bottom - intersectRECT.top) > abs(intersectRECT.right - intersectRECT.left))
+		// 가로가 세로보다 길고, enemy의 x좌표가 arrow의 x좌표보다 클 경우 : 화살이 enemy의 좌측으로 충돌
+		if (enemy->Position().x > sprite->Position().x)
 		{
-			// 가로가 세로보다 길고, enemy의 x좌표가 arrow의 x좌표보다 클 경우 : 화살이 enemy의 좌측으로 충돌
-			if (enemy->Position().x > sprite->Position().x)
-			{
-				result = 2;
-			}
-			// 우측으로 충돌
-			else
-			{
-				result = 3;
-			}
+			result = 2;
 		}
-		// 교차하는 사각형의 길이가 가로보다 세로가 짧거나 같다 => 상/하
+		// 우측으로 충돌
 		else
 		{
-			if (enemy->Position().y > sprite->Position().y)
-			{
-				result = 0;
-			}
-			else
-			{
-				result = 1;
-			}
+			result = 3;
 		}
 	}
+	// 교차하는 사각형의 길이가 가로보다 세로가 짧거나 같다 => 상/하
+	else
+	{
+		if (enemy->Position().y > sprite->Position().y)
+		{
+			result = 0;
+		}
+		else
+		{
+			result = 1;
+		}
+	}
+
 	return result;
 }

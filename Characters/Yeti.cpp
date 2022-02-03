@@ -668,12 +668,12 @@ bool Yeti::IsAttackable()
 		D3DXVECTOR2 tippos = arrowsprite->GetTipPosistion();
 		SetHitboxPosition(hitbox, iPlayAnimationNum);
 
-		RECT temp;
+		RECT temp, temp2;
 		temp.top = tippos.y;
-		temp.bottom = tippos.y + 1.0f;
-		temp.right = tippos.x + 1.0f;
+		temp.bottom = tippos.y + 10.0f;
+		temp.right = tippos.x + 10.0f;
 		temp.left = tippos.x;
-		return IntersectRect(&temp, &temp, &hitbox);		
+		return IntersectRect(&temp2, &temp, &hitbox);		
 	}
 	
 	return false;
