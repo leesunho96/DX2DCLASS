@@ -7,6 +7,7 @@
 #include "Systems/CMouse.h"
 #include "Data/LineDesc.h"
 #include "Data/CollisionData.h"
+#include "Utilities/BinaryFile.h"
 
 Background_Goliath::Background_Goliath(SceneValues * scenevalues, float Scale)
 {
@@ -16,15 +17,46 @@ Background_Goliath::Background_Goliath(SceneValues * scenevalues, float Scale)
 
 	mapSprite->Position(0, 0);
 	mapSprite->Rotation(0, 0, 0);
-
 	{	
 		vector<Marker*> markers;
-		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), (D3DXVECTOR2(0,     0))      - D3DXVECTOR2(0, Height)  )* Scale));
+
+		if (Path::ExistFile("./SaveFile/GoliathScene.bin"))
+		{
+			float start = Timer->Running();
+
+			for (auto a : markers)
+			{
+				SAFE_DELETE(a);
+			}
+			markers.clear();
+
+			BinaryReader* r = new BinaryReader();
+			r->Open(L"./SaveFile/GoliathScene.bin");
+
+			UINT count = r->UInt();
+
+			vector<D3DXVECTOR2> v;
+			v.assign(count, D3DXVECTOR2());
+
+			void* ptr = (void*)&(v[0]);
+			r->Byte(&ptr, sizeof(D3DXVECTOR2) * count);
+
+
+			for (UINT i = 0; i < count; i++)
+			{
+				markers.push_back(new Marker(Shaders + L"009_Sprite.fx", v[i]));
+			}
+
+			r->Close();
+		}
+		/*markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), (D3DXVECTOR2(0,     0))      - D3DXVECTOR2(0, Height)  )* Scale));
 		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), (D3DXVECTOR2(Width, 0))      - D3DXVECTOR2(0, Height)  )* Scale));
 		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), (D3DXVECTOR2(Width, Height - 210)) - D3DXVECTOR2(0, Height)  )* Scale));
-		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), (D3DXVECTOR2(0,     Height - 210)) - D3DXVECTOR2(0, Height)  )* Scale));
+		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(), (D3DXVECTOR2(0,     Height - 210)) - D3DXVECTOR2(0, Height)  )* Scale));*/
 
 		vector<Line*> lines;
+
+
 
 		for (UINT i = 0; i < markers.size() - 1; i++)
 		{

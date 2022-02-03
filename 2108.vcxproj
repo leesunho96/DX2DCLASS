@@ -244,6 +244,22 @@
     <ClInclude Include="Viewer\Freedom.h" />
     <ClInclude Include="Viewer\IFollowing.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="SaveFile\GoliathScene.bin" />
+    <None Include="SaveFile\YETIScene.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\_Textures\TianSouls\gol_iath.png" />
+    <Image Include="..\_Textures\TianSouls\gol_lath.png" />
+    <Image Include="..\_Textures\TianSouls\Go_iath_map.png" />
+    <Image Include="..\_Textures\TianSouls\NamesSprite.png" />
+    <Image Include="..\_Textures\TianSouls\player.png" />
+    <Image Include="..\_Textures\TianSouls\SnowBall.png" />
+    <Image Include="..\_Textures\TianSouls\TItanSoulsMainSprite.png" />
+    <Image Include="..\_Textures\TianSouls\yeti.png" />
+    <Image Include="..\_Textures\TianSouls\yeti_map.png" />
+    <Image Include="..\_Textures\TianSouls\YouDIedSPrite.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

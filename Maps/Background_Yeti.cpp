@@ -7,6 +7,7 @@
 #include "Systems/CMouse.h"
 #include "Data/LineDesc.h"
 #include "Data/CollisionData.h"
+#include "Utilities/BinaryFile.h"
 
 
 Background_Yeti::Background_Yeti(SceneValues* scenevalues, float Scale) 
@@ -19,8 +20,42 @@ Background_Yeti::Background_Yeti(SceneValues* scenevalues, float Scale)
 	mapSprite->Rotation(0, 0, 0);
 
 	{		
-		vector<Marker*> markers;																													   
-		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(),  D3DXVECTOR2(0  ,  - 600)) * Scale));			
+
+
+		vector<Marker*> markers;		
+
+
+		if (Path::ExistFile("./SaveFile/YETIScene.bin"))
+		{
+			float start = Timer->Running();
+
+			for (auto a : markers)
+			{
+				SAFE_DELETE(a);
+			}
+			markers.clear();
+
+			BinaryReader* r = new BinaryReader();
+			r->Open(L"./SaveFile/YETIScene.bin");
+
+			UINT count = r->UInt();
+
+			vector<D3DXVECTOR2> v;
+			v.assign(count, D3DXVECTOR2());
+
+			void* ptr = (void*)&(v[0]);
+			r->Byte(&ptr, sizeof(D3DXVECTOR2) * count);
+
+
+			for (UINT i = 0; i < count; i++)
+			{
+				markers.push_back(new Marker(Shaders + L"009_Sprite.fx", v[i]));
+			}
+
+			r->Close();
+		}
+
+		/*markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(),  D3DXVECTOR2(0  ,  - 600)) * Scale));			
 		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(),  D3DXVECTOR2(0  ,  - 150)) * Scale));
 		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(),  D3DXVECTOR2(70 ,  - 100)) * Scale));
 		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(),  D3DXVECTOR2(315,  - 100)) * Scale));
@@ -31,6 +66,8 @@ Background_Yeti::Background_Yeti(SceneValues* scenevalues, float Scale)
 		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(),  D3DXVECTOR2(800,  - 130)) * Scale));
 		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(),  D3DXVECTOR2(800,  - 450)) * Scale));
 		markers.push_back(new Marker(Shaders + L"009_Sprite.fx", CMouse::GetAdjustPos(scenevalues->MainCamera->GetPosition(),  D3DXVECTOR2(600,  - 600)) * Scale));
+*/
+	
 
 		vector<Line*> lines;
 
