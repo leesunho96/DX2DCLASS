@@ -50,14 +50,15 @@ private:
 
 
 
-	////
+	//// 각 상태에 따라 Update 메소드에서 호출할 메소드들.
+	// actions 에 순서대로 bind되어 있음.
 
-	void actionsAICHECK(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
 	void actionsIDLE(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
 	void actionsStanding(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
 	void actionsThrowingSnowball(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
 	void actionsRoll(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
 	void actionsDie(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
+	void actionsAICHECK(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
 	vector < function<void(D3DXMATRIX&, D3DXMATRIX&, int&)> > actions;
 	////
 public:

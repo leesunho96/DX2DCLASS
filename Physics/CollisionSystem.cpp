@@ -142,13 +142,6 @@ void CollisionSystem::Update()
 
 	if (collisionDesc.size() == 0 || collisionDesc.size() == 1)
 		return;
-	//for (auto desc : )
-	//{
-
-	//}
-
-
-
 	for (size_t i = 0; i < collisionDesc.size() - 1; i++)
 	{
 		for (size_t j = i + 1; j < collisionDesc.size(); j++)

@@ -662,7 +662,7 @@ void Yeti::ActionWhileAICheck()
 
 void Yeti::GetPresentDirectionToPlayer()
 {
-	D3DXVECTOR2 tempVec(((Player*)actorsdata->GetPlayerData())->GetSprite()[0]->Position() - this->animation->GetSprite()->Position());
+	D3DXVECTOR2 tempVec(((Player*)actorsdata->GetPlayerData())->GetPosition() - this->animation->GetSprite()->Position());
 	D3DXVec2Normalize(&presentDirection, &tempVec);
 }
 
@@ -748,25 +748,6 @@ void Yeti::ApplyDamege(Sprite * sprite)
 	if (PresentState == Roll)
 		return;
 	PresentState = Die;
-	//Arrow* arrowsprite = actorsdata->GetPlayerData()->GetArrowSprite();
-
-	//D3DXVECTOR2 tippos = arrowsprite->GetTipPosistion();
-	//SetHitboxPosition(hitbox, iPlayAnimationNum);
-
-	//RECT temp;
-	//temp.top = tippos.y;
-	//temp.bottom = tippos.y;
-	//temp.top = tippos.x;
-	//temp.bottom = tippos.x;
-
-	//if (IntersectRect(&temp, &temp, &hitbox))
-	//{
-	//	PresentState = Die;
-	//}
-	////if (arrowsprite->GetSprite()->OBB(this->animation->GetSprite()))
-	////{
-	////	PresentState = Die;
-	////}
 }
 
 void Yeti::PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXVECTOR2 direction, float Speed, D3DXMATRIX & V, D3DXMATRIX & P)

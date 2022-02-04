@@ -51,8 +51,8 @@ void Arrow::SetBack()
 
 void Arrow::SetArrowGoesToPlayer()
 {
-	direction = GetArrowDirectionToPlayer(player->GetSprite()[0]->Position());
-	Rotation = GetArrowRotationByPoint(player->GetSprite()[0]->Position(), position);
+	direction = GetArrowDirectionToPlayer(player->GetPosition());
+	Rotation = GetArrowRotationByPoint(player->GetPosition(), position);
 	stopwatch->SetTimer(2.0f);
 }
 
@@ -78,7 +78,8 @@ void Arrow::Update(D3DXMATRIX & V, D3DXMATRIX & P)
 		// 플레이어에게 돌아온 경우 : deactivate 한 후, 플레이어에게 알려야함
 		// 알릴 메소드 만들어야됨.
 
-		if (player->GetSprite()[0]->OBB(sprite))
+		//if (player->GetSprite()[0]->OBB(sprite))
+		if (player->IsOverlap(sprite))
 		{
 			isActivate = false;
 			player->SetPlayerGetArrow();
@@ -110,7 +111,7 @@ void Arrow::ArrowMove()
 				AttackToEnemy(sprite);
 			}
 		}
-		if (player->GetSprite()[SPRITEBODY]->OBB(sprite))
+		if (player->IsOverlap(sprite))
 		{
 			isActivate = false;
 			player->SetPlayerGetArrow();
@@ -120,7 +121,7 @@ void Arrow::ArrowMove()
 
 void Arrow::AttackToEnemy(Sprite* input)
 {
-	if (input == actorsdata->GetEnemyData()->GetSprite()[SPRITEBODY])
+	if (input == actorsdata->GetEnemyData()->GetBodySprite())
 	{
 		if (actorsdata->GetEnemyData()->IsAttackable())
 		{

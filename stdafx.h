@@ -66,7 +66,7 @@ using namespace std;
 #define LOADYETIMAP 1 << 0
 #define LOADGOLIATH 1 << 1
 
-const unsigned char PressNothing = 0 << 0;	// 00000001  W를 누른 상태
+const unsigned char PressNothing = 0 << 0;	
 const unsigned char PressW       = 1 << 0;	// 00000001  W를 누른 상태
 const unsigned char PressA       = 1 << 1;	// 00000010  A를 누른 상태
 const unsigned char PressS       = 1 << 2;	// 00000100  S를 누른 상태
