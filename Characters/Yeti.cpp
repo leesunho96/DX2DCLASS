@@ -239,6 +239,15 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), po
 			snowballs[i]->SetPlayer((Player*)actorsdata->GetPlayerData());
 		}
 	}
+
+	actions.push_back(bind(&Yeti::actionsIDLE, this, placeholders::_1, placeholders::_2, placeholders::_3));
+	actions.push_back(bind(&Yeti::actionsStanding, this, placeholders::_1, placeholders::_2, placeholders::_3));
+	actions.push_back(bind(&Yeti::actionsThrowingSnowball, this, placeholders::_1, placeholders::_2, placeholders::_3));
+	actions.push_back(bind(&Yeti::actionsRoll, this, placeholders::_1, placeholders::_2, placeholders::_3));
+	actions.push_back(bind(&Yeti::actionsDie, this, placeholders::_1, placeholders::_2, placeholders::_3));
+	actions.push_back(bind(&Yeti::actionsAICHECK, this, placeholders::_1, placeholders::_2, placeholders::_3));
+
+
 	// 해당 클래스 연결용 데이터 등록
 	actorsdata->SetData(this);
 	rotation = D3DXVECTOR3(0, 0, 0);
@@ -250,14 +259,70 @@ Yeti::Yeti(D3DXVECTOR2 position, D3DXVECTOR2 scale) : stopwatch(StopWatch()), po
 	animation->Play(0);	
 }
 
+Yeti::~Yeti()
+{
+	for (auto a : snowballs)
+	{
+		SAFE_DELETE(a);
+	}
+
+	for (auto a : icycles)
+	{
+		SAFE_DELETE(a);
+	}
+	SAFE_DELETE(animation);
+}
+
+void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
+{	
+	position = animation->GetPosition();
+	static int iLocalpresentdirection;
+
+	// 각 상태에 따른 메소드들 functional 이용하여 묶어놓음. presentstate 에 따라 적절한 메소드 호출
+	actions[PresentStateToInt(PresentState)](V, P, iLocalpresentdirection);
+
+	// stopwatch update
+	stopwatch.Update();
+
+	// character 클래스에 정의되어 있음. character 상속받아서 yeti 생성함.
+	// 충돌 처리시 이용할 스프라이트 등록. 타 클래스에서 충돌 처리 등 해당 스프라이트 필요한 경우 현재 입력한 스프라이트를 반환받아 이용함.
+	sprites.clear();
+	sprites.push_back(animation->GetSprite());
+
+	// 각 공격시 이용할 눈/ 얼음 기둥 update.
+	for (auto a : snowballs)
+	{
+		a->Update(V, P);
+	}
+	for (auto a : icycles)
+	{
+		a->Update(V, P);
+	}
+	// 애니메이션 초기화.
+	SetPositionRotationScalePlayAnimationUpdate(V, P);
+}
+
+void Yeti::Render()
+{
+	animation->Render();
+	if (ImGui::Button("ResetYeti"))
+	{
+		PresentState = Idle;
+		bIsGetArrowPos = false;
+	}
+	ImGui::LabelText("presentState :", "%d", PresentState);
+	ImGui::LabelText("activatesnowball :", "%d", iPresentBallNum);
+	for (auto a : snowballs)
+	{
+		a->Render();
+	}
+	for (auto a : icycles)
+	{
+		a->Render();
+	}
+}
 void Yeti::SetHitboxPosition(RECT & rect, int iPlayAnimation)
 {
-//#define IdleAnimationStart          0
-//#define StandingAnimationStart      1
-//#define ThrowingBallAnimationStart  2
-//#define RollAnimationStart          7
-//#define DieAnimationStart           12
-//#define StandAnimationStart         17
 	function<void(RECT&)> a = [&rect](RECT& rect) 
 	{
 		rect.top = 0;
@@ -355,140 +420,92 @@ void Yeti::SetHitboxPosition(RECT & rect, int iPlayAnimation)
 		break;
 	}
 }
-Yeti::~Yeti()
+int Yeti::PresentStateToInt(unsigned char presentstate)
 {
-	for (auto a : snowballs)
+	switch (presentstate)
 	{
-		SAFE_DELETE(a);
+	case Idle:
+		return 0;
+	case Standing:
+		return 1;
+	case Throwing_SnowBall:
+		return 2;
+	case Roll:
+		return 3;
+	case Die:
+		return 4;
+	case AICheck:
+		return 5;
+	default:
+		break;
 	}
-
-	for (auto a : icycles)
-	{
-		SAFE_DELETE(a);
-	}
-	SAFE_DELETE(animation);
 }
-
-void Yeti::Update(D3DXMATRIX & V, D3DXMATRIX & P)
-{	
-	position = animation->GetPosition();
-	static int iLocalpresentdirection;
-	//if (actorsdata->GetPlayerData()->GetPlayerIsDied())
-	//{
-	//	position = animation->GetPosition();
-	//	rotation = D3DXVECTOR3(0, 0, 0);
-	//	iPlayAnimationNum = 0;
-	//	SetPositionRotationScalePlayAnimationUpdate(V, P);
-	//	return;
-	//}
-
-
-	sprites.clear();
-	sprites.push_back(animation->GetSprite());
-
-	if (PresentState == AICheck)
+void Yeti::actionsAICHECK(D3DXMATRIX & V, D3DXMATRIX & P, int & iLocalpresentdirection)
+{
+	if (stopwatch.IsOver())
 	{
-		if (stopwatch.IsOver())
+		ActionWhileAICheck();
+	}
+	if (!stopwatch.IsOver(0.8f))
+	{
+		SetDirectionRotationAnimationNum(iLocalpresentdirection, StandAnimationStart);
+	}
+}
+void Yeti::actionsIDLE(D3DXMATRIX & V, D3DXMATRIX & P, int & iLocalpresentdirection)
+{
+	iPlayAnimationNum = IdleAnimationStart;
+}
+void Yeti::actionsStanding(D3DXMATRIX & V, D3DXMATRIX & P, int & iLocalpresentdirection)
+{
+	iPlayAnimationNum = StandingAnimationStart;
+	if (stopwatch.IsOver())
+	{
+		ActBeforeAICheck();
+	}
+}
+void Yeti::actionsThrowingSnowball(D3DXMATRIX & V, D3DXMATRIX & P, int & iLocalpresentdirection)
+{
+	if (stopwatch.IsOver())
+	{
+		ResetSnowBallData();
+		ActBeforeAICheck();
+	}
+	if (stopwatch.IsOver(iPresentBallNum * 0.6f))
+	{
+		GetPresentDirectionToPlayer();
+		ValidateSnowball();
+	}
+	// animationplaynum / rotation 값 설정 위한 메소드
+	SetDirectionRotationAnimationNum(iLocalpresentdirection, ThrowingBallAnimationStart);
+}
+void Yeti::actionsRoll(D3DXMATRIX & V, D3DXMATRIX & P, int & iLocalpresentdirection)
+{
+	if (stopwatch.IsOver())
 		{
-			ActionWhileAICheck();
+			ActBeforeAICheck();
 		}
-		if (!stopwatch.IsOver(0.8f))
-		{						
-			SetDirectionRotationAnimationNum(iLocalpresentdirection, StandAnimationStart);
-		}
+	if (stopwatch.IsOver(0.7f))
+	{
+		ActivateIcycles();
+		PlayerMove(position, Timer->Elapsed(), D3DXVECTOR2(1 - presentDirection.x, 1 - presentDirection.y), 100, V, P);				
 	}
 	else
 	{
-		if (PresentState == Idle)
+		PlayerMove(position, Timer->Elapsed(), presentDirection, SPEED , V, P);
+		//if (actorsdata->GetPlayerData()->GetSprite()->OBB(animation->GetSprite()))
+		for (auto a : ((Player*)(actorsdata->GetPlayerData()))->GetSprite())
 		{
-			iPlayAnimationNum = IdleAnimationStart;
-		}
-		else if (PresentState == Standing)
-		{
-			iPlayAnimationNum = StandingAnimationStart;
-			if (stopwatch.IsOver())
+			if (a->OBB(animation->GetSprite()))
 			{
-				ActBeforeAICheck();
+				((Player*)(actorsdata->GetPlayerData()))->ApplyDamege(animation->GetSprite());
 			}
-		}
-		else if (PresentState == Throwing_SnowBall)
-		{
-
-			if (stopwatch.IsOver())
-			{
-				ResetSnowBallData();
-				ActBeforeAICheck();
-			}
-			if (stopwatch.IsOver(iPresentBallNum * 0.6f))
-			{
-				GetPresentDirectionToPlayer();
-				ValidateSnowball();
-			}
-			// animationplaynum / rotation 값 설정 위한 메소드
-			SetDirectionRotationAnimationNum(iLocalpresentdirection, ThrowingBallAnimationStart);
-		}
-		else if (PresentState == Roll)
-		{
-			if (stopwatch.IsOver())
-			{
-				ActBeforeAICheck();
-			}
-			if (stopwatch.IsOver(0.7f))
-			{
-				ActivateIcycles();
-				PlayerMove(position, Timer->Elapsed(), D3DXVECTOR2(1 - presentDirection.x, 1 - presentDirection.y), 100, V, P);				
-			}
-			else
-			{
-				PlayerMove(position, Timer->Elapsed(), presentDirection, SPEED , V, P);
-				//if (actorsdata->GetPlayerData()->GetSprite()->OBB(animation->GetSprite()))
-				for (auto a : ((Player*)(actorsdata->GetPlayerData()))->GetSprite())
-				{
-					if (a->OBB(animation->GetSprite()))
-					{
-						((Player*)(actorsdata->GetPlayerData()))->ApplyDamege(animation->GetSprite());
-					}
-				}
-			}
-			SetDirectionRotationAnimationNum(iLocalpresentdirection, RollAnimationStart);
-		}
-		else if (PresentState == Die)
-		{
-			ActionWhileDead();
 		}
 	}
-	stopwatch.Update();
-
-	for (auto a : snowballs)
-	{
-		a->Update(V, P);
-	}
-	for (auto a : icycles)
-	{
-		a->Update(V, P);
-	}
-
-	SetPositionRotationScalePlayAnimationUpdate(V, P);
+	SetDirectionRotationAnimationNum(iLocalpresentdirection, RollAnimationStart);
 }
-
-void Yeti::Render()
+void Yeti::actionsDie(D3DXMATRIX & V, D3DXMATRIX & P, int & iLocalpresentdirection)
 {
-	animation->Render();
-	if (ImGui::Button("ResetYeti"))
-	{
-		PresentState = Idle;
-		bIsGetArrowPos = false;
-	}
-	ImGui::LabelText("presentState :", "%d", PresentState);
-	ImGui::LabelText("activatesnowball :", "%d", iPresentBallNum);
-	for (auto a : snowballs)
-	{
-		a->Render();
-	}
-	for (auto a : icycles)
-	{
-		a->Render();
-	}
+	ActionWhileDead();
 }
 void Yeti::SetPositionRotationScalePlayAnimationUpdate(D3DXMATRIX & V, D3DXMATRIX & P)
 {

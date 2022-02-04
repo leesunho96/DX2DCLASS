@@ -45,6 +45,21 @@ private:
 	void GetPresentDirectionToPlayer();
 	void PlayerMove(D3DXVECTOR2 &position, float timerelapse, D3DXVECTOR2 direction, float Speed, D3DXMATRIX & V, D3DXMATRIX & P);
 	void SetHitboxPosition(RECT& rect, int iPlayAnimation);
+	int PresentStateToInt(unsigned char presentstate);
+
+
+
+
+	////
+
+	void actionsAICHECK(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
+	void actionsIDLE(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
+	void actionsStanding(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
+	void actionsThrowingSnowball(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
+	void actionsRoll(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
+	void actionsDie(D3DXMATRIX& V, D3DXMATRIX& P, int& iLocalpresentdirection);
+	vector < function<void(D3DXMATRIX&, D3DXMATRIX&, int&)> > actions;
+	////
 public:
 
 private:
@@ -89,4 +104,5 @@ private:
 	SnowBall* snowballs[3];
 	Icycle* icycles[5];
 	StopWatch stopwatch;
+
 };

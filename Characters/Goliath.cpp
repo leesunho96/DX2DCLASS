@@ -118,11 +118,6 @@ void Goliath::Render()
 			a->SetDeactivate();
 		}
 	}
-
-	if (PresentState == Die)
-	{
-
-	}
 }
 
 void Goliath::ApplyDamege(Sprite * sprite)

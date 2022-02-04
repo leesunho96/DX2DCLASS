@@ -321,34 +321,34 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\_Textures\TianSouls\Go_iath_map.png">
+    <Image Include="Sprites\TianSouls\Go_iath_map.png">
       <Filter>Sprites</Filter>
     </Image>
-    <Image Include="..\_Textures\TianSouls\gol_iath.png">
+    <Image Include="Sprites\TianSouls\gol_iath.png">
       <Filter>Sprites</Filter>
     </Image>
-    <Image Include="..\_Textures\TianSouls\gol_lath.png">
+    <Image Include="Sprites\TianSouls\gol_lath.png">
       <Filter>Sprites</Filter>
     </Image>
-    <Image Include="..\_Textures\TianSouls\NamesSprite.png">
+    <Image Include="Sprites\TianSouls\NamesSprite.png">
       <Filter>Sprites</Filter>
     </Image>
-    <Image Include="..\_Textures\TianSouls\player.png">
+    <Image Include="Sprites\TianSouls\player.png">
       <Filter>Sprites</Filter>
     </Image>
-    <Image Include="..\_Textures\TianSouls\SnowBall.png">
+    <Image Include="Sprites\TianSouls\SnowBall.png">
       <Filter>Sprites</Filter>
     </Image>
-    <Image Include="..\_Textures\TianSouls\TItanSoulsMainSprite.png">
+    <Image Include="Sprites\TianSouls\TItanSoulsMainSprite.png">
       <Filter>Sprites</Filter>
     </Image>
-    <Image Include="..\_Textures\TianSouls\yeti.png">
+    <Image Include="Sprites\TianSouls\yeti.png">
       <Filter>Sprites</Filter>
     </Image>
-    <Image Include="..\_Textures\TianSouls\yeti_map.png">
+    <Image Include="Sprites\TianSouls\yeti_map.png">
       <Filter>Sprites</Filter>
     </Image>
-    <Image Include="..\_Textures\TianSouls\YouDIedSPrite.png">
+    <Image Include="Sprites\TianSouls\YouDIedSPrite.png">
       <Filter>Sprites</Filter>
     </Image>
   </ItemGroup>
